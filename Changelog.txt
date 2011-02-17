@@ -1,0 +1,38 @@
+WmDOT Version History
+v.1, r.9, 2011-02-10
+Copyright © 2011 by William Minchin. For more info, please visit http://code.google.com/p/openttd-noai-wmdot/
+
+
+r9	2011-02-12	Computes only half of the matrix (computational savings of 45% in test case)
+				No more crashes upon building all the connects
+r8	2011-02-11	This is the first version that 'works'. It selects a list of
+					towns, weighs them based on distance and populaiton, and
+					then builds connections. However, it can be VERY slow and
+					crashes once everything is connected!
+				Requires RoadPathfinder, v.3
+				RemoveExistingConnections(WmAtlas)
+				BuildRoad(path)
+				- from NoAI Wiki
+r7	2011-02-10	PickTowns()
+				- picks the towns to connect (Trip Generation, Trip Distribution)
+				NameWmDOT()
+				- President now gets title of 'P.Eng'
+r6	2011-02-09	BuildWmHQ()
+				- picks biggest town and builds HQ
+r4				GenerateAtlas()
+r3				GenerateTownList()
+				- uses cut-off population given in settings
+				NameWmDOT()
+
+Roadmap:
+- improve 'remove existing routes' by limiting the search space to only road tiles
+- move array functions to library
+- improve route selection by estimating cost based on building cost rather than pure distance
+- move to grid based route finding
+	- generate 'gateways' for each town
+	- do route finding one grid spacing at a 
+- rewrite build path sequence so I can call it my own
+- figure out how to get the version number to show up in Start()
+- somehow include towns that are connected but would benefit from a shorter connection
+- check the town centres are actually roads (use AIRoad::IsRoadTile() )
+- lisence - http://opensource.org/licenses/qtpl ?

@@ -1,8 +1,16 @@
 WmDOT Version History
-v.1, r.9, 2011-02-10
+v.1, r.5bis, 2011-02-18
 Copyright © 2011 by William Minchin. For more info, please visit http://code.google.com/p/openttd-noai-wmdot/
 
 
+r5bis	2011-02-18	Keeps track of already built connections
+			Introduces 'Modes'
+				Mode 1 tries to connect all the towns above the population threshold
+				Mode 2 considers (and builds) alternate connections
+				Mode 3 is 'nap' mode
+			Seperated out GNU FDL code
+			Clean up of Debug output
+r4bis	2011-02-17	r9 is uploaded to Google Code
 r9	2011-02-12	Computes only half of the matrix (computational savings of 45% in test case)
 				No more crashes upon building all the connects
 r8	2011-02-11	This is the first version that 'works'. It selects a list of
@@ -35,4 +43,5 @@ Roadmap:
 - figure out how to get the version number to show up in Start()
 - somehow include towns that are connected but would benefit from a shorter connection
 - check the town centres are actually roads (use AIRoad::IsRoadTile() )
-- lisence - http://opensource.org/licenses/qtpl ?
+- manage loan
+- add license file - http://opensource.org/licenses/qtpl ?

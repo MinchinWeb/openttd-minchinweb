@@ -1,10 +1,12 @@
-/*	WmDOT v.1  r.9
+/*	WmDOT v.1  r.5 bis
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://code.google.com/p/openttd-noai-wmdot/
  */
 
 import("pathfinder.road", "RoadPathFinder", 3);
 	//	Road pathfinder as provided by the NoAI team
+require("GNU_FDL.nut");
+	//	function BuildRoad(ConnectPairs)
  
  class WmDOT extends AIController 
 {
@@ -12,7 +14,7 @@ import("pathfinder.road", "RoadPathFinder", 3);
 	WmDOTv = 1;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 9;
+	WmDOTr = 5;
 	/*	Reversion number of AI
 	 */
 	 
@@ -20,7 +22,15 @@ import("pathfinder.road", "RoadPathFinder", 3);
 	/*	Control on single letter companies.  Set this value higher to increase
 	 *	the chances of a single letter DOT name (eg. 'CDOT').		
 	 */
+	
+	PrintTownAtlas = 0;			// 0 == off
+	/*	Controls whether the list of towns in the Atlas is printed to the debug screen.
+	 */
 	 
+	PrintArrays = 0;			// 0 == off
+	/*	Controls whether the array of the Atlas is printed to the debug screen;
+	 */
+	
 	MaxAtlasSize = 99;		//  UNUSED
 	/*	This sets the maximum number of towns that will printed to the debug
 	 *	screen.
@@ -55,8 +65,8 @@ import("pathfinder.road", "RoadPathFinder", 3);
 function WmDOT::Start()
 {
 //	AILog.Info("Welcome to WmDOT, version " + GetVersion() + ", revision " + WmDOTr + " by " + GetAuthor() + ".");
-	AILog.Info("Welcome to WmDOT, version " + WmDOTv + ", revision " + WmDOTr + " by William Minchin.");
-	AILog.Info("Copyright © 2011 by William Minchin. For more info, please visit http://blog.minchin.ca")
+	AILog.Info("Welcome to WmDOT, version " + WmDOTv + ", revision " + WmDOTr + "bis by William Minchin.");
+	AILog.Info("Copyright © 2011 by William Minchin. For more info, please visit http://code.google.com/p/openttd-noai-wmdot/")
 	AILog.Info(" ");
 	
 	AILog.Info("Loading Libraries...");		// Actually, by this point it's already happened
@@ -67,31 +77,91 @@ function WmDOT::Start()
 	BuildWmHQ();
 	local WmAtlas=[];
 	local WmTownArray = [];
-	local ConnectPairs = [];
+	local PairsToConnect = [];
+	local ConnectedPairs = [];
+	
+	local WmMode = 1;		//	This is used to keep track of what 'step' the AI is at
+							//		1 - joins all towns (over population theshold)
+							//		2 - considers road pairs that can be better joined
+							//		3 - waits for a town to pop over the threshold
+	local NumOfTownsOnList = 0;
 	
 	// Keep us going forever
 	while (true) {
 		WmTownArray = GenerateTownList();
-		WmAtlas = GenerateAtlas(WmTownArray);
-		WmAtlas = RemoveExistingConnections(WmAtlas);
-		ConnectPairs = PickTowns(WmAtlas);
-		if (ConnectPairs == null) {
+		
+		//	If a town goes above the population threshold, restart 'Mode 1'
+		//	Ignores what happens if you change the population threshold limit down externally...
+		if ( NumOfTownsOnList < WmTownArray.len() ) {
+			WmMode = 1;
+			NumOfTownsOnList = WmTownArray.len();
+			AILog.Info("** Returning to Mode 1. **");
+		}
+		
+		if (WmMode == 1) {
+			WmAtlas = GenerateAtlas(WmTownArray);
+			WmAtlas = RemoveBuiltConnections(WmAtlas, ConnectedPairs);
+			WmAtlas = RemoveExistingConnections(WmAtlas);
+			PairsToConnect = PickTowns(WmAtlas);
+			
+			//	If everything is connected, bump it up to 'Mode 2'
+			if (PairsToConnect == null) {
+				WmMode = 2;
+				AILog.Info("** Moving to Mode 2. **");
+			}
+			else {
+				BuildRoad(PairsToConnect);
+				ConnectedPairs.push(PairsToConnect);
+//				Print2DArray(ConnectedPairs);
+//				ManageLoans...
+
+				local i = this.GetTick();
+				i = i % SleepLength;
+				this.Sleep(50 - i);
+			}
+		}
+		
+		if (WmMode == 2) {
+			AILog.Info("     Considering alternate routes...");
+			
+			WmAtlas = GenerateAtlas(WmTownArray);
+			WmAtlas = RemoveBuiltConnections(WmAtlas, ConnectedPairs);
+			//	Doesn't consider roads built by others or indirect connections
+			PairsToConnect = PickTowns(WmAtlas);
+			
+			//	If everything is connected, bump it up to 'Mode 2'
+			if (PairsToConnect == null) {
+				WmMode = 3;
+				AILog.Info("** Moving to Mode 3. **");
+			}
+			else {
+				BuildRoad(PairsToConnect);
+				ConnectedPairs.push(PairsToConnect);
+//				Print2DArray(ConnectedPairs);
+//				ManageLoans...
+
+				local i = this.GetTick();
+				i = i % SleepLength;
+				this.Sleep(50 - i);
+			}
+			
+		}
+		
+		if (WmMode == 3) {
 			AILog.Info("It's tick " + this.GetTick() + " and apparently I've done everything! I'm taking a nap...");
 			local i = this.GetTick();
 			i = i % SleepLength;
 			i = 10 * SleepLength - i;
-			this.Sleep(i);		}
-		else {
-			BuildRoad(ConnectPairs);		
-//			ManageLoans...
-			
-			AILog.Info("Help! I haven't done anything yet and I'm already at tick " + this.GetTick() + ".");
-			local i = this.GetTick();
-			i = i % SleepLength;
-			this.Sleep(50 - i);
+			this.Sleep(i);
 		}
+
+		NumOfTownsOnList = WmTownArray.len();	//	Used as a baseline for the next time
+												//	around to see if any towns have been
+												//	added to the list
+
 		AILog.Info("----------------------------------------------------------------");
 		AILog.Info(" ");
+		AILog.Info("Running in Mode " + WmMode + " at tick " + this.GetTick() + ".");
 	}
 }
 
@@ -345,7 +415,7 @@ function WmDOT::GenerateAtlas(WmTownArray)
 
 	 
 	AILog.Info("     Generating distance matrix.");
-	AILog.Info("          TOWN NAME - POPULATION - LOCATION");
+	if (PrintTownAtlas > 0) AILog.Info("          TOWN NAME - POPULATION - LOCATION");
 
 	// Generate Distance Matrix
 	local iTown;
@@ -354,7 +424,7 @@ function WmDOT::GenerateAtlas(WmTownArray)
 	
 	for(local i=0; i < WmTownArray.len(); i++) {
 		iTown = WmTownArray[i];
-		AILog.Info("          " + iTown + ". " + AITown.GetName(iTown) + " - " + AITown.GetPopulation(iTown) + " - " + AIMap.GetTileX(AITown.GetLocation(iTown)) + ", " + AIMap.GetTileY(AITown.GetLocation(iTown)));
+		if (PrintTownAtlas > 0) AILog.Info("          " + iTown + ". " + AITown.GetName(iTown) + " - " + AITown.GetPopulation(iTown) + " - " + AIMap.GetTileX(AITown.GetLocation(iTown)) + ", " + AIMap.GetTileY(AITown.GetLocation(iTown)));
 		local TempArray = [];		// Generate the Array one 'line' at a time
 		TempArray.resize(WmTownArray.len()+1);
 		TempArray[0]=iTown;
@@ -366,17 +436,13 @@ function WmDOT::GenerateAtlas(WmTownArray)
 			}
 			else {
 				jTown = WmTownArray[j];
-//				AILog.Info("                    " + AIMap.DistanceManhattan(AITown.GetLocation(iTown),AITown.GetLocation(jTown)) + "from town " + iTown + " to " + jTown);
-//				TempDist = TempDist + AIMap.DistanceManhattan(AITown.GetLocation(kTown),AITown.GetLocation(jTown)) + " ";
 				TempArray[j+1] = AIMap.DistanceManhattan(AITown.GetLocation(iTown),AITown.GetLocation(jTown));
 			}
 		}
-
-//		Print1DArray(TempArray);
 		WmAtlas[i]=TempArray;
 	}
 
-	Print2DArray(WmAtlas);
+	if (PrintArrays > 0) AILog.Info("          " + ToSting2DArray(WmAtlas));
 /*	tick = this.GetTick() - tick;
 	AILog.Info("     Atlas complete. Took " + tick + "tick(s).");
 */
@@ -397,7 +463,6 @@ function WmDOT::GenerateTownList()
 	WmTownArray.resize(WmTownList.Count());
 	local iTown = WmTownList.Begin();
 	for(local i=0; i < WmTownList.Count(); i++) {
-//		AILog.Info("          " + iTown + ". " + AITown.GetName(iTown) + " - " + AITown.GetPopulation(iTown) + " - " + AIMap.GetTileX(AITown.GetLocation(iTown)) + ", " + AIMap.GetTileY(AITown.GetLocation(iTown)));
 		WmTownArray[i]=iTown;
 		iTown = WmTownList.Next();
 	}
@@ -412,7 +477,6 @@ function WmDOT::Print1DArray(InArray)
 	//	Add error check that an array is provided
 	
 	local Length = InArray.len();
-//	AILog.Info("The array is " + Length + " long.");
 	local i = 0;
 	local Temp = "";
 	while (i < InArray.len() ) {
@@ -428,14 +492,12 @@ function WmDOT::Print2DArray(InArray)
 	//	Add error check that a 2D array is provided
 	
 	local Length = InArray.len();
-//	AILog.Info("The array is " + Length + " long.");
 	local i = 0;
 	local Temp = "";
 	while (i < InArray.len() ) {
 		local InnerArray = [];
 		InnerArray = InArray[i];
 		local InnerLength = InnerArray.len();
-//		AILog.Info("     The inner array is " + InnerLength + " long.");
 		local j = 0;
 		while (j < InnerArray.len() ) {
 			Temp = Temp + "  " + InnerArray[j];
@@ -445,6 +507,44 @@ function WmDOT::Print2DArray(InArray)
 		i++;
 	}
 	AILog.Info("The array is " + Length + " long." + Temp + " ");
+}
+
+function WmDOT::ToSting1DArray(InArray)
+{
+	//	Move to Library
+	//	Add error check that an array is provided
+	
+	local Length = InArray.len();
+	local i = 0;
+	local Temp = "";
+	while (i < InArray.len() ) {
+		Temp = Temp + "  " + InArray[i];
+		i++;
+	}
+	return ("The array is " + Length + " long.  " + Temp + " ");
+}
+
+function WmDOT::ToSting2DArray(InArray)
+{
+	//	Move to Library
+	//	Add error check that a 2D array is provided
+	
+	local Length = InArray.len();
+	local i = 0;
+	local Temp = "";
+	while (i < InArray.len() ) {
+		local InnerArray = [];
+		InnerArray = InArray[i];
+		local InnerLength = InnerArray.len();
+		local j = 0;
+		while (j < InnerArray.len() ) {
+			Temp = Temp + "  " + InnerArray[j];
+			j++;
+		}
+		Temp = Temp + "  /  ";
+		i++;
+	}
+	return ("The array is " + Length + " long." + Temp + " ");
 }
 
 function WmDOT::BuildWmHQ()
@@ -578,16 +678,14 @@ function WmDOT::PickTowns(WmAtlas)
 				local TPop = (AITown.GetPopulation(WmAtlas[i][0]) + AITown.GetPopulation(WmAtlas[j-1][0]) + FloatOffset);
 														// j-1 offset needed to get town
 				FactorTemp = (TPop / (Ttemp * Ttemp));		// doesn't recognize exponents
-//				AILog.Info("          Pop(" + i + ") " + AITown.GetPopulation(WmAtlas[i][0]) + " Pop(" + (j-1) + ") " +AITown.GetPopulation(WmAtlas[j-1][0]) + " :" + TPop + " d " + dtemp + " d/v " + Ttemp + " Result " + FactorTemp);
 			}
 			else {
-//				AILog.Info("          Skipped " + dtemp);
 				FactorTemp = dtemp;
 			}
 			WmAtlas[i][j] = FactorTemp;
 		}
 	}
-	Print2DArray(WmAtlas);
+	if (PrintArrays > 0) AILog.Info("          " + ToSting2DArray(WmAtlas));
 	
 	if (ZeroCheck > 0) {
 		//	Ok, next step: find the highest rated pair
@@ -721,7 +819,7 @@ function WmDOT::RemoveExistingConnections(WmAtlas)
 		}
 	}
 	
-	Print2DArray (WmAtlas);
+	if (PrintArrays > 0) AILog.Info("          " + ToSting2DArray(WmAtlas));
 	
 	tick = this.GetTick() - tick;
 	AILog.Info("          " + RemovedCount + " of " + ExaminedCount + " routes removed. Took " + tick + " tick(s).");
@@ -729,90 +827,46 @@ function WmDOT::RemoveExistingConnections(WmAtlas)
 	return WmAtlas;
 }
 
-function WmDOT::BuildRoad(ConnectPairs)
+function WmDOT::RemoveBuiltConnections(WmAtlas, ConnectedPairs)
 {
-	//	Move to Library (seperate from my stuff)
-	//	builds a road, given the path
-	//	copied from	http://wiki.openttd.org/AI:RoadPathfinder on 2010-02-10
-	//		under GNU Free Documentation License.
-
-	AILog.Info("     Connecting " + AITown.GetName(ConnectPairs[0]) + " and " + AITown.GetName(ConnectPairs[1]) + "...");
+//	Removes roadpairs that have already been built
+	AILog.Info("     Removing already built roads...");
 	
-	local tick;
-	tick = this.GetTick();	
+	local tick = this.GetTick();
+	local TownA = 0;
+	local TownB = 0;
+	local Count = 0;
 	
-	/* Tell OpenTTD we want to build normal road (no tram tracks). */
-  AIRoad.SetCurrentRoadType(AIRoad.ROADTYPE_ROAD);
-  
-  /* Create an instance of the pathfinder. */
-  local pathfinder = RoadPathFinder();
-  
-	//	Set Parameters
-	pathfinder.cost.max_bridge_length = WmMaxBridge;
-	pathfinder.cost.max_tunnel_length = WmMaxTunnel;
-	pathfinder.cost.no_existing_road = 100;		//	default = 40
-	pathfinder.cost.slope = 400;				//	default = 200
-	pathfinder.cost.bridge_per_tile = 250;		//	default = 150
-												//	the hope is that random bridges on flat ground won't
-												//		show up, but they will for the little dips  \_/
-	pathfinder.cost.turn = 50;					//	default = 100
+	for (local i = 0; i < ConnectedPairs.len(); i++) {
+		TownA = ConnectedPairs[i][0];
+		TownB = ConnectedPairs[i][1];
+		
+		local IndexA = -1;
+		local IndexB = -1;
+		
+		for (local j = 0; j < WmAtlas.len(); j++ ) {
+			if (WmAtlas[j][0] == TownA) {
+				IndexA = j;
+			}
+			if (WmAtlas[j][0] == TownB) {
+				IndexB = j;
+			}
+		}
+		
+		if (IndexA != -1 && IndexB != -1) {
+			WmAtlas[IndexA][IndexB + 1] = 0;
+			WmAtlas[IndexB][IndexA + 1] = 0;
+		}
+		
+		Count++;
+	}
 	
-  /* Give the source and goal tiles to the pathfinder. */
-  pathfinder.InitializePath([AITown.GetLocation(ConnectPairs[0])], [AITown.GetLocation(ConnectPairs[1])]);
+	if (PrintArrays > 0) AILog.Info("          " + ToSting2DArray(WmAtlas));
+	AILog.Info("          " + Count + " routes removed. Took " + (this.GetTick() - tick) + " ticks.");
 
-  /* Try to find a path. */
-	AILog.Info("          Pathfinding...");
-  local path = false;
-  while (path == false) {
-    path = pathfinder.FindPath(100);
- //   this.Sleep(1);
-  }
+	return WmAtlas;
 
-  if (path == null) {
-    /* No path was found. */
-    AILog.Error("pathfinder.FindPath return null");
-  }
-  
-	/* If a path was found, build a road over it. */
-	AILog.Info("          Path found. Took " + (this.GetTick() - tick) + " ticks. Building route...");
-	tick = this.GetTick();
-	
-  while (path != null) {
-    local par = path.GetParent();
-    if (par != null) {
-      local last_node = path.GetTile();
-      if (AIMap.DistanceManhattan(path.GetTile(), par.GetTile()) == 1 ) {
-        if (!AIRoad.BuildRoad(path.GetTile(), par.GetTile())) {
-          /* An error occured while building a piece of road. TODO: handle it. 
-           * Note that is can also be the case that the road was already build. */
-        }
-      } else {
-        /* Build a bridge or tunnel. */
-        if (!AIBridge.IsBridgeTile(path.GetTile()) && !AITunnel.IsTunnelTile(path.GetTile())) {
-          /* If it was a road tile, demolish it first. Do this to work around expended roadbits. */
-          if (AIRoad.IsRoadTile(path.GetTile())) AITile.DemolishTile(path.GetTile());
-          if (AITunnel.GetOtherTunnelEnd(path.GetTile()) == par.GetTile()) {
-            if (!AITunnel.BuildTunnel(AIVehicle.VT_ROAD, path.GetTile())) {
-              /* An error occured while building a tunnel. TODO: handle it. */
-            }
-          } else {
-            local bridge_list = AIBridgeList_Length(AIMap.DistanceManhattan(path.GetTile(), par.GetTile()) + 1);
-            bridge_list.Valuate(AIBridge.GetMaxSpeed);
-            bridge_list.Sort(AIAbstractList.SORT_BY_VALUE, false);
-            if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, bridge_list.Begin(), path.GetTile(), par.GetTile())) {
-              /* An error occured while building a bridge. TODO: handle it. */
-            }
-          }
-        }
-      }
-    }
-    path = par;
-  }
-  
-	AILog.Info("          Route complete. (MD = " + AIMap.DistanceManhattan(AITown.GetLocation(ConnectPairs[0]), AITown.GetLocation(ConnectPairs[1])) + ") Took " + (this.GetTick() - tick) + " tick(s)."); 
- }
- 
+}
 
 
- 
- 
+

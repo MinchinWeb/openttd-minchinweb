@@ -51,10 +51,6 @@
 	/*	Set the number of tries the pathfinders should run for
 	 */
 	 
-	BudgetPerSquare = 750;
-	/*
-	 */
-	 
 	WmMaxBridge = 10;
 	WmMaxTunnel = 10;
 	/*	Max tunnel and bridge length it will build

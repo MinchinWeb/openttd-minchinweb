@@ -1,12 +1,15 @@
-/*	WmDOT v.1  r.5 bis
+/*	WmDOT v.1  r.11
  *	Copyright © 2011 by William Minchin. For more info,
- *		please visit http://code.google.com/p/openttd-noai-wmdot/
+ *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
-import("pathfinder.road", "RoadPathFinder", 3);
-	//	Road pathfinder as provided by the NoAI team
-require("GNU_FDL.nut");
-	//	function BuildRoad(ConnectPairs)
+//	Road pathfinder as provided by the NoAI team
+		import("pathfinder.road", "RoadPathFinder", 3);
+//	For loan management
+		import("util.superlib", "SuperLib", 6);
+		SLMoney <- SuperLib.Money;
+//	function BuildRoad(ConnectPairs)
+		require("GNU_FDL.nut");
  
  class WmDOT extends AIController 
 {
@@ -14,7 +17,7 @@ require("GNU_FDL.nut");
 	WmDOTv = 1;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 5;
+	WmDOTr = 11;
 	/*	Reversion number of AI
 	 */
 	 
@@ -23,11 +26,11 @@ require("GNU_FDL.nut");
 	 *	the chances of a single letter DOT name (eg. 'CDOT').		
 	 */
 	
-	PrintTownAtlas = 0;			// 0 == off
+	PrintTownAtlas = 0;			// 0 == off, 1 == on
 	/*	Controls whether the list of towns in the Atlas is printed to the debug screen.
 	 */
 	 
-	PrintArrays = 0;			// 0 == off
+	PrintArrays = 0;			// 0 == off, 1 == on
 	/*	Controls whether the array of the Atlas is printed to the debug screen;
 	 */
 	
@@ -48,6 +51,10 @@ require("GNU_FDL.nut");
 	/*	Set the number of tries the pathfinders should run for
 	 */
 	 
+	BudgetPerSquare = 750;
+	/*
+	 */
+	 
 	WmMaxBridge = 10;
 	WmMaxTunnel = 10;
 	/*	Max tunnel and bridge length it will build
@@ -59,13 +66,12 @@ require("GNU_FDL.nut");
 
 /*	TO DO
 	- figure out how to get the version number to show up in Start()
-	- somehow include towns that are connected but would benefit from a shorter connection
  */
 
 function WmDOT::Start()
 {
 //	AILog.Info("Welcome to WmDOT, version " + GetVersion() + ", revision " + WmDOTr + " by " + GetAuthor() + ".");
-	AILog.Info("Welcome to WmDOT, version " + WmDOTv + ", revision " + WmDOTr + "bis by William Minchin.");
+	AILog.Info("Welcome to WmDOT, version " + WmDOTv + ", revision " + WmDOTr + " by William Minchin.");
 	AILog.Info("Copyright © 2011 by William Minchin. For more info, please visit http://code.google.com/p/openttd-noai-wmdot/")
 	AILog.Info(" ");
 	
@@ -85,6 +91,11 @@ function WmDOT::Start()
 							//		2 - considers road pairs that can be better joined
 							//		3 - waits for a town to pop over the threshold
 	local NumOfTownsOnList = 0;
+	
+	// Pay off most of the loan
+	SLMoney.MakeMaximumPayback();
+	SLMoney.MakeSureToHaveAmount(100);
+//	AILog.Info("Loan Amount " + AICompany.GetLoanAmount() );
 	
 	// Keep us going forever
 	while (true) {
@@ -155,6 +166,7 @@ function WmDOT::Start()
 			this.Sleep(i);
 		}
 
+		SLMoney.MakeSureToHaveAmount(100);
 		NumOfTownsOnList = WmTownArray.len();	//	Used as a baseline for the next time
 												//	around to see if any towns have been
 												//	added to the list

@@ -1,6 +1,6 @@
-/*	WmDOT v.1  r.5 bis
+/*	WmDOT v.1  r.11
  *	Copyright © 2011 by William Minchin. For more info,
- *		please visit http://code.google.com/p/openttd-noai-wmdot/
+ *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
 /*	This is code used by WmDOT copied from elsewhere
@@ -56,6 +56,9 @@ function BuildRoad(ConnectPairs)
 	AILog.Info("          Path found. Took " + (this.GetTick() - tick) + " ticks. Building route...");
 	tick = this.GetTick();
 	
+	// Clean out the bank
+	SLMoney.MaxLoan();
+	
   while (path != null) {
     local par = path.GetParent();
     if (par != null) {
@@ -88,5 +91,9 @@ function BuildRoad(ConnectPairs)
     path = par;
   }
   
+	// Pay the loan back
+	SLMoney.MakeMaximumPayback();
+	SLMoney.MakeSureToHaveAmount(100);
+	
 	AILog.Info("          Route complete. (MD = " + AIMap.DistanceManhattan(AITown.GetLocation(ConnectPairs[0]), AITown.GetLocation(ConnectPairs[1])) + ") Took " + (this.GetTick() - tick) + " tick(s)."); 
  }

@@ -1,4 +1,4 @@
-/*	WmDOT v.1  r.11
+/*	WmDOT v.2  r.14
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -8,16 +8,19 @@
 //	For loan management
 		import("util.superlib", "SuperLib", 6);
 		SLMoney <- SuperLib.Money;
+//	My Array library
+//		import("util.wmarray", "WmArray", 1);
+//			I need to play with this more to get it to work the way I want
 //	function BuildRoad(ConnectPairs)
 		require("GNU_FDL.nut");
  
  class WmDOT extends AIController 
 {
 	//	SETTINGS
-	WmDOTv = 1;
+	WmDOTv = 2;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 11;
+	WmDOTr = 14;
 	/*	Reversion number of AI
 	 */
 	 
@@ -30,7 +33,7 @@
 	/*	Controls whether the list of towns in the Atlas is printed to the debug screen.
 	 */
 	 
-	PrintArrays = 0;			// 0 == off, 1 == on
+	PrintArrays = 1;			// 0 == off, 1 == on
 	/*	Controls whether the array of the Atlas is printed to the debug screen;
 	 */
 	
@@ -76,7 +79,7 @@ function WmDOT::Start()
 		//	Build normal road (no tram tracks)
 	
 	NameWmDOT();
-	BuildWmHQ();
+	local HQTown = BuildWmHQ();
 	local WmAtlas=[];
 	local WmTownArray = [];
 	local PairsToConnect = [];
@@ -91,7 +94,6 @@ function WmDOT::Start()
 	// Pay off most of the loan
 	SLMoney.MakeMaximumPayback();
 	SLMoney.MakeSureToHaveAmount(100);
-//	AILog.Info("Loan Amount " + AICompany.GetLoanAmount() );
 	
 	// Keep us going forever
 	while (true) {
@@ -105,16 +107,18 @@ function WmDOT::Start()
 			AILog.Info("** Returning to Mode 1. **");
 		}
 		
-		if (WmMode == 1) {
-			WmAtlas = GenerateAtlas(WmTownArray);
+		if (WmMode == 1 || WmMode == 2 || WmMode == 3 || WmMode == 4) {
+			WmAtlas = GenerateAtlas(WmTownArray);	//	Change this so that in Mode 1, all towns are included
+			WmAtlas = RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, WmMode);
 			WmAtlas = RemoveBuiltConnections(WmAtlas, ConnectedPairs);
+			WmAtlas = RemoveOverDistance(WmAtlas, GetMaxDistance(WmMode));
 			WmAtlas = RemoveExistingConnections(WmAtlas);
 			PairsToConnect = PickTowns(WmAtlas);
 			
-			//	If everything is connected, bump it up to 'Mode 2'
+			//	If everything is connected, bump it up to 'Mode 2' or 3
 			if (PairsToConnect == null) {
-				WmMode = 2;
-				AILog.Info("** Moving to Mode 2. **");
+				WmMode++;
+				AILog.Info("** Moving to Mode " + WmMode + ". **");
 			}
 			else {
 				BuildRoad(PairsToConnect);
@@ -128,7 +132,7 @@ function WmDOT::Start()
 			}
 		}
 		
-		if (WmMode == 2) {
+		if (WmMode == 5) {
 			AILog.Info("     Considering alternate routes...");
 			
 			WmAtlas = GenerateAtlas(WmTownArray);
@@ -138,8 +142,8 @@ function WmDOT::Start()
 			
 			//	If everything is connected, bump it up to 'Mode 2'
 			if (PairsToConnect == null) {
-				WmMode = 3;
-				AILog.Info("** Moving to Mode 3. **");
+				WmMode ++;
+				AILog.Info("** Moving to Mode " + WmMode + ". **");
 			}
 			else {
 				BuildRoad(PairsToConnect);
@@ -154,7 +158,7 @@ function WmDOT::Start()
 			
 		}
 		
-		if (WmMode == 3) {
+		if (WmMode == 6) {
 			AILog.Info("It's tick " + this.GetTick() + " and apparently I've done everything! I'm taking a nap...");
 			local i = this.GetTick();
 			i = i % SleepLength;
@@ -427,7 +431,7 @@ function WmDOT::GenerateAtlas(WmTownArray)
 
 	// Generate Distance Matrix
 	local iTown;
-	local WmAtlas=[];
+	local WmAtlas = [];
 	WmAtlas.resize(WmTownArray.len());
 	
 	for(local i=0; i < WmTownArray.len(); i++) {
@@ -451,6 +455,7 @@ function WmDOT::GenerateAtlas(WmTownArray)
 	}
 
 	if (PrintArrays > 0) AILog.Info("          " + ToSting2DArray(WmAtlas));
+//	if (PrintArrays > 0) AILog.Info("          " + WmArray.2D.Print(WmAtlas));
 /*	tick = this.GetTick() - tick;
 	AILog.Info("     Atlas complete. Took " + tick + "tick(s).");
 */
@@ -571,84 +576,85 @@ function WmDOT::BuildWmHQ()
 	
 //	AICompany.BuildCompanyHQ(0xA284);
 	
-	local HQBuilt = false;
 	// Check for exisiting HQ
 	if (AICompany.GetCompanyHQ(AICompany.ResolveCompanyID(AICompany.COMPANY_SELF)) != -1) {
-		HQBuilt = true;
 		AILog.Info("     What are you trying to pull on me?!? HQ are already established at " + AIMap.GetTileX(AICompany.GetCompanyHQ(AICompany.COMPANY_SELF)) + ", " +  AIMap.GetTileY(AICompany.GetCompanyHQ(AICompany.COMPANY_SELF)) + ".");
+		return -2;		//	TO-DO:	Actually return the town where the HQ is...
 	}
 	
-	if (HQBuilt == false) {
-		// Gets a list of the towns and picks the one with the highest populaiton	
-		local WmTownList = AITownList();
-		WmTownList.Valuate(AITown.GetPopulation);
-		local HQTown = AITown();
-		HQTown = WmTownList.Begin();
-		
-		// Get tile index of the centre of town
-		local HQx;
-		local HQy;
-		HQx = AIMap.GetTileX(AITown.GetLocation(HQTown));
-		HQy = AIMap.GetTileY(AITown.GetLocation(HQTown));
-		AILog.Info("     HQ will be build in " + AITown.GetName(HQTown) + " at " + HQx + ", " + HQy + ".");
-		
-		// Starts a spiral out from the centre of town, trying to build the HQ until it works!
-		local dx = -1;
-		local dy =  0;
-		local Steps = 0;
-		local Stage = 1;
-		local StageMax = 1;
-		local StageSteps = 0;
-		
-		while (HQBuilt == false) {
-			HQx += dx;
-			HQy += dy;
-			HQBuilt = AICompany.BuildCompanyHQ(AIMap.GetTileIndex(HQx,HQy));
-			Steps ++;
-			StageSteps ++;
+//	assumes (HQBuilt == false) 	
+	// Gets a list of the towns	
+	local WmTownList = AITownList();
+	//	Remove the towns with a DOT HQ and make a note of them - TODO
+
+	WmTownList.Valuate(AITown.GetPopulation);
+	local HQTown = AITown();
+	HQTown = WmTownList.Begin();
+	
+	// Get tile index of the centre of town
+	local HQx;
+	local HQy;
+	HQx = AIMap.GetTileX(AITown.GetLocation(HQTown));
+	HQy = AIMap.GetTileY(AITown.GetLocation(HQTown));
+	AILog.Info("     HQ will be build in " + AITown.GetName(HQTown) + " at " + HQx + ", " + HQy + ".");
+	
+	// Starts a spiral out from the centre of town, trying to build the HQ until it works!
+	local dx = -1;
+	local dy =  0;
+	local Steps = 0;
+	local Stage = 1;
+	local StageMax = 1;
+	local StageSteps = 0;
+	local HQBuilt = false;
+	
+	while (HQBuilt == false) {
+		HQx += dx;
+		HQy += dy;
+		HQBuilt = AICompany.BuildCompanyHQ(AIMap.GetTileIndex(HQx,HQy));
+		Steps ++;
+		StageSteps ++;
 //			AILog.Info("          Step " + Steps + ". dx=" + dx + " dy=" + dy + ". Trying at "+ HQx + ", " + HQy + ". Stage: " + Stage + ". StageMax: " + StageMax + ". StageSteps: " + StageSteps + ".")
 
-			// Check if it's time to turn
-			if (StageSteps == StageMax) {
-				StageSteps = 0;
-				if (Stage % 2 == 0) {
-					StageMax++;
-				}
-				Stage ++;
-				
-				// Turn Clockwise
-				switch (dx) {
-					case 0:
-						switch (dy) {
-							case -1:
-								dx = -1;
-								dy =  0;
-								break;
-							case 1:
-								dx = 1;
-								dy = 0;
-								break;
-						}
-						break;
-					case -1:
-						dx = 0;
-						dy = 1;
-						break;
-					case 1:
-						dx =  0;
-						dy = -1;
-						break;
-				}
+		// Check if it's time to turn
+		if (StageSteps == StageMax) {
+			StageSteps = 0;
+			if (Stage % 2 == 0) {
+				StageMax++;
 			}
-
-			// Safety: Break if it tries for 20 times and still doesn't work!
-			if (Stage == 20) {HQBuilt = true;}			
+			Stage ++;
+			
+			// Turn Clockwise
+			switch (dx) {
+				case 0:
+					switch (dy) {
+						case -1:
+							dx = -1;
+							dy =  0;
+							break;
+						case 1:
+							dx = 1;
+							dy = 0;
+							break;
+					}
+					break;
+				case -1:
+					dx = 0;
+					dy = 1;
+					break;
+				case 1:
+					dx =  0;
+					dy = -1;
+					break;
+			}
 		}
-		AILog.Info("          HQ built at "+ HQx + ", " + HQy + ". Took " + Steps + " tries.");
+
+		// Safety: Break if it tries for 20 times and still doesn't work!
+		if (Stage == 20) return -1;			
 	}
 		
 	tick = this.GetTick() - tick;
-	AILog.Info("     HQ built. Took " + tick + " tick(s).");
+	AILog.Info("     HQ built at "+ HQx + ", " + HQy + ". Took " + Steps + " tries. Took " + tick + " tick(s).");
+	return HQTown;
 }
 
 function WmDOT::PickTowns(WmAtlas)
@@ -694,6 +700,7 @@ function WmDOT::PickTowns(WmAtlas)
 		}
 	}
 	if (PrintArrays > 0) AILog.Info("          " + ToSting2DArray(WmAtlas));
+//	if (PrintArrays > 0) AILog.Info("          " + WmArray.2D.Print(WmAtlas));
 	
 	if (ZeroCheck > 0) {
 		//	Ok, next step: find the highest rated pair
@@ -828,6 +835,8 @@ function WmDOT::RemoveExistingConnections(WmAtlas)
 	}
 	
 	if (PrintArrays > 0) AILog.Info("          " + ToSting2DArray(WmAtlas));
+//	if (PrintArrays > 0) AILog.Info("          " + WmArray.2D.Print(WmAtlas));
+
 	
 	tick = this.GetTick() - tick;
 	AILog.Info("          " + RemovedCount + " of " + ExaminedCount + " routes removed. Took " + tick + " tick(s).");
@@ -870,6 +879,7 @@ function WmDOT::RemoveBuiltConnections(WmAtlas, ConnectedPairs)
 	}
 	
 	if (PrintArrays > 0) AILog.Info("          " + ToSting2DArray(WmAtlas));
+//	if (PrintArrays > 0) AILog.Info("          " + WmArray.2D.Print(WmAtlas));
 	AILog.Info("          " + Count + " routes removed. Took " + (this.GetTick() - tick) + " ticks.");
 
 	return WmAtlas;
@@ -877,4 +887,142 @@ function WmDOT::RemoveBuiltConnections(WmAtlas, ConnectedPairs)
 }
 
 
+function WmDOT::RemoveOverDistance(WmAtlas, MaxDistance)
+{
+	//	Zeros out distances in the Atlas over an predefined distancez
+	//	You don't really want to drive all the way across the map, do you?
+	
+	AILog.Info("     Removing towns further than " + MaxDistance + " tiles apart...")
+	
+	local tick;
+	tick = this.GetTick();
+	
+	local Count = 0;
+	
+	for (local i = 0; i < WmAtlas.len(); i++ ) {
+		for (local j=1; j < WmAtlas[i].len(); j++ ) {
+			local dtemp = WmAtlas[i][j];
+			local FactorTemp = 0.0;
+			if (dtemp != 0) {					// avoid already zeroed entries
+				if (dtemp > MaxDistance) {
+					WmAtlas[i][j] = 0;
+					Count++;
+				}
+			}
+		}
+	}
+	if (PrintArrays > 0) AILog.Info("          " + ToSting2DArray(WmAtlas));
+//	if (PrintArrays > 0) AILog.Info("          " + WmArray.2D.Print(WmAtlas));
+	AILog.Info("          " + Count + " routes removed. Took " + (this.GetTick() - tick) + " ticks.");
+
+	return WmAtlas;
+}
+
+function WmDOT::GetMaxDistance(Mode)
+{
+	//	Returns the 'max' connection distance
+	//	Uses either the speed or 'quarter map'
+	//	The idea is the towns within the closer one are all joined, then the
+	//		towns in the further one, nd then lastly, all towns
+	
+	local Speed = GetSpeed();
+	local FractionMap = ((AIMap.GetMapSizeX() + AIMap.GetMapSizeY()) /2) / 2;	//	That gives you access to about a quarter of the map
+	if (Mode == 1 || Mode == 3) {
+		return min(Speed, FractionMap);
+	}
+	if (Mode == 2 || Mode == 4) {
+		return max(Speed, FractionMap);
+	}
+	else {
+		return 9999;	//	The current biggest map is 2048x2048
+	}
+}
+
+function WmDOT::RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, Mode)
+{
+//	Designed to only allow connections based on already connected towns.
+//	In Modes 1 & 2, anything not connecting directly to the 'capital' is removed
+//	In Modes 3 & 4, anything not connected to the capital is (directly or via
+//		already built roads) is removed
+
+	local tick;
+	tick = this.GetTick();
+	
+	local Count = 0;
+	
+	switch (Mode) {
+		case 1:
+		case 2:
+			AILog.Info("     Removing towns not directly connected to the capital...");
+			WmAtlas = MirrorAtlas(WmAtlas);		//	Thus it doesn't matter if the HQ town is not the first on the list
+			for (local i = 0; i < WmAtlas.len(); i++ ) {
+				if (WmAtlas[i][0] != HQTown) {
+					for (local j=1; j < WmAtlas[i].len(); j++ ) {
+						if (WmAtlas[i][j] != 0) {		//	Avoid alredy zeroed entries
+							WmAtlas[i][j] = 0;
+							Count++;
+						}
+					}
+				}
+			}
+			
+			if (PrintArrays > 0) AILog.Info("          " + ToSting2DArray(WmAtlas));
+			AILog.Info("          " + Count + " routes removed. Took " + (this.GetTick() - tick) + " ticks.");
+			return WmAtlas;
+		case 3:
+		case 4:
+			AILog.Info("     Removing towns not indirectly connected to the capital...");
+			WmAtlas = MirrorAtlas(WmAtlas);		//	Thus it doesn't matter if the HQ town is not the first on the list
+			for (local i = 0; i < WmAtlas.len(); i++ ) {
+				if (!ContainedIn2DArray(ConnectedPairs, WmAtlas[i][0])) {
+					for (local j=1; j < WmAtlas[i].len(); j++ ) {
+						if (WmAtlas[i][j] != 0) {		//	Avoid alredy zeroed entries
+							WmAtlas[i][j] = 0;
+							Count++;
+						}
+					}
+				}
+			}			
+			
+			if (PrintArrays > 0) AILog.Info("          " + ToSting2DArray(WmAtlas));
+			AILog.Info("          " + Count + " routes removed. Took " + (this.GetTick() - tick) + " ticks.");
+			return WmAtlas;
+	}
+}
+
+function WmDOT::MirrorAtlas(WmAtlas)
+{
+//	Generally, only half the matrix is generated to save on processing time
+//		This mirrors the generated half onto the 'empty' half. The implied
+//		assumption is that the distance is the same in both directions.
+
+	for (local i=0; i < WmAtlas.len(); i++) {
+		for (local j=1; j < WmAtlas[0].len(); j++) {
+			if (WmAtlas[i][j] != 0) {	//	This avoids zero entries to save on processing capacity, but also to avoid erasing the whole array!!
+				WmAtlas[j-1][i+1] = WmAtlas[i][j];
+			}
+		}
+	}
+	
+	return WmAtlas;
+}
+
+function WmDOT::ContainedIn2DArray(InArray, SearchValue)
+{
+//	Searches the array for the given value. Returns 'TRUE' if found and
+//		'FALSE' if not.
+//	Accepts 2D Arrays
+//
+//	Move to Array library
+	
+	for (local i = 0; i < InArray.len(); i++ ) {
+		for (local j=0; j < InArray[i].len(); j++ ) {
+			if (InArray[i][j] == SearchValue) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
 

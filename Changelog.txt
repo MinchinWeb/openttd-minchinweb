@@ -3,7 +3,10 @@ v.1, r.11, 2011-02-18
 Copyright © 2011 by William Minchin. For more info, please visit
 	http://openttd-noai-wmdot.googlecode.com/
 
-
+r14	2011-02-19	Build out in zones (speed, quarter map, full map)
+				Build out in steps (capital, connected towns)
+				- combination moves up to six Modes	
+v1				(to be released baased on r11, need to zip and add lisence)
 r11	2011-02-18	Introduces Loan Management
 				- requires SuperLib v6
 				- keeps a minimum amount of money on hand
@@ -50,3 +53,4 @@ Roadmap:
 - check the town centres are actually roads (use AIRoad::IsRoadTile() )
 - manage loan
 - add license file - http://opensource.org/licenses/qtpl ?
+- BuildWmHQ() - if HQ already exists, return the town index rather than -2

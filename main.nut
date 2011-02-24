@@ -1,4 +1,4 @@
-/*	WmDOT v.2  r.14
+/*	WmDOT v.2  r.15
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -20,7 +20,7 @@
 	WmDOTv = 2;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 14;
+	WmDOTr = 15;
 	/*	Reversion number of AI
 	 */
 	 
@@ -33,7 +33,7 @@
 	/*	Controls whether the list of towns in the Atlas is printed to the debug screen.
 	 */
 	 
-	PrintArrays = 1;			// 0 == off, 1 == on
+	PrintArrays = 0;			// 0 == off, 1 == on
 	/*	Controls whether the array of the Atlas is printed to the debug screen;
 	 */
 	
@@ -80,6 +80,7 @@ function WmDOT::Start()
 	
 	NameWmDOT();
 	local HQTown = BuildWmHQ();
+	BuildWmHQ();
 	local WmAtlas=[];
 	local WmTownArray = [];
 	local PairsToConnect = [];
@@ -107,63 +108,66 @@ function WmDOT::Start()
 			AILog.Info("** Returning to Mode 1. **");
 		}
 		
-		if (WmMode == 1 || WmMode == 2 || WmMode == 3 || WmMode == 4) {
-			WmAtlas = GenerateAtlas(WmTownArray);	//	Change this so that in Mode 1, all towns are included
-			WmAtlas = RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, WmMode);
-			WmAtlas = RemoveBuiltConnections(WmAtlas, ConnectedPairs);
-			WmAtlas = RemoveOverDistance(WmAtlas, GetMaxDistance(WmMode));
-			WmAtlas = RemoveExistingConnections(WmAtlas);
-			PairsToConnect = PickTowns(WmAtlas);
-			
-			//	If everything is connected, bump it up to 'Mode 2' or 3
-			if (PairsToConnect == null) {
-				WmMode++;
-				AILog.Info("** Moving to Mode " + WmMode + ". **");
-			}
-			else {
-				BuildRoad(PairsToConnect);
-				ConnectedPairs.push(PairsToConnect);
-//				Print2DArray(ConnectedPairs);
-//				ManageLoans...
+		switch (WmMode) {
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+				WmAtlas = GenerateAtlas(WmTownArray);	//	Change this so that in Mode 1, all towns are included
+				WmAtlas = RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, WmMode);
+				WmAtlas = RemoveBuiltConnections(WmAtlas, ConnectedPairs);
+				WmAtlas = RemoveOverDistance(WmAtlas, GetMaxDistance(WmMode));
+				WmAtlas = RemoveExistingConnections(WmAtlas);
+				PairsToConnect = PickTowns(WmAtlas);
+				
+				//	If everything is connected, bump it up to 'Mode 2' or 3
+				if (PairsToConnect == null) {
+					WmMode++;
+					AILog.Info("** Moving to Mode " + WmMode + ". **");
+				}
+				else {
+					BuildRoad(PairsToConnect);
+					ConnectedPairs.push(PairsToConnect);
+//					Print2DArray(ConnectedPairs);
+//					ManageLoans...
 
+					local i = this.GetTick();
+					i = i % SleepLength;
+					this.Sleep(50 - i);
+				}
+				break;
+			case 5:
+				AILog.Info("     Considering alternate routes...");
+				
+				WmAtlas = GenerateAtlas(WmTownArray);
+				WmAtlas = RemoveBuiltConnections(WmAtlas, ConnectedPairs);
+				//	Doesn't consider roads built by others or indirect connections
+				//	Doesn't require potential new roads to attach to exisiting network
+				PairsToConnect = PickTowns(WmAtlas);
+				
+				//	If everything is connected, bump it up to 'Mode 2'
+				if (PairsToConnect == null) {
+					WmMode ++;
+					AILog.Info("** Moving to Mode " + WmMode + ". **");
+				}
+				else {
+					BuildRoad(PairsToConnect);
+					ConnectedPairs.push(PairsToConnect);
+//					Print2DArray(ConnectedPairs);
+//					ManageLoans...
+
+					local i = this.GetTick();
+					i = i % SleepLength;
+					this.Sleep(50 - i);
+				}
+				break;
+		
+			case 6:
+				AILog.Info("It's tick " + this.GetTick() + " and apparently I've done everything! I'm taking a nap...");
 				local i = this.GetTick();
 				i = i % SleepLength;
-				this.Sleep(50 - i);
-			}
-		}
-		
-		if (WmMode == 5) {
-			AILog.Info("     Considering alternate routes...");
-			
-			WmAtlas = GenerateAtlas(WmTownArray);
-			WmAtlas = RemoveBuiltConnections(WmAtlas, ConnectedPairs);
-			//	Doesn't consider roads built by others or indirect connections
-			PairsToConnect = PickTowns(WmAtlas);
-			
-			//	If everything is connected, bump it up to 'Mode 2'
-			if (PairsToConnect == null) {
-				WmMode ++;
-				AILog.Info("** Moving to Mode " + WmMode + ". **");
-			}
-			else {
-				BuildRoad(PairsToConnect);
-				ConnectedPairs.push(PairsToConnect);
-//				Print2DArray(ConnectedPairs);
-//				ManageLoans...
-
-				local i = this.GetTick();
-				i = i % SleepLength;
-				this.Sleep(50 - i);
-			}
-			
-		}
-		
-		if (WmMode == 6) {
-			AILog.Info("It's tick " + this.GetTick() + " and apparently I've done everything! I'm taking a nap...");
-			local i = this.GetTick();
-			i = i % SleepLength;
-			i = 10 * SleepLength - i;
-			this.Sleep(i);
+				i = 10 * SleepLength - i;
+				this.Sleep(i);
 		}
 
 		SLMoney.MakeSureToHaveAmount(100);
@@ -576,20 +580,36 @@ function WmDOT::BuildWmHQ()
 	
 //	AICompany.BuildCompanyHQ(0xA284);
 	
-	// Check for exisiting HQ
+	// Check for exisiting HQ (mine)
 	if (AICompany.GetCompanyHQ(AICompany.ResolveCompanyID(AICompany.COMPANY_SELF)) != -1) {
-		AILog.Info("     What are you trying to pull on me?!? HQ are already established at " + AIMap.GetTileX(AICompany.GetCompanyHQ(AICompany.COMPANY_SELF)) + ", " +  AIMap.GetTileY(AICompany.GetCompanyHQ(AICompany.COMPANY_SELF)) + ".");
-		return -2;		//	TO-DO:	Actually return the town where the HQ is...
+		AILog.Info("     What are you trying to pull on me?? HQ are already established at " + AIMap.GetTileX(AICompany.GetCompanyHQ(AICompany.COMPANY_SELF)) + ", " +  AIMap.GetTileY(AICompany.GetCompanyHQ(AICompany.COMPANY_SELF)) + " in town no. " + HQInWhatTown(AICompany.COMPANY_SELF) + ".");
+		return HQInWhatTown(AICompany.COMPANY_SELF);		//	Actually return the town where the HQ is...
 	}
 	
-//	assumes (HQBuilt == false) 	
 	// Gets a list of the towns	
 	local WmTownList = AITownList();
 	//	Remove the towns with a DOT HQ and make a note of them - TODO
+	local DotHQList = [];
+	for (local i=0; i < AICompany.COMPANY_LAST; i++) {
+		//	Test if company has built HQ
+//		AILog.Info("     Testing Company " + i + ".");
+		if (AICompany.GetCompanyHQ(AICompany.ResolveCompanyID(i)) != -1) {
+			local TestName = AICompany.GetName(i);
+			if (TestName.find("DOT") != null) {
+				AILog.Info("     DOT HQ found for company no. " + i + " in town " + HQInWhatTown(i) + ".");
+				DotHQList.append(HQInWhatTown(i));
+			}
+		}
+	}
 
-	WmTownList.Valuate(AITown.GetPopulation);
-	local HQTown = AITown();
+	WmTownList.Valuate(AITown.GetPopulation);	
+	local HQTown = AITown();	
 	HQTown = WmTownList.Begin();
+	
+	while (ContainedIn1DArray(DotHQList, HQTown)) {
+		AILog.Info("     Failed best for HQTown " + HQTown + ".");
+		HQTown = WmTownList.Next();
+	}
 	
 	// Get tile index of the centre of town
 	local HQx;
@@ -1024,5 +1044,65 @@ function WmDOT::ContainedIn2DArray(InArray, SearchValue)
 	}
 
 	return false;
+}
+
+function WmDOT::ContainedIn1DArray(InArray, SearchValue)
+{
+//	Searches the array for the given value. Returns 'TRUE' if found and
+//		'FALSE' if not.
+//	Accepts 1D Arrays
+//
+//	Move to Array library
+	
+	for (local i = 0; i < InArray.len(); i++ ) {
+			if (InArray[i] == SearchValue) {
+				return true;
+			}
+	}
+
+	return false;
+}
+
+function WmDOT::HQInWhatTown(CompanyNo)
+{
+//	Given a company ID, returns the townID of where the HQ is located
+//	-1 means that an invalid Company ID was given
+//	-2 means that the HQ is beyond a town's influence
+	
+	//	Test for valid CompanyID
+	if (AICompany.ResolveCompanyID(CompanyNo) == -1) {
+		AILog.Info("Invalid Company ID!");
+		return -1;
+	}
+	
+	local PreReturn = AICompany.GetCompanyHQ(CompanyNo);
+	PreReturn = TileIsWhatTown(PreReturn);
+	if (PreReturn == -1) {
+		AILog.Info("Company in Invalid Town!");
+		return -2;
+	}
+	else {
+		return PreReturn;
+	}
+}
+
+
+function WmDOT::TileIsWhatTown(TileIn)
+{
+//	Given a tile, returns the town whose influence it falls under
+//	Else returns -1 (i.e. under no town's incfluence)
+	
+	local TestValue = false;
+	
+	for (local i = 0; i < AITown.GetTownCount(); i++) {
+		TestValue = AITown.IsWithinTownInfluence(i, TileIn);
+//		AILog.Info("          " + i + ". Testing Town " + " and returns " + TestValue);
+		if (TestValue == true) {
+			return i;
+		}
+	}
+	
+	//	If it get this far, it's not in any town's influence
+	return -1;
 }
 

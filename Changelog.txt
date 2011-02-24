@@ -1,8 +1,13 @@
 WmDOT Version History
-v.1, r.11, 2011-02-18
+v.1, r.15, 2011-02-24
 Copyright © 2011 by William Minchin. For more info, please visit
 	http://openttd-noai-wmdot.googlecode.com/
 
+	
+r15	2011-02-24	Multiply DOT's running at the same time now run in a
+					semi-cooperative fashion by building HQ in different cities
+				HQInWhatTown(CompanyNo)
+				TileIsWhatTown(TileIn)
 r14	2011-02-19	Build out in zones (speed, quarter map, full map)
 				Build out in steps (capital, connected towns)
 				- combination moves up to six Modes	
@@ -49,8 +54,6 @@ Roadmap:
 	- do route finding one grid spacing at a 
 - rewrite build path sequence so I can call it my own
 - figure out how to get the version number to show up in Start()
-- somehow include towns that are connected but would benefit from a shorter connection
 - check the town centres are actually roads (use AIRoad::IsRoadTile() )
-- manage loan
 - add license file - http://opensource.org/licenses/qtpl ?
-- BuildWmHQ() - if HQ already exists, return the town index rather than -2
+- generally impove the speed of the pathfinder

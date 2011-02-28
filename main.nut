@@ -5,6 +5,7 @@
 
 //	Road pathfinder as provided by the NoAI team
 		import("pathfinder.road", "RoadPathFinder", 3);
+	//	import("pathfinder.road", "RoadPathFinder", 4);
 //	For loan management
 		import("util.superlib", "SuperLib", 6);
 		SLMoney <- SuperLib.Money;
@@ -20,7 +21,7 @@
 	WmDOTv = 2;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 15;
+	WmDOTr = 16;
 	/*	Reversion number of AI
 	 */
 	 
@@ -71,7 +72,7 @@ function WmDOT::Start()
 {
 //	AILog.Info("Welcome to WmDOT, version " + GetVersion() + ", revision " + WmDOTr + " by " + GetAuthor() + ".");
 	AILog.Info("Welcome to WmDOT, version " + WmDOTv + ", revision " + WmDOTr + " by William Minchin.");
-	AILog.Info("Copyright © 2011 by William Minchin. For more info, please visit http://code.google.com/p/openttd-noai-wmdot/")
+	AILog.Info("Copyright © 2011 by William Minchin. For more info, please visit http://openttd-noai-wmdot.googlecode.com/")
 	AILog.Info(" ");
 	
 	AILog.Info("Loading Libraries...");		// Actually, by this point it's already happened
@@ -80,7 +81,6 @@ function WmDOT::Start()
 	
 	NameWmDOT();
 	local HQTown = BuildWmHQ();
-	BuildWmHQ();
 	local WmAtlas=[];
 	local WmTownArray = [];
 	local PairsToConnect = [];
@@ -823,6 +823,7 @@ function WmDOT::RemoveExistingConnections(WmAtlas)
 	pathfinder.cost.max_bridge_length = WmMaxBridge;
 	pathfinder.cost.max_tunnel_length = WmMaxTunnel;
 	pathfinder.cost.no_existing_road = pathfinder.cost.max_cost;	// only use exisiting roads
+//	pathfinder.cost.only_existing_roads = true;
 	
 	local iTown = AITile();
 	local jTown = AITile();

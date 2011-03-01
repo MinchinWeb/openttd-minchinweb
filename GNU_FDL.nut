@@ -1,4 +1,4 @@
-/*	WmDOT v.1  r.11
+/*	WmDOT v.1  r.17
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -8,8 +8,8 @@
  *	This code is under the GNU Free Documentation License
  */
 
-//function WmDOT::BuildRoad(ConnectPairs)
-function BuildRoad(ConnectPairs)
+function WmDOT::BuildRoad(ConnectPairs)
+//function BuildRoad(ConnectPairs)
 {
 	//	builds a road, given the path
 	//	copied from	http://wiki.openttd.org/AI:RoadPathfinder on 2010-02-10
@@ -42,9 +42,17 @@ function BuildRoad(ConnectPairs)
   /* Try to find a path. */
 	AILog.Info("          Pathfinding...");
   local path = false;
+  local CycleCounter = 0;
   while (path == false) {
     path = pathfinder.FindPath(100);
  //   this.Sleep(1);
+	CycleCounter+=PathFinderCycles;
+	if (CycleCounter > 2000) {
+		//	A safety to make sure that the AI doesn't run out
+		//		of money while pathfinding...
+		SLMoney.MakeSureToHaveAmount(100);
+		CycleCounter = 0;
+	}
   }
 
   if (path == null) {

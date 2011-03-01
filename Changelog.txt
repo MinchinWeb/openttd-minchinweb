@@ -1,9 +1,17 @@
 WmDOT Version History
-v.1, r.16, 2011-02-24
+v.1, r.17, 2011-03-01
 Copyright © 2011 by William Minchin. For more info, please visit
 	http://openttd-noai-wmdot.googlecode.com/
 
 
+r17	2011-03-01	Now generates the Atlas once per Mode (as opposed for each new
+					route) and then build all possible routes
+				- Moved existing route checking from Atlas generation to
+					on-demand
+				- Now maintians a list of routes that have been tested and 
+					found to exist
+				Seperated Array functions
+				Add more loan managment points
 r16	2011-02-25	Road Pathfinder optimization
 				- now considered v4 of pathfinder
 				- added a couple of lines to the pathfinder to allow it to

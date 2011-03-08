@@ -2,14 +2,14 @@
 //	Alberta Town Names for OpenTTD
 //	Copyright 2011 by William Minchin
 //		Wm = 57-6D (in Hex)
-//	Version 2, 2011-03-07
+//	Version 3, 2011-03-08
 //
 
 grf {
-	grfid:	"57\6D\AB";
+	grfid:	"\57\6D\AB\03";
 	name:	string(STR_GRF_NAME);
 	desc:	string(STR_GRF_DESCRIPTION);
-	version:	2;
+	version:	3;
 	min_compatible_version:	1;
 }
 

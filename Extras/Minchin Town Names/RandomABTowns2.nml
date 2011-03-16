@@ -1,0 +1,2737 @@
+//	
+//	Random, Alberta-based Town Names for OpenTTD
+//	Copyright 2011 by William Minchin
+//		Wm = 57-6D (in Hex)
+//		R (for Random) = 52
+//		A (for Alpha) = 97
+//	Version 1, 2011-03-16
+//
+
+grf {
+	grfid:	"\57\6D\52\97";
+	name:	string(STR_GRF_NAME);
+	desc:	string(STR_GRF_DESCRIPTION);
+	version:	1;
+	min_compatible_version:	0;
+}
+
+//		This attempts to create a list of realistic yet random town names. The
+//	process takes real-world roots and then considers a series of prefixes and
+//	suffixes that can be added to them. However, prefix and suffix probablity
+//	is intentionally low (5% and 10%, respectively). The other factor designed 
+//	to aid in 'real-ness' is that potential combinations are stictly
+//	controlled. This makes for more thinking in deciding where to put roots,
+//	etc. but will hopefully give more pleasing results.
+//		For reference, 'normal' to me is based on Western Canadian place names,
+//	that are largely English in origin, but show significant French and First
+//	Nations (Indian) influences, and numereous influences from around the
+//	world.
+//		Probabilities were gernerated using Excel. If you are considering
+//	creating a similiar name list for a different region or adding to this
+//	list, I would suggest you consult the Excel file to maintain similiar
+//	probabilities.
+//		I hope that if you are reading this and considering added to it, your
+//	additions will seek to add quality first, rather than simply quantity.
+//		Kindest regards,
+//			- William Minchin, March 16, 2011
+//
+//	
+//	Paths and groups are listed below. If you want to test that paths are
+//	working as expected, test groups are located below. Although it complicates
+//	paths, the goal remains to only have each root appear once (i.e. in only
+//	one group). Paths are lettered while groups are numbered.
+//
+//	=== GROUPS ===
+//	01 - General Prefixes
+//	02 - 
+//	03 - Rivers, Lakes
+//	04 - Male Prename Prefixes
+//	05 - Male Prenames
+//	06 - Male Prename Suffixes
+//	07 - Female Prename Prefixes
+//	08 - Female Prenames
+//	09 - Surnames
+//	10 - Surname Suffixes
+//	11 - General Bases
+//	12 - General Bases, No Prefixes
+//	13 - General Bases, No Suffixes
+//	14 - General Bases, No Prefixes or Suffixes
+//	15 - Colours
+//	16 - 'Coloured'
+//	17 - Mountains
+//	18 - Holy Suffixes
+//	19 -
+//	20 - River Suffixes
+//	90 - General Suffixes
+//
+//	=== Paths ===
+//	(Follow Paths down the page)
+//	
+//		A	B	C	D	E	F	G	H	I	J	K	L	M	N	P	Q	R	S	T	U	V	W	X	Y	Z
+//	01	x	x	x	x	x		x		x	x	x	x	x
+//	02	
+//	03	x
+//	04		x	
+//	05	+	x			+					+		x			+					+					+
+//	06		x
+//	07			x										x
+//	08			x
+//	09				x
+//	10	+			x	+					+					+					+					+
+//	11					x
+//	12						x
+//	13							x
+//	14								x
+//	15	+				+				x	x					+					+					+
+//	16										x
+//	17											x
+//	18												x
+//	19
+//	20	x				+				x	+					+					+					+						
+//	90	x	x	x	x	x	x			x	x	x	x	x		+					+					+
+//
+//	CODING NOTE ON PROBABILIES
+//	Probablities can't be more that 127 and are given in realitve terms
+//	Where possible, probabilities are given as percentages
+//	
+//	CODING NOTE ON CODING ORDER
+//	The NML compilier requires that 'town_name' groups be defined before they
+//	are called, so the rest of the file is laid out with the sections 'upside
+//	down'
+//
+//	CODING NOTE ON SPACES AND THEIR PLACEMENT
+//	1.	Bases should have neither leading or tailing spaces
+//	2.	Prefixes should include tailing spaces, when one is expected
+//	3.	Suffixes should include leading spaces, when one is expected
+
+
+//	===	TEST GROUPS (NUMBERS) ===
+//	Two test groups are included, but need to be commented out of the code when
+//	not in use... Only one group (one of the test groups, or the real groups)
+//	should be active at a time
+
+/*
+town_names(GROUP_01) {
+	{
+	text("01-",1),
+	}
+}
+
+town_names(GROUP_02) {
+	{
+	text("02-",1),
+	}
+}
+
+town_names(GROUP_03) {
+	{
+	text("03-",1),
+	}
+}
+
+town_names(GROUP_04) {
+	{
+	text("04-",1),
+	}
+}
+
+town_names(GROUP_05) {
+	{
+	text("05-",1),
+	}
+}
+
+town_names(GROUP_06) {
+	{
+	text("06-",1),
+	}
+}
+
+town_names(GROUP_07) {
+	{
+	text("07-",1),
+	}
+}
+
+town_names(GROUP_08) {
+	{
+	text("08-",1),
+	}
+}
+
+town_names(GROUP_09) {
+	{
+	text("09-",1),
+	}
+}
+
+town_names(GROUP_10) {
+	{
+	text("10-",1),
+	}
+}
+/*
+town_names(GROUP_11) {
+	{
+	text("11-",1),
+	}
+}
+
+town_names(GROUP_12) {
+	{
+	text("12-",1),
+	}
+}
+
+town_names(GROUP_13) {
+	{
+	text("13-",1),
+	}
+}
+
+town_names(GROUP_14) {
+	{
+	text("14-",1),
+	}
+}
+
+town_names(GROUP_15) {
+	{
+	text("15-",1),
+	}
+}
+
+town_names(GROUP_16) {
+	{
+	text("16-",1),
+	}
+}
+
+town_names(GROUP_17) {
+	{
+	text("17-",1),
+	}
+}
+
+town_names(GROUP_18) {
+	{
+	text("18-",1),
+	}
+}
+
+town_names(GROUP_19) {
+	{
+	text("19-",1),
+	}
+}
+
+town_names(GROUP_20) {
+	{
+	text("20-",1),
+	}
+}
+
+town_names(GROUP_21) {
+	{
+	text("21-",1),
+	}
+}
+
+town_names(GROUP_22) {
+	{
+	text("22-",1),
+	}
+}
+
+town_names(GROUP_23) {
+	{
+	text("23-",1),
+	}
+}
+
+town_names(GROUP_24) {
+	{
+	text("24-",1),
+	}
+}
+
+town_names(GROUP_25) {
+	{
+	text("25-",1),
+	}
+}
+
+town_names(GROUP_26) {
+	{
+	text("26-",1),
+	}
+}
+
+town_names(GROUP_27) {
+	{
+	text("27-",1),
+	}
+}
+
+town_names(GROUP_10_1) {
+	{
+	text("28-",1),
+	}
+}
+
+town_names(GROUP_01_1) {
+	{
+	text("29-",1),
+	}
+}
+
+town_names(GROUP_90_1) {
+	{
+	text("90_1-",1),
+	}
+}
+/*
+town_names(GROUP_90) {
+	{
+	text("90-",1),
+	}
+}
+
+//	*/
+//	===	TEST GROUPS (NAMES) ===
+//	Two test groups are included, but need to be commented out of the code when
+//	not in use... Only one group (one of the test groups, or the real groups)
+//	should be active at a time
+/*
+
+town_names(GROUP_01) {
+	{
+	text("General Prefixes - ",1),
+	}
+}
+
+town_names(GROUP_02) {
+	{
+	text("02-",1),
+	}
+}
+
+town_names(GROUP_03) {
+	{
+	text("Rivers, Lakes - ",1),
+	}
+}
+
+town_names(GROUP_04) {
+	{
+	text("Male Prename Prefixes - ",1),
+	}
+}
+
+town_names(GROUP_05) {
+	{
+	text("Male Prenames - ",1),
+	}
+}
+
+town_names(GROUP_06) {
+	{
+	text("Male Prename Suffixes - ",1),
+	}
+}
+
+town_names(GROUP_07) {
+	{
+	text("Female Prename Prefixes - ",1),
+	}
+}
+
+town_names(GROUP_08) {
+	{
+	text("Female Prenames - ",1),
+	}
+}
+
+town_names(GROUP_09) {
+	{
+	text("Surnames - ",1),
+	}
+}
+
+town_names(GROUP_10) {
+	{
+	text("Surname Suffixes - ",1),
+	}
+}
+
+town_names(GROUP_11) {
+	{
+	text("General Bases - ",1),
+	}
+}
+
+town_names(GROUP_12) {
+	{
+	text("General Bases, No Prefixes - ",1),
+	}
+}
+
+town_names(GROUP_13) {
+	{
+	text("General Bases, No Suffixes - ",1),
+	}
+}
+
+town_names(GROUP_14) {
+	{
+	text("General Bases, No Prefixes or Suffixes - ",1),
+	}
+}
+
+town_names(GROUP_15) {
+	{
+	text("Colours - ",1),
+	}
+}
+
+town_names(GROUP_16) {
+	{
+	text("'Coloured' - ",1),
+	}
+}
+
+town_names(GROUP_17) {
+	{
+	text("Mountains - ",1),
+	}
+}
+
+town_names(GROUP_18) {
+	{
+	text("Holy Suffixes - ",1),
+	}
+}
+
+town_names(GROUP_19) {
+	{
+	text("19-",1),
+	}
+}
+
+town_names(GROUP_20) {
+	{
+	text("River Suffixes - ",1),
+	}
+}
+
+
+town_names(GROUP_90) {
+	{
+	text("General Suffixes - ",1),
+	}
+}
+
+//	*/
+
+//	===	REAL GROUPS ===
+//	Two test groups are included, but need to be commented out of the code when
+//	not in use... Only one group (one of the test groups, or the real groups)
+//	should be active at a time
+
+town_names(GROUP_01_1) {
+	{
+	text("Big ", 5),
+	text("East ", 3),
+	text("Fort ", 16),
+	text("Greater ", 1),
+	text("Lake ", 9),
+	text("Lesser ", 2),
+	text("Little ", 7),
+	text("Lower ", 3),
+	text("Mount ", 3),
+	text("New ", 6),
+	text("North ", 7),
+	text("Old ", 5),
+	text("Point ", 3),
+	text("Port ", 1),
+	text("South ", 5),
+	text("Upper ", 5),
+	text("West ", 8),
+	}
+}
+
+town_names(GROUP_01) {
+//	General Prefixes
+	{
+	text("", 15),
+	town_names(GROUP_01_1, 1)
+	}
+}
+
+town_names(GROUP_02) {
+//	Unused
+	{
+	text("02-",1),
+	}
+}
+
+town_names(GROUP_03_1) {
+	{
+	text("King ",2),
+	text("St. ",4),
+	text("Prince ", 1),
+	}
+}
+
+town_names(GROUP_03) {
+//	Male Prename Prefixes - English
+	{
+	text("", 7),
+	town_names(GROUP_03_1, 3)
+	}
+}
+
+town_names(GROUP_04) {
+//	Male Prenames - English and French
+//		English Male prenames that show up are predominately those of the
+//		English kings
+	{
+	text("Albert", 5),
+	text("Alexander", 1),
+	text("Allen", 3),
+	text("Carl", 2),
+	text("Carson", 1),
+	text("Charles", 4),
+	text("Edouard ", 1),
+	text("Edward", 1),
+	text("Frank", 2),
+	text("Isidore ", 1),
+	text("Jean", 2),
+	text("Jean Baptiste", 1),
+	text("John", 2),
+	text("Joseph", 1),
+	text("Leo", 4),
+	text("Lina ", 1),
+	text("Lois", 1),
+	text("Louis", 2),
+	text("Martin", 2),
+	text("Matt", 1),
+	text("Michael ", 1),
+	text("Oliver", 1),
+	text("Paul", 2),
+	text("Pierre", 1),
+	text("Rupert", 1),
+	text("Vincent ", 1),
+	text("Wayne", 2),
+	text("Wesley", 1),
+	text("Winton", 1),
+	text("William", 2),
+	text("George",1),
+	}
+}
+
+town_names(GROUP_05) {
+//	Male Prenames - Scandinavian
+//		Most Scandinavian prenames that show up are actaully in the form of
+//		last names (with a '-son' type ending)
+	{
+	text("Ander", 5),
+	text("Hud", 1),
+	text("Mon", 28),
+	text("Patter", 1),
+	text("Thomp", 1),
+	}
+}
+
+town_names(GROUP_06) {
+//	Male Prenames Suffixes - Scandinavian
+//		Most Scandinavian prenames that show up are actaully in the form of
+//		last names (with a '-son' type ending)
+	{
+	text("son",15),
+	text("sen",1),
+	text("søn",1),
+	}
+}
+
+town_names(GROUP_07_1) {
+//	Female Prename Prefixes - English
+	{
+	text("Queen ",7),
+	text("St. ",8),
+	text("Princess ",1),
+	}
+}
+
+town_names(GROUP_07) {
+//	Male Prename Prefixes - English
+	{
+	text("", 1),
+	town_names(GROUP_07_1, 1)
+	}
+}
+
+town_names(GROUP_08) {
+//	Female Prenames - English
+//		English female prenames that show up are predominately those of the
+//		English queens
+	{
+	text("Alberta",3),
+	text("Anne",1),
+	text("Alexandra", 1),
+	text("Alison", 1),
+	text("Allison", 1),
+	text("Beverly", 2),
+	text("Christie", 1),
+	text("Cynthia", 1),
+	text("Dorothy", 1),
+	text("Elizabeth", 2),
+	text("Elnora", 1),
+	text("Erin", 5),
+	text("Hilda", 1),
+	text("Kelsey", 1),
+	text("Louise", 1),
+	text("Mary", 2),
+	text("Patricia", 2),
+	text("Rosalind", 1),
+	text("Rosemary", 1),
+	text("Victoria", 2),
+	text("Virginia", 1),
+	}
+}
+
+town_names(GROUP_09) {
+//	Surnames
+	{
+	text("Allard", 1),
+	text("Bolt", 1),
+	text("Campbell", 1),
+	text("Card", 3),
+	text("Dickins", 1),
+	text("Dickson", 1),
+	text("Dixon", 1),
+	text("Fulton", 2),
+	text("Herder", 1),
+	text("Hewitt", 1),
+	text("Laurier", 1),
+	text("Levitt", 1),
+	text("Minchin", 10),
+	text("Smith", 4),
+	text("Stewart", 1),
+	}
+}
+
+//	GROUP_10 is below GROUP_91
+
+town_names(GROUP_11_1) {
+	{
+	text("Lac Ste. ",1),
+	text("Ste. ",3),
+	}
+}
+
+town_names(GROUP_11) {
+//	Female Prename Prefixes - Female
+//	TO-DO:	Revisit probabilities and base them soley on surname names rather
+//			than all AB names
+	{
+	text("", 19),
+	town_names(GROUP_11_1, 1)
+	}
+}
+
+town_names(GROUP_12) {
+//	Female Prenames - Female
+//		French female prenames that show up are predominately those of
+//		prominent saints
+	{
+	text("Anne",2),
+	text("Geneviève",1),
+	text("Marie",1),
+	text("Janet",1),
+	}
+}
+
+town_names(GROUP_13) {
+//	Unused
+	{
+	text("13-",1),
+	}
+}
+
+town_names(GROUP_14) {
+//	Gaelic surname prefixes
+	{
+	text("Mac",2),
+	text("Mc",4),
+	text("O'",1),
+	}
+}
+
+town_names(GROUP_15) {
+//	Gaelic Prenames
+	{
+	text("Andrew", 2),
+	text("Brien", 1),
+	text("Bryan", 1),
+	text("Cameron", 1),
+	text("Cauley", 1),
+	text("Conachie", 1),
+	text("Dermott", 1),
+	text("Donald", 2),
+	text("Dougall", 1),
+	text("Duncan", 1),
+	text("Evan", 3),
+	text("Ewan", 5),
+	text("Kay", 4),
+	text("Kenzie", 4),
+	text("Kernan", 1),
+	text("Laughlin", 1),
+	text("Lee", 5),
+	text("Lennan", 1),
+	text("Leod", 3),
+	text("Lincomn", 1),
+	text("Lynn", 1),
+	text("Murray", 1),
+	text("Nabb", 1),
+	text("Nolan", 1),
+	text("Patrick", 1),
+	text("Taggart", 1),
+	text("William", 2),
+	}
+}
+
+town_names(GROUP_16) {
+//	Holy Places (Suffixes)
+	{
+//	text("", 10),
+	text("'s Church",1),
+	text("'s Abbey",1),
+	text("'s Chapel",1),
+	text(" Cathedral",1),
+	}
+}
+
+town_names(GROUP_17) {
+//	Rivers and Lakes
+	{
+	text("Amber",1),
+	text("Antler",1),
+	text("Arbour",1),
+	text("Assineau",1),
+	text("Athabasca",1),
+	text("Beauvais",1),
+	text("Beaver",1),
+	text("Big",1),
+	text("Big Hill",1),
+	text("Bistcho",1),
+	text("Bittern",1),
+	text("Bonavista",1),
+	text("Bow",1),
+	text("Bragg",1),
+	text("Buck",1),
+	text("Buffalo",1),
+	text("Burnstick",1),
+	text("Bushe",1),
+	text("Cadotte",1),
+	text("Canyon",1),
+	text("Calling",1),
+	text("Cardinal",1),
+	text("Chain",1),
+	text("Child",1),
+	text("Chipewyan",1),
+	text("Cold",1),
+	text("Collin",1),
+	text("Cooking",1),
+	text("Coral",1),
+	text("Crimson",1),
+	text("Crystal",1),
+	text("Crow",1),
+	text("Dillberry",1),
+	text("District",1),
+	text("Drift Pile",1),
+	text("Elk",1),
+	text("Fish",1),
+	text("Fishing",1),
+	text("Fox",1),
+	text("Frog",1),
+	text("Garden",1),
+	text("Garner",1),
+	text("Ghost",1),
+	text("Gift",1),
+	text("Goose",1),
+	text("Gooseberry",1),
+	text("Grassy",1),
+	text("Gull",1),
+	text("Half Moon",1),
+	text("Hastings",1),
+	text("Hay",1),
+	text("Heart",1),
+	text("High",1),
+	text("Hines",1),
+	text("Hill",1),
+	text("Horse",1),
+	text("Hubbles",1),
+	text("Iron",1),
+	text("Island",1),
+	text("Milk",1),
+	text("Meeting",1),
+	text("Long",1),
+	text("Loon",1),
+	text("Lottie",1),
+	text("Lubicon",1),
+	text("Miquelon",10),
+	text("Moonshine",1),
+	text("Moose",1),
+	text("Mamur",1),
+	text("Obed",1),
+	text("Park",1),
+	text("Peace",1),
+	text("Pembina",1),
+	text("Pigeon",1),
+	text("Pincher",1),
+	text("Purple",1),
+	text("Ram",1),
+	text("Rainbow",1),
+	text("Rock",1),
+	text("Saddle",1),
+	text("Sandy",1),
+	text("Saprae",1),
+	text("Saskatchewan",1),
+	text("Sheep",1),
+	text("Smokey",1),
+	text("Silver",1),
+	text("Spirit",1),
+	text("Spring",1),
+	text("Sturgeon",1),
+	text("Swampy",1),
+	text("Sucker",1),
+	text("Swan",1),
+	text("Slave",1),
+	text("Tail",1),
+	text("Teepee",1),
+	text("Thunder",1),
+	text("Trout",1),
+	text("Twin",1),
+	text("Utikoomak",1),
+	text("Wabamun",1),
+	text("Wadlin",1),
+	text("Wandering",1),
+	text("Waterton",1),
+	text("Willow",1),
+	text("Whitefish",1),
+	text("Whitney",1),
+	text("Winagami",1),
+	text("Winefred",1),
+	text("Zama",1),
+	}
+}
+
+town_names(GROUP_18) {
+//	'Water' Suffixes
+	{
+//	text("", 1),
+	text(" Brook",2),
+	text(" Creek",6),
+	text(" Falls",1),
+	text(" Lake",38),
+	text(" Pond",1),
+	text(" River",10),
+	text(" River Falls",1),
+	text(" Springs",4),
+	}
+}
+
+town_names(GROUP_19) {
+//	Mountains
+	{
+	text("Birch",1),
+	text("Caribou",1),
+	text("Castle",1),
+	text("Columbia",1),
+	text("Pigeon",1),
+	text("Pleasent",1),
+	text("Rocky",1),
+	text("Royal",1),
+	}
+}
+
+town_names(GROUP_20_1) {
+//	Low Probability Names
+//	Base1 Probabilities
+	{
+	text("Abbotts", 1),
+	text("Alderson", 1),
+	text("Alexo", 1),
+	text("Allers", 1),
+	text("Allingham", 1),
+	text("Altorado", 1),
+	text("Amble", 1),
+	text("Arde", 1),
+	text("Auburn", 1),
+	text("Avon", 1),
+	text("Bardo", 1),
+	text("Battle", 1),
+	text("Bel", 1),
+	text("Belloy", 1),
+	text("Bingham", 1),
+	text("Blair", 1),
+	text("Bulwark", 1),
+	text("Burne", 1),
+	text("Cald", 1),
+	text("Canmore", 1),
+	text("Cess", 1),
+	text("Chicago", 1),
+	text("Citadel", 1),
+	text("Clover", 1),
+	text("Connaught", 1),
+	text("Conquer", 1),
+	text("Crestwood", 1),
+	text("Crim", 1),
+	text("Crom", 1),
+	text("Day", 1),
+	text("Delwood", 1),
+	text("Dims", 1),
+	text("Dons", 1),
+	text("Dover", 1),
+	text("Egre", 1),
+	text("Glas", 1),
+	text("Gran", 1),
+	text("Grove", 1),
+	text("Harris", 1),
+	text("Hartshorn", 1),
+	text("Hawk", 1),
+	text("Hawkwood", 1),
+	text("Hayworth", 1),
+	text("Herron", 1),
+	text("Hole", 1),
+	text("Jamie", 1),
+	text("Jud", 1),
+	text("Kes", 1),
+	text("Kincora", 1),
+	text("Lamer", 1),
+	text("Lans", 1),
+	text("Legacy", 1),
+	text("Legend", 1),
+	text("Luscar", 1),
+	text("Lynx", 1),
+	text("Mahogany", 1),
+	text("Maybutt", 1),
+	text("Mid", 1),
+	text("Mill", 1),
+	text("Millar", 1),
+	text("Minnewanka", 1),
+	text("Mintlaw", 1),
+	text("Nacmine", 1),
+	text("Nemiscam", 1),
+	text("Pakowki", 1),
+	text("Panoramas", 1),
+	text("Pendant d'Oreille", 1),
+	text("Pollock", 1),
+	text("Prest", 1),
+	text("Railey", 1),
+	text("Rib", 1),
+	text("Sage", 1),
+	text("Se", 1),
+	text("Sif", 1),
+	text("Silverado", 1),
+	text("Skunk", 1),
+	text("Sky", 1),
+	text("Steve", 1),
+	text("Streams", 1),
+	text("Tail", 1),
+	text("Taylor", 1),
+	text("Thorncliff", 1),
+	text("Veiner", 1),
+	text("Walden", 1),
+	text("Windfall", 1),
+	text("York", 1),
+	}
+}
+
+
+town_names(GROUP_20) {
+//	Normal Bases
+//	Base64 Probabilities
+	{
+	town_names(GROUP_20_1, 36),
+	text("Abbey", 1),
+	text("Abbeydale", 1),
+	text("Abbottsfield", 1),
+	text("Abee", 1),
+	text("Acadia", 1),
+	text("Acme", 1),
+	text("Acre", 1),
+	text("Aetna", 1),
+	text("Airdrie", 1),
+	text("Albany", 1),
+	text("Alberta", 1),
+	text("Alcom", 1),
+	text("Alcomdale", 1),
+	text("Alder", 1),
+	text("Aldergrove", 1),
+	text("Aldersyde", 1),
+	text("Alexis", 1),
+	text("Alhambra", 1),
+	text("Alix", 1),
+	text("Allerston", 1),
+	text("Alliance", 1),
+	text("Altadore", 1),
+	text("Altario", 1),
+	text("Alyth", 1),
+	text("Amber", 1),
+	text("Ambleside", 1),
+	text("Amisk", 1),
+	text("Anthracite", 1),
+	text("Antler", 1),
+	text("Anzac", 1),
+	text("Apple", 1),
+	text("Applewood", 1),
+	text("Arbour", 1),
+	text("Ard", 1),
+	text("Ardenode", 1),
+	text("Ardley", 1),
+	text("Ardmore", 1),
+	text("Ardrossan", 1),
+	text("Argentia", 1),
+	text("Argyll", 1),
+	text("Armena", 1),
+	text("Arrow", 1),
+	text("Arrowwood", 1),
+	text("Artists", 1),
+	text("Ash", 1),
+	text("Ashmont", 1),
+	text("Aspen", 1),
+	text("Assineau", 1),
+	text("Assiniboine", 1),
+	text("At", 1),
+	text("Athabasca", 1),
+	text("Athlone", 1),
+	text("Atmore", 1),
+	text("Augustus", 1),
+	text("Avonmore", 1),
+	text("Balmoral", 1),
+	text("Balwin", 1),
+	text("Balzac", 1),
+	text("Banff", 1),
+	text("Bank", 1),
+	text("Bankhead", 1),
+	text("Bankview", 1),
+	text("Bannerman", 1),
+	text("Baptiste", 1),
+	text("Baranow", 1),
+	text("Barn", 1),
+	text("Barnwell", 1),
+	text("Barons", 1),
+	text("Barr", 1),
+	text("Barrhead", 1),
+	text("Bashaw", 1),
+	text("Bassano", 1),
+	text("Baturyn", 1),
+	text("Bawlf", 1),
+	text("Bay", 1),
+	text("Bayview", 1),
+	text("Beacon", 1),
+	text("Bearspaw", 1),
+	text("Beau", 1),
+	text("Beaumaris", 1),
+	text("Beaumont", 1),
+	text("Beauvais", 1),
+	text("Beauvallon", 1),
+	text("Beaver", 1),
+	text("Beaverdam", 1),
+	text("Beaverlodge", 1),
+	text("Beazer", 1),
+	text("Bedding", 1),
+	text("Beddington", 1),
+	text("Beiseker", 1),
+	text("Bel-Aire", 1),
+	text("Belgravia", 1),
+	text("Belle Rive", 1),
+	text("Bellevue", 1),
+	text("Bellis", 1),
+	text("Belmead", 1),
+	text("Belmont", 1),
+	text("Beltline", 1),
+	text("Belvedere", 1),
+	text("Benalto", 1),
+	text("Bench", 1),
+	text("Benchlands", 1),
+	text("Bentley", 1),
+	text("Bergman", 1),
+	text("Berry", 1),
+	text("Berwyn", 1),
+	text("Betula", 1),
+	text("Bezan", 1),
+	text("Bezanson", 1),
+	text("Big", 1),
+	text("Bighorn", 1),
+	text("Bigstone", 1),
+	text("Bindloss", 1),
+	text("Birch", 1),
+	text("Bircham", 1),
+	text("Birchcliff", 1),
+	text("Bisset", 1),
+	text("Bistcho", 1),
+	text("Bittern", 1),
+	text("Blackburne", 1),
+	text("Blackfalds", 1),
+	text("Blackfoot", 1),
+	text("Blackie", 1),
+	text("Blairmore", 1),
+	text("Blood", 1),
+	text("Bluesky", 1),
+	text("Bluff", 1),
+	text("Bluffton", 1),
+	text("Bodo", 1),
+	text("Bon Accord", 1),
+	text("Bonavista", 1),
+	text("Bondiss", 1),
+	text("Bone", 1),
+	text("Bonnie Doon", 1),
+	text("Bonny", 1),
+	text("Bonnybrook", 1),
+	text("Bonnyville", 1),
+	text("Botha", 1),
+	text("Bottrel", 1),
+	text("Bow", 1),
+	text("Bowden", 1),
+	text("Bowness", 1),
+	text("Boyer", 1),
+	text("Brae", 1),
+	text("Bragg", 1),
+	text("Braim", 1),
+	text("Brander", 1),
+	text("Brant", 1),
+	text("Brazeau", 1),
+	text("Breckenridge", 1),
+	text("Brent", 1),
+	text("Brentwood", 1),
+	text("Breton", 1),
+	text("Bretona", 1),
+	text("Breynat", 1),
+	text("Briar", 1),
+	text("Bridge", 1),
+	text("Bridgeland", 1),
+	text("Bridle", 1),
+	text("Bridlewood", 1),
+	text("Brigden", 1),
+	text("Brighton", 1),
+	text("Brintnell", 1),
+	text("Bristol Oakes", 1),
+	text("Britannia", 1),
+	text("Brook", 1),
+	text("Brooks", 1),
+	text("Brosseau", 1),
+	text("Bruce", 1),
+	text("Bruderheim", 1),
+	text("Brule", 1),
+	text("Buck", 1),
+	text("Buena Vista", 1),
+	text("Buffalo", 1),
+	text("Buford", 1),
+	text("Bull", 1),
+	text("Bulyea", 1),
+	text("Burdett", 1),
+	text("Burnewood", 1),
+	text("Burnstick", 1),
+	text("Busby", 1),
+	text("Bushe", 1),
+	text("Butte", 1),
+	text("Byemoor", 1),
+	text("Cadogan", 1),
+	text("Cadomin", 1),
+	text("Cadotte", 1),
+	text("Caernarvon", 1),
+	text("Calahoo", 1),
+	text("Calder", 1),
+	text("Calgary", 1),
+	text("Callaghan", 1),
+	text("Calling", 1),
+	text("Callingwood", 1),
+	text("Calmar", 1),
+	text("Cambrian", 1),
+	text("Campsie", 1),
+	text("Camrose", 1),
+	text("Canon", 1),
+	text("Canora", 1),
+	text("Canossa", 1),
+	text("Canyon", 1),
+	text("Capilano", 1),
+	text("Capitol", 1),
+	text("Carbon", 1),
+	text("Carbondale", 1),
+	text("Cardiff", 1),
+	text("Cardinal", 1),
+	text("Caribou", 1),
+	text("Carlisle", 1),
+	text("Carmangay", 1),
+	text("Caroline", 1),
+	text("Carpet", 1),
+	text("Carse", 1),
+	text("Carseland", 1),
+	text("Carson", 1),
+	text("Carstairs", 1),
+	text("Carter", 1),
+	text("Carvel", 1),
+	text("Carway", 1),
+	text("Caslan", 1),
+	text("Casselman", 1),
+	text("Castle", 1),
+	text("Castlegar", 1),
+	text("Castleridge", 1),
+	text("Castor", 1),
+	text("Cayley", 1),
+	text("Cedarbrae", 1),
+	text("Centennial", 1),
+	text("Central", 1),
+	text("Centre Calling", 1),
+	text("Cereal", 1),
+	text("Cessford", 1),
+	text("Chain", 1),
+	text("Chambery", 1),
+	text("Champion", 1),
+	text("Chancellor", 1),
+	text("Chaparral", 1),
+	text("Chappelle", 1),
+	text("Charlesworth", 1),
+	text("Chauvin", 1),
+	text("Cheadle", 1),
+	text("Cherhill", 1),
+	text("Cherry", 1),
+	text("Chester", 1),
+	text("Chestermere", 1),
+	text("Child", 1),
+	text("Chin", 1),
+	text("China", 1),
+	text("Chinatown", 1),
+	text("Chinchaga", 1),
+	text("Chiniki", 1),
+	text("Chinook", 1),
+	text("Chipewyan", 1),
+	text("Chipman", 1),
+	text("Chisholm", 1),
+	text("Churchill", 1),
+	text("Clair", 1),
+	text("Clandonald", 1),
+	text("Clare", 1),
+	text("Clares", 1),
+	text("Claresholm", 1),
+	text("Clareview", 1),
+	text("Clear", 1),
+	text("Cleardale", 1),
+	text("Clearwater", 1),
+	text("Cliff Bungalow", 1),
+	text("Clive", 1),
+	text("Cloverdale", 1),
+	text("Cluny", 1),
+	text("Clyde", 1),
+	text("Coach", 1),
+	text("Coal", 1),
+	text("Coaldale", 1),
+	text("Coalhurst", 1),
+	text("Coalspur", 1),
+	text("Cochrane", 1),
+	text("Cold", 1),
+	text("Colin", 1),
+	text("Colinton", 1),
+	text("Collin", 1),
+	text("Colling", 1),
+	text("Collingwood", 1),
+	text("Compeer", 1),
+	text("Condor", 1),
+	text("Conklin", 1),
+	text("Conquerville", 1),
+	text("Conrad", 1),
+	text("Conrich", 1),
+	text("Consort", 1),
+	text("Cooking", 1),
+	text("Copper", 1),
+	text("Coral", 1),
+	text("Cornwall", 1),
+	text("Coronation", 1),
+	text("Cote", 1),
+	text("Cougar", 1),
+	text("Coulee", 1),
+	text("Country", 1),
+	text("Coutts", 1),
+	text("Coventry", 1),
+	text("Cowley", 1),
+	text("Cowper", 1),
+	text("Craigmyle", 1),
+	text("Cranston", 1),
+	text("Crawford", 1),
+	text("Cree", 1),
+	text("Cremona", 1),
+	text("Crescent", 1),
+	text("Crest", 1),
+	text("Crestmont", 1),
+	text("Crimson Lake", 1),
+	text("Cromdale", 1),
+	text("Cross", 1),
+	text("Crossfield", 1),
+	text("Crow", 1),
+	text("Crowsnest", 1),
+	text("Crystal", 1),
+	text("Crystallina Nera", 1),
+	text("Cumber", 1),
+	text("Cumberland", 1),
+	text("Cypress", 1),
+	text("Czar", 1),
+	text("Dalemead", 1),
+	text("Dalhousie", 1),
+	text("Dalroy", 1),
+	text("Daly", 1),
+	text("Dapp", 1),
+	text("Dawn", 1),
+	text("Days", 1),
+	text("Daysland", 1),
+	text("De Winton", 1),
+	text("Dead", 1),
+	text("Dead Man's", 1),
+	text("Deadwood", 1),
+	text("DeBolt", 1),
+	text("Dechene", 1),
+	text("Deer", 1),
+	text("Del", 1),
+	text("Del Bonita", 1),
+	text("Delacour", 1),
+	text("Delburne", 1),
+	text("Delia", 1),
+	text("Delton", 1),
+	text("Demmitt", 1),
+	text("Dene", 1),
+	text("Derwent", 1),
+	text("Desert", 1),
+	text("Desmarais", 1),
+	text("Devil's Gate", 1),
+	text("Devon", 1),
+	text("Devonshire", 1),
+	text("Dewberry", 1),
+	text("Diamond", 1),
+	text("Dick", 1),
+	text("Dickson", 1),
+	text("Dids", 1),
+	text("Didsbury", 1),
+	text("Dillberry", 1),
+	text("Dimsdale", 1),
+	text("Dinant", 1),
+	text("Dinosaur", 1),
+	text("Discovery", 1),
+	text("District", 1),
+	text("Dog Head", 1),
+	text("Donald", 1),
+	text("Donalda", 1),
+	text("Donat", 1),
+	text("Donatville", 1),
+	text("Donnelly", 1),
+	text("Donsdale", 1),
+	text("Douglas", 1),
+	text("Douglasdale", 1),
+	text("Douglasglen", 1),
+	text("Dovercourt", 1),
+	text("Down", 1),
+	text("Downtown", 1),
+	text("Dray", 1),
+	text("Drayton", 1),
+	text("Drift Pile", 1),
+	text("Drumheller", 1),
+	text("Dry", 1),
+	text("Duchess", 1),
+	text("Duf", 1),
+	text("Duffield", 1),
+	text("Duggan", 1),
+	text("Duhamel", 1),
+	text("Dun", 1),
+	text("Dunluce", 1),
+	text("Dunmore", 1),
+	text("Dunvegan", 1),
+	text("Duvernay", 1),
+	text("Eagle", 1),
+	text("Eaglesham", 1),
+	text("Eau Claire", 1),
+	text("Eaux Claires", 1),
+	text("Ebbers", 1),
+	text("Eck", 1),
+	text("Eckville", 1),
+	text("Ed", 1),
+	text("Edberg", 1),
+	text("Eden", 1),
+	text("Edge", 1),
+	text("Edgemont", 1),
+	text("Edger", 1),
+	text("Edgerton", 1),
+	text("Edmon", 1),
+	text("Edmonton", 1),
+	text("Edson", 1),
+	text("Egremont", 1),
+	text("Ekota", 1),
+	text("Elbow", 1),
+	text("Elboya", 1),
+	text("Eldoes", 1),
+	text("Elk", 1),
+	text("Elkwater", 1),
+	text("Ellerslie", 1),
+	text("Ellscott", 1),
+	text("Elm", 1),
+	text("Elmwood", 1),
+	text("Elmworth", 1),
+	text("Elsinore", 1),
+	text("Embarras", 1),
+	text("Empire", 1),
+	text("Empress", 1),
+	text("Enchant", 1),
+	text("Endiang", 1),
+	text("Enilda", 1),
+	text("Enoch", 1),
+	text("Ensign", 1),
+	text("Entwistle", 1),
+	text("Equity", 1),
+	text("Erl", 1),
+	text("Erlton", 1),
+	text("Ermineskin", 1),
+	text("Erskine", 1),
+	text("Etzikom", 1),
+	text("Evergreen", 1),
+	text("Exshaw", 1),
+	text("Fabyan", 1),
+	text("Fair", 1),
+	text("Fairview", 1),
+	text("Falconer", 1),
+	text("Falconridge", 1),
+	text("Falher", 1),
+	text("Fallis", 1),
+	text("Falun", 1),
+	text("Faust", 1),
+	text("Fawcett", 1),
+	text("Ferintosh", 1),
+	text("Ferrier", 1),
+	text("Fish", 1),
+	text("Fishing", 1),
+	text("Flagstaff", 1),
+	text("Flatbush", 1),
+	text("Fleet", 1),
+	text("Fleming", 1),
+	text("Flyingshot", 1),
+	text("Foothills", 1),
+	text("Foremost", 1),
+	text("Forest", 1),
+	text("Forest Lawn", 1),
+	text("Forestburg", 1),
+	text("Forty Mile", 1),
+	text("Fox", 1),
+	text("Fraser", 1),
+	text("Frog", 1),
+	text("Fulton", 1),
+	text("Fultonvale", 1),
+	text("Gadsby", 1),
+	text("Gain", 1),
+	text("Galahad", 1),
+	text("Garden", 1),
+	text("Gariepy", 1),
+	text("Garneau", 1),
+	text("Garner", 1),
+	text("Gem", 1),
+	text("Georgetown", 1),
+	text("Gerrison", 1),
+	text("Ghost", 1),
+	text("Gibbons", 1),
+	text("Gift", 1),
+	text("Giroux", 1),
+	text("Glamorgan", 1),
+	text("Glastonbury", 1),
+	text("Gleichen", 1),
+	text("Glen", 1),
+	text("Glenbrook", 1),
+	text("Glendale", 1),
+	text("Glendon", 1),
+	text("Glenevis", 1),
+	text("Glengarry", 1),
+	text("Glenmore", 1),
+	text("Glenora", 1),
+	text("Glenwood", 1),
+	text("Glory", 1),
+	text("Gold", 1),
+	text("Golden Days", 1),
+	text("Goodfare", 1),
+	text("Goose", 1),
+	text("Gooseberry", 1),
+	text("Grand", 1),
+	text("Grande", 1),
+	text("Grande Cache", 1),
+	text("Grande Prairie", 1),
+	text("Grandin", 1),
+	text("Grandmuir", 1),
+	text("Grandview", 1),
+	text("Grantham", 1),
+	text("Granum", 1),
+	text("Granville", 1),
+	text("Grass", 1),
+	text("Grassland", 1),
+	text("Grassy", 1),
+	text("Greenbriar", 1),
+	text("Greene", 1),
+	text("Greenshields", 1),
+	text("Gregoire", 1),
+	text("Grey's", 1),
+	text("Griesbach", 1),
+	text("Grimshaw", 1),
+	text("Groat", 1),
+	text("Grouard", 1),
+	text("Grovedale", 1),
+	text("Grovenor", 1),
+	text("Gull", 1),
+	text("Gunn", 1),
+	text("Guy", 1),
+	text("Gwynne", 1),
+	text("Haddow", 1),
+	text("Hairsine", 1),
+	text("Hairy", 1),
+	text("Half Moon", 1),
+	text("Halkirk", 1),
+	text("Hamps", 1),
+	text("Hamptons", 1),
+	text("Hanna", 1),
+	text("Hardisty", 1),
+	text("Harrisville", 1),
+	text("Harvest", 1),
+	text("Harvie", 1),
+	text("Hastings", 1),
+	text("Haven", 1),
+	text("Hawks", 1),
+	text("Hay", 1),
+	text("Haynes", 1),
+	text("Hays", 1),
+	text("Haysboro", 1),
+	text("Hayter", 1),
+	text("Hay-Zamas", 1),
+	text("Hazeldean", 1),
+	text("Head-Smashed-In", 1),
+	text("Heart", 1),
+	text("Heins", 1),
+	text("Heisler", 1),
+	text("Hender", 1),
+	text("Heritage", 1),
+	text("Herronton", 1),
+	text("Hesketh", 1),
+	text("Hidden", 1),
+	text("High", 1),
+	text("High Level", 1),
+	text("Highland", 1),
+	text("Highlands", 1),
+	text("Highwood", 1),
+	text("Hill", 1),
+	text("Hill Spring", 1),
+	text("Hillcrest", 1),
+	text("Hillhurst", 1),
+	text("Hillhurst", 1),
+	text("Hilliard", 1),
+	text("Hilliard's", 1),
+	text("Hillview", 1),
+	text("Hin", 1),
+	text("Hines", 1),
+	text("Hinton", 1),
+	text("Hoadley", 1),
+	text("Hobbema", 1),
+	text("Hodgson", 1),
+	text("Hokedhe Túe", 1),
+	text("Holden", 1),
+	text("Hollick", 1),
+	text("Hollick-Kenyon", 1),
+	text("Holyrood", 1),
+	text("Homesteader", 1),
+	text("Horn", 1),
+	text("Horse", 1),
+	text("Horseshoe", 1),
+	text("Houns", 1),
+	text("Hounsfield", 1),
+	text("Hu Haven", 1),
+	text("Huallen", 1),
+	text("Hubbles", 1),
+	text("Hughenden", 1),
+	text("Huntings", 1),
+	text("Huntington", 1),
+	text("Hussar", 1),
+	text("Huxley", 1),
+	text("Hylo", 1),
+	text("Hythe", 1),
+	text("Iddesleigh", 1),
+	text("Idylwylde", 1),
+	text("Indus", 1),
+	text("Ingle", 1),
+	text("Inglewood", 1),
+	text("Innisfail", 1),
+	text("Innisfree", 1),
+	text("Irma", 1),
+	text("Iron", 1),
+	text("Irricana", 1),
+	text("Irvine", 1),
+	text("Islay", 1),
+	text("Italy", 1),
+	text("Itaska", 1),
+	text("Jack", 1),
+	text("Jackfish", 1),
+	text("Jackson", 1),
+	text("Jamison", 1),
+	text("Janvier", 1),
+	text("Japan", 1),
+	text("Jarvie", 1),
+	text("Jarvis", 1),
+	text("Jasper", 1),
+	text("Jean Cote", 1),
+	text("Jenner", 1),
+	text("Joffre", 1),
+	text("Joussard", 1),
+	text("Joviz", 1),
+	text("Judson", 1),
+	text("Kakwa", 1),
+	text("Kameyosek", 1),
+	text("Kananaskis", 1),
+	text("Kapasiwin", 1),
+	text("Kapawe'no", 1),
+	text("Kaskitayo", 1),
+	text("Kathyrn", 1),
+	text("Kavanagh", 1),
+	text("Keephills", 1),
+	text("Keheewin", 1),
+	text("Kehiwin", 1),
+	text("Kelvin", 1),
+	text("Kenilworth", 1),
+	text("Kensing", 1),
+	text("Kent", 1),
+	text("Kenyon", 1),
+	text("Kenyon", 1),
+	text("Keoma", 1),
+	text("Kernohan", 1),
+	text("Keswick", 1),
+	text("K'i Túe", 1),
+	text("Kikino", 1),
+	text("Kildare", 1),
+	text("Kilkenny", 1),
+	text("Killam", 1),
+	text("Killarney", 1),
+	text("Kimball", 1),
+	text("Kinbrook", 1),
+	text("Kingman", 1),
+	text("Kings", 1),
+	text("Kingsland", 1),
+	text("Kingsway", 1),
+	text("Kiniskis", 1),
+	text("Kinsella", 1),
+	text("Kinuso", 1),
+	text("Kirkcaldy", 1),
+	text("Kirkness", 1),
+	text("Kirriemuir", 1),
+	text("Kitscoty", 1),
+	text("Klarvatten", 1),
+	text("Kneehill", 1),
+	text("Knife", 1),
+	text("Knott", 1),
+	text("Kountry Meadow", 1),
+	text("Kovach", 1),
+	text("La", 1),
+	text("La Corey", 1),
+	text("La Crete", 1),
+	text("La Glace", 1),
+	text("La Perle", 1),
+	text("Lac", 1),
+	text("Lac des Arcs", 1),
+	text("Lac La Biche", 1),
+	text("Lacombe", 1),
+	text("Lafond", 1),
+	text("Lago Lindo", 1),
+	text("Lakeland", 1),
+	text("Lakeview", 1),
+	text("Lakewood", 1),
+	text("Lamerton", 1),
+	text("Lamont", 1),
+	text("Lamoureux", 1),
+	text("Landry", 1),
+	text("Langdon", 1),
+	text("Lansdowne", 1),
+	text("Lark", 1),
+	text("Larkspur", 1),
+	text("Lauder", 1),
+	text("Lauderdale", 1),
+	text("Laurel", 1),
+	text("Lavoy", 1),
+	text("Leduc", 1),
+	text("Legal", 1),
+	text("Leger", 1),
+	text("Lendrum", 1),
+	text("Leslie", 1),
+	text("Lethbridge", 1),
+	text("Lewis Farms", 1),
+	text("Li Dezé", 1),
+	text("Lille", 1),
+	text("Lindbergh", 1),
+	text("Linden", 1),
+	text("Linn", 1),
+	text("Lloydminster", 1),
+	text("Lodge", 1),
+	text("Lodgepole", 1),
+	text("Lois Hole", 1),
+	text("Lomond", 1),
+	text("Long", 1),
+	text("Longview", 1),
+	text("Looma", 1),
+	text("Loon", 1),
+	text("Loon Prairie", 1),
+	text("Lorelei", 1),
+	text("Lottie", 1),
+	text("Lougheed", 1),
+	text("Lousana", 1),
+	text("Low", 1),
+	text("Lowery", 1),
+	text("Lowland", 1),
+	text("Lubicon", 1),
+	text("Lundbreck", 1),
+	text("Lyalta", 1),
+	text("Lymburn", 1),
+	text("Madden", 1),
+	text("Magrath", 1),
+	text("Malborough", 1),
+	text("Mallaig", 1),
+	text("Malmos", 1),
+	text("Ma-Me-O", 1),
+	text("Manchester", 1),
+	text("Mann", 1),
+	text("Manning", 1),
+	text("Mannville", 1),
+	text("Manola", 1),
+	text("Manor", 1),
+	text("Manyberries", 1),
+	text("Maple", 1),
+	text("Marie Reine", 1),
+	text("Marker", 1),
+	text("Markerville", 1),
+	text("Marlboro", 1),
+	text("Marten", 1),
+	text("Marwayne", 1),
+	text("Matt Berry", 1),
+	text("May", 1),
+	text("Mayerthorpe", 1),
+	text("Mayfair", 1),
+	text("Mayfield", 1),
+	text("Mayland", 1),
+	text("Mayliewan", 1),
+	text("Meadowlark", 1),
+	text("Meanook", 1),
+	text("Mearns", 1),
+	text("Medicine Hat", 1),
+	text("Meeting", 1),
+	text("Menisa", 1),
+	text("Mercoal", 1),
+	text("Meso", 1),
+	text("Metiskow", 1),
+	text("Mewatha", 1),
+	text("Meyokumin", 1),
+	text("Meyonohk", 1),
+	text("Michichi", 1),
+	text("Midland", 1),
+	text("Midnapore", 1),
+	text("Mikisew", 1),
+	text("Milk", 1),
+	text("Millarville", 1),
+	text("Millbourne", 1),
+	text("Miller", 1),
+	text("Millet", 1),
+	text("Millhurst", 1),
+	text("Millrise", 1),
+	text("Millwoods", 1),
+	text("Milo", 1),
+	text("Minburn", 1),
+	text("Minchau", 1),
+	text("Ministik", 1),
+	text("Miquelon", 1),
+	text("Mirror", 1),
+	text("Mission", 1),
+	text("Mit", 1),
+	text("Mitford", 1),
+	text("Monarch", 1),
+	text("Monitor", 1),
+	text("Montana", 1),
+	text("Monterey", 1),
+	text("Montgomery", 1),
+	text("Montrose", 1),
+	text("Moon", 1),
+	text("Moonshine", 1),
+	text("Moose", 1),
+	text("Morecambe", 1),
+	text("Morin", 1),
+	text("Morinville", 1),
+	text("Morning", 1),
+	text("Morningside", 1),
+	text("Morrin", 1),
+	text("Mossleigh", 1),
+	text("Mountain", 1),
+	text("Mountview", 1),
+	text("Mul", 1),
+	text("Mulhurst", 1),
+	text("Mun", 1),
+	text("Mundare", 1),
+	text("Munson", 1),
+	text("Musidora", 1),
+	text("Myrnam", 1),
+	text("Nakamun", 1),
+	text("Nakota", 1),
+	text("Namaka", 1),
+	text("Namao", 1),
+	text("Nampa", 1),
+	text("Namur", 1),
+	text("Nan", 1),
+	text("Neeria", 1),
+	text("Nestow", 1),
+	text("Nevis", 1),
+	text("New", 1),
+	text("Newbrook", 1),
+	text("Newcastle", 1),
+	text("Newell", 1),
+	text("Newton", 1),
+	text("Nightingale", 1),
+	text("Nisku", 1),
+	text("Niton", 1),
+	text("Noble", 1),
+	text("Nordegg", 1),
+	text("Norglenwold", 1),
+	text("Normandeau", 1),
+	text("Norris", 1),
+	text("Northern Lights", 1),
+	text("Northern Sunrise", 1),
+	text("Northgate", 1),
+	text("Northmount", 1),
+	text("Norway", 1),
+	text("Notikewin", 1),
+	text("Oakridge", 1),
+	text("Obed", 1),
+	text("O'chiese", 1),
+	text("Ogden", 1),
+	text("Ogilvie", 1),
+	text("Oha", 1),
+	text("Oil", 1),
+	text("Okotoks", 1),
+	text("Olds", 1),
+	text("Oleskiw", 1),
+	text("Onoway", 1),
+	text("Opal", 1),
+	text("Opportunity", 1),
+	text("Or", 1),
+	text("Orion", 1),
+	text("Ormsby", 1),
+	text("Orton", 1),
+	text("Osborne", 1),
+	text("Otte", 1),
+	text("Ottewell", 1),
+	text("Overlanders", 1),
+	text("Ox", 1),
+	text("Oxford", 1),
+	text("Oyen", 1),
+	text("Ozerna", 1),
+	text("Paddle Prairie", 1),
+	text("Pagasus", 1),
+	text("Paintearth", 1),
+	text("Palliser", 1),
+	text("Panorama", 1),
+	text("Paradise", 1),
+	text("Parkallen", 1),
+	text("Parkdale", 1),
+	text("Parkhill", 1),
+	text("Parkland", 1),
+	text("Parkview", 1),
+	text("Peace", 1),
+	text("Peavine", 1),
+	text("Peerless", 1),
+	text("Peers", 1),
+	text("Peigan", 1),
+	text("Pelican", 1),
+	text("Pembina", 1),
+	text("Penbrooke", 1),
+	text("Penhold", 1),
+	text("Peoria", 1),
+	text("Perry", 1),
+	text("Perryvale", 1),
+	text("Peterburn", 1),
+	text("Petrolia", 1),
+	text("Pibroch", 1),
+	text("Pickard", 1),
+	text("Picture", 1),
+	text("Pigeon", 1),
+	text("Piikani", 1),
+	text("Pilot", 1),
+	text("Pincher", 1),
+	text("Pine", 1),
+	text("Pine Shadows", 1),
+	text("Pinedale", 1),
+	text("Pineridge", 1),
+	text("Place LaRue", 1),
+	text("Plamondon", 1),
+	text("Pleasant", 1),
+	text("Pleasantview", 1),
+	text("Pocahontas", 1),
+	text("Police", 1),
+	text("Pollard", 1),
+	text("Pollockville", 1),
+	text("Ponoka", 1),
+	text("Poplar", 1),
+	text("Potter", 1),
+	text("Prairie", 1),
+	text("Prairie Lodge", 1),
+	text("Prestwick", 1),
+	text("Priddis", 1),
+	text("Provost", 1),
+	text("Pump", 1),
+	text("Puskiakiwenin", 1),
+	text("Quarters", 1),
+	text("Quesnell", 1),
+	text("Radis", 1),
+	text("Radisson", 1),
+	text("Radway", 1),
+	text("Rainbow", 1),
+	text("Rainier", 1),
+	text("Rals", 1),
+	text("Ralston", 1),
+	text("Ram", 1),
+	text("Ramsay", 1),
+	text("Ranch", 1),
+	text("Ranchland", 1),
+	text("Ranchlands", 1),
+	text("Ranfurly", 1),
+	text("Rapperswill", 1),
+	text("Ray", 1),
+	text("Raymond", 1),
+	text("Red Deer", 1),
+	text("Reine", 1),
+	text("Renfrew", 1),
+	text("Reno", 1),
+	text("Retlaw", 1),
+	text("Rhatigan", 1),
+	text("Ribstone", 1),
+	text("Rich", 1),
+	text("Richdale", 1),
+	text("Richfield", 1),
+	text("Richford", 1),
+	text("Richmond", 1),
+	text("Rideau", 1),
+	text("Ridge", 1),
+	text("Ridgevalley", 1),
+	text("Ridgewood", 1),
+	text("Rimbey", 1),
+	text("Rio Terrace", 1),
+	text("Ritchie", 1),
+	text("Riverbend", 1),
+	text("Rivercourse", 1),
+	text("Riverdale", 1),
+	text("Riverside", 1),
+	text("Riverview", 1),
+	text("Rivière Qui Barre", 1),
+	text("Robb", 1),
+	text("Rochester", 1),
+	text("Rochfort", 1),
+	text("Rochon", 1),
+	text("Rock", 1),
+	text("Rocky", 1),
+	text("Rocky Rapids", 1),
+	text("Rockyford", 1),
+	text("Rolling", 1),
+	text("Rolly", 1),
+	text("Rose", 1),
+	text("Rosebud", 1),
+	text("Rosedale", 1),
+	text("Rosemary", 1),
+	text("Rosemont", 1),
+	text("Rosenroll", 1),
+	text("Rosenthal", 1),
+	text("Ross", 1),
+	text("Ross Haven", 1),
+	text("Rosscarrock", 1),
+	text("Rossdale", 1),
+	text("Rossian", 1),
+	text("Rosslyn", 1),
+	text("Round", 1),
+	text("Rowley", 1),
+	text("Roxboro", 1),
+	text("Royal", 1),
+	text("Royal Oak", 1),
+	text("Rumsey", 1),
+	text("Rundle", 1),
+	text("Rut", 1),
+	text("Ruther", 1),
+	text("Rutherford", 1),
+	text("Rutland", 1),
+	text("Rycroft", 1),
+	text("Ryley", 1),
+	text("Saddle", 1),
+	text("Sakaw", 1),
+	text("Salis", 1),
+	text("Salisbury", 1),
+	text("Sam", 1),
+	text("Sand", 1),
+	text("Sandstone", 1),
+	text("Sandy", 1),
+	text("Sangudo", 1),
+	text("Saprae", 1),
+	text("Sarepta", 1),
+	text("Saskatchewan", 1),
+	text("Saskatoon", 1),
+	text("Satoo", 1),
+	text("Sawridge", 1),
+	text("Scandia", 1),
+	text("Scarboro", 1),
+	text("Scenic", 1),
+	text("Schonsee", 1),
+	text("Schuler", 1),
+	text("Seba", 1),
+	text("Secord", 1),
+	text("Sedalia", 1),
+	text("Sedge", 1),
+	text("Sedgewick", 1),
+	text("Seebe", 1),
+	text("Seton", 1),
+	text("Seven Persons", 1),
+	text("Sexsmith", 1),
+	text("Shaftes", 1),
+	text("Shaftesbury", 1),
+	text("Shaganappi", 1),
+	text("Shaughnessy", 1),
+	text("Shawnee", 1),
+	text("Shawnessy", 1),
+	text("Sheep", 1),
+	text("Sheerness", 1),
+	text("Shepard", 1),
+	text("Sher", 1),
+	text("Sherbrooke", 1),
+	text("Sherwood", 1),
+	text("Shouldice", 1),
+	text("Sibbald", 1),
+	text("Sifton", 1),
+	text("Signal", 1),
+	text("Siksika", 1),
+	text("Skiff", 1),
+	text("Skyrattler", 1),
+	text("Skyview", 1),
+	text("Slave", 1),
+	text("Smoky", 1),
+	text("Somerset", 1),
+	text("Southgate", 1),
+	text("Spedden", 1),
+	text("Spirit", 1),
+	text("Spray", 1),
+	text("Spring", 1),
+	text("Spring Coulee", 1),
+	text("Springbank", 1),
+	text("Springbrook", 1),
+	text("Spruce", 1),
+	text("Spruce Cliff", 1),
+	text("Spruce Lane", 1),
+	text("Standard", 1),
+	text("Stanley", 1),
+	text("Star", 1),
+	text("Starland", 1),
+	text("Starling", 1),
+	text("Stavely", 1),
+	text("Steele", 1),
+	text("Steinhauer", 1),
+	text("Stettler", 1),
+	text("Steveville", 1),
+	text("Stirling", 1),
+	text("Stoney", 1),
+	text("Stoney", 1),
+	text("Strath", 1),
+	text("Strathcona", 1),
+	text("Strathearn", 1),
+	text("Streamstown", 1),
+	text("Strome", 1),
+	text("Sturgeon", 1),
+	text("Sucker", 1),
+	text("Suder", 1),
+	text("Suf", 1),
+	text("Suffield", 1),
+	text("Summer", 1),
+	text("Summerlea", 1),
+	text("Summerside", 1),
+	text("Sunalta", 1),
+	text("Sunbreaker", 1),
+	text("Sunchild", 1),
+	text("Sundance", 1),
+	text("Sundre", 1),
+	text("Sunny", 1),
+	text("Sunnybrook", 1),
+	text("Sunnynook", 1),
+	text("Sunnyslope", 1),
+	text("Sunrise", 1),
+	text("Sunset", 1),
+	text("Swal", 1),
+	text("Swalwell", 1),
+	text("Swampy", 1),
+	text("Swan", 1),
+	text("Swan City", 1),
+	text("Sweet Grass", 1),
+	text("Switzer", 1),
+	text("Sylvan", 1),
+	text("Symons", 1),
+	text("T & E", 1),
+	text("Taber", 1),
+	text("Tall Cree", 1),
+	text("Tamarack", 1),
+	text("Tangent", 1),
+	text("Tara", 1),
+	text("Taradale", 1),
+	text("Tawa", 1),
+	text("Tawatinaw", 1),
+	text("Taylorville", 1),
+	text("Teepee", 1),
+	text("Tees", 1),
+	text("Tel", 1),
+	text("Telford", 1),
+	text("Telfordville", 1),
+	text("Temple", 1),
+	text("Terra Losa", 1),
+	text("Terrace", 1),
+	text("Terwillegar", 1),
+	text("Tha'", 1),
+	text("Thabacha Náre", 1),
+	text("The Grange", 1),
+	text("The Hamps", 1),
+	text("The Meadows", 1),
+	text("The Orchards", 1),
+	text("The Palisades", 1),
+	text("Thebathi", 1),
+	text("Therien", 1),
+	text("Thorhild", 1),
+	text("Thorn", 1),
+	text("Thorncliffe", 1),
+	text("Thorsby", 1),
+	text("Three", 1),
+	text("Thunder", 1),
+	text("Tillebrook", 1),
+	text("Tilley", 1),
+	text("Tillicum", 1),
+	text("Tipaskan", 1),
+	text("To", 1),
+	text("Tofield", 1),
+	text("Tomahawk", 1),
+	text("Torring", 1),
+	text("Travers", 1),
+	text("Triple-L", 1),
+	text("Trochu", 1),
+	text("Trout", 1),
+	text("Trumpeter", 1),
+	text("Tsu K'adhe Túe", 1),
+	text("Tsuu T'ina", 1),
+	text("Tulliby", 1),
+	text("Turin", 1),
+	text("Turner", 1),
+	text("Tuscany", 1),
+	text("Tuxedo", 1),
+	text("Tweddle", 1),
+	text("Twin", 1),
+	text("Two", 1),
+	text("Unipouheos", 1),
+	text("University", 1),
+	text("Utikoomak", 1),
+	text("Val Quentin", 1),
+	text("Valhalla", 1),
+	text("Valley", 1),
+	text("Valleyview", 1),
+	text("Varsity", 1),
+	text("Vauxhall", 1),
+	text("Vegre", 1),
+	text("Vegreville", 1),
+	text("Veinerville", 1),
+	text("Venice", 1),
+	text("Vermilion", 1),
+	text("Veteran", 1),
+	text("Viking", 1),
+	text("Villeneuve", 1),
+	text("Vilna", 1),
+	text("Vimy", 1),
+	text("Violet", 1),
+	text("Viscount", 1),
+	text("Vista", 1),
+	text("Vulcan", 1),
+	text("Wabamun", 1),
+	text("Wabasca", 1),
+	text("Wadlin", 1),
+	text("Wagner", 1),
+	text("Wainwright", 1),
+	text("Waiparous", 1),
+	text("Walker", 1),
+	text("Walsh", 1),
+	text("Wandering", 1),
+	text("Wanham", 1),
+	text("War", 1),
+	text("Warburg", 1),
+	text("Wardlow", 1),
+	text("Warner", 1),
+	text("Warspite", 1),
+	text("Waskatenau", 1),
+	text("Water", 1),
+	text("Waterton", 1),
+	text("Watino", 1),
+	text("Webber", 1),
+	text("Wedge", 1),
+	text("Wedgewood", 1),
+	text("Weinlos", 1),
+	text("Welling", 1),
+	text("Wellington", 1),
+	text("Wembley", 1),
+	text("Westbrook", 1),
+	text("Westbrooke Cresent", 1),
+	text("Westerose", 1),
+	text("Westgate", 1),
+	text("Westgrove", 1),
+	text("Westlake", 1),
+	text("Westlock", 1),
+	text("Westmount", 1),
+	text("Westridge", 1),
+	text("Westview", 1),
+	text("Westwood", 1),
+	text("Wetaskiwin", 1),
+	text("Wheat", 1),
+	text("Wheatland", 1),
+	text("Whiskey", 1),
+	text("Whiskey Gap", 1),
+	text("Whispering", 1),
+	text("Whit", 1),
+	text("Whitefish", 1),
+	text("Whitehorn", 1),
+	text("Whitelaw", 1),
+	text("Whitla", 1),
+	text("Whitney", 1),
+	text("Widewater", 1),
+	text("Wild", 1),
+	text("Wild Rose", 1),
+	text("Wildwood", 1),
+	text("Will", 1),
+	text("Willingdon", 1),
+	text("Willmore", 1),
+	text("Willow", 1),
+	text("Wimborne", 1),
+	text("Win", 1),
+	text("Win", 1),
+	text("Winagami", 1),
+	text("Winder", 1),
+	text("Windermere", 1),
+	text("Windsor", 1),
+	text("Winefred", 1),
+	text("Winfield", 1),
+	text("Winnifred", 1),
+	text("Winston", 1),
+	text("Withrow", 1),
+	text("Woking", 1),
+	text("Wood", 1),
+	text("Wood Buffalo", 1),
+	text("Woodbend", 1),
+	text("Woodbend Crescent", 1),
+	text("Woodbine", 1),
+	text("Woodcroft", 1),
+	text("Woodhouse", 1),
+	text("Woodland", 1),
+	text("Woodlands", 1),
+	text("Woods", 1),
+	text("Woodvale", 1),
+	text("Worsley", 1),
+	text("Wostok", 1),
+	text("Wrentham", 1),
+	text("Writing-on-Stone", 1),
+	text("Wyndham", 1),
+	text("Young", 1),
+	text("Young's", 1),
+	text("Youngstown", 1),
+	text("Zama", 1),
+	text("Zzyzx", 1),
+	}
+} 
+
+
+town_names(GROUP_21) {
+//	Bases - No Prefixes
+//	Base64 Probabilities
+	{
+	text("New Dayton", 1),
+	text("West", 5),
+	}
+}
+
+town_names(GROUP_22) {
+//	Bases - No Suffixes
+//	Base64 Probabilities
+	{
+	text("Alberta Coal Branch", 1),
+	text("Canmore Nordic Centre", 1),
+	text("Dry Island", 1),
+	text("Goodridge Corners", 4),
+	text("Island", 18),
+	text("Jean Baptiste Gambler", 2),
+	text("John D'Or Prairie", 2),
+	text("Johnson's Addition", 17),
+	text("Lake", 7),
+	text("Lake Newell Resort", 8),
+	text("Park", 14),
+	text("River", 10),
+	}
+}
+
+town_names(GROUP_23) {
+//	Bases - No Prefixes or No Suffixes
+//	Base64 Probabilities
+	{
+	text("Jere Ghaili Indi", 2),
+	text("Les Trailer Park", 23),
+	text("Rocky Mountain House", 20),
+	text("University of Calgary", 9),
+	text("Village at Pigeon Lake", 1),
+	text("West Edmonton Mall", 9),
+	text("Millwoods Town Centre",1),
+	}
+}
+
+town_names(GROUP_24) {
+//	Colours
+	{
+	text("Black", 6),
+	text("Blue", 4),
+	text("Brown", 3),
+	text("Purple", 1),
+	text("Red", 12),
+	text("White", 6),
+	text("Yellow", 2),
+	text("Green", 15),
+	text("Silver", 6),
+	}
+}
+
+town_names(GROUP_25) {
+//	'Coloured' - (Suffixes)
+	{
+	text(" Earth",1),
+	text("mud",1),
+	text(" Rock",1),
+	text(" Quill",1),
+	}
+}
+
+town_names(GROUP_90_1) {
+	{
+	text(" Beach", 19),
+	text(" Centre", 4),
+	text(" Downe", 3),
+	text(" Estates", 23),
+	text(" Glen", 7),
+	text(" Landing", 3),
+	text(" Junction",1),
+	text(" Hill",16),
+	text(" Hills", 18),
+	text(" Park",46),
+	text(" Resort",1),
+	text(" Towne",4),
+	text(" Valley", 1),
+	}
+}
+
+town_names(GROUP_90) {
+//	General Suffixes - Seperate Word
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1)
+	}
+}
+
+town_names(GROUP_91) {
+//	General Suffixes - Attached
+	{
+	text("'s", 9),
+	text("burg", 6),
+	text("bury", 4),
+	text("cliff", 6),
+	text("crest", 5),
+	text("dale", 26),
+	text("downe", 1),
+	text("field", 13),
+	text("ford", 13),
+	text("grove", 10),
+	text("head", 6),
+	text("holm", 2),
+	text("hurst", 6),
+	text("land", 44),
+	text("mere", 3),
+	text("mond", 7),
+	text("mont", 17),
+	text("more", 12),
+	text("node", 1),
+	text("shire", 1),
+	text("side", 7),
+	text("son", 24),
+	text("spur", 2),
+	text("stone", 7),
+	text("ton", 52),
+	text("town", 12),
+	text("vale", 4),
+	text("view", 28),
+	text("ville", 22),
+	text("well", 9),
+	text("wick", 3),
+	text("wood", 48),
+	}
+}
+/*
+town_names(GROUP_10_1) {
+	{
+	text("'s", 1),				//	9
+	town_names(GROUP_91, 50)	//	401
+	}
+}
+*/
+town_names(GROUP_10) {
+//	Surname Suffixes
+//	TO-DO:	Revisit probabilities and base them soley on surname names rather
+//			than all AB names
+	{
+	text("", 15),
+	town_names(GROUP_91, 1)
+	}
+}
+
+// */
+
+
+// === INDIVIDUAL PATHS ===
+town_names(PATH_A) {
+//	English Male Prenames
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	town_names(GROUP_03,1),
+	}
+	{
+	town_names(GROUP_04,1),
+	}
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1),
+	}
+}
+
+town_names(PATH_B) {
+//	Scandinavian (male) prenames turned into surnames
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	town_names(GROUP_05,1),
+	}
+	{
+	town_names(GROUP_06,1),
+	}
+	{
+	town_names(GROUP_10,1),
+	}
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1),
+	}
+}
+
+town_names(PATH_C) {
+//	English Female Prenames
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	town_names(GROUP_07,1),
+	}
+	{
+	town_names(GROUP_08,1),
+	}
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1),	
+	}
+}
+
+town_names(PATH_D) {
+//	'Normal' surnames
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	town_names(GROUP_09,1),
+	}
+	{
+	town_names(GROUP_10,1),
+	}
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1),
+	}
+}
+
+town_names(PATH_E) {
+//	French Female Prenames
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	town_names(GROUP_11,1),
+	}
+	{
+	town_names(GROUP_12,1),
+	}
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1),
+	}
+}
+
+town_names(PATH_F) {
+//	Gaelic Prenames and (prenames turned) Surnames
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	town_names(GROUP_14,1),
+	}
+	{
+	town_names(GROUP_15,1),
+	}
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1),	
+	}
+}
+
+town_names(PATH_G) {
+//	English & Gaelic Holy Places
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	text("St. ",1),
+	}
+	{
+	town_names(GROUP_04, 13),
+	town_names(GROUP_08, 8),
+	town_names(GROUP_15, 12),
+	}
+	{
+	town_names(GROUP_16,1),
+	}
+}
+
+town_names(PATH_H) {
+//	French Female Holy Places
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	text("Ste. ",1),
+	}
+	{
+	town_names(GROUP_12, 1),
+	}
+	{
+	town_names(GROUP_16,1),
+	}
+}
+
+town_names(PATH_I) {
+//	English & Gaelic 'Holy' Water
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	text("St. ",1),
+	}
+	{
+	town_names(GROUP_04, 13),
+	town_names(GROUP_08, 8),
+	town_names(GROUP_15, 12),
+	}
+	{
+	town_names(GROUP_18,1),
+	}
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1),
+	}
+}
+
+town_names(PATH_J) {
+//	French Female 'Holy' Water
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	text("Ste. ",1),
+	}
+	{
+	town_names(GROUP_12, 5),
+	}
+	{
+	town_names(GROUP_18,1),
+	}
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1),
+	}
+}
+
+town_names(PATH_K) {
+//	Water
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	town_names(GROUP_17,1),
+	}
+	{
+	town_names(GROUP_18,1),
+	}
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1),
+	}
+}
+
+town_names(PATH_L) {
+//	Mountiains
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	town_names(GROUP_19,1),
+	}
+	{
+	text(" Mountain",1),
+	}
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1),
+	}
+}
+
+town_names(PATH_M) {
+//	'Normal' Bases
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	town_names(GROUP_20,1),
+	}
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1),
+	}
+}
+
+town_names(PATH_N) {
+//	Bases - No Prefixes
+	{
+	town_names(GROUP_21,1),
+	}
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1),
+	}
+}
+
+town_names(PATH_P) {
+//	Bases - No Suffixes
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	town_names(GROUP_22,1),
+	}
+}
+
+town_names(PATH_Q) {
+//	Bases - No Prefixes or No Suffixes
+	{
+	town_names(GROUP_23,1),
+	}
+}
+
+town_names(PATH_R) {
+//	Colours
+	{
+	text("", 14),
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	town_names(GROUP_24,1),
+	}
+	{
+	town_names(GROUP_25,1),
+	text("", 1),
+	}
+	{
+	town_names(GROUP_18, 2),	//	402
+	town_names(GROUP_90_1, 1),	//	146
+	text("", 13)				//	80% of the time
+	}
+}
+
+//	=== ALL PATHS ===
+town_names(ALL_PATHS_1) {
+	{
+	town_names(PATH_E, 4),	//	G12 - 4
+	town_names(PATH_G, 4),	// G4 G8 G15	= 118
+	town_names(PATH_H, 1),		// G12			= 4 
+	town_names(PATH_J, 6),		// G12		= 4
+	town_names(PATH_L, 9),		//	8
+	town_names(PATH_N, 1),		//	6
+	town_names(PATH_P, 9),		//	85
+	town_names(PATH_Q, 7),		//	64
+	// 6 bit	
+	}
+}
+/*
+town_names(ALL_PATHS_1) {
+	{
+	town_names(PATH_D, 62),	//	G9  - 21
+	town_names(PATH_E, 12),	//	G12 - 4
+	town_names(PATH_G, 12),	// G4 G8 G15	= 118
+	town_names(PATH_H, 1),		// G12			= 4 
+	town_names(PATH_J, 17),		// G12		= 4
+	town_names(PATH_L, 24),		//	8
+	town_names(PATH_N, 2),		//	6
+	town_names(PATH_P, 24),		//	85
+	town_names(PATH_Q, 18),		//	64		
+	}
+}  */
+
+//	MASTER PATH!
+town_names(ALL_PATHS) {
+	styles:	string(STR_GAME_OPTIONS_TOWN_NAME_RANDOM_AB);
+	{
+	town_names(PATH_A, 1),	//	G4  - 47
+	town_names(PATH_B, 1),	//	G5  - 35
+	town_names(PATH_C, 1),	//	G8  - 28
+	town_names(PATH_D, 1),	//	G9  - 21
+	town_names(PATH_F, 1),	//	G15 - 43
+	town_names(PATH_I, 5),	// G4 G8 G15	= 118
+	town_names(PATH_K, 3),		//	109
+	town_names(PATH_M, 47),		//	6+12+2+1371 = 1391	\ 1043
+	town_names(PATH_R, 1),		//	9*4 = 36
+	town_names(ALL_PATHS_1, 2),
+	// 7 bit
+	}	
+}
+
+//	EOF

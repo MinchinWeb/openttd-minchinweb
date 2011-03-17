@@ -67,28 +67,28 @@ grf {
 //	=== Paths ===
 //	(Follow Paths down the page)
 //	
-//		A	B	C	D	E	F	G	H	I	J	K	L	M	N	P	Q	R	S	T	U	V	W	X	Y	Z
+//		A	B	C	D	E	F	G	H	I	J	K	L	M	N	P	Q	R
 //	01	x	x	x	x	x		x		x	x	x	x	x
 //	02	
 //	03	x
 //	04		x	
-//	05	+	x			+					+		x			+					+					+
+//	05	+	x			+					+		x			+		
 //	06		x
 //	07			x										x
 //	08			x
 //	09				x
-//	10	+			x	+					+					+					+					+
+//	10	+			x	+					+					+		
 //	11					x
 //	12						x
 //	13							x
 //	14								x
-//	15	+				+				x	x					+					+					+
+//	15	+				+				x	x					+		
 //	16										x
 //	17											x
 //	18												x
 //	19
-//	20	x				+				x	+					+					+					+						
-//	90	x	x	x	x	x	x			x	x	x	x	x		+					+					+
+//	20	x				+				x	+					+						
+//	90	x	x	x	x	x	x			x	x	x	x	x		+		
 //
 //	CODING NOTE ON PROBABILIES
 //	Probablities can't be more that 127 and are given in realitve terms
@@ -456,6 +456,55 @@ town_names(GROUP_01_1) {
 	text("Port ", 1),
 	text("South ", 5),
 	text("Upper ", 5),
+	text("University of ", 1),
+	text("West ", 8),
+	}
+}
+
+town_names(GROUP_01_1_WATER) {
+//	Prefixes for Water
+	{
+	text("Big ", 5),
+	text("East ", 3),
+	text("Fort ", 16),
+	text("Greater ", 1),
+//	text("Lake ", 9),
+	text("Lesser ", 2),
+	text("Little ", 7),
+	text("Lower ", 3),
+	text("Mount ", 3),
+	text("New ", 6),
+	text("North ", 7),
+	text("Old ", 5),
+	text("Point ", 3),
+//	text("Port ", 1),
+	text("South ", 5),
+	text("Upper ", 5),
+//	text("University of ", 1),
+	text("West ", 8),
+	}
+}
+
+town_names(GROUP_01_1_MOUNT) {
+//	Prefixes for Mountains
+	{
+	text("Big ", 5),
+	text("East ", 3),
+	text("Fort ", 16),
+	text("Greater ", 1),
+	text("Lake ", 9),
+	text("Lesser ", 2),
+	text("Little ", 7),
+	text("Lower ", 3),
+//	text("Mount ", 3),
+	text("New ", 6),
+	text("North ", 7),
+	text("Old ", 5),
+	text("Point ", 3),
+	text("Port ", 1),
+	text("South ", 5),
+	text("Upper ", 5),
+//	text("University of ", 1),
 	text("West ", 8),
 	}
 }
@@ -511,7 +560,6 @@ town_names(GROUP_04) {
 	text("John", 2),
 	text("Joseph", 1),
 	text("Leo", 4),
-	text("Lina ", 1),
 	text("Lois", 1),
 	text("Louis", 2),
 	text("Martin", 2),
@@ -577,7 +625,7 @@ town_names(GROUP_08) {
 //		English queens
 	{
 	text("Alberta",3),
-	text("Anne",1),
+//	text("Anne",1),
 	text("Alexandra", 1),
 	text("Alison", 1),
 	text("Allison", 1),
@@ -590,6 +638,7 @@ town_names(GROUP_08) {
 	text("Erin", 5),
 	text("Hilda", 1),
 	text("Kelsey", 1),
+	text("Lina ", 1),
 	text("Louise", 1),
 	text("Mary", 2),
 	text("Patricia", 2),
@@ -833,11 +882,13 @@ town_names(GROUP_18) {
 //	text("", 1),
 	text(" Brook",2),
 	text(" Creek",6),
+	text(" Cove", 2),
 	text(" Falls",1),
 	text(" Lake",38),
 	text(" Pond",1),
 	text(" River",10),
 	text(" River Falls",1),
+	text(" Sound", 1),
 	text(" Springs",4),
 	}
 }
@@ -2090,7 +2141,7 @@ town_names(GROUP_20) {
 	text("Tha'", 1),
 	text("Thabacha Náre", 1),
 	text("The Grange", 1),
-	text("The Hamps", 1),
+	text("The Hamptons", 1),
 	text("The Meadows", 1),
 	text("The Orchards", 1),
 	text("The Palisades", 1),
@@ -2126,7 +2177,7 @@ town_names(GROUP_20) {
 	text("Twin", 1),
 	text("Two", 1),
 	text("Unipouheos", 1),
-	text("University", 1),
+//	text("University", 1),
 	text("Utikoomak", 1),
 	text("Val Quentin", 1),
 	text("Valhalla", 1),
@@ -2397,6 +2448,182 @@ town_names(GROUP_90_1) {
 	}
 }
 
+town_names(GROUP_90_1_MOUNT) {
+//	Removed 'Mountians'
+	{
+	text(" Acres", 6),
+	text(" Avenue", 2),
+	text(" Bar", 2),
+	text(" Bay", 7),
+	text(" Beach", 17),
+	text(" Bend", 1),
+	text(" Blume", 1),
+	text(" Bridge", 1),
+	text(" Brook", 1),
+	text(" Buffalo Jump", 2),
+	text(" Butte", 2),
+	text(" Campus", 1),
+	text(" Cemetery", 1),
+	text(" Centre", 3),
+	text(" City", 7),
+	text(" Country", 1),
+	text(" County", 1),
+	text(" Court", 5),
+	text(" Cove", 5),
+	text(" Creek", 15),
+	text(" Cresent", 1),
+	text(" Crest", 1),
+	text(" Crossing", 1),
+	text(" Downs", 2),
+	text(" Estates", 21),
+	text(" Falls", 1),
+	text(" Flats", 2),
+	text(" Gap", 1),
+	text(" Garden", 4),
+	text(" Greens", 6),
+	text(" Grove", 6),
+	text(" Heights", 32),
+//	text(" Hill", 27),
+//	text(" Hills", 15),
+	text(" Hollow", 1),
+	text(" House", 1),
+	text(" Industrial", 1),
+	text(" Island", 7),
+	text(" Junction", 1),
+	text(" Lake", 86),
+	text(" Landing", 3),
+	text(" Meadows", 7),
+	text(" Mill", 2),
+	text(" Mines", 3),
+	text(" Mission", 1),
+//	text(" Mountain", 5),
+//	text(" Mountains", 2),
+	text(" Narrows", 1),
+	text(" National Park", 5),
+	text(" Outpost", 1),
+	text(" Park", 44),
+	text(" Pass", 1),
+	text(" Pines", 1),
+	text(" Place", 7),
+	text(" Plain", 3),
+	text(" Plains", 2),
+	text(" Point", 8),
+	text(" Pointe", 1),
+	text(" Pond", 1),
+	text(" Ranch", 2),
+	text(" Ridge", 15),
+	text(" River", 20),
+	text(" River Falls", 1),
+	text(" Run", 1),
+	text(" Sands", 4),
+	text(" Settlement", 2),
+	text(" Slopes", 1),
+	text(" Sound", 1),
+	text(" Springs", 7),
+	text(" Station", 2),
+	text(" Street", 1),
+	text(" Town", 4),
+	text(" Towne", 2),
+	text(" Trail", 7),
+	text(" Trailer Court", 3),
+	text(" Trailer Park", 3),
+	text(" Valley", 19),
+	text(" View", 7),
+	text(" Village", 5),
+	text(" Wilderness", 1),
+	text(" Woods", 4),
+	text(" Glen", 4),
+	}
+}
+
+town_names(GROUP_90_1_WATER) {
+//	Removed items that appear in GROUP_18 (Water Suffixes)
+	{
+	text(" Acres", 6),
+	text(" Avenue", 2),
+	text(" Bar", 2),
+	text(" Bay", 7),
+	text(" Beach", 17),
+	text(" Bend", 1),
+	text(" Blume", 1),
+	text(" Bridge", 1),
+//	text(" Brook", 1),
+	text(" Buffalo Jump", 2),
+	text(" Butte", 2),
+	text(" Campus", 1),
+	text(" Cemetery", 1),
+	text(" Centre", 3),
+	text(" City", 7),
+	text(" Country", 1),
+	text(" County", 1),
+	text(" Court", 5),
+//	text(" Cove", 5),
+//	text(" Creek", 15),
+	text(" Cresent", 1),
+	text(" Crest", 1),
+	text(" Crossing", 1),
+	text(" Downs", 2),
+	text(" Estates", 21),
+//	text(" Falls", 1),
+	text(" Flats", 2),
+	text(" Gap", 1),
+	text(" Garden", 4),
+	text(" Greens", 6),
+//	text(" Grove", 6),
+	text(" Heights", 32),
+//	text(" Hill", 27),
+//	text(" Hills", 15),
+	text(" Hollow", 1),
+	text(" House", 1),
+	text(" Industrial", 1),
+	text(" Island", 7),
+	text(" Junction", 1),
+//	text(" Lake", 86),
+	text(" Landing", 3),
+	text(" Meadows", 7),
+	text(" Mill", 2),
+	text(" Mines", 3),
+	text(" Mission", 1),
+	text(" Mountain", 5),
+	text(" Mountains", 2),
+	text(" Narrows", 1),
+	text(" National Park", 5),
+	text(" Outpost", 1),
+	text(" Park", 44),
+	text(" Pass", 1),
+	text(" Pines", 1),
+	text(" Place", 7),
+	text(" Plain", 3),
+	text(" Plains", 2),
+	text(" Point", 8),
+	text(" Pointe", 1),
+//	text(" Pond", 1),
+	text(" Ranch", 2),
+//	text(" Ridge", 15),
+//	text(" River", 20),
+//	text(" River Falls", 1),
+//	text(" Run", 1),
+	text(" Sands", 4),
+	text(" Settlement", 2),
+	text(" Slopes", 1),
+//	text(" Sound", 1),
+//	text(" Springs", 7),
+	text(" Station", 2),
+	text(" Street", 1),
+	text(" Town", 4),
+	text(" Towne", 2),
+	text(" Trail", 7),
+	text(" Trailer Court", 3),
+	text(" Trailer Park", 3),
+	text(" Valley", 19),
+	text(" View", 7),
+	text(" Village", 5),
+	text(" Wilderness", 1),
+//	text(" Woods", 4),
+	text(" Glen", 4),
+	}
+}
+
 town_names(GROUP_90) {
 //	General Suffixes - Seperate Word
 	{
@@ -2578,7 +2805,7 @@ town_names(PATH_F) {
 town_names(PATH_G) {
 //	English & Gaelic Holy Places
 	{
-	text("", 14),
+	text("", 15),
 	town_names(GROUP_01_1, 1)
 	}
 	{
@@ -2597,8 +2824,8 @@ town_names(PATH_G) {
 town_names(PATH_H) {
 //	French Female Holy Places
 	{
-	text("", 14),
-	town_names(GROUP_01_1, 1)
+	text("", 15),
+	town_names(GROUP_01_1_WATER, 1)
 	}
 	{
 	text("Ste. ",1),
@@ -2614,8 +2841,8 @@ town_names(PATH_H) {
 town_names(PATH_I) {
 //	English & Gaelic 'Holy' Water
 	{
-	text("", 14),
-	town_names(GROUP_01_1, 1)
+	text("", 15),
+	town_names(GROUP_01_1_WATER, 1)
 	}
 	{
 	text("St. ",1),
@@ -2630,14 +2857,14 @@ town_names(PATH_I) {
 	}
 	{
 	text("", 7),
-	town_names(GROUP_90_1, 1),
+	town_names(GROUP_90_1_WATER, 1),
 	}
 }
 
 town_names(PATH_J) {
 //	French Female 'Holy' Water
 	{
-	text("", 14),
+	text("", 15),
 	town_names(GROUP_01_1, 1)
 	}
 	{
@@ -2651,14 +2878,14 @@ town_names(PATH_J) {
 	}
 	{
 	text("", 7),
-	town_names(GROUP_90_1, 1),
+	town_names(GROUP_90_1_WATER, 1),
 	}
 }
 
 town_names(PATH_K) {
 //	Water
 	{
-	text("", 14),
+	text("", 15),
 	town_names(GROUP_01_1, 1)
 	}
 	{
@@ -2669,15 +2896,15 @@ town_names(PATH_K) {
 	}
 	{
 	text("", 7),
-	town_names(GROUP_90_1, 1),
+	town_names(GROUP_90_1_WATER, 1),
 	}
 }
 
 town_names(PATH_L) {
 //	Mountiains
 	{
-	text("", 14),
-	town_names(GROUP_01_1, 1)
+	text("", 15),
+	town_names(GROUP_01_1_MOUNT, 1)
 	}
 	{
 	town_names(GROUP_19,1),
@@ -2687,14 +2914,14 @@ town_names(PATH_L) {
 	}
 	{
 	text("", 7),
-	town_names(GROUP_90_1, 1),
+	town_names(GROUP_90_1_MOUNT, 1),
 	}
 }
 
 town_names(PATH_M) {
 //	'Normal' Bases
 	{
-	text("", 14),
+	text("", 15),
 	town_names(GROUP_01_1, 1)
 	}
 	{
@@ -2753,8 +2980,8 @@ town_names(PATH_Q) {
 town_names(PATH_R) {
 //	Colours
 	{
-	text("", 14),
-	town_names(GROUP_01_1, 1)
+	text("", 15),
+	town_names(GROUP_01_1_WATER, 1)
 	}
 	{
 	town_names(GROUP_24,1),
@@ -2765,8 +2992,8 @@ town_names(PATH_R) {
 	}
 	{
 	town_names(GROUP_18, 2),	//	402
-	town_names(GROUP_90_1, 1),	//	146
-	text("", 13)				//	80% of the time
+	town_names(GROUP_90_1_WATER, 1),	//	146
+	text("", 12)				//	80% of the time
 	}
 }
 

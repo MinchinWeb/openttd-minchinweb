@@ -535,9 +535,9 @@ town_names(GROUP_05) {
 //		Most Scandinavian prenames that show up are actaully in the form of
 //		last names (with a '-son' type ending)
 	{
-	text("Ander", 5),
+	text("Ander", 2),	//	5
 	text("Hud", 1),
-	text("Mon", 28),
+	text("Mon", 3),		//	28
 	text("Patter", 1),
 	text("Thomp", 1),
 	}
@@ -548,7 +548,7 @@ town_names(GROUP_06) {
 //		Most Scandinavian prenames that show up are actaully in the form of
 //		last names (with a '-son' type ending)
 	{
-	text("son",15),
+	text("son",6),
 	text("sen",1),
 	text("søn",1),
 	}
@@ -635,7 +635,7 @@ town_names(GROUP_11) {
 //	TO-DO:	Revisit probabilities and base them soley on surname names rather
 //			than all AB names
 	{
-	text("", 19),
+	text("", 15),
 	town_names(GROUP_11_1, 1)
 	}
 }
@@ -645,7 +645,7 @@ town_names(GROUP_12) {
 //		French female prenames that show up are predominately those of
 //		prominent saints
 	{
-	text("Anne",2),
+	text("Anne",1),		//	2
 	text("Geneviève",1),
 	text("Marie",1),
 	text("Janet",1),
@@ -860,92 +860,92 @@ town_names(GROUP_20_1) {
 //	Low Probability Names
 //	Base1 Probabilities
 	{
-	text("Abbotts", 1),
-	text("Alderson", 1),
-	text("Alexo", 1),
-	text("Allers", 1),
-	text("Allingham", 1),
-	text("Altorado", 1),
-	text("Amble", 1),
-	text("Arde", 1),
-	text("Auburn", 1),
-	text("Avon", 1),
-	text("Bardo", 1),
-	text("Battle", 1),
-	text("Bel", 1),
-	text("Belloy", 1),
-	text("Bingham", 1),
-	text("Blair", 1),
-	text("Bulwark", 1),
-	text("Burne", 1),
-	text("Cald", 1),
-	text("Canmore", 1),
-	text("Cess", 1),
-	text("Chicago", 1),
-	text("Citadel", 1),
-	text("Clover", 1),
-	text("Connaught", 1),
-	text("Conquer", 1),
-	text("Crestwood", 1),
-	text("Crim", 1),
-	text("Crom", 1),
-	text("Day", 1),
-	text("Delwood", 1),
-	text("Dims", 1),
-	text("Dons", 1),
-	text("Dover", 1),
-	text("Egre", 1),
-	text("Glas", 1),
-	text("Gran", 1),
-	text("Grove", 1),
-	text("Harris", 1),
-	text("Hartshorn", 1),
+	text("Abbotts", 56),
+	text("Alderson", 25),
+	text("Alexo", 25),
+	text("Allers", 2),
+	text("Allingham", 25),
+	text("Altorado", 25),
+	text("Amble", 56),
+	text("Arde", 47),
+	text("Auburn", 35),
+	text("Avon", 56),
+	text("Bardo", 25),
+	text("Battle", 25),
+	text("Bel", 56),
+	text("Belloy", 25),
+	text("Bingham", 25),
+	text("Blair", 2),
+	text("Bulwark", 25),
+	text("Burne", 56),
+	text("Cald", 25),
+	text("Canmore", 25),
+	text("Cess", 25),
+	text("Chicago", 25),
+	text("Citadel", 35),
+	text("Clover", 56),
+	text("Connaught", 35),
+	text("Conquer", 2),
+	text("Crestwood", 56),
+	text("Crim", 10),
+	text("Crom", 56),
+	text("Day", 10),
+	text("Delwood", 56),
+	text("Dims", 10),
+	text("Dons", 56),
+	text("Dover", 35),
+	text("Egre", 10),
+	text("Glas", 56),
+	text("Gran", 56),
+	text("Grove", 10),
+	text("Harris", 2),
+	text("Hartshorn", 51),
 	text("Hawk", 1),
-	text("Hawkwood", 1),
-	text("Hayworth", 1),
-	text("Herron", 1),
-	text("Hole", 1),
-	text("Jamie", 1),
-	text("Jud", 1),
-	text("Kes", 1),
-	text("Kincora", 1),
-	text("Lamer", 1),
-	text("Lans", 1),
-	text("Legacy", 1),
-	text("Legend", 1),
-	text("Luscar", 1),
-	text("Lynx", 1),
-	text("Mahogany", 1),
-	text("Maybutt", 1),
-	text("Mid", 1),
-	text("Mill", 1),
-	text("Millar", 1),
-	text("Minnewanka", 1),
-	text("Mintlaw", 1),
-	text("Nacmine", 1),
-	text("Nemiscam", 1),
-	text("Pakowki", 1),
-	text("Panoramas", 1),
-	text("Pendant d'Oreille", 1),
-	text("Pollock", 1),
-	text("Prest", 1),
-	text("Railey", 1),
-	text("Rib", 1),
-	text("Sage", 1),
-	text("Se", 1),
-	text("Sif", 1),
-	text("Silverado", 1),
-	text("Skunk", 1),
-	text("Sky", 1),
-	text("Steve", 1),
-	text("Streams", 1),
-	text("Tail", 1),
-	text("Taylor", 1),
-	text("Thorncliff", 1),
-	text("Veiner", 1),
-	text("Walden", 1),
-	text("Windfall", 1),
-	text("York", 1),
+	text("Hawkwood", 35),
+	text("Hayworth", 25),
+	text("Herron", 10),
+	text("Hole", 10),
+	text("Jamie", 56),
+	text("Jud", 2),
+	text("Kes", 56),
+	text("Kincora", 35),
+	text("Lamer", 2),
+	text("Lans", 56),
+	text("Legacy", 35),
+	text("Legend", 25),
+	text("Luscar", 25),
+	text("Lynx", 35),
+	text("Mahogany", 35),
+	text("Maybutt", 25),
+	text("Mid", 10),
+	text("Mill", 56),
+	text("Millar", 10),
+	text("Minnewanka", 25),
+	text("Mintlaw", 25),
+	text("Nacmine", 25),
+	text("Nemiscam", 25),
+	text("Pakowki", 25),
+	text("Panoramas", 35),
+	text("Pendant d'Oreille", 25),
+	text("Pollock", 2),
+	text("Prest", 5),
+	text("Railey", 25),
+	text("Rib", 10),
+	text("Sage", 35),
+	text("Se", 5),
+	text("Sif", 56),
+	text("Silverado", 35),
+	text("Skunk", 25),
+	text("Sky", 56),
+	text("Steve", 2),
+	text("Streams", 10),
+	text("Tail", 25),
+	text("Taylor", 53),
+	text("Thorncliff", 56),
+	text("Veiner", 10),
+	text("Walden", 35),
+	text("Windfall", 25),
+	text("York", 25),
 	}
 }
 
@@ -954,7 +954,6 @@ town_names(GROUP_20) {
 //	Normal Bases
 //	Base64 Probabilities
 	{
-	town_names(GROUP_20_1, 36),
 	text("Abbey", 1),
 	text("Abbeydale", 1),
 	text("Abbottsfield", 1),
@@ -2313,19 +2312,88 @@ town_names(GROUP_25) {
 
 town_names(GROUP_90_1) {
 	{
-	text(" Beach", 19),
-	text(" Centre", 4),
-	text(" Downe", 3),
-	text(" Estates", 23),
-	text(" Glen", 7),
+	text(" Acres", 6),
+	text(" Avenue", 2),
+	text(" Bar", 2),
+	text(" Bay", 7),
+	text(" Beach", 17),
+	text(" Bend", 1),
+	text(" Blume", 1),
+	text(" Bridge", 1),
+	text(" Brook", 1),
+	text(" Buffalo Jump", 2),
+	text(" Butte", 2),
+	text(" Campus", 1),
+	text(" Cemetery", 1),
+	text(" Centre", 3),
+	text(" City", 7),
+	text(" Country", 1),
+	text(" County", 1),
+	text(" Court", 5),
+	text(" Cove", 5),
+	text(" Creek", 15),
+	text(" Cresent", 1),
+	text(" Crest", 1),
+	text(" Crossing", 1),
+	text(" Downs", 2),
+	text(" Estates", 21),
+	text(" Falls", 1),
+	text(" Flats", 2),
+	text(" Gap", 1),
+	text(" Garden", 4),
+	text(" Greens", 6),
+	text(" Grove", 6),
+	text(" Heights", 32),
+	text(" Hill", 27),
+	text(" Hills", 15),
+	text(" Hollow", 1),
+	text(" House", 1),
+	text(" Industrial", 1),
+	text(" Island", 7),
+	text(" Junction", 1),
+	text(" Lake", 86),
 	text(" Landing", 3),
-	text(" Junction",1),
-	text(" Hill",16),
-	text(" Hills", 18),
-	text(" Park",46),
-	text(" Resort",1),
-	text(" Towne",4),
-	text(" Valley", 1),
+	text(" Meadows", 7),
+	text(" Mill", 2),
+	text(" Mines", 3),
+	text(" Mission", 1),
+	text(" Mountain", 5),
+	text(" Mountains", 2),
+	text(" Narrows", 1),
+	text(" National Park", 5),
+	text(" Outpost", 1),
+	text(" Park", 44),
+	text(" Pass", 1),
+	text(" Pines", 1),
+	text(" Place", 7),
+	text(" Plain", 3),
+	text(" Plains", 2),
+	text(" Point", 8),
+	text(" Pointe", 1),
+	text(" Pond", 1),
+	text(" Ranch", 2),
+	text(" Ridge", 15),
+	text(" River", 20),
+	text(" River Falls", 1),
+	text(" Run", 1),
+	text(" Sands", 4),
+	text(" Settlement", 2),
+	text(" Slopes", 1),
+	text(" Sound", 1),
+	text(" Springs", 7),
+	text(" Station", 2),
+	text(" Street", 1),
+	text(" Town", 4),
+	text(" Towne", 2),
+	text(" Trail", 7),
+	text(" Trailer Court", 3),
+	text(" Trailer Park", 3),
+	text(" Valley", 19),
+	text(" View", 7),
+	text(" Village", 5),
+	text(" Wilderness", 1),
+	text(" Woods", 4),
+	text(" Glen", 4),
 	}
 }
 
@@ -2417,7 +2485,7 @@ town_names(PATH_A) {
 town_names(PATH_B) {
 //	Scandinavian (male) prenames turned into surnames
 	{
-	text("", 14),
+	text("", 7),	//	19
 	town_names(GROUP_01_1, 1)
 	}
 	{
@@ -2576,7 +2644,7 @@ town_names(PATH_J) {
 	text("Ste. ",1),
 	}
 	{
-	town_names(GROUP_12, 5),
+	town_names(GROUP_12, 1),
 	}
 	{
 	town_names(GROUP_18,1),
@@ -2638,6 +2706,21 @@ town_names(PATH_M) {
 	}
 }
 
+town_names(PATH_M_1) {
+//	'Normal' Bases
+	{
+	text("", 7),	//	19
+	town_names(GROUP_01_1, 1)
+	}
+	{
+	town_names(GROUP_20_1,1),
+	}
+	{
+	text("", 7),
+	town_names(GROUP_90_1, 1),
+	}
+}
+
 town_names(PATH_N) {
 //	Bases - No Prefixes
 	{
@@ -2688,49 +2771,41 @@ town_names(PATH_R) {
 }
 
 //	=== ALL PATHS ===
-town_names(ALL_PATHS_1) {
+town_names(ALL_PATHS_1_1) {
 	{
-	town_names(PATH_E, 4),	//	G12 - 4
-	town_names(PATH_G, 4),	// G4 G8 G15	= 118
-	town_names(PATH_H, 1),		// G12			= 4 
-	town_names(PATH_J, 6),		// G12		= 4
-	town_names(PATH_L, 9),		//	8
-	town_names(PATH_N, 1),		//	6
-	town_names(PATH_P, 9),		//	85
-	town_names(PATH_Q, 7),		//	64
-	// 6 bit	
+	town_names(PATH_E, 3), // M64
+	town_names(PATH_G, 3), // M32
+	town_names(PATH_H, 1), // M127
+	town_names(PATH_J, 4), // M32
+	town_names(PATH_L, 6), // M64
+	town_names(PATH_M_1, 3), // M16
+	town_names(PATH_N, 1), // M127
+	town_names(PATH_P, 6), // M127
+	town_names(PATH_Q, 5), //M127
 	}
 }
-/*
+	
+
 town_names(ALL_PATHS_1) {
 	{
-	town_names(PATH_D, 62),	//	G9  - 21
-	town_names(PATH_E, 12),	//	G12 - 4
-	town_names(PATH_G, 12),	// G4 G8 G15	= 118
-	town_names(PATH_H, 1),		// G12			= 4 
-	town_names(PATH_J, 17),		// G12		= 4
-	town_names(PATH_L, 24),		//	8
-	town_names(PATH_N, 2),		//	6
-	town_names(PATH_P, 24),		//	85
-	town_names(PATH_Q, 18),		//	64		
+	town_names(PATH_A, 2),
+	town_names(PATH_B, 2),
+	town_names(PATH_C, 2),
+	town_names(PATH_D, 1),
+	town_names(PATH_F, 2),
+	town_names(PATH_I, 9),
+	town_names(PATH_K, 6),
+	town_names(PATH_R, 2),
+	town_names(ALL_PATHS_1_1, 2),
 	}
-}  */
+}
 
 //	MASTER PATH!
 town_names(ALL_PATHS) {
 	styles:	string(STR_GAME_OPTIONS_TOWN_NAME_RANDOM_AB);
 	{
-	town_names(PATH_A, 1),	//	G4  - 47
-	town_names(PATH_B, 1),	//	G5  - 35
-	town_names(PATH_C, 1),	//	G8  - 28
-	town_names(PATH_D, 1),	//	G9  - 21
-	town_names(PATH_F, 1),	//	G15 - 43
-	town_names(PATH_I, 5),	// G4 G8 G15	= 118
-	town_names(PATH_K, 3),		//	109
-	town_names(PATH_M, 47),		//	6+12+2+1371 = 1391	\ 1043
-	town_names(PATH_R, 1),		//	9*4 = 36
-	town_names(ALL_PATHS_1, 2),
-	// 7 bit
+	town_names(ALL_PATHS_1, 2), // M4; 8 WITHOUT ALLPATHS11
+	town_names(PATH_M, 5), // M127
 	}	
 }
 

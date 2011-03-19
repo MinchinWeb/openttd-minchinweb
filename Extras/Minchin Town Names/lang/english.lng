@@ -1,6 +1,6 @@
 ﻿##grflangid 00
 
 STR_GRF_NAME			:MinchinWeb's Random Town Names
-STR_GRF_DESCRIPTION		:{BLACK}Description: {SILVER}From {BLUE}'Acme' {SILVER}to {BLUE}'Fort Zama,'{SILVER} random town names based on real names Alberta, Canada.{}{}{BLACK}Copyright: {SILVER}{COPYRIGHT} 2011 by Wm Minchin{}{BLACK}Version: {SILVER}1 [2011-03-16]{}{BLACK}License: {SILVER}CC-BY-SA 3.0
+STR_GRF_DESCRIPTION		:{BLACK}Description: {SILVER}From {BLUE}'East Acme' {SILVER}to {BLUE}'Drift Pile Lake' {SILVER}to {BLUE}'Vader Lake Outpost' {SILVER}to {BLUE}'Fort Zama,'{SILVER} random town names based on real ones in Alberta, Canada.{}{}{BLACK}Copyright: {SILVER}{COPYRIGHT} 2011 by Wm Minchin{}{BLACK}Version: {SILVER}1 [2011-03-19]{}{BLACK}License: {SILVER}CC-BY-SA 3.0
 
-STR_GAME_OPTIONS_TOWN_NAME_RANDOM_AB	:MinchinWeb's Random
+STR_GAME_OPTIONS_TOWN_NAME_RANDOM_AB	:MinchinWeb's Random I

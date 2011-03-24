@@ -1,17 +1,19 @@
 WmDOT Version History
-v.1, r.17, 2011-03-01
+v.2, r.33, 2011-03-24
 Copyright © 2011 by William Minchin. For more info, please visit
 	http://openttd-noai-wmdot.googlecode.com/
 
 
+r33	2011-03-24	v2 - Initial Bananas Release
+				Company no longer renames itself on savegame reloading
 r17	2011-03-01	Now generates the Atlas once per Mode (as opposed for each new
 					route) and then build all possible routes
 				- Moved existing route checking from Atlas generation to
 					on-demand
-				- Now maintians a list of routes that have been tested and 
+				- Now maintains a list of routes that have been tested and 
 					found to exist
 				Seperated Array functions
-				Add more loan managment points
+				Add more loan management points
 r16	2011-02-25	Road Pathfinder optimization
 				- now considered v4 of pathfinder
 				- added a couple of lines to the pathfinder to allow it to
@@ -26,7 +28,7 @@ r15	2011-02-24	Multiply DOT's running at the same time now run in a
 r14	2011-02-19	Build out in zones (speed, quarter map, full map)
 				Build out in steps (capital, connected towns)
 				- combination moves up to six Modes	
-v1				(to be released baased on r11, need to zip and add lisence)
+v1				(to be released based on r11...never happened...)
 r11	2011-02-18	Introduces Loan Management
 				- requires SuperLib v6
 				- keeps a minimum amount of money on hand
@@ -39,7 +41,8 @@ r5b	2011-02-18	Keeps track of already built connections
 				Seperated out GNU FDL code
 				Clean up of Debug output
 r4b	2011-02-17	r9 is uploaded to Google Code
-r9	2011-02-12	Computes only half of the matrix (computational savings of 45% in test case)
+r9	2011-02-12	Computes only half of the matrix (computational savings of 45%
+					in test case)
 				No more crashes upon building all the connects
 r8	2011-02-11	This is the first version that 'works'. It selects a list of
 					towns, weighs them based on distance and populaiton, and
@@ -61,7 +64,6 @@ r3				GenerateTownList()
 				NameWmDOT()
 
 Roadmap:
-- improve 'remove existing routes' by limiting the search space to only road tiles
 - move array functions to library
 - improve route selection by estimating cost based on building cost rather than pure distance
 - move to grid based route finding

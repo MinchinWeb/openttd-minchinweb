@@ -1,4 +1,4 @@
-/*	WmDOT v.2  r.17
+/*	WmDOT v.2  r.33
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -21,7 +21,7 @@
 	WmDOTv = 2;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 17;
+	WmDOTr = 33;
 	/*	Reversion number of AI
 	 */
 	 
@@ -96,9 +96,11 @@ function WmDOT::Start()
 	//			population threshold to built road network
 	//		4 - joins all towns under second distance threshold and over
 	//			population threshold to built road network
-	//		5 - considers (and builts as apppropriate) all possible connections
+	//		5 - joins all towns over the population threshold to the network
+	//			(without regard to distance)
+	//		6 - considers (and builts as apppropriate) all possible connections
 	//			of towns above the population threshold
-	//		6 - the AI naps ... zzz ...
+	//		7 - the AI naps ... zzz ...
 	
 	local NumOfTownsOnList = 0;
 	local BuiltSomething = false;
@@ -275,219 +277,228 @@ function WmDOT::NameWmDOT()
 		
 	AILog.Info("Naming Company...");
 	
-	local tick;
-	tick = this.GetTick();
-	
-	// Get Name Settings and Build Name String
-	local Name2 = WmDOT.GetSetting("DOT_name2");
-	local NewName = "";
-	AILog.Info("     Name settings are " + WmDOT.GetSetting("DOT_name1") + " " + WmDOT.GetSetting("DOT_name2") + ".");
-	switch (WmDOT.GetSetting("DOT_name1"))
-	{
-		case 0: 
-			NewName = "Wm";
-			break;
-		case 1: 
-			NewName = "A";
-			break;
-		case 2: 
-			NewName = "B";
-			break;
-		case 3: 
-			NewName = "C";
-			break;
-		case 4: 
-			NewName = "D";
-			break;
-		case 5: 
-			NewName = "E";
-			break;
-		case 6: 
-			NewName = "F";
-			break;
-		case 7: 
-			NewName = "G";
-			break;
-		case 8: 
-			NewName = "H";
-			break;
-		case 9: 
-			NewName = "I";
-			break;
-		case 10: 
-			NewName = "J";
-			break;
-		case 11: 
-			NewName = "K";
-			break;
-		case 12: 
-			NewName = "L";
-			break;
-		case 13: 
-			NewName = "M";
-			break;
-		case 14: 
-			NewName = "N";
-			break;
-		case 15: 
-			NewName = "O";
-			break;
-		case 16: 
-			NewName = "P";
-			break;
-		case 17: 
-			NewName = "Q";
-			break;
-		case 18: 
-			NewName = "R";
-			break;
-		case 19: 
-			NewName = "S";
-			break;
-		case 20: 
-			NewName = "T";
-			break;
-		case 21: 
-			NewName = "U";
-			break;
-		case 22: 
-			NewName = "V";
-			break;
-		case 23: 
-			NewName = "W";
-			break;
-		case 24: 
-			NewName = "X";
-			break;
-		case 25: 
-			NewName = "Y";
-			break;
-		case 26: 
-			NewName = "Z";
-			break;
-		default:
-			AILog.Warning("          Unexpected DOT_name1 parameter");
-			break;
-	}
-	switch (WmDOT.GetSetting("DOT_name2"))
-	{
-		case 0: 
-			break;
-		case 1: 
-			NewName = NewName + "a";
-			break;
-		case 2: 
-			NewName = NewName + "b";
-			break;
-		case 3: 
-			NewName = NewName + "c";
-			break;
-		case 4: 
-			NewName = NewName + "d";
-			break;
-		case 5: 
-			NewName = NewName + "e";
-			break;
-		case 6: 
-			NewName = NewName + "f";
-			break;
-		case 7: 
-			NewName = NewName + "g";
-			break;
-		case 8: 
-			NewName = NewName + "h";
-			break;
-		case 9: 
-			NewName = NewName + "i";
-			break;
-		case 10: 
-			NewName = NewName + "j";
-			break;
-		case 11: 
-			NewName = NewName + "k";
-			break;
-		case 12: 
-			NewName = NewName + "l";
-			break;
-		case 13: 
-			NewName = NewName + "m";
-			break;
-		case 14: 
-			NewName = NewName + "n";
-			break;
-		case 15: 
-			NewName = NewName + "o";
-			break;
-		case 16: 
-			NewName = NewName + "p";
-			break;
-		case 17: 
-			NewName = NewName + "q";
-			break;
-		case 18: 
-			NewName = NewName + "r";
-			break;
-		case 19: 
-			NewName = NewName + "s";
-			break;
-		case 20: 
-			NewName = NewName + "t";
-			break;
-		case 21: 
-			NewName = NewName + "u";
-			break;
-		case 22: 
-			NewName = NewName + "v";
-			break;
-		case 23: 
-			NewName = NewName + "w";
-			break;
-		case 24: 
-			NewName = NewName + "x";
-			break;
-		case 25: 
-			NewName = NewName + "y";
-			break;
-		case 26: 
-			NewName = NewName + "z";
-			break;
-		default:
-			AILog.Warning("          Unexpected DOT_name2 parameter");
-			break;
-	}
-	NewName = NewName + "DOT"
-	if (!AICompany.SetName(NewName))
-	{
-		AILog.Info("     Setting Company Name failed. Trying default...");
-		if (!AICompany.SetName("WmDOT"))
+	// Test for already named company (basically just an issue on
+	//		savegame loading)
+	local OldName = AICompany.GetName(AICompany.ResolveCompanyID(AICompany.COMPANY_SELF));
+	AILog.Info("     Currently named " + OldName + "." + OldName.find("DOT"));
+	if (OldName.find("DOT")== null) {
+		local tick;
+		tick = this.GetTick();
+		
+		// Get Name Settings and Build Name String
+		local Name2 = WmDOT.GetSetting("DOT_name2");
+		local NewName = "";
+		AILog.Info("     Name settings are " + WmDOT.GetSetting("DOT_name1") + " " + WmDOT.GetSetting("DOT_name2") + ".");
+		switch (WmDOT.GetSetting("DOT_name1"))
 		{
-			AILog.Info("     Default failed. Trying backup...")
-			if (!AICompany.SetName("ZxDOT"))
+			case 0: 
+				NewName = "Wm";
+				break;
+			case 1: 
+				NewName = "A";
+				break;
+			case 2: 
+				NewName = "B";
+				break;
+			case 3: 
+				NewName = "C";
+				break;
+			case 4: 
+				NewName = "D";
+				break;
+			case 5: 
+				NewName = "E";
+				break;
+			case 6: 
+				NewName = "F";
+				break;
+			case 7: 
+				NewName = "G";
+				break;
+			case 8: 
+				NewName = "H";
+				break;
+			case 9: 
+				NewName = "I";
+				break;
+			case 10: 
+				NewName = "J";
+				break;
+			case 11: 
+				NewName = "K";
+				break;
+			case 12: 
+				NewName = "L";
+				break;
+			case 13: 
+				NewName = "M";
+				break;
+			case 14: 
+				NewName = "N";
+				break;
+			case 15: 
+				NewName = "O";
+				break;
+			case 16: 
+				NewName = "P";
+				break;
+			case 17: 
+				NewName = "Q";
+				break;
+			case 18: 
+				NewName = "R";
+				break;
+			case 19: 
+				NewName = "S";
+				break;
+			case 20: 
+				NewName = "T";
+				break;
+			case 21: 
+				NewName = "U";
+				break;
+			case 22: 
+				NewName = "V";
+				break;
+			case 23: 
+				NewName = "W";
+				break;
+			case 24: 
+				NewName = "X";
+				break;
+			case 25: 
+				NewName = "Y";
+				break;
+			case 26: 
+				NewName = "Z";
+				break;
+			default:
+				AILog.Warning("          Unexpected DOT_name1 parameter");
+				break;
+		}
+		switch (WmDOT.GetSetting("DOT_name2"))
+		{
+			case 0: 
+				break;
+			case 1: 
+				NewName = NewName + "a";
+				break;
+			case 2: 
+				NewName = NewName + "b";
+				break;
+			case 3: 
+				NewName = NewName + "c";
+				break;
+			case 4: 
+				NewName = NewName + "d";
+				break;
+			case 5: 
+				NewName = NewName + "e";
+				break;
+			case 6: 
+				NewName = NewName + "f";
+				break;
+			case 7: 
+				NewName = NewName + "g";
+				break;
+			case 8: 
+				NewName = NewName + "h";
+				break;
+			case 9: 
+				NewName = NewName + "i";
+				break;
+			case 10: 
+				NewName = NewName + "j";
+				break;
+			case 11: 
+				NewName = NewName + "k";
+				break;
+			case 12: 
+				NewName = NewName + "l";
+				break;
+			case 13: 
+				NewName = NewName + "m";
+				break;
+			case 14: 
+				NewName = NewName + "n";
+				break;
+			case 15: 
+				NewName = NewName + "o";
+				break;
+			case 16: 
+				NewName = NewName + "p";
+				break;
+			case 17: 
+				NewName = NewName + "q";
+				break;
+			case 18: 
+				NewName = NewName + "r";
+				break;
+			case 19: 
+				NewName = NewName + "s";
+				break;
+			case 20: 
+				NewName = NewName + "t";
+				break;
+			case 21: 
+				NewName = NewName + "u";
+				break;
+			case 22: 
+				NewName = NewName + "v";
+				break;
+			case 23: 
+				NewName = NewName + "w";
+				break;
+			case 24: 
+				NewName = NewName + "x";
+				break;
+			case 25: 
+				NewName = NewName + "y";
+				break;
+			case 26: 
+				NewName = NewName + "z";
+				break;
+			default:
+				AILog.Warning("          Unexpected DOT_name2 parameter");
+				break;
+		}
+		NewName = NewName + "DOT"
+		if (!AICompany.SetName(NewName))
+		{
+			AILog.Info("     Setting Company Name failed. Trying default...");
+			if (!AICompany.SetName("WmDOT"))
 			{
-				AILog.Info("     Backup failed. Trying random...")
-				do
+				AILog.Info("     Default failed. Trying backup...")
+				if (!AICompany.SetName("ZxDOT"))
 				{
-					local c;
-					c = AIBase.RandRange(26) + 65;
-					NewName = c.tochar();
-					c = AIBase.RandRange(26 + SingleLetterOdds) + 97;
-					if (c <= 122)
+					AILog.Info("     Backup failed. Trying random...")
+					do
 					{
-						NewName = NewName + c.tochar();
-					}
-					NewName = NewName + "DOT";					
-				} while (!AICompany.SetName(NewName))
+						local c;
+						c = AIBase.RandRange(26) + 65;
+						NewName = c.tochar();
+						c = AIBase.RandRange(26 + SingleLetterOdds) + 97;
+						if (c <= 122)
+						{
+							NewName = NewName + c.tochar();
+						}
+						NewName = NewName + "DOT";					
+					} while (!AICompany.SetName(NewName))
+				}
 			}
 		}
+		
+		//	Add 'P.Eng' to the end of the founder's name
+		NewName = AICompany.GetPresidentName(AICompany.COMPANY_SELF);
+		NewName += ", P.Eng"
+		AICompany.SetPresidentName(NewName);
+		
+		tick = this.GetTick() - tick;
+		AILog.Info("     Company named " + AICompany.GetName(AICompany.COMPANY_SELF) + ". " + AICompany.GetPresidentName(AICompany.COMPANY_SELF) + " is in charge. Took " + tick + " tick(s).");
 	}
-	
-	//	Add 'P.Eng' to the end of the founder's name
-	NewName = AICompany.GetPresidentName(AICompany.COMPANY_SELF);
-	NewName += ", P.Eng"
-	AICompany.SetPresidentName(NewName);
-	
-	tick = this.GetTick() - tick;
-	AILog.Info("     Company named " + AICompany.GetName(AICompany.COMPANY_SELF) + ". " + AICompany.GetPresidentName(AICompany.COMPANY_SELF) + " is in charge. Took " + tick + " tick(s).");
+	else {
+		AILog.Info("     Company ALREADY named " + AICompany.GetName(AICompany.COMPANY_SELF) + ". " + AICompany.GetPresidentName(AICompany.COMPANY_SELF) + " remains in charge.")
+	}
 }
 
 function WmDOT::BuildWmHQ()

@@ -4,7 +4,8 @@
  */
 
 //	Road pathfinder as provided by the NoAI team
-		import("pathfinder.road", "RoadPathFinder", 4);
+//		import("pathfinder.road", "RoadPathFinder", 3);
+		require("Road.Pathfinder.4.WM.nut");	//	class RoadPathfinder
 //	For loan management
 		import("util.superlib", "SuperLib", 6);
 		SLMoney <- SuperLib.Money;
@@ -13,7 +14,7 @@
 //			I need to play with this more to get it to work the way I want
 		require("Arrays.nut");
 //	OperationDOT		
-		require("OpDOT.nut");
+		require("OpDOT.nut");					//	class OpDOT
 		
 //	Check for more required files at the end of this file!!
  

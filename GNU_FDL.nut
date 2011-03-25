@@ -24,7 +24,7 @@ function OpDOT::BuildRoad(ConnectPairs)
   AIRoad.SetCurrentRoadType(AIRoad.ROADTYPE_ROAD);
   
   /* Create an instance of the pathfinder. */
-  local pathfinder = RoadPathFinder();
+  local pathfinder = RoadPathfinder();
   
 	//	Set Parameters
 	pathfinder.cost.max_bridge_length = this._MaxBridge;

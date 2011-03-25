@@ -610,7 +610,7 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 	tick = WmDOT.GetTick();
 	
 	//	create instance of road pathfinder
-	local pathfinder = RoadPathFinder();
+	local pathfinder = RoadPathfinder();
 	//	pathfinder settings
 	pathfinder.cost.max_bridge_length = this._MaxBridge;
 	pathfinder.cost.max_tunnel_length = this._MaxTunnel;

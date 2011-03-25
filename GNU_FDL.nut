@@ -1,4 +1,5 @@
-/*	WmDOT v.1  r.17
+/*	Road building code, part of
+ *	WmDOT v.3  r.40  [2011-03-25]
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */

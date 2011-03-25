@@ -1,4 +1,10 @@
-/*	Edited by Will and Chris...evil laugh
+/*	RoadPathfinder, part of 
+ *	WmDOT v.3  r.40 [2011-03-25]
+ *	Copyright © 2011 by William Minchin. For more info,
+ *		please visit http://openttd-noai-wmdot.googlecode.com/
+ */
+ 
+ /*	Edited by Will and Chris...evil laugh
  *	Feb 24, 2011
  *	added  _cost_only_existing_roads
  */

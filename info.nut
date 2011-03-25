@@ -11,7 +11,7 @@ class WmDOT extends AIInfo
 	function GetVersion()       { return 2; }
 	function MinVersionToLoad() { return 1; }
 	function GetDate()          { return "2011-03-24"; }
-	function GetShortName()     { return "WMDT"; }
+	function GetShortName()     { return "}}mW"; }
 	function CreateInstance()   { return "WmDOT"; }
 	function GetAPIVersion()    { return "1.0"; }
 

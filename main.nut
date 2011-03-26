@@ -1,11 +1,14 @@
-﻿/*	WmDOT v.4  r.41  [2011-03-25]
+﻿/*	WmDOT v.4  r.42  [2011-03-26]
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
+ 		require("AyStar.WM.nut");			//	A* Graph
 //	Road pathfinder as provided by the NoAI team
 //		import("pathfinder.road", "RoadPathFinder", 3);
 		require("Road.Pathfinder.WM.nut");	//	class RoadPathfinder
+
+//		require("AyStar.4.nut");
 //	For loan management
 		import("util.superlib", "SuperLib", 6);
 		SLMoney <- SuperLib.Money;
@@ -55,11 +58,13 @@ function WmDOT::Start()
 	Log.Settings.DebugLevel = GetSetting("Debug_Level");
 	Log.Note("Loading Libraries...",0);		// Actually, by this point it's already happened
 
+//	local MyAyStar = AyStarInfo();
+//	Log.Note("     " + MyAyStar.GetName() + ", v." + MyAyStar.GetVersion() + " r." + MyAyStar.GetRevision() + "  loaded!",0);
+	local MyRoadPathfiner = RoadPathfinder();
+	Log.Note("     " + MyRoadPathfiner.GetName() + ", v." + MyRoadPathfiner.GetVersion() + " r." + MyRoadPathfiner.GetRevision() + "  loaded!",0);
 	Log.Note("     " + Log.GetName() + ", v." + Log.GetVersion() + " r." + Log.GetRevision() + "  loaded!",0);		
 	local MyOpDOT = OpDOT();
 	Log.Note("     " + MyOpDOT.GetName() + ", v." + MyOpDOT.GetVersion() + " r." + MyOpDOT.GetRevision() + "  loaded!",0);
-	local MyRoadPathfiner = RoadPathfinder();
-	Log.Note("     " + MyRoadPathfiner.GetName() + ", v." + MyRoadPathfiner.GetVersion() + " r." + MyRoadPathfiner.GetRevision() + "  loaded!",0);
 	local MyOpMoney = OpMoney();
 	Log.Note("     " + MyOpMoney.GetName() + ", v." + MyOpMoney.GetVersion() + " r." + MyOpMoney.GetRevision() + "  loaded!",0);
 	Log.Note("",0);

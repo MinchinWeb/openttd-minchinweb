@@ -1,5 +1,5 @@
 /*	RoadPathfinder v.5, part of 
- *	WmDOT v.4  r.41 [2011-03-25]
+ *	WmDOT v.4  r.42 [2011-03-26]
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -25,14 +25,17 @@
  *  route. To use only existing roads, set cost.no_existing_road to
  *  cost.max_cost.
  */
+ 
+//	Requires "AyStar.WM.nut"
+ 
 class RoadPathfinder
 {
 	function GetVersion()       { return 5; }
-	function GetRevision()		{ return 41; }
+	function GetRevision()		{ return 42; }
 	function GetDate()          { return "2011-03-26"; }
 	function GetName()          { return "Road Pathfinder (Wm)"; }
 
-	_aystar_class = import("graph.aystar", "", 4);
+	_aystar_class = null;
 	_max_cost = null;              ///< The maximum cost for a route.
 	_cost_tile = null;             ///< The cost for a single tile.
 	_cost_no_existing_road = null; ///< The cost that is added to _cost_tile if no road exists yet.
@@ -51,9 +54,9 @@ class RoadPathfinder
 
 	constructor()
 	{
-		this._max_cost = 10000000;
-		this._cost_tile = 100;
-		this._cost_no_existing_road = 40;
+		this._max_cost = 100000;
+		this._cost_tile = 30;
+		this._cost_no_existing_road = 130;
 		this._cost_turn = 100;
 		this._cost_slope = 200;
 		this._cost_bridge_per_tile = 150;
@@ -62,7 +65,7 @@ class RoadPathfinder
 		this._max_bridge_length = 10;
 		this._max_tunnel_length = 20;
 		this._cost_only_existing_roads = false;
-		this._pathfinder = this._aystar_class(this._Cost, this._Estimate, this._Neighbours, this._CheckDirection, this, this, this, this);
+		this._pathfinder = AyStar(this._Cost, this._Estimate, this._Neighbours, this._CheckDirection, this, this, this, this);
 
 		this.cost = this.Cost(this);
 		this._running = false;
@@ -146,6 +149,7 @@ class RoadPathfinder.Cost
 		this._main = main;
 	}
 };
+
 
 function RoadPathfinder::FindPath(iterations)
 {

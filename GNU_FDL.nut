@@ -1,5 +1,5 @@
 /*	Road building code, part of
- *	WmDOT v.3  r.40  [2011-03-25]
+ *	WmDOT v.4  r.41  [2011-03-26]
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -16,7 +16,7 @@ function OpDOT::BuildRoad(ConnectPairs)
 	//	copied from	http://wiki.openttd.org/AI:RoadPathfinder on 2010-02-10
 	//		under GNU Free Documentation License.
 
-	AILog.Info("     Connecting " + AITown.GetName(ConnectPairs[0]) + " and " + AITown.GetName(ConnectPairs[1]) + "...");
+	Log.Note("     Connecting " + AITown.GetName(ConnectPairs[0]) + " and " + AITown.GetName(ConnectPairs[1]) + "...", 2);
 	
 	local tick;
 	tick = WmDOT.GetTick();	
@@ -41,7 +41,7 @@ function OpDOT::BuildRoad(ConnectPairs)
   pathfinder.InitializePath([AITown.GetLocation(ConnectPairs[0])], [AITown.GetLocation(ConnectPairs[1])]);
 
   /* Try to find a path. */
-	AILog.Info("          Pathfinding...");
+	Log.Note("          Pathfinding...",2);
   local path = false;
   local CycleCounter = 0;
   while (path == false) {
@@ -62,7 +62,7 @@ function OpDOT::BuildRoad(ConnectPairs)
   }
   
 	/* If a path was found, build a road over it. */
-	AILog.Info("          Path found. Took " + (WmDOT.GetTick() - tick) + " ticks. Building route...");
+	Log.Note("          Path found. Took " + (WmDOT.GetTick() - tick) + " ticks. Building route...",3);
 	tick = WmDOT.GetTick();
 	
 	// Clean out the bank
@@ -104,5 +104,5 @@ function OpDOT::BuildRoad(ConnectPairs)
 	SLMoney.MakeMaximumPayback();
 	SLMoney.MakeSureToHaveAmount(100);
 	
-	AILog.Info("          Route complete. (MD = " + AIMap.DistanceManhattan(AITown.GetLocation(ConnectPairs[0]), AITown.GetLocation(ConnectPairs[1])) + ") Took " + (WmDOT.GetTick() - tick) + " tick(s)."); 
+	Log.Note("          Route complete. (MD = " + AIMap.DistanceManhattan(AITown.GetLocation(ConnectPairs[0]), AITown.GetLocation(ConnectPairs[1])) + ") Took " + (WmDOT.GetTick() - tick) + " tick(s).",2); 
  }

@@ -1,9 +1,14 @@
 ﻿WmDOT Version History
-v.2, r.40, 2011-03-25
+v.4, r.41, 2011-03-26
 Copyright © 2011 by William Minchin. For more info, please visit
 	http://openttd-noai-wmdot.googlecode.com/
 
 
+r41	2011-03-26	Move to 'Operation' Paradigm complete
+					- Operation DOT (existing process)
+					- Operation Money (Loan management)
+					- Operation Log (Debugging Output)
+				Changes to AI Options dialogue to reflect new framework
 r40	2011-03-25	v3
 r39 2011-03-25	Move road pathfinder from library to .nut file to make
 					installation easier	

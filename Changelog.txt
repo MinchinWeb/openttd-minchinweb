@@ -1,9 +1,12 @@
 ﻿WmDOT Version History
-v.4, r.41, 2011-03-26
+v.4, r.42, 2011-03-26
 Copyright © 2011 by William Minchin. For more info, please visit
 	http://openttd-noai-wmdot.googlecode.com/
 
 
+r42	2011-03-26	[A*] Moved A* pathfinder inhouse, base on NoAI's AyStar v4
+					and v6
+				- requires "binary_heap" library v.1
 r41	2011-03-26	Move to 'Operation' Paradigm complete
 					- Operation DOT (existing process)
 					- Operation Money (Loan management)

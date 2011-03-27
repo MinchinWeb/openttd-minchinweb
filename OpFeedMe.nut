@@ -1,44 +1,34 @@
-﻿/*	OperationDOT v.2, part of 
+﻿/*	Operation Feed Me v.1, part of 
  *	WmDOT v.4  r.43  [2011-03-27]
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
+
+/*	Operation Feed Me
+ *		In certain climates, certain goods are required by a town to grow
+ *		(typically water to desert towns and food to towns above the snow
+ *		line). This Operation tries to provide those goods to these towns.
+ *		One instance should be created for each Town Effect group.
+ */
+
  
-/*	Operation DOT
- *		Operation DOT (for "Department of Transportation") tries to build out
- *		the highway (road) network. Starting at the HQ town (it's "capital"),
- *		it first build out to surrounding towns, then town surrounding the
- *		connected towns, and then any pair of towns on the map, including
- *		generating alternate connections. No revenue stream.
- */ 
- 
-//	Requires SuperLib v6 or better
 //	Requires "Road.Pathfinder.WM.nut"
 //		Requires AyStar v4
-//	Requires "GNU_FDL.nut"
 //	Requires "OpLog.nut"
-
-//	TO-DO
-//	- return cost of route selection before building
-//	- break into more steps (Modes) to allow breaking during pathfinding
  
- 
-/*	AILog.Info("OpDOT settings: " + MyDOT.Settings.PrintTownAtlas + " " + MyDOT.Settings.MaxAtlasSize + " " + MyDOT.Settings.FloatOffset);
-	
-	MyDOT.Settings.PrintTownAtlas = true;
-	MyDOT.Settings.MaxAtlasSize = 250;
-	MyDOT.Settings.FloatOffset = 0.1;
-	
-	AILog.Info("OpDOT settings: " + MyDOT.Settings.PrintTownAtlas + " " + MyDOT.Settings.MaxAtlasSize + " " + MyDOT.Settings.FloatOffset);
-*/
 
-
- class OpDOT {
-	function GetVersion()       { return 2; }
+ class OpFeedMe {
+	function GetVersion()       { return 1; }
 	function GetRevision()		{ return 43; }
 	function GetDate()          { return "2011-03-27"; }
-	function GetName()          { return "Operation DOT"; }
+	function GetName()          { return "Operation Feed Me"; }
  
+ 	_PrintTownAtlas = null;
+	//	Controls whether the list of towns in the Atlas is printed to the debug screen.
+	 
+	_PrintArrays = null;
+	//	Controls whether the array of the Atlas is printed to the debug screen
+	
 	_MaxAtlasSize = null;		//  UNUSED
 	//	This sets the maximum number of towns that will printed to the debug
 	//	screen.
@@ -83,6 +73,8 @@
 	 
 	constructor()
 	{
+		this._PrintTownAtlas = false;
+		this._PrintArrays = false;
 		this._MaxAtlasSize = 99;
 		this._SleepLength = 50;
 		this._FloatOffset = 0.001;
@@ -115,6 +107,8 @@ class OpDOT.Settings {
 	function _set(idx, val)
 	{
 		switch (idx) {
+			case "PrintTownAtlas":		this._main._PrintTownAtlas = val; break;
+			case "PrintArrays":			this._main._PrintArrays = val; break;
 			case "MaxAtlasSize":		this._main._MaxAtlasSize = val; break;
 			case "SleepLength":			this._main._SleepLength = val; break;
 			case "FloatOffset":			this._main._FloatOffset = val; break;
@@ -137,6 +131,8 @@ class OpDOT.Settings {
 	function _get(idx)
 	{
 		switch (idx) {
+			case "PrintTownAtlas":		return this._main._PrintTownAtlas; break;
+			case "PrintArrays":			return this._main._PrintArrays; break;
 			case "MaxAtlasSize":		return this._main._MaxAtlasSize; break;
 			case "SleepLength":			return this._main._SleepLength; break;
 			case "FloatOffset":			return this._main._FloatOffset; break;
@@ -184,18 +180,13 @@ class OpDOT.Settings {
  
 function OpDOT::Run() {
 	//	This is used to keep track of what 'step' the AI is at
-	//		1 - joins all towns under first distance threshold to capital
-	//		2 - joins all towns under second distance threshold and over
-	//			population threshold to capital
-	//		3 - joins all towns under first distance threshold and over
-	//			population threshold to built road network
-	//		4 - joins all towns under second distance threshold and over
-	//			population threshold to built road network
-	//		5 - joins all towns over the population threshold to the network
-	//			(without regard to distance)
-	//		6 - considers (and builts as apppropriate) all possible connections
-	//			of towns above the population threshold
-	//		7 - the AI naps ... zzz ...
+	//		1 - Determine TE_Effect goods
+	//		2 - Map to TE_Effect Industries
+	//		3 - Generate list of TE_Effect Industries
+	//		4 - Generate list of towns requiring said goods
+	//		5 - Generate Atlas
+	//		6 - Select a route, pathfind, return cost
+	//		7 - build route, add truck, transfer to route manager (return to Mode 6)
 	
 	this._NextRun = WmDOT.GetTick();
 	Log.Note("OpDOT running in Mode " + this._Mode + " at tick " + this._NextRun + ".",1);

@@ -12,6 +12,11 @@
 /*	This file is licenced under the originl licnese - LGPL v2.1
  *		and is based on the NoAI Team's Road Pathfinder v3
  */
+ 
+//	TO-DO
+//	- get the lenght of the path out (AyStar.GetLength)
+//	- get the cost of building the path out (AIAccounting.?)
+ 
 
 /* $Id: main.nut 15101 2009-01-16 00:05:26Z truebrain $ */
 

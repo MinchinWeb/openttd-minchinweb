@@ -1,17 +1,14 @@
-﻿/*	WmDOT v.4  r.42  [2011-03-26]
+﻿/*	WmDOT v.4  r.43  [2011-03-27]
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
- 		require("AyStar.WM.nut");			//	A* Graph
-//	Road pathfinder as provided by the NoAI team
-//		import("pathfinder.road", "RoadPathFinder", 3);
-		require("Road.Pathfinder.WM.nut");	//	class RoadPathfinder
+require("AyStar.WM.nut");			//	A* Graph
+									//	Requires "Binary_Heap" Library v.1
+require("Road.Pathfinder.WM.nut");	//	class RoadPathfinder
 
-//		require("AyStar.4.nut");
-//	For loan management
-		import("util.superlib", "SuperLib", 6);
-		SLMoney <- SuperLib.Money;
+import("util.superlib", "SuperLib", 6);		//	For loan management
+	SLMoney <- SuperLib.Money;
 
 require("Arrays.nut");		//	My Array library
 							//			I need to play with this more to get it to work the way I want		
@@ -19,7 +16,7 @@ require("OpDOT.nut");		//	OperationDOT
 require("OpMoney.nut");		//	Operation Money
 require("OpLog.nut");		//	Operation Log
 		
-//	Check for more required files at the end of this file!!
+
  
  class WmDOT extends AIController 
 {
@@ -27,7 +24,7 @@ require("OpLog.nut");		//	Operation Log
 	WmDOTv = 4;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 41;
+	WmDOTr = 43;
 	/*	Reversion number of AI
 	 */
 	 

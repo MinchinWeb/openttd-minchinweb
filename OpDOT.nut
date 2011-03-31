@@ -1,5 +1,5 @@
 ﻿/*	OperationDOT v.2, part of 
- *	WmDOT v.4  r.43  [2011-03-27]
+ *	WmDOT v.4  r.44  [2011-03-31]
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -17,6 +17,8 @@
 //		Requires AyStar v4
 //	Requires "GNU_FDL.nut"
 //	Requires "OpLog.nut"
+//	Requires "OpMoney.nut"
+//		Note that OpDOT runs a seperate money manager from the main program
 
 //	TO-DO
 //	- return cost of route selection before building
@@ -35,8 +37,8 @@
 
  class OpDOT {
 	function GetVersion()       { return 2; }
-	function GetRevision()		{ return 43; }
-	function GetDate()          { return "2011-03-27"; }
+	function GetRevision()		{ return 44; }
+	function GetDate()          { return "2011-03-31"; }
 	function GetName()          { return "Operation DOT"; }
  
 	_MaxAtlasSize = null;		//  UNUSED
@@ -73,12 +75,14 @@
 	_NumOfTownsOnList = null;
 	_BuiltSomething = null;
 	_ModeStart = null;
+	_RoadType = null;
 	
 	_NextRun = null;
 	_ROI = null;
 	_Cost = null;
 	
 	Log = null;
+	Money = null;
 	
 	 
 	constructor()
@@ -87,7 +91,7 @@
 		this._SleepLength = 50;
 		this._FloatOffset = 0.001;
 		this._PathFinderCycles = 100;
-		this._MaxBridge = 10;
+		this._MaxBridge = 16;
 		this._MaxTunnel = 10;
 		this._Mode = 1;
 		this._HQTown = null;
@@ -99,12 +103,13 @@
 		this._NumOfTownsOnList = 0;
 		this._BuiltSomething = false;
 		this._ModeStart = true;
-//		this._DebugLevel = 4;
+		this._NextRun = 0;
+		this._RoadType = AIRoad.ROADTYPE_ROAD;
 		
 		this.Settings = this.Settings(this);
 		this.State = this.State(this);
-		Log = OpLog();
-//		Log.Settings.DebugLevel = this._DebugLevel;
+		Log = WmDOT.Log;
+		Money = OpMoney();
 	}
 };
 
@@ -129,6 +134,7 @@ class OpDOT.Settings {
 			case "ConnectedPairs":		this._main._ConnectedPairs = val; break;
 			case "SomeoneElseConnected":	this._main._SomeoneElseConnected = val; break;
 			case "DebugLevel":			this._main._DebugLevel = val; break;
+			case "RoadType":			this._main._RoadType = val; break;
 			default: throw("The index '" + idx + "' does not exist");
 		}
 		return val;
@@ -151,6 +157,7 @@ class OpDOT.Settings {
 			case "ConnectedPairs":		return this._main._ConnectedPairs; break;
 			case "SomeoneElseConnected":	return this._main._SomeoneElseConnected; break;
 			case "DebugLevel":			return this._main._DebugLevel; break;
+			case "RoadType":			return this._main._RoadType; break;
 			default: throw("The index '" + idx + "' does not exist");
 		}
 	}
@@ -199,6 +206,12 @@ function OpDOT::Run() {
 	
 	this._NextRun = WmDOT.GetTick();
 	Log.Note("OpDOT running in Mode " + this._Mode + " at tick " + this._NextRun + ".",1);
+	
+	if (WmDOT.GetSetting("OpDOT") == 0) {
+		this._NextRun += 10000;
+		Log.Note("** OpDOT has been disabled. **",0);
+		return;
+	}
 	
 	if (this._ModeStart == true) {
 		if (this._Mode == 1) {
@@ -274,7 +287,12 @@ function OpDOT::Run() {
 				TestAtlas = RemoveExistingConnections(TestAtlas);
 				
 				if (TestAtlas[0][2] == 1) {
-					BuildRoad(this._PairsToConnect);
+//					BuildRoad(this._PairsToConnect);
+					local Path = RunPathfinderOnTownPairs(this._PairsToConnect);
+					local BuildCost = GetPathBuildCost(Path);
+					Log.Note("Cost of path is " + BuildCost + "£.", 3);
+					Money.FundsRequest(BuildCost*1.1);		//	To allow for inflation during construction
+					BuildPath(Path);
 					this._ConnectedPairs.push(this._PairsToConnect);	//	Add the pair to the list of built roads
 					this._Atlas = RemoveBuiltConnections(this._Atlas, [this._PairsToConnect]);
 					this._BuiltSomething = true;
@@ -318,8 +336,13 @@ function OpDOT::Run() {
 			} else {
 				//	Now that we have the pair, test for an existing
 				//		connection and only build the road if it 
-				//		doesn't exist				
-				BuildRoad(this._PairsToConnect);
+				//		doesn't exist						
+//				BuildRoad(this._PairsToConnect);
+				local Path = RunPathfinderOnTownPairs(this._PairsToConnect);
+				local BuildCost = GetPathBuildCost(Path);
+				Log.Note("Cost of path is " + BuildCost + "£.", 3);
+				Money.FundsRequest(BuildCost*1.1);		//	To allow for inflation during construction
+				BuildPath(Path);
 				this._ConnectedPairs.push(this._PairsToConnect);	//	Add the pair to the list of built roads
 				this._Atlas = RemoveBuiltConnections(this._Atlas, [this._PairsToConnect]);
 				this._BuiltSomething = true;
@@ -350,7 +373,7 @@ function OpDOT::Run() {
 	WmTownList.Valuate(AITown.GetPopulation);
 	local PopLimit;
 	if (SetPopLimit < 0) {
-	PopLimit = WmDOT.GetSetting("MinTownSize");
+	PopLimit = WmDOT.GetSetting("OpDOT_MinTownSize");
 	} else {
 	PopLimit = SetPopLimit;
 	}
@@ -795,4 +818,193 @@ function OpDOT::MirrorAtlas(WmAtlas)
 	}
 	
 	return WmAtlas;
+}
+
+function OpDOT::RunPathfinder(Start, End)
+{
+//	Takes the starting and ending tiles, and runs the pathfinder to join the two.
+//	Takes Bridge Length, Tunnel Lenght, and Road Type from OpDOT settings.
+	
+	AIRoad.SetCurrentRoadType(this._RoadType);
+	local pathfinder = RoadPathfinder();
+	
+	//	Set Parameters
+	pathfinder.cost.max_bridge_length = this._MaxBridge;
+	pathfinder.cost.max_tunnel_length = this._MaxTunnel;
+	pathfinder.cost.no_existing_road = 130;		//	default = 40
+	pathfinder.cost.slope = 400;				//	default = 200
+	pathfinder.cost.bridge_per_tile = 250;		//	default = 150
+												//	the hope is that random bridges on flat ground won't
+												//		show up, but they will for the little dips  \_/
+	pathfinder.cost.turn = 50;					//	default = 100
+	
+	// Give the source and goal tiles to the pathfinder.
+	pathfinder.InitializePath([Start], [End]);
+	
+	local path = false;
+	local CycleCounter = 0;
+
+	while (path == false) {
+		path = pathfinder.FindPath(this._PathFinderCycles);
+		CycleCounter+=this._PathFinderCycles;
+		if (CycleCounter > 2000) {
+			//	A safety to make sure that the AI doesn't run out
+			//		of money while pathfinding...
+			Money.GreaseMoney();
+			CycleCounter = 0;
+		}
+	}
+	
+	if (path == null) {
+	//	No path was found
+		Log.Warning("pathfinder.FindPath return null - seeking path from " + AIMap.GetTileX(Start) + "," + AIMap.GetTileY(Start) + " to " + AIMap.GetTileX(End) + "," + AIMap.GetTileY(End) + ".");
+	}
+	
+	return path;
+}
+
+function OpDOT::RunPathfinderOnTowns(TownA, TownB)
+{
+//	Runs the pathfinder between the given towns
+//	TO-DO:
+//	- add check that the center of town is indeed a road tile
+
+	Log.Note("     Connecting " + AITown.GetName(TownA) + " and " + AITown.GetName(TownB) + "...", 2);
+	
+	return RunPathfinder(AITown.GetLocation(TownA),AITown.GetLocation(TownB));
+}
+
+function OpDOT::RunPathfinderOnTownPairs(ConnectPairs)
+{
+//	ConnectedPairs is expected to be an array with two TownID's
+	Log.Note("               RunPathfinderOnTownPairs(ConnectPairs)",4);
+	return RunPathfinderOnTowns(ConnectPairs[0], ConnectPairs[1]);
+}
+
+function OpDOT::GetPathBuildCost(Path)
+{
+//	Turns to 'test mode,' builds the route provided, and returns the cost (all
+//		money for AI's is in British Pounds)
+//	Note that due to inflation, this value can get stale
+//	Returns null if the test build fails
+
+	local BeanCounter = AIAccounting();
+	local TestMode = AITestMode();
+
+	AIRoad.SetCurrentRoadType(this._RoadType);
+	while (Path != null) {
+		local SubPath = Path.GetParent();
+		if (SubPath != null) {
+			local Node = Path.GetTile();
+			if (AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile()) == 1) {
+			//	MD == 1 == road joining the two tiles
+				if (!AIRoad.BuildRoad(Path.GetTile(), SubPath.GetTile())) {
+				//	If we get here, then the road building has failed
+				//	Possible that the road already exists
+				//	TO-DO
+				//	- fail the road builder if the road cannot be built and
+				//		does not already exist
+				//	return null;
+				}
+			} else {
+			//	Implies that we're building either a tunnel or a bridge
+				if (!AIBridge.IsBridgeTile(Path.GetTile()) && !AITunnel.IsTunnelTile(Path.GetTile())) {
+					if (AIRoad.IsRoadTile(Path.GetTile())) {
+					//	Original example demolishes tile if it's already a road
+					//		tile to get around expanded roadbits.
+					//	I don't like this approach as it could destroy Railway
+					//		tracks/tram tracks/station
+					//	TO-DO
+					//	- figure out a way to do this while keeping the other
+					//		things I've built on the tile
+					//	(can I just remove the road?)
+						AITile.DemolishTile(Path.GetTile());
+					}
+					if (AITunnel.GetOtherTunnelEnd(Path.GetTile()) == SubPath.GetTile()) {
+						if (!AITunnel.BuildTunnel(AIVehicle.VT_ROAD, Path.GetTile())) {
+						//	At this point, an error has occured while building the tunnel.
+						//	Fail the pathfiner
+							return null;
+						}
+					} else {
+					//	if not a tunnel, we assume we're buildng a bridge
+						local BridgeList = AIBridgeList_Lenght(AILap.Manhattan(Path.GetTile(), SubPath.GetTile() + 1));
+						BridgeList.Valuate(AIBridge.GetMaxSpeed);
+						BridgeList.Sort(AIAbstractList.SORT_BY_VALUE, false);
+						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
+						//	At this point, an error has occured while building the bridge.
+						//	Fail the pathfiner
+							return null;
+						}
+					}
+				}
+			}
+		}
+	Path = SubPath;
+	}
+	
+	//	End build sequence
+	return BeanCounter.GetCosts();
+}
+
+function OpDOT::BuildPath(Path)
+{
+//	Exits and returns null if the test build fails (doesn't try to finish building the path)
+
+	local TestMode = AIExecMode();	//	We're really doing this!
+
+	AIRoad.SetCurrentRoadType(this._RoadType);
+	while (Path != null) {
+		local SubPath = Path.GetParent();
+		if (SubPath != null) {
+			local Node = Path.GetTile();
+			if (AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile()) == 1) {
+			//	MD == 1 == road joining the two tiles
+				if (!AIRoad.BuildRoad(Path.GetTile(), SubPath.GetTile())) {
+				//	If we get here, then the road building has failed
+				//	Possible that the road already exists
+				//	TO-DO
+				//	- fail the road builder if the road cannot be built and
+				//		does not already exist
+				//	return null;
+				}
+			} else {
+			//	Implies that we're building either a tunnel or a bridge
+				if (!AIBridge.IsBridgeTile(Path.GetTile()) && !AITunnel.IsTunnelTile(Path.GetTile())) {
+					if (AIRoad.IsRoadTile(Path.GetTile())) {
+					//	Original example demolishes tile if it's already a road
+					//		tile to get around expanded roadbits.
+					//	I don't like this approach as it could destroy Railway
+					//		tracks/tram tracks/station
+					//	TO-DO
+					//	- figure out a way to do this while keeping the other
+					//		things I've built on the tile
+					//	(can I just remove the road?)
+						AITile.DemolishTile(Path.GetTile());
+					}
+					if (AITunnel.GetOtherTunnelEnd(Path.GetTile()) == SubPath.GetTile()) {
+						if (!AITunnel.BuildTunnel(AIVehicle.VT_ROAD, Path.GetTile())) {
+						//	At this point, an error has occured while building the tunnel.
+						//	Fail the pathfiner
+							return null;
+						}
+					} else {
+					//	if not a tunnel, we assume we're buildng a bridge
+						local BridgeList = AIBridgeList_Lenght(AILap.Manhattan(Path.GetTile(), SubPath.GetTile() + 1));
+						BridgeList.Valuate(AIBridge.GetMaxSpeed);
+						BridgeList.Sort(AIAbstractList.SORT_BY_VALUE, false);
+						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
+						//	At this point, an error has occured while building the bridge.
+						//	Fail the pathfiner
+							return null;
+						}
+					}
+				}
+			}
+		}
+	Path = SubPath;
+	}
+	
+	//	End build sequence
+	return true;
 }

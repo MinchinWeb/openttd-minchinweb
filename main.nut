@@ -36,6 +36,7 @@ require("OpLog.nut");		//	Operation Log
 	//	END SETTINGS
 	
 	Log = OpLog();
+//	Money = null;
 	
   
   function Start();
@@ -57,13 +58,14 @@ function WmDOT::Start()
 
 //	local MyAyStar = AyStarInfo();
 //	Log.Note("     " + MyAyStar.GetName() + ", v." + MyAyStar.GetVersion() + " r." + MyAyStar.GetRevision() + "  loaded!",0);
+	local Money = OpMoney();
+	Log.Note("     " + Money.GetName() + ", v." + Money.GetVersion() + " r." + Money.GetRevision() + "  loaded!",0);
 	local MyRoadPathfiner = RoadPathfinder();
 	Log.Note("     " + MyRoadPathfiner.GetName() + ", v." + MyRoadPathfiner.GetVersion() + " r." + MyRoadPathfiner.GetRevision() + "  loaded!",0);
 	Log.Note("     " + Log.GetName() + ", v." + Log.GetVersion() + " r." + Log.GetRevision() + "  loaded!",0);		
 	local MyOpDOT = OpDOT();
 	Log.Note("     " + MyOpDOT.GetName() + ", v." + MyOpDOT.GetVersion() + " r." + MyOpDOT.GetRevision() + "  loaded!",0);
-	local MyOpMoney = OpMoney();
-	Log.Note("     " + MyOpMoney.GetName() + ", v." + MyOpMoney.GetVersion() + " r." + MyOpMoney.GetRevision() + "  loaded!",0);
+
 	Log.Note("",0);
 	if (WmDOT.GetSetting("Debug_Level") == 0) {
 		Log.Note("Increase Debug Level in AI settings to get more verbose output.",0);
@@ -82,11 +84,11 @@ function WmDOT::Start()
 		Time = this.GetTick();
 		
 		Log.Settings.DebugLevel = GetSetting("Debug_Level");
-		MyOpDOT.Log.Settings.DebugLevel = GetSetting("Debug_Level");
-		MyOpMoney.Log.Settings.DebugLevel = GetSetting("Debug_Level");
+//		MyOpDOT.Log.Settings.DebugLevel = GetSetting("Debug_Level");
+//		Money.Log.Settings.DebugLevel = GetSetting("Debug_Level");
 	
 		if (Time > MyOpDOT.State.NextRun) { MyOpDOT.Run(); }
-		if (Time > MyOpMoney.State.NextRun) { MyOpMoney.Run(); }
+		if (Time > Money.State.NextRun) { Money.Run(); }
 
 		this.Sleep(1);		
 	}
@@ -481,3 +483,18 @@ function WmDOT::TileIsWhatTown(TileIn)
 	//	If it get this far, it's not in any town's influence
 	return -1;
 }
+
+/*
+function TestAI::Save()
+ {
+   local table = {};	
+   //TODO: Add your save data to the table.
+   return table;
+ }
+ 
+ function TestAI::Load(version, data)
+ {
+   AILog.Info(" Loaded");
+   //TODO: Add your loading routines.
+ }
+ */

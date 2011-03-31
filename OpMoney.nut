@@ -1,5 +1,5 @@
 ﻿/*	OperationMoney v.1, part of 
- *	WmDOT v.4  r.41  [2011-03-26]
+ *	WmDOT v.4  r.44  [2011-03-28]
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -9,8 +9,8 @@
 
  class OpMoney {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return 41; }
-	function GetDate()          { return "2011-03-26"; }
+	function GetRevision()		{ return 44; }
+	function GetDate()          { return "2011-03-31"; }
 	function GetName()          { return "Operation Money"; }
  
 	_SleepLength = null;
@@ -30,7 +30,7 @@
 		this.Settings = this.Settings(this);
 		this.State = this.State(this);
 		
-		Log = OpLog();
+		Log = WmDOT.Log;
 	}
 };
 
@@ -89,5 +89,17 @@ function OpMoney::Run() {
 	
 	SLMoney.MakeMaximumPayback();
 	SLMoney.MakeSureToHaveAmount(this._MinBalance);
-	Log.Note("     Bank Balance: " + AICompany.GetBankBalance(AICompany.ResolveCompanyID(AICompany.COMPANY_SELF)) + "£, Loan: " + AICompany.GetLoanAmount() + "£, Keep Minimum Balance of " + this._MinBalance + "£.",3)
+	Log.Note("     Bank Balance: " + AICompany.GetBankBalance(AICompany.ResolveCompanyID(AICompany.COMPANY_SELF)) + "£, Loan: " + AICompany.GetLoanAmount() + "£, Keep Minimum Balance of " + this._MinBalance + "£.",2)
  }
+ 
+ function OpMoney::FundsRequest(Amount) {
+ //	Makes sure the requested amount is available, taking a loan if available
+	Amount = Amount.tointeger();
+	Log.Note("     Funds Request for " + Amount + "£ received.",3);
+	SLMoney.MakeSureToHaveAmount(Amount);
+}
+
+function OpMoney::GreaseMoney(Amount = 100) {
+//	Designed to keep just enough money onhand to keep from being sold off
+	SLMoney.MakeSureToHaveAmount(Amount);
+}

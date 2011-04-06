@@ -1,5 +1,5 @@
 ﻿/*	OperationDOT v.2, part of 
- *	WmDOT v.4  r.44  [2011-03-31]
+ *	WmDOT v.4  r.49  [2011-04-06]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -37,8 +37,8 @@
 
  class OpDOT {
 	function GetVersion()       { return 2; }
-	function GetRevision()		{ return 44; }
-	function GetDate()          { return "2011-03-31"; }
+	function GetRevision()		{ return 49; }
+	function GetDate()          { return "2011-04-06"; }
 	function GetName()          { return "Operation DOT"; }
  
 	_MaxAtlasSize = null;		//  UNUSED
@@ -928,7 +928,7 @@ function OpDOT::GetPathBuildCost(Path)
 						}
 					} else {
 					//	if not a tunnel, we assume we're buildng a bridge
-						local BridgeList = AIBridgeList_Lenght(AILap.Manhattan(Path.GetTile(), SubPath.GetTile() + 1));
+						local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
 						BridgeList.Valuate(AIBridge.GetMaxSpeed);
 						BridgeList.Sort(AIAbstractList.SORT_BY_VALUE, false);
 						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
@@ -990,7 +990,7 @@ function OpDOT::BuildPath(Path)
 						}
 					} else {
 					//	if not a tunnel, we assume we're buildng a bridge
-						local BridgeList = AIBridgeList_Lenght(AILap.Manhattan(Path.GetTile(), SubPath.GetTile() + 1));
+						local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
 						BridgeList.Valuate(AIBridge.GetMaxSpeed);
 						BridgeList.Sort(AIAbstractList.SORT_BY_VALUE, false);
 						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {

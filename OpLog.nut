@@ -63,10 +63,9 @@ function OpLog::Note(Message, Level=3) {
 //	Displays the message if the Debug level is set high enough
 	if (Level <= this._DebugLevel) {
 		local i = 1;
-		local j = Level;
 		while (i < Level) {
 			Message = "     " + Message;
-			i--;
+			Level--;
 		}
 		AILog.Info(Message);
 	}

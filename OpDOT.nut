@@ -413,8 +413,8 @@ function OpDOT::GenerateAtlas(WmTownArray)
 	 
 
 	 
-	Log.Note("     Generating distance matrix.",2);
-	Log.Note("               TOWN NAME - POPULATION - LOCATION",4);
+	Log.Note("Generating distance matrix.",2);
+	Log.Note("TOWN NAME - POPULATION - LOCATION",4);
 
 	// Generate Distance Matrix
 	local iTown;
@@ -475,7 +475,7 @@ function OpDOT::RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, Mode)
 			}
 			
 			Log.Note(ToSting2DArray(WmAtlas), 4);
-			Log.Note("     " + Count + " routes removed. Took " + (WmDOT.GetTick() - tick) + " ticks.",3);
+			Log.Note(Count + " routes removed. Took " + (WmDOT.GetTick() - tick) + " ticks.",3);
 			return WmAtlas;
 		case 3:
 		case 4:
@@ -493,8 +493,8 @@ function OpDOT::RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, Mode)
 				}
 			}			
 			
-			Log.Note("               " + ToSting2DArray(WmAtlas), 4);
-			Log.Note("               " + Count + " routes removed. Took " + (WmDOT.GetTick() - tick) + " ticks.", 3);
+			Log.Note(ToSting2DArray(WmAtlas), 4);
+			Log.Note(Count + " routes removed. Took " + (WmDOT.GetTick() - tick) + " ticks.", 3);
 			return WmAtlas;
 		default:
 			return WmAtlas;
@@ -569,7 +569,7 @@ function OpDOT::RemoveOverDistance(WmAtlas, MaxDistance)
 	}
 	Log.Note(ToSting2DArray(WmAtlas),4);
 //	if (this._PrintTownAtlas == true) AILog.Info("               " + WmArray.2D.Print(WmAtlas));
-	Log.Note("     " + Count + " routes removed. Took " + (WmDOT.GetTick() - tick) + " ticks.", 3);
+	Log.Note(Count + " routes removed. Took " + (WmDOT.GetTick() - tick) + " ticks.", 3);
 
 	return WmAtlas;
 }
@@ -725,7 +725,7 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 	Log.Note(ToSting2DArray(WmAtlas),4);
 	
 	tick = WmDOT.GetTick() - tick;
-	Log.Note("     " + RemovedCount + " of " + ExaminedCount + " routes removed. Took " + tick + " tick(s).", 3);
+	Log.Note(RemovedCount + " of " + ExaminedCount + " routes removed. Took " + tick + " tick(s).", 3);
 	
 	return WmAtlas;
 }
@@ -963,7 +963,7 @@ function OpDOT::BuildPath(Path)
 				if (!AIRoad.BuildRoad(Path.GetTile(), SubPath.GetTile())) {
 				//	If we get here, then the road building has failed
 				//	Possible that the road already exists
-				//	TO-DO
+				//	TO-DOz
 				//	- fail the road builder if the road cannot be built and
 				//		does not already exist
 				//	return null;

@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.4  r.43  [2011-03-27]
+﻿/*	WmDOT v.4  r.46  [2011-04-06]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -24,7 +24,7 @@ require("OpLog.nut");		//	Operation Log
 	WmDOTv = 4;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 43;
+	WmDOTr = 46;
 	/*	Reversion number of AI
 	 */
 	 
@@ -103,7 +103,7 @@ function WmDOT::NameWmDOT()
 	 *	tried.  Failing that, a random one or two letter prefix is chosen and
 	 *	added to DOT until and unused name is found.
 	 */
-		
+
 	Log.Note("Naming Company...",1);
 	
 	// Test for already named company (basically just an issue on

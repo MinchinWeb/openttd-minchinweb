@@ -89,13 +89,13 @@ function OpMoney::Run() {
 	
 	SLMoney.MakeMaximumPayback();
 	SLMoney.MakeSureToHaveAmount(this._MinBalance);
-	Log.Note("     Bank Balance: " + AICompany.GetBankBalance(AICompany.ResolveCompanyID(AICompany.COMPANY_SELF)) + "£, Loan: " + AICompany.GetLoanAmount() + "£, Keep Minimum Balance of " + this._MinBalance + "£.",2)
+	Log.Note("Bank Balance: " + AICompany.GetBankBalance(AICompany.ResolveCompanyID(AICompany.COMPANY_SELF)) + "£, Loan: " + AICompany.GetLoanAmount() + "£, Keep Minimum Balance of " + this._MinBalance + "£.",2)
  }
  
  function OpMoney::FundsRequest(Amount) {
  //	Makes sure the requested amount is available, taking a loan if available
 	Amount = Amount.tointeger();
-	Log.Note("     Funds Request for " + Amount + "£ received.",3);
+	Log.Note("Funds Request for " + Amount + "£ received.",3);
 	SLMoney.MakeSureToHaveAmount(Amount);
 }
 

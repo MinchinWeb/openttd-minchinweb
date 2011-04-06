@@ -1,5 +1,5 @@
 ﻿/*	WmDOT v.4  r.43  [2011-03-27]
- *	Copyright © 2011 by William Minchin. For more info,
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
@@ -109,7 +109,7 @@ function WmDOT::NameWmDOT()
 	// Test for already named company (basically just an issue on
 	//		savegame loading)
 	local OldName = AICompany.GetName(AICompany.ResolveCompanyID(AICompany.COMPANY_SELF));
-	Log.Note("     Currently named " + OldName + "." + OldName.find("DOT"),3);
+	Log.Note("Currently named " + OldName + "." + OldName.find("DOT"),3);
 	if (OldName.find("DOT")== null) {
 		local tick;
 		tick = this.GetTick();
@@ -117,7 +117,7 @@ function WmDOT::NameWmDOT()
 		// Get Name Settings and Build Name String
 		local Name2 = WmDOT.GetSetting("DOT_name2");
 		local NewName = "";
-		Log.Note("     Name settings are " + WmDOT.GetSetting("DOT_name1") + " " + WmDOT.GetSetting("DOT_name2") + ".",2);
+		Log.Note("Name settings are " + WmDOT.GetSetting("DOT_name1") + " " + WmDOT.GetSetting("DOT_name2") + ".",2);
 		switch (WmDOT.GetSetting("DOT_name1"))
 		{
 			case 0: 
@@ -202,7 +202,7 @@ function WmDOT::NameWmDOT()
 				NewName = "Z";
 				break;
 			default:
-				AILog.Warning("          Unexpected DOT_name1 parameter");
+				AILog.Warning("          Unexpected DOT_name1 parameter.");
 				break;
 		}
 		switch (WmDOT.GetSetting("DOT_name2"))
@@ -288,19 +288,19 @@ function WmDOT::NameWmDOT()
 				NewName = NewName + "z";
 				break;
 			default:
-				AILog.Warning("          Unexpected DOT_name2 parameter");
+				AILog.Warning("          Unexpected DOT_name2 parameter.");
 				break;
 		}
 		NewName = NewName + "DOT"
 		if (!AICompany.SetName(NewName))
 		{
-			Log.Note("     Setting Company Name failed. Trying default...",3);
+			Log.Note("Setting Company Name failed. Trying default...",3);
 			if (!AICompany.SetName("WmDOT"))
 			{
-				Log.Note("     Default failed. Trying backup...",3)
+				Log.Note("Default failed. Trying backup...",3)
 				if (!AICompany.SetName("ZxDOT"))
 				{
-					Log.Note("     Backup failed. Trying random...",3)
+					Log.Note("Backup failed. Trying random...",3)
 					do
 					{
 						local c;
@@ -323,10 +323,10 @@ function WmDOT::NameWmDOT()
 		AICompany.SetPresidentName(NewName);
 		
 		tick = this.GetTick() - tick;
-		Log.Note("     Company named " + AICompany.GetName(AICompany.COMPANY_SELF) + ". " + AICompany.GetPresidentName(AICompany.COMPANY_SELF) + " is in charge. Took " + tick + " tick(s).",2);
+		Log.Note("Company named " + AICompany.GetName(AICompany.COMPANY_SELF) + ". " + AICompany.GetPresidentName(AICompany.COMPANY_SELF) + " is in charge. Took " + tick + " tick(s).",2);
 	}
 	else {
-		Log.Note("     Company ALREADY named " + AICompany.GetName(AICompany.COMPANY_SELF) + ". " + AICompany.GetPresidentName(AICompany.COMPANY_SELF) + " remains in charge.",2)
+		Log.Note("Company ALREADY named " + AICompany.GetName(AICompany.COMPANY_SELF) + ". " + AICompany.GetPresidentName(AICompany.COMPANY_SELF) + " remains in charge.",2)
 	}
 }
 
@@ -347,7 +347,7 @@ function WmDOT::BuildWmHQ()
 	
 	// Check for exisiting HQ (mine)
 	if (AICompany.GetCompanyHQ(AICompany.ResolveCompanyID(AICompany.COMPANY_SELF)) != -1) {
-		Log.Note("     What are you trying to pull on me?? HQ are already established at " + AIMap.GetTileX(AICompany.GetCompanyHQ(AICompany.COMPANY_SELF)) + ", " +  AIMap.GetTileY(AICompany.GetCompanyHQ(AICompany.COMPANY_SELF)) + " in town no. " + HQInWhatTown(AICompany.COMPANY_SELF) + ".",2);
+		Log.Note("What are you trying to pull on me?? HQ are already established at " + AIMap.GetTileX(AICompany.GetCompanyHQ(AICompany.COMPANY_SELF)) + ", " +  AIMap.GetTileY(AICompany.GetCompanyHQ(AICompany.COMPANY_SELF)) + " in town no. " + HQInWhatTown(AICompany.COMPANY_SELF) + ".",2);
 		return HQInWhatTown(AICompany.COMPANY_SELF);		//	Actually return the town where the HQ is...
 	}
 	
@@ -361,7 +361,7 @@ function WmDOT::BuildWmHQ()
 		if (AICompany.GetCompanyHQ(AICompany.ResolveCompanyID(i)) != -1) {
 			local TestName = AICompany.GetName(i);
 			if (TestName.find("DOT") != null) {
-				Log.Note("     DOT HQ found for company no. " + i + " in town " + HQInWhatTown(i) + ".",3);
+				Log.Note("DOT HQ found for company no. " + i + " in town " + HQInWhatTown(i) + ".",3);
 				DotHQList.append(HQInWhatTown(i));
 			}
 		}
@@ -372,7 +372,7 @@ function WmDOT::BuildWmHQ()
 	HQTown = WmTownList.Begin();
 	
 	while (ContainedIn1DArray(DotHQList, HQTown)) {
-		Log.Note("     Failed best for HQTown " + HQTown + ".",3);
+		Log.Note("Failed best for HQTown " + HQTown + ".",3);
 		HQTown = WmTownList.Next();
 	}
 	
@@ -381,7 +381,7 @@ function WmDOT::BuildWmHQ()
 	local HQy;
 	HQx = AIMap.GetTileX(AITown.GetLocation(HQTown));
 	HQy = AIMap.GetTileY(AITown.GetLocation(HQTown));
-	Log.Note("     HQ will be build in " + AITown.GetName(HQTown) + " at " + HQx + ", " + HQy + ".",3);
+	Log.Note("HQ will be build in " + AITown.GetName(HQTown) + " at " + HQx + ", " + HQy + ".",3);
 	
 	// Starts a spiral out from the centre of town, trying to build the HQ until it works!
 	local dx = -1;
@@ -438,7 +438,7 @@ function WmDOT::BuildWmHQ()
 	}
 		
 	tick = this.GetTick() - tick;
-	Log.Note("     HQ built at "+ HQx + ", " + HQy + ". Took " + Steps + " tries. Took " + tick + " tick(s).",2);
+	Log.Note("HQ built at "+ HQx + ", " + HQy + ". Took " + Steps + " tries. Took " + tick + " tick(s).",2);
 	return HQTown;
 }
 
@@ -450,14 +450,14 @@ function WmDOT::HQInWhatTown(CompanyNo)
 	
 	//	Test for valid CompanyID
 	if (AICompany.ResolveCompanyID(CompanyNo) == -1) {
-		Log.Note("Invalid Company ID!",1);
+		Log.Warning("Invalid Company ID!");
 		return -1;
 	}
 	
 	local PreReturn = AICompany.GetCompanyHQ(CompanyNo);
 	PreReturn = TileIsWhatTown(PreReturn);
 	if (PreReturn == -1) {
-		Log.Note("Company in Invalid Town!",1);
+		Log.Warning("Company in Invalid Town!");
 		return -2;
 	}
 	else {

@@ -1,6 +1,6 @@
 /*	WmDOT v.2  r.17		2011-02-28
  *	Array Functions
- *	Copyright © 2011 by William Minchin. For more info,
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 

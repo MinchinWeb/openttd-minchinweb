@@ -1,5 +1,5 @@
-﻿/*	WmDOT v.4  r.44  [2011-03-28]
- *	Copyright © 2011 by William Minchin. For more info,
+﻿/*	WmDOT v.4  r.45  [2011-04-06]
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
@@ -7,10 +7,10 @@ class WmDOT extends AIInfo
 {
 	function GetAuthor()        { return "William Minchin"; }
 	function GetName()          { return "WmDOT"; }
-	function GetDescription()   { return "An AI that doesn't compete with you but rather builds out the highway network. We're still looking for a revenue stream. v.4 (r.44)"; }
+	function GetDescription()   { return "An AI that doesn't compete with you but rather builds out the highway network. We're still looking for a revenue stream. v.4 (r.45)"; }
 	function GetVersion()       { return 4; }
 	function MinVersionToLoad() { return 1; }
-	function GetDate()          { return "2011-03-28"; }
+	function GetDate()          { return "2011-04-06"; }
 	function GetShortName()     { return "}}mW"; }	//	576D7D7D
 	function CreateInstance()   { return "WmDOT"; }
 	function GetAPIVersion()    { return "1.0"; }

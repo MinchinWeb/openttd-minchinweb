@@ -1,6 +1,6 @@
 ﻿/*	OperationDOT v.2, part of 
  *	WmDOT v.4  r.44  [2011-03-31]
- *	Copyright © 2011 by William Minchin. For more info,
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
@@ -227,7 +227,7 @@ function OpDOT::Run() {
 	//	If another town goes above the population threshold, restart 'Mode 1'
 	//	Ignores what happens if you change the population threshold limit down externally...
 	if ( (this._NumOfTownsOnList < this._TownArray.len()) && (this._Mode != 1)) {
-		Log.Note("     ** Returning to Mode 1. **",2);
+		Log.Note("** Returning to Mode 1. **",2);
 		this._Mode = 1;
 		this._BuiltSomething = false;
 		this._NumOfTownsOnList = this._TownArray.len();
@@ -261,7 +261,7 @@ function OpDOT::Run() {
 				//		something has been built (in Modes 3, 4, 5),
 				//		rebuild atlas and try again
 					this._Mode++;
-					Log.Note("     ** Moving to Mode " + this._Mode + ". **",2);
+					Log.Note("** Moving to Mode " + this._Mode + ". **",2);
 				} else {
 				//	That is to say, something has been built...
 					if (this._Mode <= 2) {
@@ -269,14 +269,14 @@ function OpDOT::Run() {
 					//		up the level (all possible connections are
 					//		maintained in the given Atlas)
 						this._Mode++;
-						Log.Note("     ** Moving to Mode " + this._Mode + ". **",2);
+						Log.Note("** Moving to Mode " + this._Mode + ". **",2);
 					} else {
 					//	If we're in Mode 3 or higher, have built a
 					//		connection might open up new possibilities;
 					//		restart in Mode 3 and rebuild the Atlas
 					//		(i.e. restart the Mode)
 						this._Mode = 3;
-						Log.Note("     ** Restarting in Mode " + this._Mode + ". **",2);
+						Log.Note("** Restarting in Mode " + this._Mode + ". **",2);
 					}
 				}
 				this._ModeStart = true;
@@ -327,9 +327,9 @@ function OpDOT::Run() {
 				//		something has been built (in Modes 6),
 				//		rebuild atlas and try again
 					this._Mode++;
-					Log.Note("     ** Moving to Mode " + this._Mode + ". **",2);
+					Log.Note("** Moving to Mode " + this._Mode + ". **",2);
 				} else {
-					Log.Note("     ** Restarting in Mode " + this._Mode + ". **",2);
+					Log.Note("** Restarting in Mode " + this._Mode + ". **",2);
 				}
 				this._ModeStart = true;
 				this._BuiltSomething = false;
@@ -353,7 +353,7 @@ function OpDOT::Run() {
 
 		case 7:
 			this._NextRun = WmDOT.GetTick() + ((this._SleepLength * 10) - (WmDOT.GetTick() % (this._SleepLength * 10)));
-			Log.Note("     It's tick " + WmDOT.GetTick() + " and apparently I've done everything! I'm taking a nap... Next run at " + this._NextRun + ".",2);
+			Log.Note("It's tick " + WmDOT.GetTick() + " and apparently I've done everything! I'm taking a nap... Next run at " + this._NextRun + ".",2);
 			break;
 	}
 
@@ -367,7 +367,7 @@ function OpDOT::Run() {
 //	'SetPopLimit' allows overriding of the AI setting for the minimum size of
 //		towns to consider 
 
-	Log.Note("     Generating Atlas...",2);
+	Log.Note("Generating Atlas...",2);
 	// Generate TownList
 	local WmTownList = AITownList();
 	WmTownList.Valuate(AITown.GetPopulation);
@@ -378,7 +378,7 @@ function OpDOT::Run() {
 	PopLimit = SetPopLimit;
 	}
 	WmTownList.KeepAboveValue(PopLimit);				// cuts under the pop limit
-	Log.Note("          Ignoring towns with population under " + PopLimit + ". " + WmTownList.Count() + " of " + AITown.GetTownCount() + " towns left.",2);
+	Log.Note("     Ignoring towns with population under " + PopLimit + ". " + WmTownList.Count() + " of " + AITown.GetTownCount() + " towns left.",2);
 	
 	local WmTownArray = [];
 	WmTownArray.resize(WmTownList.Count());
@@ -423,7 +423,7 @@ function OpDOT::GenerateAtlas(WmTownArray)
 	
 	for(local i=0; i < WmTownArray.len(); i++) {
 		iTown = WmTownArray[i];
-		Log.Note("               " + iTown + ". " + AITown.GetName(iTown) + " - " + AITown.GetPopulation(iTown) + " - " + AIMap.GetTileX(AITown.GetLocation(iTown)) + ", " + AIMap.GetTileY(AITown.GetLocation(iTown)),4);
+		Log.Note(iTown + ". " + AITown.GetName(iTown) + " - " + AITown.GetPopulation(iTown) + " - " + AIMap.GetTileX(AITown.GetLocation(iTown)) + ", " + AIMap.GetTileY(AITown.GetLocation(iTown)),4);
 		local TempArray = [];		// Generate the Array one 'line' at a time
 		TempArray.resize(WmTownArray.len()+1);
 		TempArray[0]=iTown;
@@ -441,7 +441,7 @@ function OpDOT::GenerateAtlas(WmTownArray)
 		WmAtlas[i]=TempArray;
 	}
 
-	Log.Note("               " + ToSting2DArray(WmAtlas), 4);
+	Log.Note(ToSting2DArray(WmAtlas), 4);
 
 	return WmAtlas;
 }
@@ -461,7 +461,7 @@ function OpDOT::RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, Mode)
 	switch (Mode) {
 		case 1:
 		case 2:
-			Log.Note("     Removing towns not directly connected to the capital...", 2);
+			Log.Note("Removing towns not directly connected to the capital...", 2);
 			WmAtlas = MirrorAtlas(WmAtlas);		//	Thus it doesn't matter if the HQ town is not the first on the list
 			for (local i = 0; i < WmAtlas.len(); i++ ) {
 				if (WmAtlas[i][0] != HQTown) {
@@ -474,13 +474,13 @@ function OpDOT::RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, Mode)
 				}
 			}
 			
-			Log.Note("               " + ToSting2DArray(WmAtlas), 4);
-			Log.Note("               " + Count + " routes removed. Took " + (WmDOT.GetTick() - tick) + " ticks.",3);
+			Log.Note(ToSting2DArray(WmAtlas), 4);
+			Log.Note("     " + Count + " routes removed. Took " + (WmDOT.GetTick() - tick) + " ticks.",3);
 			return WmAtlas;
 		case 3:
 		case 4:
 		case 5:
-			Log.Note("          Removing towns not indirectly connected to the capital...", 2);
+			Log.Note("     Removing towns not indirectly connected to the capital...", 2);
 			WmAtlas = MirrorAtlas(WmAtlas);		//	Thus it doesn't matter if the HQ town is not the first on the list
 			for (local i = 0; i < WmAtlas.len(); i++ ) {
 				if (!ContainedIn2DArray(ConnectedPairs, WmAtlas[i][0])) {
@@ -504,7 +504,7 @@ function OpDOT::RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, Mode)
 function OpDOT::RemoveBuiltConnections(WmAtlas, ConnectedPairs)
 {
 //	Removes roadpairs that have already been built
-	Log.Note("     Removing already built roads...",2);
+	Log.Note("Removing already built roads...",2);
 	
 	local tick = WmDOT.GetTick();
 	local TownA = 0;
@@ -535,9 +535,9 @@ function OpDOT::RemoveBuiltConnections(WmAtlas, ConnectedPairs)
 		Count++;
 	}
 	
-	Log.Note("               " + ToSting2DArray(WmAtlas), 4);
+	Log.Note(ToSting2DArray(WmAtlas), 4);
 //	if (this._PrintTownAtlas == true) AILog.Info("               " + WmArray.2D.Print(WmAtlas));
-	Log.Note("               " + Count + " routes removed. Took " + (WmDOT.GetTick() - tick) + " ticks.", 3);
+	Log.Note(Count + " routes removed. Took " + (WmDOT.GetTick() - tick) + " ticks.", 3);
 
 	return WmAtlas;
 
@@ -548,7 +548,7 @@ function OpDOT::RemoveOverDistance(WmAtlas, MaxDistance)
 	//	Zeros out distances in the Atlas over an predefined distancez
 	//	You don't really want to drive all the way across the map, do you?
 	
-	Log.Note("     Removing towns further than " + MaxDistance + " tiles apart...",2)
+	Log.Note("Removing towns further than " + MaxDistance + " tiles apart...",2)
 	
 	local tick;
 	tick = WmDOT.GetTick();
@@ -567,9 +567,9 @@ function OpDOT::RemoveOverDistance(WmAtlas, MaxDistance)
 			}
 		}
 	}
-	Log.Note("               " + ToSting2DArray(WmAtlas),4);
+	Log.Note(ToSting2DArray(WmAtlas),4);
 //	if (this._PrintTownAtlas == true) AILog.Info("               " + WmArray.2D.Print(WmAtlas));
-	Log.Note("               " + Count + " routes removed. Took " + (WmDOT.GetTick() - tick) + " ticks.", 3);
+	Log.Note("     " + Count + " routes removed. Took " + (WmDOT.GetTick() - tick) + " ticks.", 3);
 
 	return WmAtlas;
 }
@@ -587,7 +587,7 @@ function OpDOT::ApplyTripGenerationModel(WmAtlas)
 	
 	local Speed = GetSpeed();
 	
-	Log.Note("     Applying traffic model. Speed (v) is " + Speed + "...", 2);
+	Log.Note("Applying traffic model. Speed (v) is " + Speed + "...", 2);
 	
 	//  Applys equation to matrix
 //	local ZeroCheck = 0;				//	Uses this to check that the distance matrix is not all zeroes
@@ -609,7 +609,7 @@ function OpDOT::ApplyTripGenerationModel(WmAtlas)
 			WmAtlas[i][j] = FactorTemp;
 		}
 	}
-	Log.Note("               " + ToSting2DArray(WmAtlas), 4);
+	Log.Note(ToSting2DArray(WmAtlas), 4);
 	return WmAtlas
 }
 
@@ -644,12 +644,12 @@ function OpDOT::PickTowns(WmAtlas)
 		Maxi = WmAtlas[Maxi][0];
 		Maxj = WmAtlas[Maxj][0];
 		
-		Log.Note("          The best rated pair is " + AITown.GetName(Maxi) + " and " + AITown.GetName(Maxj) + ". Took " + (WmDOT.GetTick() - tick) + " ticks.",2)
+		Log.Note("     The best rated pair is " + AITown.GetName(Maxi) + " and " + AITown.GetName(Maxj) + ". Took " + (WmDOT.GetTick() - tick) + " ticks.",2)
 		
 		return [Maxi, Maxj];
 	}
 	else {
-		Log.Note("          No remaining town pairs to join!",2);
+		Log.Note("     No remaining town pairs to join!",2);
 		return null;
 	}
 }
@@ -667,7 +667,7 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 	//	- check to see if you can get out of town and then do something when you can't
 	//	- make it only set one check one set of routes (half the matrix)
 	
-	Log.Note("     Removing already joined towns. This can take a while...",2)
+	Log.Note("Removing already joined towns. This can take a while...",2)
 	
 	local tick;
 	tick = WmDOT.GetTick();
@@ -706,11 +706,11 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 					}
 				}
 				
-				Log.Note("               Was trying to find path from " + iTown + " to " + jTown + ": " + path, 4)
+				Log.Note("Was trying to find path from " + iTown + " to " + jTown + ": " + path, 4)
 				
 				if (path != null) {
 					WmAtlas[i][j] = 0;
-					Log.Note("               Path found from " + AITown.GetName(WmAtlas[i][0]) + " to " + AITown.GetName(WmAtlas[j-1][0]) + ".", 4);
+					Log.Note("Path found from " + AITown.GetName(WmAtlas[i][0]) + " to " + AITown.GetName(WmAtlas[j-1][0]) + ".", 4);
 					RemovedCount++;
 				}
 				ExaminedCount++;
@@ -722,16 +722,16 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 		}
 	}
 	
-	Log.Note("               " + ToSting2DArray(WmAtlas),4);
+	Log.Note(ToSting2DArray(WmAtlas),4);
 	
 	tick = WmDOT.GetTick() - tick;
-	Log.Note("               " + RemovedCount + " of " + ExaminedCount + " routes removed. Took " + tick + " tick(s).", 3);
+	Log.Note("     " + RemovedCount + " of " + ExaminedCount + " routes removed. Took " + tick + " tick(s).", 3);
 	
 	return WmAtlas;
 }
 
 //	function OpDOT::BuildRoad(ConnectPairs)
-	require("GNU_FDL.nut");
+//	require("GNU_FDL.nut");
 
 /* ===== END OF MAIN LOOP FUNCTIONS ====== */
 
@@ -779,7 +779,7 @@ function OpDOT::GetSpeed()
 			break;
 	}
 	
-	Log.Note("          Before Return " + ReturnSpeed + " GameYear " + GameYear, 4);
+	Log.Note("Before Return: " + ReturnSpeed + " mph in GameYear " + GameYear, 4);
 	return ReturnSpeed;
 }
 
@@ -869,7 +869,7 @@ function OpDOT::RunPathfinderOnTowns(TownA, TownB)
 //	TO-DO:
 //	- add check that the center of town is indeed a road tile
 
-	Log.Note("     Connecting " + AITown.GetName(TownA) + " and " + AITown.GetName(TownB) + "...", 2);
+	Log.Note("Connecting " + AITown.GetName(TownA) + " and " + AITown.GetName(TownB) + "...", 2);
 	
 	return RunPathfinder(AITown.GetLocation(TownA),AITown.GetLocation(TownB));
 }
@@ -877,7 +877,7 @@ function OpDOT::RunPathfinderOnTowns(TownA, TownB)
 function OpDOT::RunPathfinderOnTownPairs(ConnectPairs)
 {
 //	ConnectedPairs is expected to be an array with two TownID's
-	Log.Note("               RunPathfinderOnTownPairs(ConnectPairs)",4);
+	Log.Note("RunPathfinderOnTownPairs(ConnectPairs)",4);
 	return RunPathfinderOnTowns(ConnectPairs[0], ConnectPairs[1]);
 }
 

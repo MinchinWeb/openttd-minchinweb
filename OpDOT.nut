@@ -1,5 +1,5 @@
 ﻿/*	OperationDOT v.2, part of 
- *	WmDOT v.4  r.49  [2011-04-06]
+ *	WmDOT v.4  r.50  [2011-04-06]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -37,7 +37,7 @@
 
  class OpDOT {
 	function GetVersion()       { return 2; }
-	function GetRevision()		{ return 49; }
+	function GetRevision()		{ return 50; }
 	function GetDate()          { return "2011-04-06"; }
 	function GetName()          { return "Operation DOT"; }
  
@@ -76,6 +76,11 @@
 	_BuiltSomething = null;
 	_ModeStart = null;
 	_RoadType = null;
+	_PathfinderDistancePenalty = null;	//	Extra distance penalty applied
+											//	to pathfinder. Higher numbers
+											//	make it run faster but can do
+											//	funny things to the resulting
+											//	path...
 	
 	_NextRun = null;
 	_ROI = null;
@@ -105,6 +110,7 @@
 		this._ModeStart = true;
 		this._NextRun = 0;
 		this._RoadType = AIRoad.ROADTYPE_ROAD;
+		this._PathfinderDistancePenalty = 5;
 		
 		this.Settings = this.Settings(this);
 		this.State = this.State(this);
@@ -135,6 +141,7 @@ class OpDOT.Settings {
 			case "SomeoneElseConnected":	this._main._SomeoneElseConnected = val; break;
 			case "DebugLevel":			this._main._DebugLevel = val; break;
 			case "RoadType":			this._main._RoadType = val; break;
+			case "PathfinderDistancePenalty":	this._main._PathfinderDistancePenalty = val; break;
 			default: throw("The index '" + idx + "' does not exist");
 		}
 		return val;
@@ -158,6 +165,7 @@ class OpDOT.Settings {
 			case "SomeoneElseConnected":	return this._main._SomeoneElseConnected; break;
 			case "DebugLevel":			return this._main._DebugLevel; break;
 			case "RoadType":			return this._main._RoadType; break;
+			case "PathfinderDistancePenalty":	return this._main._PathfinderDistancePenalty; break;
 			default: throw("The index '" + idx + "' does not exist");
 		}
 	}
@@ -287,10 +295,12 @@ function OpDOT::Run() {
 				TestAtlas = RemoveExistingConnections(TestAtlas);
 				
 				if (TestAtlas[0][2] == 1) {
-//					BuildRoad(this._PairsToConnect);
+					local tick = WmDOT.GetTick();
 					local Path = RunPathfinderOnTownPairs(this._PairsToConnect);
+					Log.Note("Pathfinding took " + (WmDOT.GetTick() - tick) + " ticks. (MD=" + AIMap.DistanceManhattan(AITown.GetLocation(this._PairsToConnect[0]),AITown.GetLocation(this._PairsToConnect[1])) + ")",3);
+					tick = WmDOT.GetTick();
 					local BuildCost = GetPathBuildCost(Path);
-					Log.Note("Cost of path is " + BuildCost + "£.", 3);
+					Log.Note("Cost of path is " + BuildCost + "£. Took " + (WmDOT.GetTick() - tick) + " ticks.", 3);
 					Money.FundsRequest(BuildCost*1.1);		//	To allow for inflation during construction
 					BuildPath(Path);
 					this._ConnectedPairs.push(this._PairsToConnect);	//	Add the pair to the list of built roads
@@ -337,10 +347,12 @@ function OpDOT::Run() {
 				//	Now that we have the pair, test for an existing
 				//		connection and only build the road if it 
 				//		doesn't exist						
-//				BuildRoad(this._PairsToConnect);
+				local tick = WmDOT.GetTick();
 				local Path = RunPathfinderOnTownPairs(this._PairsToConnect);
+				Log.Note("Pathfinding took " + (WmDOT.GetTick() - tick) + " ticks. (MD=" + AIMap.DistanceManhattan(AITown.GetLocation(this._PairsToConnect[0]),AITown.GetLocation(this._PairsToConnect[1])) + ")",3);
+				tick = WmDOT.GetTick();
 				local BuildCost = GetPathBuildCost(Path);
-				Log.Note("Cost of path is " + BuildCost + "£.", 3);
+				Log.Note("Cost of path is " + BuildCost + "£. Took " + (WmDOT.GetTick() - tick) + " ticks.", 3);
 				Money.FundsRequest(BuildCost*1.1);		//	To allow for inflation during construction
 				BuildPath(Path);
 				this._ConnectedPairs.push(this._PairsToConnect);	//	Add the pair to the list of built roads
@@ -679,6 +691,7 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 	pathfinder.cost.max_tunnel_length = this._MaxTunnel;
 //	pathfinder.cost.no_existing_road = pathfinder.cost.max_cost;	// only use exisiting roads
 	pathfinder.cost.only_existing_roads = true;
+	pathfinder.cost.distance_penalty = max(this._PathfinderDistancePenalty/2, 1);
 	
 	local iTown = AITile();
 	local jTown = AITile();
@@ -837,6 +850,7 @@ function OpDOT::RunPathfinder(Start, End)
 												//	the hope is that random bridges on flat ground won't
 												//		show up, but they will for the little dips  \_/
 	pathfinder.cost.turn = 50;					//	default = 100
+	pathfinder.cost.distance_penalty = this._PathfinderDistancePenalty;
 	
 	// Give the source and goal tiles to the pathfinder.
 	pathfinder.InitializePath([Start], [End]);
@@ -877,7 +891,6 @@ function OpDOT::RunPathfinderOnTowns(TownA, TownB)
 function OpDOT::RunPathfinderOnTownPairs(ConnectPairs)
 {
 //	ConnectedPairs is expected to be an array with two TownID's
-	Log.Note("RunPathfinderOnTownPairs(ConnectPairs)",4);
 	return RunPathfinderOnTowns(ConnectPairs[0], ConnectPairs[1]);
 }
 

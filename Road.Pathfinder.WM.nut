@@ -62,7 +62,7 @@ class RoadPathfinder
 	{
 		this._max_cost = 100000;
 		this._cost_tile = 30;
-		this._cost_no_existing_road = 130;
+		this._cost_no_existing_road = 40;
 		this._cost_turn = 100;
 		this._cost_slope = 200;
 		this._cost_bridge_per_tile = 150;

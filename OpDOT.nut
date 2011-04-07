@@ -1,5 +1,5 @@
 ﻿/*	OperationDOT v.2, part of 
- *	WmDOT v.4  r.50  [2011-04-06]
+ *	WmDOT v.4  r.52  [2011-04-07]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -14,8 +14,8 @@
  
 //	Requires SuperLib v6 or better
 //	Requires "Road.Pathfinder.WM.nut"
-//		Requires AyStar v4
-//	Requires "GNU_FDL.nut"
+//		Requires "AyStar.WM.nut"
+//			Requires queue.binary_heap v1
 //	Requires "OpLog.nut"
 //	Requires "OpMoney.nut"
 //		Note that OpDOT runs a seperate money manager from the main program
@@ -37,8 +37,8 @@
 
  class OpDOT {
 	function GetVersion()       { return 2; }
-	function GetRevision()		{ return 50; }
-	function GetDate()          { return "2011-04-06"; }
+	function GetRevision()		{ return 52; }
+	function GetDate()          { return "2011-04-07"; }
 	function GetName()          { return "Operation DOT"; }
  
 	_MaxAtlasSize = null;		//  UNUSED
@@ -174,7 +174,7 @@ class OpDOT.Settings {
 	{
 		this._main = main;
 	}
- };
+};
  
  class OpDOT.State {
 
@@ -195,7 +195,7 @@ class OpDOT.Settings {
 	{
 		this._main = main;
 	}
- };
+};
  
 function OpDOT::Run() {
 	//	This is used to keep track of what 'step' the AI is at
@@ -296,13 +296,30 @@ function OpDOT::Run() {
 				
 				if (TestAtlas[0][2] == 1) {
 					local tick = WmDOT.GetTick();
-					local Path = RunPathfinderOnTownPairs(this._PairsToConnect);
-					Log.Note("Pathfinding took " + (WmDOT.GetTick() - tick) + " ticks. (MD=" + AIMap.DistanceManhattan(AITown.GetLocation(this._PairsToConnect[0]),AITown.GetLocation(this._PairsToConnect[1])) + ")",3);
-					tick = WmDOT.GetTick();
-					local BuildCost = GetPathBuildCost(Path);
-					Log.Note("Cost of path is " + BuildCost + "£. Took " + (WmDOT.GetTick() - tick) + " ticks.", 3);
-					Money.FundsRequest(BuildCost*1.1);		//	To allow for inflation during construction
-					BuildPath(Path);
+					local KeepTrying = true;
+					local Tries = 0;
+					local Path;
+					local BuildCost;
+					local TestAtlas2;
+					while (KeepTrying == true) {
+						Tries++;
+						Log.Note("Attempt " + Tries + " to connect " +AITown.GetName(this._PairsToConnect[0]) + " to " + AITown.GetName(this._PairsToConnect[1]) + ".", 4)
+						Path = RunPathfinderOnTownPairs(this._PairsToConnect);
+						Log.Note("Pathfinding took " + (WmDOT.GetTick() - tick) + " ticks. (MD=" + AIMap.DistanceManhattan(AITown.GetLocation(this._PairsToConnect[0]),AITown.GetLocation(this._PairsToConnect[1])) + ")",3);
+						tick = WmDOT.GetTick();
+						BuildCost = GetPathBuildCost(Path);
+						Log.Note("Cost of path is " + BuildCost + "£. Took " + (WmDOT.GetTick() - tick) + " ticks.", 3);
+						Money.FundsRequest(BuildCost*1.1);		//	To allow for inflation during construction
+						BuildPath(Path);
+						if (LengthOfExistingConnectionsOnTownPairs(this._PairsToConnect) != -1) {
+							KeepTrying = false;
+						}						
+						if (Tries >= 10 && KeepTrying == true) {
+							Log.Warning("After " + Tries + " tries, unable to build path from " +AITown.GetName(this._PairsToConnect[0]) + " to " + AITown.GetName(this._PairsToConnect[1]) + ".")
+							KeepTrying = false;
+						}
+					}
+					
 					this._ConnectedPairs.push(this._PairsToConnect);	//	Add the pair to the list of built roads
 					this._Atlas = RemoveBuiltConnections(this._Atlas, [this._PairsToConnect]);
 					this._BuiltSomething = true;
@@ -714,7 +731,7 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 					if (CycleCounter > 2000) {
 						//	A safety to make sure that the AI doesn't run out
 						//		of money while pathfinding...
-						SLMoney.MakeSureToHaveAmount(100);
+						Money.GreaseMoney();
 						CycleCounter = 0;
 					}
 				}
@@ -729,7 +746,7 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 				ExaminedCount++;
 				if ((ExaminedCount % 10) == 0) {
 					//	Make sure we don't run out of money...
-					SLMoney.MakeSureToHaveAmount(999);
+					Money.GreaseMoney();
 				}
 			}
 		}
@@ -842,15 +859,16 @@ function OpDOT::RunPathfinder(Start, End)
 	local pathfinder = RoadPathfinder();
 	
 	//	Set Parameters
+												//	default tile cost is 30
 	pathfinder.cost.max_bridge_length = this._MaxBridge;
 	pathfinder.cost.max_tunnel_length = this._MaxTunnel;
-	pathfinder.cost.no_existing_road = 130;		//	default = 40
-	pathfinder.cost.slope = 400;				//	default = 200
-	pathfinder.cost.bridge_per_tile = 250;		//	default = 150
+	pathfinder.cost.no_existing_road = 160;		//	default = 40
+	pathfinder.cost.slope = 300;				//	default = 200
+	pathfinder.cost.bridge_per_tile = 200;		//	default = 150
 												//	the hope is that random bridges on flat ground won't
 												//		show up, but they will for the little dips  \_/
 	pathfinder.cost.turn = 50;					//	default = 100
-	pathfinder.cost.distance_penalty = this._PathfinderDistancePenalty;
+	pathfinder.cost.distance_penalty = this._PathfinderDistancePenalty;	// 5
 	
 	// Give the source and goal tiles to the pathfinder.
 	pathfinder.InitializePath([Start], [End]);
@@ -861,11 +879,12 @@ function OpDOT::RunPathfinder(Start, End)
 	while (path == false) {
 		path = pathfinder.FindPath(this._PathFinderCycles);
 		CycleCounter+=this._PathFinderCycles;
-		if (CycleCounter > 2000) {
+		if (CycleCounter % 2000 == 0) {
 			//	A safety to make sure that the AI doesn't run out
 			//		of money while pathfinding...
 			Money.GreaseMoney();
-			CycleCounter = 0;
+//			CycleCounter = 0;
+			WmDOT.Sleep(1);
 		}
 	}
 	
@@ -1020,4 +1039,63 @@ function OpDOT::BuildPath(Path)
 	
 	//	End build sequence
 	return true;
+}
+
+function OpDOT::LengthOfExistingConnections(TileA, TileB)
+{
+	Log.Note("Checking existing Connection.",3)
+	
+	local tick;
+	tick = WmDOT.GetTick();
+	
+	//	create instance of road pathfinder
+	local pathfinder = RoadPathfinder();
+	//	pathfinder settings
+	pathfinder.cost.max_bridge_length = 9999;
+	pathfinder.cost.max_tunnel_length = 9999;
+//	pathfinder.cost.no_existing_road = pathfinder.cost.max_cost;	// only use exisiting roads
+	pathfinder.cost.only_existing_roads = true;
+	pathfinder.cost.distance_penalty = max(this._PathfinderDistancePenalty, 1);
+	
+	pathfinder.InitializePath([TileA], [TileB]);
+	
+	local path = false;
+	local CycleCounter = 0;
+	while (path == false) {
+		path = pathfinder.FindPath(this._PathFinderCycles);
+//					AIController.Sleep(1);
+		CycleCounter+=this._PathFinderCycles;
+		if (CycleCounter % 2000 == 0) {
+			//	A safety to make sure that the AI doesn't run out
+			//		of money while pathfinding...
+			Money.GreaseMoney();
+//			CycleCounter = 0;
+			AIController.Sleep(1);
+		}
+	}
+	
+	if (path != null) {
+		Log.Note("Path found from " + AIMap.GetTileX(TileA) + "," + AIMap.GetTileY(TileA) + " to " + AIMap.GetTileX(TileB) + "," + AIMap.GetTileY(TileB) + ". Took " + (WmDOT.GetTick() - tick) + " tick(s).", 4);
+		return path.GetLength();
+	} else {
+		Log.Note("No path found from " + AIMap.GetTileX(TileA) + "," + AIMap.GetTileY(TileA) + " to " + AIMap.GetTileX(TileB) + "," + AIMap.GetTileY(TileB) + ". Took " + (WmDOT.GetTick() - tick) + " tick(s).", 4);
+		return -1;	
+	}
+}
+
+function OpDOT::LengthOfExistingConnectionsOnTowns(TownA, TownB)
+{
+//	Runs the pathfinder between the given towns, but just checks for the length of the exisiting connection
+//	TO-DO:
+//	- add check that the center of town is indeed a road tile
+
+	Log.Note("Checking connection length between " + AITown.GetName(TownA) + " and " + AITown.GetName(TownB) + "...", 2);
+	
+	return LengthOfExistingConnections(AITown.GetLocation(TownA),AITown.GetLocation(TownB));
+}
+
+function OpDOT::LengthOfExistingConnectionsOnTownPairs(ConnectPairs)
+{
+//	ConnectedPairs is expected to be an array with two TownID's
+	return LengthOfExistingConnectionsOnTowns(ConnectPairs[0], ConnectPairs[1]);
 }

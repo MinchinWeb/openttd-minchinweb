@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.4  r.46  [2011-04-06]
+﻿/*	WmDOT v.4  r.52  [2011-04-07]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -24,7 +24,7 @@ require("OpLog.nut");		//	Operation Log
 	WmDOTv = 4;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 46;
+	WmDOTr = 52;
 	/*	Reversion number of AI
 	 */
 	 
@@ -36,10 +36,10 @@ require("OpLog.nut");		//	Operation Log
 	//	END SETTINGS
 	
 	Log = OpLog();
-//	Money = null;
-	
+//	Money = OpMoney();
+//	DOT = OpDOT();
   
-  function Start();
+	function Start();
 }
 
 /*	TO DO
@@ -49,23 +49,24 @@ require("OpLog.nut");		//	Operation Log
 function WmDOT::Start()
 {
 //	AILog.Info("Welcome to WmDOT, version " + GetVersion() + ", revision " + WmDOTr + " by " + GetAuthor() + ".");
-	AILog.Info("Welcome to WmDOT, version " + WmDOTv + ", revision " + WmDOTr + " by William Minchin.");
-	AILog.Info("Copyright © 2011 by William Minchin. For more info, please visit http://openttd-noai-wmdot.googlecode.com/")
+	AILog.Info("Welcome to WmDOT, version " + WmDOTv + ", revision " + WmDOTr + " by W. Minchin.");
+	AILog.Info("Copyright © 2011 by W. Minchin. For more info, please visit http://openttd-noai-wmdot.googlecode.com/")
 	AILog.Info(" ");
 	
 	Log.Settings.DebugLevel = GetSetting("Debug_Level");
 	Log.Note("Loading Libraries...",0);		// Actually, by this point it's already happened
 
-//	local MyAyStar = AyStarInfo();
-//	Log.Note("     " + MyAyStar.GetName() + ", v." + MyAyStar.GetVersion() + " r." + MyAyStar.GetRevision() + "  loaded!",0);
+	Log.Note("     " + Log.GetName() + ", v." + Log.GetVersion() + " r." + Log.GetRevision() + "  loaded!",0);
 	local Money = OpMoney();
 	Log.Note("     " + Money.GetName() + ", v." + Money.GetVersion() + " r." + Money.GetRevision() + "  loaded!",0);
+	local MyAyStar = AyStarInfo();
+	Log.Note("     " + MyAyStar.GetName() + ", v." + MyAyStar.GetVersion() + " r." + MyAyStar.GetRevision() + "  loaded!",0);
 	local MyRoadPathfiner = RoadPathfinder();
-	Log.Note("     " + MyRoadPathfiner.GetName() + ", v." + MyRoadPathfiner.GetVersion() + " r." + MyRoadPathfiner.GetRevision() + "  loaded!",0);
-	Log.Note("     " + Log.GetName() + ", v." + Log.GetVersion() + " r." + Log.GetRevision() + "  loaded!",0);		
+	Log.Note("     " + MyRoadPathfiner.GetName() + ", v." + MyRoadPathfiner.GetVersion() + " r." + MyRoadPathfiner.GetRevision() + "  loaded!",0);	
 	local MyOpDOT = OpDOT();
 	Log.Note("     " + MyOpDOT.GetName() + ", v." + MyOpDOT.GetVersion() + " r." + MyOpDOT.GetRevision() + "  loaded!",0);
 
+	
 	Log.Note("",0);
 	if (WmDOT.GetSetting("Debug_Level") == 0) {
 		Log.Note("Increase Debug Level in AI settings to get more verbose output.",0);

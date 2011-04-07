@@ -61,7 +61,7 @@ class OpMoney.Settings {
 	{
 		this._main = main;
 	}
- };
+};
  
  class OpMoney.State {
 
@@ -79,7 +79,7 @@ class OpMoney.Settings {
 	{
 		this._main = main;
 	}
- };
+};
  
 function OpMoney::Run() {
 //	Repays the loan and keeps a small balance on hand

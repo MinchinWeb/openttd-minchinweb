@@ -83,7 +83,7 @@ class OpMoney.Settings {
  
 function OpMoney::Run() {
 //	Repays the loan and keeps a small balance on hand
-	this._NextRun = WmDOT.GetTick();
+	this._NextRun = AIController.GetTick();
 	Log.Note("OpMoney running at tick " + this._NextRun + ".",1);
 	this._NextRun += this._SleepLength;
 	

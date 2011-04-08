@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.4  r.52  [2011-04-07]
+﻿/*	WmDOT v.4  r.52d  [2011-04-08]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -7,15 +7,15 @@ class WmDOT extends AIInfo
 {
 	function GetAuthor()        { return "W. Minchin"; }
 	function GetName()          { return "WmDOT"; }
-	function GetDescription()   { return "An AI that doesn't compete with you but rather builds out the highway network. We're still looking for a revenue stream. v.4 (r.52)"; }
+	function GetDescription()   { return "An AI that doesn't compete with you but rather builds out the highway network. We're still looking for a revenue stream. v.4 (r.52d)"; }
 	function GetVersion()       { return 4; }
 	function MinVersionToLoad() { return 1; }
-	function GetDate()          { return "2011-04-07"; }
+	function GetDate()          { return "2011-04-08"; }
 	function GetShortName()     { return "}}mW"; }	//	0x576D7D7D
 	function CreateInstance()   { return "WmDOT"; }
 	function GetAPIVersion()    { return "1.0"; }
 	function UseAsRandomAI()	{ return false; }
-	function GetURL()			{ return "http://openttd-noai-wmdot.googlecode.com/"; }
+	function GetURL()			{ return "http://www.tt-forums.net/viewtopic.php?f=65&t=53698  OR  http://code.google.com/p/openttd-noai-wmdot/issues/"; }
 	function GetEmail()			{ return "w_minchin@hotmail.com"}
 
 	function GetSettings() {
@@ -35,7 +35,7 @@ class WmDOT extends AIInfo
 		AddLabels("info0", {_0 = "", _1 = ""});
 		AddSetting({name = "info1", description = "     For more information on WmDOT and its settings, visit                ", min_value = 0, max_value = 1, easy_value = 0, medium_value = 0, hard_value = 0, custom_value = 0, flags = 0});
 		AddLabels("info1", {_0 = "", _1 = ""});
-		AddSetting({name = "info2", description = "                http://openttd-noai-wmdot.googlecode.com/                           ", min_value = 0, max_value = 1, easy_value = 0, medium_value = 0, hard_value = 0, custom_value = 0, flags = 0});
+		AddSetting({name = "info2", description = "                http://www.tt-forums.net/viewtopic.php?f=65&t=53698  ", min_value = 0, max_value = 1, easy_value = 0, medium_value = 0, hard_value = 0, custom_value = 0, flags = 0});
 		AddLabels("info2", {_0 = "", _1 = ""});
 	}
 }

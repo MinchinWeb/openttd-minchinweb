@@ -1,9 +1,15 @@
 ﻿WmDOT Version History
-v.4, r.42, 2011-03-26
-Copyright © 2011 by William Minchin. For more info, please visit
+v.4, r.52b, 2011-04-08
+Copyright © 2011 by W. Minchin. For more info, please visit
 	http://openttd-noai-wmdot.googlecode.com/
 
-
+r52d 2011-04-08	[OpDOT] Added escape if the pathfinder returns null	
+r52c 2011-04-08	Add Readme.txt	
+r52b 2011-04-08	[OpDOT] Added path check to Mode 6	
+r52a 2011-04-08	[OpDOT] Replaced path check buy just refinding the original
+					road and considering it built if the BuiltCost == 0
+				Confirmed fixed 'Crash on Load Game' bug present in v3
+...	
 r42	2011-03-26	[A*] Moved A* pathfinder inhouse, base on NoAI's AyStar v4
 					and v6
 				- requires "binary_heap" library v.1

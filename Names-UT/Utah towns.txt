@@ -1,0 +1,2265 @@
+[[Image:Saltlakecity winter2009.jpg|thumb|right|350px|alt=View of a city with snow capped mountains in the background|[[Salt Lake City, Utah|Salt Lake City]] is the capital and largest city in Utah.]]
+
+As of 2008, there are 243 [[incorporated place|incorporated]] municipalities in the U.S. state of [[Utah]].  A municipality is called a [[Town#Utah|town]] if the population is under 1,000 people, and a [[City#United States|city]] if the population is over 1,000 people.<ref name="population" /><ref>{{cite web | url=http://le.utah.gov/~code/TITLE10/htm/10_02_030100.htm | title=Utah Code, Title 10, Chapter 2, Section 301 | publisher=Utah State Legislature | accessdate=May 11, 2010}}</ref> Incorporation means that a [[municipal charter]] has been adopted by the affected population following a referendum.  In the [[Constitution of Utah]], cities and towns are granted "the authority to exercise all powers relating to municipal affairs, and to adopt and enforce within its limits, local police, sanitary and similar regulations not in conflict with the general law.".<ref name="constitution">{{cite web | url=http://le.utah.gov/~code/CONST/htm/00I11_000500.htm | title=Utah Constitution, Article XI, Section 5 | publisher=Utah State Legislature | accessdate=May 11, 2010}}</ref>  They also have the power to raise and collect taxes, to provide and maintain local public services, acquire by [[eminent domain]] any property needed to make local improvements, and to raise money by [[Bond (finance)|bonds]].<ref name="constitution" />
+
+On July 22, 1847, the first party of [[Mormon pioneers]] arrived in the Salt Lake Valley, where they founded [[Salt Lake City, Utah|Salt Lake City]], the first European settlement in Utah.  Over the next 22 years, more than 70,000 pioneers crossed the plains and settled in Utah.<ref>{{cite book | first1=William W. last1=Slaughter | first2=Michael | last2=Landon | title=Trail of Hope – The Story of the Mormon Trail. | publisher=Shadow Mountain | location=Salt Lake City | year=1997 | isbn=1573452513}}</ref>  Initial colonization along the [[Wasatch Front]] was mostly made by members of [[The Church of Jesus Christ of Latter-day Saints]] (LDS Church) with no direct involvement from it.  Outside the Wasatch Front, most settlements were directed, planned, organized, and dispatched by leaders of the LDS Church.  Settlements were also founded by the railroads, mining companies and non-Mormons.<ref>{{cite web | url=http://www.media.utah.edu/UHE/c/COLONIZATION.html | title=Colonization of Utah | work=Utah History Encyclopedia | publisher=University of Utah | accessdate=May 11, 2010}}</ref>  Many settlements were named after leaders, history or from scriptures of the LDS Church.  Natural features of the region, including rivers, mountains, lakes and flora, are also commonly used for names.
+
+The 2008 [[United States Census|U.S. Census]] estimate puts 2,404,440 of the state's 2,736,424 residents within these cities and towns, accounting for 87.9% of the population. Just over 75% of Utah's population is concentrated in four Wasatch Front counties of [[Salt Lake County, Utah|Salt Lake]], [[Utah County, Utah|Utah]], [[Davis County, Utah|Davis]], and [[Weber County, Utah|Weber]].  The largest city is the state's capital of Salt Lake City with a population of 181,698, and the former coal mining town of [[Scofield, Utah|Scofield]] is the smallest town with 26 people.<ref name="population" />
+
+==Incorporated cities and towns==
+<!-- NOTE - Population, area and median household income figures based on any sources other than the US Census Bureau are unacceptable and changes will be reverted. -->
+
+{{legend2|#BBFFBB| and * symbol indicates that this city or town is the [[county seat]] of its respective county.|border=1px solid #AAAAAA}}
+
+{| class="wikitable sortable" style="text-align:center;"
+! Name<ref name="population" /><br />
+! [[List of counties in Utah|County]]<br />
+! Population<br>(2008)<ref name="population">{{cite web | url=http://www.census.gov/popest/cities/tables/SUB-EST2008-04-49.csv | title=Resident Population for Incorporated Places in Utah, Listed Alphabetically: April 1, 2000 to July 1, 2008 (SUB-EST2008-04-49) | publisher=United States Census Bureau | date=July 1, 2009 | accessdate=May 10, 2010}}</ref><br />
+! width=160| Area (2000)<ref>{{cite web | url=http://factfinder.census.gov/servlet/GCTTable?_bm=y&-context=gct&-ds_name=DEC_2000_SF1_U&-CONTEXT=gct&-mt_name=DEC_2000_SF1_U_GCTPH1_CO2&-tree_id=4001&-redoLog=true&-_caller=geoselect&-geo_id=04000US49&-format=ST-7 | title=Utah by Place | publisher=United States Census Bureau | accessdate=May 10, 2010}}</ref><br />
+! width=75| Elevation<ref>{{cite web | url=http://geonames.usgs.gov | title=US Board on Geographic Names | publisher=[[United States Geological Survey]] | date=October 25, 2007} | accessdate=May 11, 2010}}</ref><br />
+! Year<br>settled<ref name="PlaceNames">{{cite book | last=Van Cott | first=John W | title=Utah Place Names | publisher=University of Utah Press | location=Salt Lake City | year=1990 | isbn=9780874803457}}</ref><br />
+! width=135| Median household<br>income (1999)<ref>{{cite web | url=http://factfinder.census.gov | title=Census 2000 Summary File 3 (SF 3) | publisher=United States Census Bureau | accessdate=May 11, 2010}}</ref><br />
+! class="unsortable" width=44%|Etymology<ref name="PlaceNames" />
+|-
+|[[Alpine, Utah|Alpine]]
+|[[Utah County, Utah|Utah]]
+|9,885
+|{{sort|{{nts|7.20}}|{{convert|7.20|sqmi|km2|abbr=on}}}}
+|{{convert|4951|ft|m}}
+|1850
+|$72,880
+|Adjacent high mountains of the [[Wasatch Mountains]] and [[Traverse Mountains]]
+|-
+|[[Alta, Utah|Alta]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|374
+|{{sort|{{nts|4.05}}|{{convert|4.05|sqmi|km2|abbr=on}}}}
+|{{convert|8560|ft|m}}
+|1866
+|$51,250
+|[[Spanish language|Spanish]] word for "high" due to Alta's elevation
+|-
+|[[Altamont, Utah|Altamont]]
+|[[Duchesne County, Utah|Duchesne]]
+|194
+|{{sort|{{nts|.16}}|{{convert|0.16|sqmi|km2|abbr=on}}}}
+|{{convert|6388|ft|m}}
+|{{scref|b}}
+|$28,750
+|Composite name of nearby peaks Altonah and Mt. Emmons
+|-
+|[[Alton, Utah|Alton]]
+|[[Kane County, Utah|Kane]]
+|140
+|{{sort|{{nts|.37}}|{{convert|0.37|sqmi|km2|abbr=on}}}}
+|{{convert|7041|ft|m}}
+|{{scref|b}}
+|$30,883
+|Alton Fjord in [[Norway]]
+|-
+|[[Amalga, Utah|Amalga]]
+|[[Cache County, Utah|Cache]]
+|480
+|{{sort|{{nts|3.52}}|{{convert|3.52|sqmi|km2|abbr=on}}}}
+|{{convert|4439|ft|m}}
+|1860
+|$42,143
+|Amalgamated Sugar Company
+|-
+|[[American Fork, Utah|American Fork]]
+|[[Utah County, Utah|Utah]]
+|27,064
+|{{sort|{{nts|7.54}}|{{convert|7.54|sqmi|km2|abbr=on}}}}
+|{{convert|4606|ft|m}}
+|1850
+|$51,955
+|[[American Fork River]], a tributary of [[Utah Lake]]
+|-
+|[[Annabella, Utah|Annabella]]
+|[[Sevier County, Utah|Sevier]]
+|480
+|{{sort|{{nts|.56}}|{{convert|0.56|sqmi|km2|abbr=on}}}}
+|{{convert|529|ft|m}}
+|1871
+|$40,000
+|Composite name of Ann S. Roberts and Isabella Dalton, woman settlers of Annabella
+|-
+|[[Antimony, Utah|Antimony]]
+|[[Garfield County, Utah|Garfield]]
+|114
+|{{sort|{{nts|10.12}}|{{convert|10.12|sqmi|km2|abbr=on}}}}
+|{{convert|6453|ft|m}}
+|1873
+|$22,500
+|The metal [[antimony]] that was mined in the area
+|-
+|[[Apple Valley, Utah|Apple Valley]]
+|[[Washington County, Utah|Washington]]
+|447
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|{{convert|4941|ft|m}}
+|{{scref|b}}
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|{{scref|c}}
+|-
+|[[Aurora, Utah|Aurora]]
+|[[Sevier County, Utah|Sevier]]
+|952
+|{{sort|{{nts|1.01}}|{{convert|1.01|sqmi|km2|abbr=on}}}}
+|{{convert|5200|ft|m}}
+|1875
+|$44,911
+|[[Aurora (mythology)|Aurora]], the Roman goddess of dawn
+|-
+|[[Ballard, Utah|Ballard]]
+|[[Uintah County, Utah|Uintah]]
+|689
+|{{sort|{{nts|14.00}}|{{convert|14.00|sqmi|km2|abbr=on}}}}
+|{{convert|5049|ft|m}}
+|{{scref|b}}
+|$35,278
+|[[Melvin J. Ballard]], a LDS Church [[Apostle (Latter Day Saints)|Apostle]]
+|-
+|[[Bear River City, Utah|Bear River City]]
+|[[Box Elder County, Utah|Box Elder]]
+|833
+|{{sort|{{nts|1.57}}|{{convert|1.57|sqmi|km2|abbr=on}}}}
+|{{convert|4258|ft|m}}
+|1866
+|$52,212
+|[[Bear River (Utah)|Bear River]], a {{convert|350|mi|km|adj=on}} river and largest tributary of the [[Great Salt Lake]]
+|-
+|style="background-color:#BBFFBB;"|[[Beaver, Utah|Beaver]]*
+|[[Beaver County, Utah|Beaver]]
+|2,597
+|{{sort|{{nts|4.58}}|{{convert|4.58|sqmi|km2|abbr=on}}}}
+|{{convert|5902|ft|m}}
+|1856
+|$33,646
+|Beaver River, a {{convert|242|mi|km|adj=on}} river that eventually disappears into the ground
+|-
+|[[Bicknell, Utah|Bicknell]]
+|[[Wayne County, Utah|Wayne]]
+|347
+|{{sort|{{nts|.47}}|{{convert|0.47|sqmi|km2|abbr=on}}}}
+|{{convert|7123|ft|m}}
+|1879
+|$32,750
+|[[Thomas W. Bicknell]], who donated 500 books to the library
+|-
+|[[Big Water, Utah|Big Water]]
+|[[Kane County, Utah|Kane]]
+|406
+|{{sort|{{nts|6.07}}|{{convert|6.07|sqmi|km2|abbr=on}}}}
+|{{convert|4108|ft|m}}
+|1958<ref>{{cite web | url=http://www.bigwatertown.org/about_us.html | title=About Us | publisher=Big Water City | accessdate=May 9, 2010}}</ref>
+|$30,278
+|{{scref|c}}
+|-
+|[[Blanding, Utah|Blanding]]
+|[[San Juan County, Utah|San Juan]]
+|3,290
+|{{sort|{{nts|2.37}}|{{convert|2.37|sqmi|km2|abbr=on}}}}
+|{{convert|6106|ft|m}}
+|1887
+|$32,991
+|Maiden name of [[Thomas W. Bicknell]]'s wife, who donated 500 books to the library
+|-
+|[[Bluffdale, Utah|Bluffdale]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|8,016
+|{{sort|{{nts|16.43}}|{{convert|16.43|sqmi|km2|abbr=on}}}}
+|{{convert|4436|ft|m}}
+|1886
+|$66,615
+|The bluffs along the [[Jordan River (Utah)|Jordan River]]
+|-
+|[[Boulder, Utah|Boulder]]
+|[[Garfield County, Utah|Garfield]]
+|186
+|{{sort|{{nts|20.92}}|{{convert|20.92|sqmi|km2|abbr=on}}}}
+|{{convert|6703|ft|m}}
+|1889
+|$30,000
+|[[Boulder Mountain (Utah)|Boulder Mountain]], a {{convert|11317|ft|m|adj=on}} mountain located in the [[Dixie National Forest]]
+|-
+|[[Bountiful, Utah|Bountiful]]
+|[[Davis County, Utah|Davis]]
+|44,473
+|{{sort|{{nts|13.47}}|{{convert|13.47|sqmi|km2|abbr=on}}}}
+|{{convert|4797|ft|m}}
+|1847
+|$55,993
+|The ''[[Book of Mormon]]'' city of [[Bountiful (Book of Mormon)|Bountiful]]
+|-
+|[[Brian Head, Utah|Brian Head]]
+|[[Iron County, Utah|Iron]]
+|127
+|{{sort|{{nts|3.10}}|{{convert|3.10|sqmi|km2|abbr=on}}}}
+|{{convert|9800|ft|m}}
+|{{scref|b}}
+|$44,063
+|[[William Jennings Bryan]], national politician and former candidate for [[President of the United States]]
+|-
+|style="background-color:#BBFFBB;"|[[Brigham City, Utah|Brigham City]]*
+|[[Box Elder County, Utah|Box Elder]]
+|18,709
+|{{sort|{{nts|14.34}}|{{convert|14.34|sqmi|km2|abbr=on}}}}
+|{{convert|4436|ft|m}}
+|1850
+|$42,335
+|[[Brigham Young]], [[LDS Church President]] and first territorial [[List of Governors of Utah|Governor of Utah]]
+|-
+|[[Bryce Canyon City, Utah|Bryce Canyon City]]
+|[[Garfield County, Utah|Garfield]]
+|59
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|{{convert|7664|ft|m}}
+|1875
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|Local homsteader [[Ebenezer Bryce]]
+|-
+|[[Cannonville, Utah|Cannonville]]
+|[[Garfield County, Utah|Garfield]]
+|138
+|{{sort|{{nts|1.23}}|{{convert|1.23|sqmi|km2|abbr=on}}}}
+|{{convert|5886|ft|m}}
+|1874
+|$28,750
+|[[George Q. Cannon]], a LDS Church [[Apostle (Latter Day Saints)|Apostle]]
+|-
+|style="background-color:#BBFFBB;"|[[Castle Dale, Utah|Castle Dale]]*
+|[[Emery County, Utah|Emery]]
+|1,582
+|{{sort|{{nts|1.87}}|{{convert|1.87|sqmi|km2|abbr=on}}}}
+|{{convert|5676|ft|m}}
+|1879<ref>{{cite journal | last=Jenson | first=Andrew | title=Origin of Western Geographic Names | journal=The Utah genealogical and historical magazine | publisher=The Genealogical Society of Utah | volume=10 | year=1919 | page=42 | url=http://books.google.com/?id=u78UAAAAYAAJ&lpg=RA1-PA82 | accessdate=August 1, 2010}}</ref>
+|$44,185
+|Located in the Castle Valley, but a [[United States Postal Service|Postal Service]] mistake listed town as Castle Dale instead of Castle Vale.
+|-
+|[[Castle Valley, Utah|Castle Valley]]
+|[[Grand County, Utah|Grand]]
+|386
+|{{sort|{{nts|8.08}}|{{convert|8.08|sqmi|km2|abbr=on}}}}
+|{{convert|4685|ft|m}}
+|1974<ref>{{cite web | url=http://www.castlevalleyutah.com/factsfigures.cfm | title=Facts and Figures | publisher=Town of Castle Valley | accessdate=May 9, 2010}}</ref>
+|$33,068
+|Located in the Castle Valley
+|-
+|[[Cedar City, Utah|Cedar City]]
+|[[Iron County, Utah|Iron]]
+|28,667
+|{{sort|{{nts|20.09}}|{{convert|20.09|sqmi|km2|abbr=on}}}}
+|{{convert|5846|ft|m}}
+|1851
+|$32,043
+|Large number of cedar trees in the area
+|-
+|[[Cedar Fort, Utah|Cedar Fort]]
+|[[Utah County, Utah|Utah]]
+|410
+|{{sort|{{nts|1.59}}|{{convert|1.59|sqmi|km2|abbr=on}}}}
+|{{convert|5085|ft|m}}
+|1856
+|$44,773
+|Large number of cedar trees in the area
+|-
+|[[Cedar Hills, Utah|Cedar Hills]]
+|[[Utah County, Utah|Utah]]
+|9,551
+|{{sort|{{nts|1.97}}|{{convert|1.97|sqmi|km2|abbr=on}}}}
+|{{convert|4957|ft|m}}
+|{{scref|b}}
+|$62,668
+|Local cedar tree covered hills
+|-
+|[[Centerfield, Utah|Centerfield]]
+|[[Sanpete County, Utah|Sanpete]]
+|1,096
+|{{sort|{{nts|1.80}}|{{convert|1.80|sqmi|km2|abbr=on}}}}
+|{{convert|5098|ft|m}}
+|1869
+|$35,357
+|Center of the Gunnison Valley
+|-
+|[[Centerville, Utah|Centerville]]
+|[[Davis County, Utah|Davis]]
+|15,720
+|{{sort|{{nts|6.04}}|{{convert|6.04|sqmi|km2|abbr=on}}}}
+|{{convert|4377|ft|m}}
+|1848<ref name="Centerville">{{cite web | url=http://www.centervilleut.net/about.earlyhistory.html | title=Early History | publisher=Centerville City | accessdate=May 10, 2010}}</ref>
+|$64,818
+|Center between [[Farmington, Utah|Farmington]] and [[Bountiful, Utah|Bountiful]]<ref name="Centerville" />
+|-
+|[[Central Valley, Utah|Central Valley]]
+|[[Sevier County, Utah|Sevier]]
+|415
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|{{convert|5305|ft|m}}
+|{{scref|b}}
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|{{scref|c}}
+|-
+|[[Charleston, Utah|Charleston]]
+|[[Wasatch County, Utah|Wasatch]]
+|457
+|{{sort|{{nts|1.87}}|{{convert|1.87|sqmi|km2|abbr=on}}}}
+|{{convert|5440|ft|m}}
+|1852
+|$42,813
+|Charles Shelton, who surveyed the town
+|-
+|[[Circleville, Utah|Circleville]]
+|[[Piute County, Utah|Piute]]
+|485
+|{{sort|{{nts|9.07}}|{{convert|9.07|sqmi|km2|abbr=on}}}}
+|{{convert|6066|ft|m}}
+|1864
+|$32,083
+|Located in the Circle Valley
+|-
+|[[Clarkston, Utah|Clarkston]]
+|[[Cache County, Utah|Cache]]
+|754
+|{{sort|{{nts|.96}}|{{convert|0.96|sqmi|km2|abbr=on}}}}
+|{{convert|4879|ft|m}}
+|1864
+|$40,592
+|Justus Clark, an original settler
+|-
+|[[Clawson, Utah|Clawson]]
+|[[Emery County, Utah|Emery]]
+|173
+|{{sort|{{nts|.54}}|{{convert|0.54|sqmi|km2|abbr=on}}}}
+|{{convert|5942|ft|m}}
+|1897
+|$31,250
+|[[Rudger Clawson]], a LDS Church [[Apostle (Latter Day Saints)|Apostle]]
+|-
+|[[Clearfield, Utah|Clearfield]]
+|[[Davis County, Utah|Davis]]
+|27,851
+|{{sort|{{nts|7.75}}|{{convert|7.75|sqmi|km2|abbr=on}}}}
+|{{convert|4465|ft|m}}
+|1877
+|$38,946
+|The open surroundings of the area
+|-
+|[[Cleveland, Utah|Cleveland]]
+|[[Emery County, Utah|Emery]]
+|508
+|{{sort|{{nts|.89}}|{{convert|0.89|sqmi|km2|abbr=on}}}}
+|{{convert|5722|ft|m}}
+|1885
+|$33,500
+|[[Grover Cleveland]], [[President of the United States]]
+|-
+|[[Clinton, Utah|Clinton]]
+|[[Davis County, Utah|Davis]]
+|19,885
+|{{sort|{{nts|5.50}}|{{convert|5.50|sqmi|km2|abbr=on}}}}
+|{{convert|4393|ft|m}}
+|1870s
+|$53,909
+|{{scref|c}}
+|-
+|[[Coalville, Utah|Coalville]]
+|[[Summit County, Utah|Summit]]
+|1,367
+|{{sort|{{nts|3.26}}|{{convert|3.26|sqmi|km2|abbr=on}}}}
+|{{convert|5577|ft|m}}
+|1858
+|$39,342
+|Many of the miners came from [[Coalville]], [[England]]
+|-
+|[[Corinne, Utah|Corinne]]
+|[[Box Elder County, Utah|Box Elder]]
+|677
+|{{sort|{{nts|3.66}}|{{convert|3.66|sqmi|km2|abbr=on}}}}
+|{{convert|4226|ft|m}}
+|1869
+|$42,125
+|Corinne, the first child born in the area
+|-
+|[[Cornish, Utah|Cornish]]
+|[[Cache County, Utah|Cache]]
+|285
+|{{sort|{{nts|4.85}}|{{convert|4.85|sqmi|km2|abbr=on}}}}
+|{{convert|4485|ft|m}}
+|{{scref|b}}
+|$40,417
+|William D Cornish, vice-president of the [[Union Pacific Railroad]]
+|-
+|[[Cottonwood Heights, Utah|Cottonwood Heights]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|35,418
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|{{convert|4823|ft|m}}
+|1848
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|[[Populus sect. Aegiros|Cottonwood]] trees found in the area
+|-
+|[[Daniel, Utah|Daniel]]
+|[[Wasatch County, Utah|Wasatch]]
+|600
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|{{convert|5715|ft|m}}
+|1874
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|Aaron Daniels, one of the first settlers
+|-
+|[[Delta, Utah|Delta]]
+|[[Millard County, Utah|Millard]]
+|3,172
+|{{sort|{{nts|3.75}}|{{convert|3.75|sqmi|km2|abbr=on}}}}
+|{{convert|4639|ft|m}}
+|1906
+|$37,773
+|The [[river delta]] of the [[Sevier River]]
+|-
+|[[Deweyville, Utah|Deweyville]]
+|[[Box Elder County, Utah|Box Elder]]
+|334
+|{{sort|{{nts|6.45}}|{{convert|6.45|sqmi|km2|abbr=on}}}}
+|{{convert|4437|ft|m}}
+|1864
+|$43,750
+|John C. Dewey, an early settler to the area
+|-
+|[[Draper, Utah|Draper]]
+|[[Salt Lake County, Utah|Salt Lake]]/ [[Utah County, Utah|Utah]]
+|42,317
+|{{sort|{{nts|30.35}}|{{convert|30.35|sqmi|km2|abbr=on}}}}
+|{{convert|4505|ft|m}}
+|1849
+|$72,341
+|William Draper, the town's first LDS Church [[Bishop (Latter Day Saints)|Bishop]]
+|-
+|style="background-color:#BBFFBB;"|[[Duchesne, Utah|Duchesne]]*
+|[[Duchesne County, Utah|Duchesne]]
+|1,612
+|{{sort|{{nts|2.30}}|{{convert|2.30|sqmi|km2|abbr=on}}}}
+|{{convert|5518|ft|m}}
+|1904
+|$32,426
+|Nearby Fort Duchesne
+|-
+|[[Eagle Mountain, Utah|Eagle Mountain]]
+|[[Utah County, Utah|Utah]]
+|22,309
+|{{sort|{{nts|41.71}}|{{convert|41.71|sqmi|km2|abbr=on}}}}
+|{{convert|4882|ft|m}}
+|{{scref|b}}
+|$52,102
+|Eagle Mountain Properties, the development company of the city
+|-
+|[[East Carbon, Utah|East Carbon]]
+|[[Carbon County, Utah|Carbon]]
+|1,258
+|{{sort|{{nts|8.94}}|{{convert|8.94|sqmi|km2|abbr=on}}}}
+|{{convert|4987|ft|m}}
+|1922
+|$25,313
+|Coal deposits found in the area
+|-
+|[[Elk Ridge, Utah|Elk Ridge]]
+|[[Utah County, Utah|Utah]]
+|2,476
+|{{sort|{{nts|2.78}}|{{convert|2.78|sqmi|km2|abbr=on}}}}
+|{{convert|5354|ft|m}}
+|{{scref|b}}
+|$65,511
+|{{scref|c}}
+|-
+|[[Elmo, Utah|Elmo]]
+|[[Emery County, Utah|Emery]]
+|363
+|{{sort|{{nts|.62}}|{{convert|0.62|sqmi|km2|abbr=on}}}}
+|{{convert|5692|ft|m}}
+|1908
+|$33,750
+|''St. Elmo'', an 1866 novel by the author [[Augusta Jane Evans]]
+|-
+|[[Elsinore, Utah|Elsinore]]
+|[[Sevier County, Utah|Sevier]]
+|741
+|{{sort|{{nts|1.26}}|{{convert|1.26|sqmi|km2|abbr=on}}}}
+|{{convert|5351|ft|m}}
+|1874
+|$27,917
+|[[Elsinore]], [[Denmark]]
+|-
+|[[Elwood, Utah|Elwood]]
+|[[Box Elder County, Utah|Box Elder]]
+|877
+|{{sort|{{nts|7.68}}|{{convert|7.68|sqmi|km2|abbr=on}}}}
+|{{convert|4298|ft|m}}
+|1879
+|$46,406
+|[[United States Postal Service|Postal Service]] named the town
+|-
+|[[Emery, Utah|Emery]]
+|[[Emery County, Utah|Emery]]
+|295
+|{{sort|{{nts|1.21}}|{{convert|1.21|sqmi|km2|abbr=on}}}}
+|{{convert|6253|ft|m}}
+|1881<ref>{{cite web | url=http://www.emerycounty.com/emery/emery.htm | title=Emery City | publisher=Emery County | accessdate=May 10, 2010}}</ref>
+|$40,469
+|[[George W. Emery]], territorial [[List of Governors of Utah|Governor of Utah]]
+|-
+|[[Enoch, Utah|Enoch]]
+|[[Iron County, Utah|Iron]]
+|5,085
+|{{sort|{{nts|3.31}}|{{convert|3.31|sqmi|km2|abbr=on}}}}
+|{{convert|5545|ft|m}}
+|1851
+|$37,368
+|[[Enoch (Biblical figure)|Enoch]], a biblical figure in the [[Old Testament]]
+|-
+|[[Enterprise, Utah|Enterprise]]
+|[[Washington County, Utah|Washington]]
+|1,636
+|{{sort|{{nts|2.91}}|{{convert|2.91|sqmi|km2|abbr=on}}}}
+|{{convert|5318|ft|m}}
+|1902
+|$35,694
+|Name reflected the first settlers' ability to adjust to problem experienced by the first settlers
+|-
+|[[Ephraim, Utah|Ephraim]]
+|[[Sanpete County, Utah|Sanpete]]
+|5,284
+|{{sort|{{nts|3.57}}|{{convert|3.57|sqmi|km2|abbr=on}}}}
+|{{convert|5541|ft|m}}
+|1854
+|$28,318
+|[[Tribe of Ephraim]], one of the [[Israelites|twelve Tribes of Israel]].
+|-
+|[[Escalante, Utah|Escalante]]
+|[[Garfield County, Utah|Garfield]]
+|763
+|{{sort|{{nts|2.94}}|{{convert|2.94|sqmi|km2|abbr=on}}}}
+|{{convert|5820|ft|m}}
+|1876
+|$32,143
+|[[Silvestre Vélez de Escalante]], a [[Franciscan]] [[missionary]] who explored the area in 1776
+|-
+|[[Eureka, Utah|Eureka]]
+|[[Juab County, Utah|Juab]]
+|796
+|{{sort|{{nts|1.47}}|{{convert|1.47|sqmi|km2|abbr=on}}}}
+|{{convert|6430|ft|m}}
+|1869
+|$36,875
+|[[Eureka (word)|Eureka]] is the [[ancient Greek]] name for "I have found it",  relating to the gold mines found in the area
+|-
+|[[Fairfield, Utah|Fairfield]]
+|[[Utah County, Utah|Utah]]
+|151
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|{{convert|4877|ft|m}}
+|1855
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|Amos Fielding, an early settler of the area
+|-
+|[[Fairview, Utah|Fairview]]
+|[[Sanpete County, Utah|Sanpete]]
+|1,210
+|{{sort|{{nts|1.25}}|{{convert|1.25|sqmi|km2|abbr=on}}}}
+|{{convert|6948|ft|m}}
+|1859
+|$34,946
+|The attractive surroundings of the area
+|-
+|style="background-color:#BBFFBB;"|[[Farmington, Utah|Farmington]]*
+|[[Davis County, Utah|Davis]]
+|17,217
+|{{sort|{{nts|7.76}}|{{convert|7.76|sqmi|km2|abbr=on}}}}
+|{{convert|4304|ft|m}}
+|1847
+|$74,250
+|The [[farm]]s found in the area
+|-
+|[[Farr West, Utah|Farr West]]
+|[[Weber County, Utah|Weber]]
+|5,335
+|{{sort|{{nts|5.84}}|{{convert|5.84|sqmi|km2|abbr=on}}}}
+|{{convert|4265|ft|m}}
+|1858
+|$41,618
+|Located west of Farr's Fort which was named after Lorin Farr, an early LDS Church [[Stake (Latter Day Saints)#Stake officers|stake president]] of the area.
+|-
+|[[Fayette, Utah|Fayette]]
+|[[Sanpete County, Utah|Sanpete]]
+|211
+|{{sort|{{nts|.48}}|{{convert|0.48|sqmi|km2|abbr=on}}}}
+|{{convert|5052|ft|m}}
+|1861
+|$28,750
+|[[Fayette, New York|Fayette]], [[New York]], where the LDS Church was organized
+|-
+|[[Ferron, Utah|Ferron]]
+|[[Emery County, Utah|Emery]]
+|1,544
+|{{sort|{{nts|2.23}}|{{convert|2.23|sqmi|km2|abbr=on}}}}
+|{{convert|5971|ft|m}}
+|1877<ref>{{cite web | url=http://www.ferroncity.org/history.htm | title=Ferron City History | publisher=Ferron City | accessdate=May 10, 2010}}</ref>
+|$38,625
+|A. D. Ferron, surveyor of the area
+|-
+|[[Fielding, Utah|Fielding]]
+|[[Box Elder County, Utah|Box Elder]]
+|422
+|{{sort|{{nts|.44}}|{{convert|0.44|sqmi|km2|abbr=on}}}}
+|{{convert|4373|ft|m}}
+|1892
+|$44,000
+|Mother of [[LDS Church President]] [[Joseph F. Smith|Joseph Fielding Smith]]
+|-
+|style="background-color:#BBFFBB;"|[[Fillmore, Utah|Fillmore]]*
+|[[Millard County, Utah|Millard]]
+|2,136
+|{{sort|{{nts|5.77}}|{{convert|5.77|sqmi|km2|abbr=on}}}}
+|{{convert|5135|ft|m}}
+|1851
+|$31,719
+|[[Millard Fillmore]], [[President of the United States]]
+|-
+|[[Fountain Green, Utah|Fountain Green]]
+|[[Sanpete County, Utah|Sanpete]]
+|978
+|{{sort|{{nts|1.41}}|{{convert|1.41|sqmi|km2|abbr=on}}}}
+|{{convert|5899|ft|m}}
+|1850
+|$36,078
+|Lush meadows surrounding the area's springs
+|-
+|[[Francis, Utah|Francis]]
+|[[Summit County, Utah|Summit]]
+|894
+|{{sort|{{nts|1.79}}|{{convert|1.79|sqmi|km2|abbr=on}}}}
+|{{convert|6562|ft|m}}
+|1869
+|$55,536
+|[[Francis M. Lyman]], a LDS Church [[Apostle (Latter Day Saints)|Apostle]]
+|-
+|[[Fruit Heights, Utah|Fruit Heights]]
+|[[Davis County, Utah|Davis]]
+|5,312
+|{{sort|{{nts|2.20}}|{{convert|2.20|sqmi|km2|abbr=on}}}}
+|{{convert|4698|ft|m}}
+|1850<ref>{{cite web | url=http://www.fruitheightscity.com/index.aspx?nid=106 | title=History | publisher=Fruit Heights City | accessdate=May 10, 2010}}</ref>
+|$79,192
+|Fruit orchards located above the valley floor
+|-
+|[[Garden City, Utah|Garden City]]
+|[[Rich County, Utah|Rich]]
+|460
+|{{sort|{{nts|4.50}}|{{convert|4.50|sqmi|km2|abbr=on}}}}
+|{{convert|5968|ft|m}}
+|1877<ref>{{cite web | url=http://www.gardencityut.us/AboutUs.html | title=About Us | publisher=Garden City | accessdate=May 10, 2010}}</ref>
+|$40,750
+|Site was considered the garden spot of the valley
+|-
+|[[Garland, Utah|Garland]]
+|[[Box Elder County, Utah|Box Elder]]
+|2,059
+|{{sort|{{nts|1.77}}|{{convert|1.77|sqmi|km2|abbr=on}}}}
+|{{convert|4340|ft|m}}
+|1890
+|$38,679
+|William Garland, led the construction of a canal in the area
+|-
+|[[Genola, Utah|Genola]]
+|[[Utah County, Utah|Utah]]
+|1,159
+|{{sort|{{nts|13.24}}|{{convert|13.24|sqmi|km2|abbr=on}}}}
+|{{convert|4600|ft|m}}
+|{{scref|b}}
+|$45,417
+|{{scref|c}}
+|-
+|[[Glendale, Utah|Glendale]]
+|[[Kane County, Utah|Kane]]
+|339
+|{{sort|{{nts|7.81}}|{{convert|7.81|sqmi|km2|abbr=on}}}}
+|{{convert|5778|ft|m}}
+|1862
+|$35,938
+|The place being in a glen or a narrow valley with mountains all around<ref>{{cite journal | last=Jenson | first=Andrew | title=Origin of Western Geographic Names | journal=The Utah genealogical and historical magazine | publisher=The Genealogical Society of Utah | volume=10 | year=1919 | page=182 | url=http://books.google.com/?id=u78UAAAAYAAJ&lpg=PA182 | accessdate=August 1, 2010}}</ref>
+|-
+|[[Glenwood, Utah|Glenwood]]
+|[[Sevier County, Utah|Sevier]]
+|438
+|{{sort|{{nts|.54}}|{{convert|0.54|sqmi|km2|abbr=on}}}}
+|{{convert|5272|ft|m}}
+|1863
+|$45,192
+|Robert Wilson Glenn, an early settler of the area
+|-
+|[[Goshen, Utah|Goshen]]
+|[[Utah County, Utah|Utah]]
+|934
+|{{sort|{{nts|.72}}|{{convert|0.72|sqmi|km2|abbr=on}}}}
+|{{convert|4551|ft|m}}
+|1857
+|$41,458
+|[[Goshen, Connecticut|Goshen]], [[Connecticut]], birthplace of Phineas W. Cooke, the first LDS [[Bishop (Latter Day Saints)|Bishop]] of the area
+|-
+|[[Grantsville, Utah|Grantsville]]
+|[[Tooele County, Utah|Tooele]]
+|9,049
+|{{sort|{{nts|17.85}}|{{convert|17.85|sqmi|km2|abbr=on}}}}
+|{{convert|4304|ft|m}}
+|1850
+|$45,614
+|Colonel George D. Grant of the [[Nauvoo Legion]]
+|-
+|[[Green River, Utah|Green River]]
+|[[Emery County, Utah|Emery]]
+|923
+|{{sort|{{nts|12.64}}|{{convert|12.64|sqmi|km2|abbr=on}}}}
+|{{convert|4078|ft|m}}
+|{{scref|b}}
+|$28,000
+|The [[Green River (Utah)|Green River]], a {{convert|730|mi|km|adj=on}} tributary of the [[Colorado River]]
+|-
+|[[Gunnison, Utah|Gunnison]]
+|[[Sanpete County, Utah|Sanpete]]
+|3,016
+|{{sort|{{nts|5.30}}|{{convert|5.30|sqmi|km2|abbr=on}}}}
+|{{convert|5138|ft|m}}
+|1859
+|$33,147
+|Captain [[John W. Gunnison]], explored and surveyed [[Great Salt Lake]], [[Utah Lake]] and the [[Salt Lake Valley]] for the [[United States Army Corps of Engineers#History|Corps of Topographical Engineers]]
+|-
+|[[Hanksville, Utah|Hanksville]]
+|[[Wayne County, Utah|Wayne]]
+|204
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|{{convert|4291|ft|m}}
+|1882
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|Ebeneazer Hanks, original settler of the area
+|-
+|[[Harrisville, Utah|Harrisville]]
+|[[Weber County, Utah|Weber]]
+|6,060
+|{{sort|{{nts|2.70}}|{{convert|2.70|sqmi|km2|abbr=on}}}}
+|{{convert|4291|ft|m}}
+|1850
+|$51,289
+|Marin H. Harris, a settler of the area
+|-
+|[[Hatch, Utah|Hatch]]
+|[[Garfield County, Utah|Garfield]]
+|118
+|{{sort|{{nts|.27}}|{{convert|0.27|sqmi|km2|abbr=on}}}}
+|{{convert|6919|ft|m}}
+|1872<ref>{{cite journal | last=Jenson | first=Andrew | title=Origin of Western Geographic Names | journal=The Utah genealogical and historical magazine | publisher=The Genealogical Society of Utah | volume=10 | year=1919 | page=186 | url=http://books.google.com/?id=u78UAAAAYAAJ&lpg=PA186 | accessdate=August 1, 2010}}</ref>
+|$37,083
+|Meltiar Harch Sr., a settler of the area
+|-
+|style="background-color:#BBFFBB;"|[[Heber, Utah|Heber]]*
+|[[Wasatch County, Utah|Wasatch]]
+|9,830
+|{{sort|{{nts|3.45}}|{{convert|3.45|sqmi|km2|abbr=on}}}}
+|{{convert|5604|ft|m}}
+|1858
+|$45,394
+|[[Heber C. Kimball]], an [[Apostle (Latter Day Saints)|Apostle]] of the LDS Church
+|-
+|[[Helper, Utah|Helper]]
+|[[Carbon County, Utah|Carbon]]
+|1,876
+|{{sort|{{nts|1.79}}|{{convert|1.79|sqmi|km2|abbr=on}}}}
+|{{convert|5817|ft|m}}
+|1883
+|$30,052
+|The "Helper engines" or extra [[locomotives]] used to get trains over [[Soldier Summit, Utah|Soldier Summit]] from Helper to [[Spanish Fork, Utah|Spanish Fork]]
+|-
+|[[Henefer, Utah|Henefer]]
+|[[Summit County, Utah|Summit]]
+|680
+|{{sort|{{nts|.86}}|{{convert|0.86|sqmi|km2|abbr=on}}}}
+|{{convert|5335|ft|m}}
+|1859
+|$43,125
+|Brothers James and Richard Henefer, original settlers of the area
+|-
+|[[Henrieville, Utah|Henrieville]]
+|[[Garfield County, Utah|Garfield]]
+|148
+|{{sort|{{nts|.17}}|{{convert|0.17|sqmi|km2|abbr=on}}}}
+|{{convert|5997|ft|m}}
+|1878
+|$28,500
+|James Henrie, first [[Stake (Latter Day Saints)#Stake officers|stake president]] of the local LDS [[Stake (Latter Day Saints)|stake]]
+|-
+|[[Herriman, Utah|Herriman]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|17,689
+|{{sort|{{nts|9.12}}|{{convert|9.12|sqmi|km2|abbr=on}}}}
+|{{convert|5000|ft|m}}
+|1849
+|$56,361
+|Henry Herriman, a prominent resident of the area
+|-
+|[[Hideout, Utah|Hideout]]
+|[[Wasatch County, Utah|Wasatch]]
+|820
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|{{convert|6588|ft|m}}
+|
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|Hideout Canyon
+|-
+|[[Highland, Utah|Highland]]
+|[[Utah County, Utah|Utah]]
+|16,189
+|{{sort|{{nts|6.96}}|{{convert|6.96|sqmi|km2|abbr=on}}}}
+|{{convert|4977|ft|m}}
+|1875<ref>{{cite web | url=http://www.highlandcity.org/cgi-bin/hc/history.html | title=History | publisher=Highland City | accessdate=May 10, 2010}}</ref>
+|$80,053
+|Town's location on the upper bench of the [[Utah Valley]]
+|-
+|[[Hildale, Utah|Hildale]]
+|[[Washington County, Utah|Washington]]
+|1,970
+|{{sort|{{nts|2.94}}|{{convert|2.94|sqmi|km2|abbr=on}}}}
+|{{convert|5409|ft|m}}
+|{{scref|b}}
+|$32,579
+|{{scref|c}}
+|-
+|[[Hinckley, Utah|Hinckley]]
+|[[Millard County, Utah|Millard]]
+|708
+|{{sort|{{nts|5.03}}|{{convert|5.03|sqmi|km2|abbr=on}}}}
+|{{convert|4603|ft|m}}
+|{{scref|b}}
+|$35,625
+|[[Ira Hinckley]], LDS Church [[Stake (Latter Day Saints)#Stake officers|stake president]] of the local LDS [[Stake (Latter Day Saints)|stake]]
+|-
+|[[Holden, Utah|Holden]]
+|[[Millard County, Utah|Millard]]
+|372
+|{{sort|{{nts|.55}}|{{convert|0.55|sqmi|km2|abbr=on}}}}
+|{{convert|5102|ft|m}}
+|1855
+|$34,000
+|Elijah E. Holden, an early settler of the area
+|-
+|[[Holladay, Utah|Holladay]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|25,676
+|{{sort|{{nts|5.34}}|{{convert|5.34|sqmi|km2|abbr=on}}}}
+|{{convert|4464|ft|m}}
+|1848
+|$55,468
+|John Holladay, an early settler of the area
+|-
+|[[Honeyville, Utah|Honeyville]]
+|[[Box Elder County, Utah|Box Elder]]
+|1,354
+|{{sort|{{nts|11.75}}|{{convert|11.75|sqmi|km2|abbr=on}}}}
+|{{convert|4298|ft|m}}
+|1861
+|$41,518
+|Profession of the local LDS [[Bishop (Latter Day Saints)|Bishop]]
+|-
+|[[Hooper, Utah|Hooper]]
+|[[Weber County, Utah|Weber]]
+|5,655
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|{{convert|4242|ft|m}}
+|{{scref|b}}
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|[[William H. Hooper]], Utah territorial [[Delegate (United States Congress)|delgate]] to the [[United States House of Representatives]]
+|-
+|[[Howell, Utah|Howell]]
+|[[Box Elder County, Utah|Box Elder]]
+|245
+|{{sort|{{nts|35.60}}|{{convert|35.60|sqmi|km2|abbr=on}}}}
+|{{convert|4560|ft|m}}
+|1910
+|$40,750
+|[[Joseph Howell]], president of the surveying company that laid out the area and Representative of the [[United State House of Representatives]] from Utah
+|-
+|[[Huntington, Utah|Huntington]]
+|[[Emery County, Utah|Emery]]
+|2,033
+|{{sort|{{nts|2.03}}|{{convert|2.03|sqmi|km2|abbr=on}}}}
+|{{convert|5787|ft|m}}
+|1877<ref>{{cite web | url=http://www.media.utah.edu/UHE/h/HUNTINGTON.html | title=History of Huntington | work=Utah Encyclopedia | publisher=University of Utah | accessdate=May 10, 2010}}</ref>
+|$36,964
+|William Huntington, an early explorer of the area
+|-
+|[[Huntsville, Utah|Huntsville]]
+|[[Weber County, Utah|Weber]]
+|653
+|{{sort|{{nts|.74}}|{{convert|0.74|sqmi|km2|abbr=on}}}}
+|{{convert|4928|ft|m}}
+|1860<ref>{{cite web | url=http://www.huntsvilletown.com/history-town.html | title=Huntsvile Town Founding history | publisher=Town of Huntville | accessdate=May 10, 2010}}</ref>
+|$50,625
+|Jefferson Hunt, an early settler of the area
+|-
+|[[Hurricane, Utah|Hurricane]]
+|[[Washington County, Utah|Washington]]
+|13,321
+|{{sort|{{nts|31.55}}|{{convert|31.55|sqmi|km2|abbr=on}}}}
+|{{convert|3248|ft|m}}
+|1906<ref>{{cite web | url=http://www.media.utah.edu/UHE/h/HURRICANE.html | title=Hurricane | work=Utah History Encyclopedia | publisher=University of Utah | accessdate=May 10, 2010}}</ref>
+|$32,865
+|LDS Church Apostle [[Erastus Snow]]'s comments about the heavy wind in the area
+|-
+|[[Hyde Park, Utah|Hyde Park]]
+|[[Cache County, Utah|Cache]]
+|3,927
+|{{sort|{{nts|3.20}}|{{convert|3.20|sqmi|km2|abbr=on}}}}
+|{{convert|4537|ft|m}}
+|1860
+|$51,750
+|Wiliam Hyde, one of the first settlers and first LDS Church [[Bishop (Latter Day Saints)|Bishop]] of the area
+|-
+|[[Hyrum, Utah|Hyrum]]
+|[[Cache County, Utah|Cache]]
+|7,636
+|{{sort|{{nts|3.92}}|{{convert|3.92|sqmi|km2|abbr=on}}}}
+|{{convert|4698|ft|m}}
+|1860
+|$43,981
+|[[Hyrum Smith]], brother to LDS Church founder [[Joseph Smith, Jr.]]
+|-
+|[[Independence, Utah|Independence]]
+|[[Wasatch County, Utah|Wasatch]]
+|117
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|{{convert|7073|ft|m}}
+|
+|{{sort|{{nts|0}}|N/A{{scref|a}}}}
+|
+|-
+|[[Ivins, Utah|Ivins]]
+|[[Washington County, Utah|Washington]]
+|7,870
+|{{sort|{{nts|10.27}}|{{convert|10.27|sqmi|km2|abbr=on}}}}
+|{{convert|3081|ft|m}}
+|1922<ref>{{cite web | url=http://www.ivins.com/index.php?option=com_content&view=article&id=448:ivins-city-history&catid=118:history&Itemid=527 | title=Ivins City History | publisher=Ivins City | accessdate=May 10, 2010}}</ref>
+|$41,297
+|[[Anthony W. Ivins]], a LDS Church [[Apostle (Latter Day Saints)|Apostle]]
+|-
+|[[Joseph, Utah|Joseph]]
+|[[Sevier County, Utah|Seiver]]
+|273
+|{{sort|{{nts|.89}}|{{convert|0.89|sqmi|km2|abbr=on}}}}
+|{{convert|5436|ft|m}}
+|1871
+|$29,375
+|Joseph A. Young, first LDS Church [[Stake (Latter Day Saints)#Stake officers|stake president]] of the Sevier [[Stake (Latter Day Saints)|Stake]]
+|-
+|style="background-color:#BBFFBB;"|[[Junction, Utah|Junction]]*
+|[[Piute County, Utah|Piute]]
+|171
+|{{sort|{{nts|14.96}}|{{convert|14.96|sqmi|km2|abbr=on}}}}
+|{{convert|6007|ft|m}}
+|1880
+|$25,625
+|Located at the junction of the East Fork and the [[Sevier River]]s
+|-
+|[[Kamas, Utah|Kamas]]
+|[[Summit County, Utah|Summit]]
+|1,492
+|{{sort|{{nts|1.59}}|{{convert|1.59|sqmi|km2|abbr=on}}}}
+|{{convert|6486|ft|m}}
+|1857
+|$41,667
+|Derived from the [[Native Americans in the United States|Native American]] word for the [[Camassia quamash|Small Camas]], an edible bulb found in the valley
+|-
+|style="background-color:#BBFFBB;"|[[Kanab, Utah|Kanab]]*
+|[[Kane County, Utah|Kane]]
+|3,782
+|{{sort|{{nts|14.06}}|{{convert|14.06|sqmi|km2|abbr=on}}}}
+|{{convert|4970|ft|m}}
+|1864
+|$35,125
+|[[Native Americans in the United States|Native American]] word for [[willow]], referring to the willows growing along the area's creeks
+|-
+|[[Kanarraville, Utah|Kanarraville]]
+|[[Iron County, Utah|Iron]]
+|315
+|{{sort|{{nts|.45}}|{{convert|0.45|sqmi|km2|abbr=on}}}}
+|{{convert|5541|ft|m}}
+|1861
+|$34,375
+|Chief Canarrah, local leader of the [[Piute]] tribe
+|-
+|[[Kanosh, Utah|Kanosh]]
+|[[Millard County, Utah|Millard]]
+|470
+|{{sort|{{nts|.85}}|{{convert|0.85|sqmi|km2|abbr=on}}}}
+|{{convert|5020|ft|m}}
+|1854
+|$32,411
+|Kanosh, the name for the local [[Native Americans in the United States|Native American]] leader
+|-
+|[[Kaysville, Utah|Kaysville]]
+|[[Davis County, Utah|Davis]]
+|25,820
+|{{sort|{{nts|10.09}}|{{convert|10.09|sqmi|km2|abbr=on}}}}
+|{{convert|4357|ft|m}}
+|1849
+|$60,383
+|William Kay, the area's first LDS Church [[Bishop (Latter Day Saints)|Bishop]]
+|-
+|[[Kingston, Utah|Kingston]]
+|[[Piute County, Utah|Piute]]
+|136
+|{{sort|{{nts|5.32}}|{{convert|5.32|sqmi|km2|abbr=on}}}}
+|{{convert|6017|ft|m}}
+|1876
+|$23,750
+|Thomas R. King, the area's first settler
+|-
+|[[Koosharem, Utah|Koosharem]]
+|[[Sevier County, Utah|Sevier]]
+|292
+|{{sort|{{nts|.56}}|{{convert|0.56|sqmi|km2|abbr=on}}}}
+|{{convert|6919|ft|m}}
+|1877
+|$34,583
+|[[Native Americans in the United States|Native American]] word for an edible tuber that grows in the area
+|-
+|[[Laketown, Utah|Laketown]]
+|[[Rich County, Utah|Rich]]
+|191
+|{{sort|{{nts|1.01}}|{{convert|1.01|sqmi|km2|abbr=on}}}}
+|{{convert|5974|ft|m}}
+|1864
+|$60,893
+|Town is located next to [[Bear Lake (Idaho-Utah)|Bear Lake]], a {{convert|109|sqmi|km2|adj=on}} lake on the [[Utah]]-[[Idaho]] border
+|-
+|[[La Verkin, Utah|La Verkin]]
+|[[Washington County, Utah|Washington]]
+|4,487
+|{{sort|{{nts|16.13}}|{{convert|16.13|sqmi|km2|abbr=on}}}}
+|{{convert|3192|ft|m}}
+|1897
+|$35,949
+|Derived from the Spanish La Virgen, referring to the local [[Virgin River]]
+|-
+|[[Layton, Utah|Layton]]
+|[[Davis County, Utah|Davis]]
+|65,514
+|{{sort|{{nts|20.84}}|{{convert|20.84|sqmi|km2|abbr=on}}}}
+|{{convert|4350|ft|m}}
+|{{scref|b}}
+|$52,128
+|[[Christopher Layton]], an early LDS [[Bishop (Latter Day Saints)|Bishop]]
+|-
+|[[Leamington, Utah|Leamington]]
+|[[Millard County, Utah|Millard]]
+|206
+|{{sort|{{nts|1.57}}|{{convert|1.57|sqmi|km2|abbr=on}}}}
+|{{convert|4731|ft|m}}
+|1871
+|$43,125
+|[[Leamington Hastings]], a town in [[England]]
+|-
+|[[Leeds, Utah|Leeds]]
+|[[Washington County, Utah|Washington]]
+|764
+|{{sort|{{nts|2.04}}|{{convert|2.04|sqmi|km2|abbr=on}}}}
+|{{convert|3481|ft|m}}
+|1867
+|$41,250
+|[[Leeds]], a town in [[England]] where many of the early settlers were from
+|-
+|[[Lehi, Utah|Lehi]]
+|[[Utah County, Utah|Utah]]
+|46,802
+|{{sort|{{nts|20.57}}|{{convert|20.57|sqmi|km2|abbr=on}}}}
+|{{convert|4564|ft|m}}
+|1850
+|$53,028
+|[[Lehi (Book of Mormon prophet)|Lehi]], a prophet from the ''[[Book of Mormon]]''
+|-
+|[[Levan, Utah|Levan]]
+|[[Juab County, Utah|Juab]]
+|864
+|{{sort|{{nts|.76}}|{{convert|0.76|sqmi|km2|abbr=on}}}}
+|{{convert|5315|ft|m}}
+|{{scref|b}}
+|$34,632
+|Unknown{{scref|d}}
+|-
+|[[Lewiston, Utah|Lewiston]]
+|[[Cache County, Utah|Cache]]
+|2,030
+|{{sort|{{nts|25.68}}|{{convert|25.68|sqmi|km2|abbr=on}}}}
+|{{convert|4508|ft|m}}
+|1870
+|$36,417
+|William H. Lewis, a local LDS [[Bishop (Latter Day Saints)|Bishop]]
+|-
+|[[Lindon, Utah|Lindon]]
+|[[Utah County, Utah|Utah]]
+|10,466
+|{{sort|{{nts|8.58}}|{{convert|8.58|sqmi|km2|abbr=on}}}}
+|{{convert|4642|ft|m}}
+|1850
+|$61,964
+|[[Tilia|Linden]], a tree that grew in the center of town
+|-
+|style="background-color:#BBFFBB;"|[[Loa, Utah|Loa]]*
+|[[Wayne County, Utah|Wayne]]
+|516
+|{{sort|{{nts|.88}}|{{convert|0.88|sqmi|km2|abbr=on}}}}
+|{{convert|7064|ft|m}}
+|1878
+|$33,750
+|[[Mauna Loa]], a volcano in [[Hawaii]], an early settler had served his LDS [[Mission (LDS Church)|mission]] in Hawaii
+|-
+|style="background-color:#BBFFBB;"|[[Logan, Utah|Logan]]*
+|[[Cache County, Utah|Cache]]
+|48,657
+|{{sort|{{nts|17.05}}|{{convert|17.05|sqmi|km2|abbr=on}}}}
+|{{convert|4534|ft|m}}
+|1859
+|$30,778
+|Ephraim Logan, a trapper with [[Jedediah Smith]] who died in the area
+|-
+|[[Lyman, Utah|Lyman]]
+|[[Wayne County, Utah|Wayne]]
+|230
+|{{sort|{{nts|1.89}}|{{convert|1.89|sqmi|km2|abbr=on}}}}
+|{{convert|7182|ft|m}}
+|{{scref|b}}
+|$36,607
+|[[Francis M. Lyman]], a LDS Church [[Apostle (Latter Day Saints)|Apostle]]
+|-
+|[[Lynndyl, Utah|Lynndyl]]
+|[[Millard County, Utah|Millard]]
+|120
+|{{sort|{{nts|3.51}}|{{convert|3.51|sqmi|km2|abbr=on}}}}
+|{{convert|4787|ft|m}}
+|1907
+|$35,625
+|Unknown{{scref|d}}
+|-
+|style="background-color:#BBFFBB;"|[[Manila, Utah|Manila]]*
+|[[Daggett County, Utah|Daggett]]
+|324
+|{{sort|{{nts|.81}}|{{convert|0.81|sqmi|km2|abbr=on}}}}
+|{{convert|6348|ft|m}}
+|1898
+|$26,458
+|Commemorate the [[Spanish-American War]] victory over the Spanish fleet in the [[Philippines]] at [[Manila]]
+|-
+|style="background-color:#BBFFBB;"|[[Manti, Utah|Manti]]*
+|[[Sanpete County, Utah|Sanpete]]
+|3,312
+|{{sort|{{nts|1.95}}|{{convert|1.95|sqmi|km2|abbr=on}}}}
+|{{convert|5610|ft|m}}
+|1849
+|$32,844
+|A city from the ''[[Book of Mormon]]''
+|-
+|[[Mantua, Utah|Mantua]]
+|[[Box Elder County, Utah|Box Elder]]
+|756
+|{{sort|{{nts|5.60}}|{{convert|5.60|sqmi|km2|abbr=on}}}}
+|{{convert|5200|ft|m}}
+|1863
+|$60,234
+|[[LDS Church President]] [[Lorenzo Snow]] named it for his birthplace in [[Mantua, Ohio|Mantua]], [[Ohio]]
+|-
+|[[Mapleton, Utah|Mapleton]]
+|[[Utah County, Utah|Utah]]
+|7,954
+|{{sort|{{nts|9.23}}|{{convert|9.23|sqmi|km2|abbr=on}}}}
+|{{convert|4731|ft|m}}
+|1856
+|$60,985
+|For the groves of [[maple]] trees found in the area
+|-
+|[[Marriott-Slaterville, Utah|Marriot-Slaterville]]
+|[[Weber County, Utah|Weber]]
+|1,537
+|{{sort|{{nts|7.46}}|{{convert|7.46|sqmi|km2|abbr=on}}}}
+|{{convert|4252|ft|m}}
+|1849<ref>{{cite journal | last=Jenson | first=Andrew | title=Origin of Western Geographic Names | journal=The Utah genealogical and historical magazine | publisher=The Genealogical Society of Utah | volume=11 | year=1920 | page=84 | url=http://books.google.com/?id=u78UAAAAYAAJ&lpg=RA1-PA82 | accessdate=August 1, 2010}}</ref>
+|$49,732
+|The towns of Marriott and Slaterville joined to form Marriott-Slaterville, they were named after early settlers John Marriott and Richard Slater
+|-
+|[[Marysvale, Utah|Marysvale]]
+|[[Piute County, Utah|Piute]]
+|352
+|{{sort|{{nts|15.11}}|{{convert|15.11|sqmi|km2|abbr=on}}}}
+|{{convert|5863|ft|m}}
+|1863
+|$31,875
+|Unknown{{scref|d}}
+|-
+|[[Mayfield, Utah|Mayfield]]
+|[[Sanpete County, Utah|Sanpete]]
+|440
+|{{sort|{{nts|.84}}|{{convert|0.84|sqmi|km2|abbr=on}}}}
+|{{convert|5538|ft|m}}
+|1871
+|$41,500
+|The wild flowers that appeared in the spring
+|-
+|[[Meadow, Utah|Meadow]]
+|[[Millard County, Utah|Millard]]
+|237
+|{{sort|{{nts|.50}}|{{convert|0.50|sqmi|km2|abbr=on}}}}
+|{{convert|4839|ft|m}}
+|1857
+|$26,250
+|The adjacent Meadow Creek
+|-
+|[[Mendon, Utah|Mendon]]
+|[[Cache County, Utah|Cache]]
+|1,190
+|{{sort|{{nts|1.25}}|{{convert|1.25|sqmi|km2|abbr=on}}}}
+|{{convert|4495|ft|m}}
+|1859<ref>{{cite book | first=Andrew | last=Jensen | title=Encyclopedic History of the Church | publisher=University of Wisconsin | year=1941 | page=488 | oclc=3188924}}</ref>
+|$46,563
+|LDS Church [[Apostle (LDS Church)|Apostle]] [[Ezra T. Benson]] named it after his birthplace of [[Mendon, Massachusetts]]
+|-
+|[[Midvale, Utah|Midvale]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|28,129
+|{{sort|{{nts|5.84}}|{{convert|5.84|sqmi|km2|abbr=on}}}}
+|{{convert|4383|ft|m}}
+|{{scref|b}}
+|$40,130
+|Located in the middle of the [[Salt Lake Valley]]
+|-
+|[[Midway, Utah|Midway]]
+|[[Wasatch County, Utah|Wasatch]]
+|3,701
+|{{sort|{{nts|3.35}}|{{convert|3.35|sqmi|km2|abbr=on}}}}
+|{{convert|5584|ft|m}}
+|1859
+|$51,071
+|A fort was built mid-way between two settlements
+|-
+|[[Milford, Utah|Milford]]
+|[[Beaver County, Utah|Beaver]]
+|1,399
+|{{sort|{{nts|1.93}}|{{convert|1.93|sqmi|km2|abbr=on}}}}
+|{{convert|4967|ft|m}}
+|1873
+|$35,809
+|{{scref|c}}
+|-
+|[[Millville, Utah|Millville]]
+|[[Cache County, Utah|Cache]]
+|1,825
+|{{sort|{{nts|2.35}}|{{convert|2.35|sqmi|km2|abbr=on}}}}
+|{{convert|4616|ft|m}}
+|1860
+|$51,513
+|The first saw mill in [[Cache Valley]] was built in the area
+|-
+|[[Minersville, Utah|Minersville]]
+|[[Beaver County, Utah|Beaver]]
+|817
+|{{sort|{{nts|.63}}|{{convert|0.63|sqmi|km2|abbr=on}}}}
+|{{convert|5282|ft|m}}
+|1859
+|$36,563
+|In honor of the miners who worked in the area
+|-
+|style="background-color:#BBFFBB;"|[[Moab, Utah|Moab]]*
+|[[Grand County, Utah|Grand]]
+|5,121
+|{{sort|{{nts|3.64}}|{{convert|3.64|sqmi|km2|abbr=on}}}}
+|{{convert|4026|ft|m}}
+|1855
+|$32,620
+|The Biblical name [[Moab]] or the [[Native Americans in the United States|Native American]] word for mosquito was "Moapa"
+|-
+|[[Mona, Utah|Mona]]
+|[[Juab County, Utah|Juab]]
+|1,402
+|{{sort|{{nts|1.42}}|{{convert|1.42|sqmi|km2|abbr=on}}}}
+|{{convert|4970|ft|m}}
+|1852
+|$49,464
+|Unknown{{scref|d}}
+|-
+|[[Monroe, Utah|Monroe]]
+|[[Sevier County, Utah|Sevier]]
+|1,853
+|{{sort|{{nts|3.54}}|{{convert|3.54|sqmi|km2|abbr=on}}}}
+|{{convert|5394|ft|m}}
+|1863
+|$34,907
+|[[James Monroe]], [[President of the United States]]
+|-
+|style="background-color:#BBFFBB;"|[[Monticello, Utah|Monticello]]*
+|[[San Juan County, Utah|San Juan]]
+|2,018
+|{{sort|{{nts|2.59}}|{{convert|2.59|sqmi|km2|abbr=on}}}}
+|{{convert|7070|ft|m}}
+|1879
+|$35,929
+|[[Monticello]] in [[Virginia]], the home of [[Thomas Jefferson]], [[President of the United States]]<ref>{{cite journal | last=Jenson | first=Andrew | title=Origin of Western Geographic Names | journal=The Utah genealogical and historical magazine | publisher=The Genealogical Society of Utah | volume=11 | year=1920 | page=88 | url=http://books.google.com/?id=u78UAAAAYAAJ&lpg=RA1-PA88 | accessdate=August 1, 2010}}</ref>
+|-
+|style="background-color:#BBFFBB;"|[[Morgan, Utah|Morgan]]*
+|[[Morgan County, Utah|Morgan]]
+|3,321
+|{{sort|{{nts|3.20}}|{{convert|3.20|sqmi|km2|abbr=on}}}}
+|{{convert|5069|ft|m}}
+|1860
+|$47,716
+|Jedediah Morgan Grant, father to [[LDS Church President]] [[Heber J. Grant]]
+|-
+|[[Moroni, Utah|Moroni]]
+|[[Sanpete County, Utah|Sanpete]]
+|1,327
+|{{sort|{{nts|1.07}}|{{convert|1.07|sqmi|km2|abbr=on}}}}
+|{{convert|5531|ft|m}}
+|1859
+|$32,375
+|[[Moroni (Book of Mormon)|Moroni]], a prophet from the ''[[Book of Mormon]]''
+|-
+|[[Mount Pleasant, Utah|Mount Pleasant]]
+|[[Sanpete County, Utah|Sanpete]]
+|2,813
+|{{sort|{{nts|2.82}}|{{convert|2.82|sqmi|km2|abbr=on}}}}
+|{{convert|5925|ft|m}}
+|1852
+|$33,603
+|Pleasant view of the surrounding mountains
+|-
+|[[Murray, Utah|Murray]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|46,201
+|{{sort|{{nts|9.61}}|{{convert|9.61|sqmi|km2|abbr=on}}}}
+|{{convert|4301|ft|m}}
+|1848
+|$45,569
+|[[Eli Houston Murray]], territorial [[List of Governors of Utah|Governor of Utah]]
+|-
+|[[Myton, Utah|Myton]]
+|[[Duchesne County, Utah|Duchesne]]
+|597
+|{{sort|{{nts|1.01}}|{{convert|1.01|sqmi|km2|abbr=on}}}}
+|{{convert|5085|ft|m}}
+|1905<ref>{{cite web | url=http://www.mytoncity.com/pageview.aspx?id=14881 | title=Birth of Myton | publisher=City of Myton | accessdate=August 1, 2010}}</ref>
+|$23,472
+|Major H. P. Myton of the U.S. Army
+|-
+|[[Naples, Utah|Naples]]
+|[[Uintah County, Utah|Uintah]]
+|1,694
+|{{sort|{{nts|6.53}}|{{convert|6.53|sqmi|km2|abbr=on}}}}
+|{{convert|5230|ft|m}}
+|1878
+|$43,158
+|[[Naples]], [[Italy]]
+|-
+|style="background-color:#BBFFBB;"|[[Nephi, Utah|Nephi]]*
+|[[Juab County, Utah|Juab]]
+|5,408
+|{{sort|{{nts|4.17}}|{{convert|4.17|sqmi|km2|abbr=on}}}}
+|{{convert|5128|ft|m}}
+|1851
+|$38,918
+|[[Nephi]], a prophet from the ''[[Book of Mormon]]''
+|-
+|[[New Harmony, Utah|New Harmony]]
+|[[Washington County, Utah|Washington]]
+|194
+|{{sort|{{nts|.40}}|{{convert|0.40|sqmi|km2|abbr=on}}}}
+|{{convert|5305|ft|m}}
+|{{scref|b}}
+|$34,583
+|[[Harmony, Pennsylvania]], where [[Joseph Smith, Jr.|Joseph Smith]] translated the ''[[Book of Mormon]]''
+|-
+|[[Newton, Utah|Newton]]
+|[[Cache County, Utah|Cache]]
+|803
+|{{sort|{{nts|.76}}|{{convert|0.76|sqmi|km2|abbr=on}}}}
+|{{convert|4534|ft|m}}
+|1869
+|$45,000
+|Originally called New Town, but the name was shortened
+|-
+|[[Nibley, Utah|Nibley]]
+|[[Cache County, Utah|Cache]]
+|4,410
+|{{sort|{{nts|3.32}}|{{convert|3.32|sqmi|km2|abbr=on}}}}
+|{{convert|4554|ft|m}}
+|1855<ref>{{cite web | url=http://www.nibleycity.com/history.html | title=Brief history of Nibley | publisher=Nibley City | accessdate=August 1, 2010}}</ref>
+|$52,273
+|[[Charles W. Nibley]], a local leader of the LDS Church
+|-
+|[[North Logan, Utah|North Logan]]
+|[[Cache County, Utah|Cache]]
+|8,466
+|{{sort|{{nts|6.93}}|{{convert|6.93|sqmi|km2|abbr=on}}}}
+|{{convert|4692|ft|m}}
+|{{scref|b}}
+|$49,154
+|Located north of [[Logan, Utah|Logan]]
+|-
+|[[North Ogden, Utah|North Ogden]]
+|[[Weber County, Utah|Weber]]
+|17,682
+|{{sort|{{nts|6.50}}|{{convert|6.50|sqmi|km2|abbr=on}}}}
+|{{convert|4501|ft|m}}
+|1850
+|$59,556
+|Located north of [[Ogden, Utah|Ogden]]
+|-
+|[[North Salt Lake, Utah|North Salt Lake]]
+|[[Davis County, Utah|Davis]]
+|13,446
+|{{sort|{{nts|8.25}}|{{convert|8.25|sqmi|km2|abbr=on}}}}
+|{{convert|4334|ft|m}}
+|{{scref|b}}
+|$47,052
+|Located north of [[Salt Lake City, Utah|Salt Lake City]]
+|-
+|[[Oak City, Utah|Oak City]]
+|[[Millard County, Utah|Millard]]
+|606
+|{{sort|{{nts|.67}}|{{convert|0.67|sqmi|km2|abbr=on}}}}
+|{{convert|5112|ft|m}}
+|1868
+|$47,375
+|Sits adjacent to Oak Creek
+|-
+|[[Oakley, Utah|Oakley]]
+|[[Summit County, Utah|Summit]]
+|1,327
+|{{sort|{{nts|6.30}}|{{convert|6.30|sqmi|km2|abbr=on}}}}
+|{{convert|6434|ft|m}}
+|1868
+|$61,250
+|The scrub oak species [[gambel oak]] found in the area
+|-
+|style="background-color:#BBFFBB;"|[[Ogden, Utah|Ogden]]*
+|[[Weber County, Utah|Weber]]
+|82,865
+|{{sort|{{nts|26.64}}|{{convert|26.64|sqmi|km2|abbr=on}}}}
+|{{convert|4300|ft|m}}
+|1847
+|$34,047
+|[[Peter Skene Ogden]], a trapper for the [[Hudson Bay Company]]
+|-
+|[[Ophir, Utah|Ophir]]
+|[[Tooele County, Utah|Tooele]]
+|28
+|{{sort|{{nts|.16}}|{{convert|0.16|sqmi|km2|abbr=on}}}}
+|{{convert|6496|ft|m}}
+|{{scref|b}}
+|$50,000
+|The Ophir Gold Mine that was located in the area
+|-
+|[[Orangeville, Utah|Orangeville]]
+|[[Emery County, Utah|Emery]]
+|1,352
+|{{sort|{{nts|1.30}}|{{convert|1.30|sqmi|km2|abbr=on}}}}
+|{{convert|5778|ft|m}}
+|1878
+|$45,057
+|[[Orange Seely]], a settler in the area
+|-
+|[[Orderville, Utah|Orderville]]
+|[[Kane County, Utah|Kane]]
+|603
+|{{sort|{{nts|9.18}}|{{convert|9.18|sqmi|km2|abbr=on}}}}
+|{{convert|5449|ft|m}}
+|1875
+|$35,769
+|The [[United Order]], a [[collectivism]] movement of the LDS Church
+|-
+|[[Orem, Utah|Orem]]
+|[[Utah County, Utah|Utah]]
+|93,250
+|{{sort|{{nts|18.44}}|{{convert|18.44|sqmi|km2|abbr=on}}}}
+|{{convert|4774|ft|m}}
+|1850
+|$47,529
+|Walter Orem, President of the Salt Lake and Utah Electric Interurban Railroad
+|-
+|style="background-color:#BBFFBB;"|[[Panguitch, Utah|Panguitch]]*
+|[[Garfield County, Utah|Garfield]]
+|1,520
+|{{sort|{{nts|1.36}}|{{convert|1.36|sqmi|km2|abbr=on}}}}
+|{{convert|6624|ft|m}}
+|1866
+|$33,500
+|A [[Native Americans in the United States|Native American]] name for nearby [[Panguitch Lake]] meaning "water" and "fish"
+|-
+|[[Paradise, Utah|Paradise]]
+|[[Cache County, Utah|Cache]]
+|900
+|{{sort|{{nts|1.11}}|{{convert|1.11|sqmi|km2|abbr=on}}}}
+|{{convert|4902|ft|m}}
+|1860
+|$47,344
+|For the beautiful scenery
+|-
+|[[Paragonah, Utah|Paragonah]]
+|[[Iron County, Utah|Iron]]
+|478
+|{{sort|{{nts|.58}}|{{convert|0.58|sqmi|km2|abbr=on}}}}
+|{{convert|5879|ft|m}}
+|1851
+|$33,958
+|[[Native Americans in the United States|Native American]] name for the nearby Little Salt Lake that means "marshland"
+|-
+|[[Park City, Utah|Park City]]
+|[[Summit County, Utah|Summit]]
+|7,980
+|{{sort|{{nts|9.43}}|{{convert|9.43|sqmi|km2|abbr=on}}}}
+|{{convert|7000|ft|m}}
+|1869
+|$65,800
+|For nearby Parley's Park, a meadow atop [[Parley's Canyon]]
+|-
+|style="background-color:#BBFFBB;"|[[Parowan, Utah|Parowan]]*
+|[[Iron County, Utah|Iron]]
+|2,624
+|{{sort|{{nts|5.84}}|{{convert|5.84|sqmi|km2|abbr=on}}}}
+|{{convert|6017|ft|m}}
+|1851
+|$32,426
+|From the [[Native Americans in the United States|Native American]] words paragoons and pahoan, meaning "marsh people"
+|-
+|[[Payson, Utah|Payson]]
+|[[Utah County, Utah|Utah]]
+|17,429
+|{{sort|{{nts|6.79}}|{{convert|6.79|sqmi|km2|abbr=on}}}}
+|{{convert|4700|ft|m}}
+|1850
+|$43,539
+|James Pace, an early settler of the area
+|-
+|[[Perry, Utah|Perry]]
+|[[Box Elder County, Utah|Box Elder]]
+|3,889
+|{{sort|{{nts|7.67}}|{{convert|7.67|sqmi|km2|abbr=on}}}}
+|{{convert|4367|ft|m}}
+|1853
+|$52,500
+|Lorenzo Perry, first LDS Church [[Bishop (Latter Day Saints)|Bishop]] of the town
+|-
+|[[Plain City, Utah|Plain City]]
+|[[Weber County, Utah|Weber]]
+|5,288
+|{{sort|{{nts|3.74}}|{{convert|3.74|sqmi|km2|abbr=on}}}}
+|{{convert|4242|ft|m}}
+|1859
+|$57,601
+|Originally called City on the Plains
+|-
+|[[Pleasant Grove, Utah|Pleasant Grove]]
+|[[Utah County, Utah|Utah]]
+|33,798
+|{{sort|{{nts|8.72}}|{{convert|8.72|sqmi|km2|abbr=on}}}}
+|{{convert|4623|ft|m}}
+|1849
+|$52,036
+|The grove of [[Populus sect. Aegiros|cottonwood trees]] found in the area
+|-
+|[[Pleasant View, Utah|Pleasant View]]
+|[[Weber County, Utah|Weber]]
+|7,052
+|{{sort|{{nts|6.73}}|{{convert|6.73|sqmi|km2|abbr=on}}}}
+|{{convert|5632|ft|m}}
+|1851
+|$62,123
+|For the beautiful view of the surrounding valley
+|-
+|[[Plymouth, Utah|Plymouth]]
+|[[Box Elder County, Utah|Box Elder]]
+|364
+|{{sort|{{nts|.54}}|{{convert|0.54|sqmi|km2|abbr=on}}}}
+|{{convert|4488|ft|m}}
+|1869
+|$41,250
+|A large rock in the area resembled [[Plymouth Rock]]
+|-
+|[[Portage, Utah|Portage]]
+|[[Box Elder County, Utah|Box Elder]]
+|276
+|{{sort|{{nts|2.28}}|{{convert|2.28|sqmi|km2|abbr=on}}}}
+|{{convert|4367|ft|m}}
+|1867
+|$43,125
+|[[Portage County, Ohio|Portage County]], [[Ohio]], the birthplace of [[LDS Church President]] [[Lorenzo Snow]]<ref>{{cite journal | last=Jenson | first=Andrew | title=Origin of Western Geographic Names | journal=The Utah genealogical and historical magazine | publisher=The Genealogical Society of Utah | volume=11 | year=1920 | page=176 | url=http://books.google.com/?id=u78UAAAAYAAJ&lpg=RA1-PA176 | accessdate=August 1, 2010}}</ref>
+|-
+|style="background-color:#BBFFBB;"|[[Price, Utah|Price]]*
+|[[Carbon County, Utah|Carbon]]
+|8,039
+|{{sort|{{nts|4.24}}|{{convert|4.24|sqmi|km2|abbr=on}}}}
+|{{convert|5627|ft|m}}
+|1879
+|$31,687
+|From the nearby [[Price River]] which got its name from a local explorer William Price
+|-
+|[[Providence, Utah|Providence]]
+|[[Cache County, Utah|Cache]]
+|6,538
+|{{sort|{{nts|2.83}}|{{convert|2.83|sqmi|km2|abbr=on}}}}
+|{{convert|4596|ft|m}}
+|1859
+|$56,129
+|{{scref|c}}
+|-
+|style="background-color:#BBFFBB;"|[[Provo, Utah|Provo]]*
+|[[Utah County, Utah|Utah]]
+|118,581
+|{{sort|{{nts|41.79}}|{{convert|41.79|sqmi|km2|abbr=on}}}}
+|{{convert|4551|ft|m}}
+|1850
+|$34,313
+|[[Étienne Provost]], a trapper who visited the area
+|-
+|style="background-color:#BBFFBB;"|[[Randolph, Utah|Randolph]]*
+|[[Rich County, Utah|Rich]]
+|489
+|{{sort|{{nts|1.04}}|{{convert|1.04|sqmi|km2|abbr=on}}}}
+|{{convert|6283|ft|m}}
+|1870
+|$34,792
+|Randolph Stewart, an early settler and first LDS Church [[Bishop (Latter Day Saints)|Bishop]] of the area
+|-
+|[[Redmond, Utah|Redmond]]
+|[[Sevier County, Utah|Sevier]]
+|813
+|{{sort|{{nts|.99}}|{{convert|0.99|sqmi|km2|abbr=on}}}}
+|{{convert|5105|ft|m}}
+|1875
+|$40,313
+|Red-colored mounds west of town
+|-
+|style="background-color:#BBFFBB;"|[[Richfield, Utah|Richfield]]*
+|[[Sevier County, Utah|Sevier]]
+|7,217
+|{{sort|{{nts|5.28}}|{{convert|5.28|sqmi|km2|abbr=on}}}}
+|{{convert|5354|ft|m}}
+|1863
+|$36,024
+|After a bountiful crop of wheat that was produced in 1865
+|-
+|[[Richmond, Utah|Richmond]]
+|[[Cache County, Utah|Cache]]
+|2,364
+|{{sort|{{nts|2.95}}|{{convert|2.95|sqmi|km2|abbr=on}}}}
+|{{convert|4610|ft|m}}
+|1859
+|$42,138
+|Rich fertile soil of the valley<ref>{{cite journal | last=Jenson | first=Andrew | title=Origin of Western Geographic Names | journal=The Utah genealogical and historical magazine | publisher=The Genealogical Society of Utah | volume=12 | year=1921 | page=42}}</ref>
+|-
+|[[Riverdale, Utah|Riverdale]]
+|[[Weber County, Utah|Weber]]
+|8,126
+|{{sort|{{nts|4.44}}|{{convert|4.44|sqmi|km2|abbr=on}}}}
+|{{convert|4370|ft|m}}
+|1850<ref>{{cite web | url=http://www.riverdalecity.com/about/history.htm | title=History of Riverdale | publisher=City of Riverdale | accessdate=May 11, 2010}}</ref>
+|$44,375
+|The city's location next to the [[Ogden River]]
+|-
+|[[River Heights, Utah|River Heights]]
+|[[Cache County, Utah|Cache]]
+|1707
+|{{sort|{{nts|.58}}|{{convert|0.58|sqmi|km2|abbr=on}}}}
+|{{convert|4580|ft|m}}
+|{{scref|b}}
+|$53,750
+|Located above the [[Logan River (Utah)|Logan River]]<ref>{{cite journal | last=Jenson | first=Andrew | title=Origin of Western Geographic Names | journal=The Utah genealogical and historical magazine | publisher=The Genealogical Society of Utah | volume=12 | year=1921 | page=43}}</ref>
+|-
+|[[Riverton, Utah|Riverton]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|39,751
+|{{sort|{{nts|12.57}}|{{convert|12.57|sqmi|km2|abbr=on}}}}
+|{{convert|4439|ft|m}}
+|1870
+|$63,980
+|The city's location next to the [[Jordan River (Utah)|Jordan River]]
+|-
+|[[Rockville, Utah|Rockville]]
+|[[Washington County, Utah|Washington]]
+|264
+|{{sort|{{nts|8.42}}|{{convert|8.42|sqmi|km2|abbr=on}}}}
+|{{convert|3740|ft|m}}
+|1860
+|$37,917
+|After the rocky soil of the area
+|-
+|[[Rocky Ridge, Utah|Rocky Ridge]]
+|[[Juab County, Utah|Juab]]
+|526
+|{{sort|{{nts|1.88}}|{{convert|1.88|sqmi|km2|abbr=on}}}}
+|{{convert|4990|ft|m}}
+|{{scref|b}}
+|$31,944
+|{{scref|c}}
+|-
+|[[Roosevelt, Utah|Roosevelt]]
+|[[Duchesne County, Utah|Duchesne]]
+|5,025
+|{{sort|{{nts|5.25}}|{{convert|5.25|sqmi|km2|abbr=on}}}}
+|{{convert|5095|ft|m}}
+|1905
+|$29,190
+|[[Theodore Roosevelt]], [[President of the United States]]
+|-
+|[[Roy, Utah|Roy]]
+|[[Weber County, Utah|Weber]]
+|35,672
+|{{sort|{{nts|7.60}}|{{convert|7.60|sqmi|km2|abbr=on}}}}
+|{{convert|4541|ft|m}}
+|1876
+|$49,611
+|Roy was the name of the recently deceased son of area resident David P. Peebles
+|-
+|[[Rush Valley, Utah|Rush Valley]]
+|[[Tooele County, Utah|Tooele]]
+|602
+|{{sort|{{nts|18.33}}|{{convert|18.33|sqmi|km2|abbr=on}}}}
+|{{convert|5043|ft|m}}
+|1856
+|$46,875
+|Nearby [[Rush Lake (Utah)|Rush Lake]]
+|-
+|style="background-color:#BBFFBB;"|[[St. George, Utah|St. George]]*
+|[[Washington County, Utah|Washington]]
+|72,718
+|{{sort|{{nts|64.87}}|{{convert|64.87|sqmi|km2|abbr=on}}}}
+|{{convert|2860|ft|m}}
+|1861
+|$36,505
+|[[George A. Smith]], a LDS Church [[Apostle (Latter Day Saints)|Apostle]]
+|-
+|[[Salem, Utah|Salem]]
+|[[Utah County, Utah|Utah]]
+|6,435
+|{{sort|{{nts|5.32}}|{{convert|5.32|sqmi|km2|abbr=on}}}}
+|{{convert|4610|ft|m}}
+|1851
+|$54,813
+|[[Salem, Massachusetts|Salem]], [[Massachusetts]]<ref>{{cite journal | last=Jenson | first=Andrew | title=Origin of Western Geographic Names | journal=The Utah genealogical and historical magazine | publisher=The Genealogical Society of Utah | volume=12 | year=1921 | page=46}}</ref>
+|-
+|[[Salina, Utah|Salina]]
+|[[Sevier County, Utah|Sevier]]
+|2,414
+|{{sort|{{nts|6.15}}|{{convert|6.15|sqmi|km2|abbr=on}}}}
+|{{convert|5161|ft|m}}
+|1863
+|$34,886
+|Nearby salt deposits
+|-
+|style="background-color:#BBFFBB;"|[[Salt Lake City, Utah|Salt Lake City]]*
+|[[Salt Lake County, Utah|Salt Lake]]
+|181,698
+|{{sort|{{nts|110.37}}|{{convert|110.37|sqmi|km2|abbr=on}}}}
+|{{convert|4226|ft|m}}
+|1847
+|$36,944
+|Nearby [[Great Salt Lake]]
+|-
+|[[Sandy, Utah|Sandy]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|96,660
+|{{sort|{{nts|22.35}}|{{convert|22.35|sqmi|km2|abbr=on}}}}
+|{{convert|4450|ft|m}}
+|1871
+|$66,458
+|{{scref|c}}
+|-
+|[[Santa Clara, Utah|Santa Clara]]
+|[[Washington County, Utah|Washington]]
+|6,866
+|{{sort|{{nts|4.90}}|{{convert|4.90|sqmi|km2|abbr=on}}}}
+|{{convert|2762|ft|m}}
+|1854
+|$52,770
+|Town is located on the Santa Clara Creek
+|-
+|[[Santaquin, Utah|Santaquin]]
+|[[Utah County, Utah|Utah]]
+|8,400
+|{{sort|{{nts|2.61}}|{{convert|2.61|sqmi|km2|abbr=on}}}}
+|{{convert|4984|ft|m}}
+|1851
+|$44,531
+|A local [[Ute Tribe]] leader
+|-
+|[[Saratoga Springs, Utah|Saratoga Springs]]
+|[[Utah County, Utah|Utah]]
+|16,053
+|{{sort|{{nts|10.35}}|{{convert|10.35|sqmi|km2|abbr=on}}}}
+|{{convert|4505|ft|m}}
+|{{scref|b}}
+|$62,212
+|[[Saratoga, New York|Saratoga]], [[New York]] and the local springs
+|-
+|[[Scipio, Utah|Scipio]]
+|[[Millard County, Utah|Millard]]
+|298
+|{{sort|{{nts|.85}}|{{convert|0.85|sqmi|km2|abbr=on}}}}
+|{{convert|5315|ft|m}}
+|1859
+|$30,277
+|Scipio Kenner, a settler of the area
+|-
+|[[Scofield, Utah|Scofield]]
+|[[Carbon County, Utah|Carbon]]
+|26
+|{{sort|{{nts|.50}}|{{convert|0.50|sqmi|km2|abbr=on}}}}
+|{{convert|7739|ft|m}}
+|1879
+|$26,250
+|General Charles W. Scofield, a local mine official
+|-
+|[[Sigurd, Utah|Sigurd]]
+|[[Sevier County, Utah|Sevier]]
+|432
+|{{sort|{{nts|1.05}}|{{convert|1.05|sqmi|km2|abbr=on}}}}
+|{{convert|5226|ft|m}}
+|1874
+|$32,813
+|[[Sigurd]], The Danish residents named the town after the [[Norse mythology|Norse mythological]] hero
+|-
+|[[Smithfield, Utah|Smithfield]]
+|[[Cache County, Utah|Cache]]
+|9,535
+|{{sort|{{nts|4.31}}|{{convert|4.31|sqmi|km2|abbr=on}}}}
+|{{convert|4603|ft|m}}
+|1859
+|$47,745
+|John Glover Smith, the first LDS [[Bishop (Latter Day Saints)|Bishop]] of the area
+|-
+|[[Snowville, Utah|Snowville]]
+|[[Box Elder County, Utah|Box Elder]]
+|164
+|{{sort|{{nts|1.53}}|{{convert|1.53|sqmi|km2|abbr=on}}}}
+|{{convert|4547|ft|m}}
+|1871
+|$24,375
+|[[Lorenzo Snow]], [[LDS Church President]]<ref>{{cite journal | last=Jenson | first=Andrew | title=Origin of Western Geographic Names | journal=The Utah genealogical and historical magazine | publisher=The Genealogical Society of Utah | volume=12 | year=1921 | page=126}}</ref>
+|-
+|[[South Jordan, Utah|South Jordan]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|51,131
+|{{sort|{{nts|21.03}}|{{convert|21.03|sqmi|km2|abbr=on}}}}
+|{{convert|4439|ft|m}}
+|1859
+|$75,433
+|The nearby [[Jordan River (Utah)|Jordan River]] and its location south of [[West Jordan, Utah|West Jordan]]
+|-
+|[[South Ogden, Utah|South Ogden]]
+|[[Weber County, Utah|Weber]]
+|15,891
+|{{sort|{{nts|3.67}}|{{convert|3.67|sqmi|km2|abbr=on}}}}
+|{{convert|4449|ft|m}}
+|1848
+|$46,794
+|Located south of [[Ogden, Utah|Ogden]]
+|-
+|[[South Salt Lake, Utah|South Salt Lake]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|21,607
+|{{sort|{{nts|6.91}}|{{convert|6.91|sqmi|km2|abbr=on}}}}
+|{{convert|4225|ft|m}}
+|{{scref|b}}
+|$29,801
+|Located south of [[Salt Lake City, Utah|Salt Lake City]]
+|-
+|[[South Weber, Utah|South Weber]]
+|[[Davis County, Utah|Davis]]
+|6,167
+|{{sort|{{nts|4.63}}|{{convert|4.63|sqmi|km2|abbr=on}}}}
+|{{convert|4551|ft|m}}
+|1851
+|$70,656
+|Located on the south side of the [[Weber River]]
+|-
+|[[Spanish Fork, Utah|Spanish Fork]]
+|[[Utah County, Utah|Utah]]
+|31,538
+|{{sort|{{nts|13.24}}|{{convert|13.24|sqmi|km2|abbr=on}}}}
+|{{convert|4577|ft|m}}
+|1851
+|$48,705
+|The nearby Spanish Fork River where Spanish explorer [[Silvestre Vélez de Escalante]] entered the [[Utah Valley]]
+|-
+|[[Spring City, Utah|Spring City]]
+|[[Sanpete County, Utah|Sanpete]]
+|1,044
+|{{sort|{{nts|1.33}}|{{convert|1.33|sqmi|km2|abbr=on}}}}
+|{{convert|5823|ft|m}}
+|1852
+|$34,609
+|The nearby springs
+|-
+|[[Springdale, Utah|Springdale]]
+|[[Washington County, Utah|Washington]]
+|579
+|{{sort|{{nts|4.63}}|{{convert|4.63|sqmi|km2|abbr=on}}}}
+|{{convert|3898|ft|m}}
+|1862
+|$41,607
+|The nearby springs
+|-
+|[[Springville, Utah|Springville]]
+|[[Utah County, Utah|Utah]]
+|28,520
+|{{sort|{{nts|11.54}}|{{convert|11.54|sqmi|km2|abbr=on}}}}
+|{{convert|4577|ft|m}}
+|1850
+|$46,472
+|The nearby springs
+|-
+|[[Sterling, Utah|Sterling]]
+|[[Sanpete County, Utah|Sanpete]]
+|274
+|{{sort|{{nts|.24}}|{{convert|0.24|sqmi|km2|abbr=on}}}}
+|{{convert|5574|ft|m}}
+|1873
+|$27,019
+|The "sterling" qualities of its people
+|-
+|[[Stockton, Utah|Stockton]]
+|[[Tooele County, Utah|Tooele]]
+|580
+|{{sort|{{nts|.94}}|{{convert|0.94|sqmi|km2|abbr=on}}}}
+|{{convert|5118|ft|m}}
+|{{scref|b}}
+|$40,938
+|[[Stockton, California|Stockton]], [[California]] where many of the soldiers who settled the area where from
+|-
+|[[Sunnyside, Utah|Sunnyside]]
+|[[Carbon County, Utah|Carbon]]
+|377
+|{{sort|{{nts|3.14}}|{{convert|3.14|sqmi|km2|abbr=on}}}}
+|{{convert|6414|ft|m}}
+|1912
+|$32,955
+|The coal mine located on the sunny side of the valley
+|-
+|[[Sunset, Utah|Sunset]]
+|[[Davis County, Utah|Davis]]
+|4,945
+|{{sort|{{nts|1.47}}|{{convert|1.47|sqmi|km2|abbr=on}}}}
+|{{convert|4511|ft|m}}
+|{{scref|b}}
+|$41,726
+|Located on a ridge with views of the sunset over the [[Great Salt Lake]]
+|-
+|[[Syracuse, Utah|Syracuse]]
+|[[Davis County, Utah|Davis]]
+|22,195
+|{{sort|{{nts|8.71}}|{{convert|8.71|sqmi|km2|abbr=on}}}}
+|{{convert|4285|ft|m}}
+|1878
+|$58,223
+|Named for a local resort on the [[Great Salt Lake]] which was named after [[Syracuse, New York|Syracuse]], [[New York]]
+|-
+|[[Tabiona, Utah|Tabiona]]
+|[[Duchesne County, Utah|Duchesne]]
+|163
+|{{sort|{{nts|.13}}|{{convert|0.13|sqmi|km2|abbr=on}}}}
+|{{convert|6516|ft|m}}
+|1860
+|$28,750
+|Originally called Tabby and Tabbyville referring to [[Ute tribe]] leader Tava who's nickname was Tabby
+|-
+|[[Taylorsville, Utah|Taylorsville]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|58,785
+|{{sort|{{nts|10.68}}|{{convert|10.68|sqmi|km2|abbr=on}}}}
+|{{convert|4295|ft|m}}
+|1848
+|$47,236
+|[[John Taylor (Mormon)|John Taylor]], [[LDS Church President]]
+|-
+|style="background-color:#BBFFBB;"|[[Tooele, Utah|Tooele]]*
+|[[Tooele County, Utah|Tooele]]
+|30,120
+|{{sort|{{nts|21.16}}|{{convert|21.16|sqmi|km2|abbr=on}}}}
+|{{convert|5043|ft|m}}
+|1851
+|$43,862
+|[[Native Americans in the United States|Native American]] [[Goshute]] tribe leader Tuilla
+|-
+|[[Toquerville, Utah|Toquerville]]
+|[[Washington County, Utah|Washington]]
+|1,373
+|{{sort|{{nts|14.16}}|{{convert|14.16|sqmi|km2|abbr=on}}}}
+|{{convert|3389|ft|m}}
+|1858
+|$34,038
+|[[Native Americans in the United States|Native American]] [[Piute]] tribe leader Toquer
+|-
+|[[Torrey, Utah|Torrey]]
+|[[Wayne County, Utah|Wayne]]
+|191
+|{{sort|{{nts|.39}}|{{convert|0.39|sqmi|km2|abbr=on}}}}
+|{{convert|6837|ft|m}}
+|{{scref|b}}
+|$25,859
+|Colonel Torrey, a veteran of the [[Spanish-American War]]
+|-
+|[[Tremonton, Utah|Tremonton]]
+|[[Box Elder County, Utah|Box Elder]]
+|6,789
+|{{sort|{{nts|5.24}}|{{convert|5.24|sqmi|km2|abbr=on}}}}
+|{{convert|4325|ft|m}}
+|1888
+|$44,784
+|{{scref|c}}
+|-
+|[[Trenton, Utah|Trenton]]
+|[[Cache County, Utah|Cache]]
+|510
+|{{sort|{{nts|7.34}}|{{convert|7.34|sqmi|km2|abbr=on}}}}
+|{{convert|4462|ft|m}}
+|1870
+|$31,250
+|[[Trenton, New Jersey]], hometown of the area's first LDS [[Bishop (Latter Day Saints)|Bishop]]
+|-
+|[[Tropic, Utah|Tropic]]
+|[[Garfield County, Utah|Garfield]]
+|476
+|{{sort|{{nts|8.40}}|{{convert|8.40|sqmi|km2|abbr=on}}}}
+|{{convert|6309|ft|m}}
+|{{scref|b}}
+|$42,500
+|The area had a milder climate than where the settlers originally came from
+|-
+|[[Uintah, Utah|Uintah]]
+|[[Weber County, Utah|Weber]]
+|1,258
+|{{sort|{{nts|1.01}}|{{convert|1.01|sqmi|km2|abbr=on}}}}
+|{{convert|4537|ft|m}}
+|1850
+|$52,300
+|Uintah band of the [[Ute tribe]]
+|-
+|style="background-color:#BBFFBB;"|[[Vernal, Utah|Vernal]]*
+|[[Uintah County, Utah|Uintah]]
+|8,696
+|{{sort|{{nts|4.58}}|{{convert|4.58|sqmi|km2|abbr=on}}}}
+|{{convert|5328|ft|m}}
+|1876
+|$30,357
+|[[Latin]] word ''vernalis'' for spring, for the many springs in the area<ref>{{cite journal | last=Jenson | first=Andrew | title=Origin of Western Geographic Names | journal=The Utah genealogical and historical magazine | publisher=The Genealogical Society of Utah | volume=13 | year=1922 | page=38 | url=http://books.google.com/?id=tsUUAAAAYAAJ&lpg=PA38 | accessdate=August 1, 2010}}</ref>
+|-
+|[[Vernon, Utah|Vernon]]
+|[[Tooele County, Utah|Tooele]]
+|313
+|{{sort|{{nts|7.52}}|{{convert|7.52|sqmi|km2|abbr=on}}}}
+|{{convert|5515|ft|m}}
+|1862
+|$42,500
+|Joseph Vernon, a local settler that was killed by [[Native Americans in the United States|Native Americans]]
+|-
+|[[Vineyard, Utah|Vineyard]]
+|[[Utah County, Utah|Utah]]
+|148
+|{{sort|{{nts|4.42}}|{{convert|4.42|sqmi|km2|abbr=on}}}}
+|{{convert|4557|ft|m}}
+|{{scref|b}}
+|$55,313
+|The grape vines that were planted in the area
+|-
+|[[Virgin, Utah|Virgin]]
+|[[Washington County, Utah|Washington]]
+|555
+|{{sort|{{nts|11.92}}|{{convert|11.92|sqmi|km2|abbr=on}}}}
+|{{convert|3606|ft|m}}
+|1857
+|$36,953
+|The nearby [[Virgin River]]
+|-
+|[[Wales, Utah|Wales]]
+|[[Sanpete County, Utah|Sanpete]]
+|234
+|{{sort|{{nts|.30}}|{{convert|0.30|sqmi|km2|abbr=on}}}}
+|{{convert|5627|ft|m}}
+|1857<ref>{{cite book | last=Doelling | first=H. H. | title=Central Utah coal fields: Sevier-Sanpete, Wasatch Plateau, Book Cliffs and Emery | url=http://books.google.com/?id=YprBINDX07wC&lpg=PA3 | page=3 | year=1972 | publisher=University of Utah | location=Salt Lake City | isbn=9781557910028 | accessdate=August 1, 2010}}</ref>
+|$35,313
+|Local settlers originally came from [[Wales]]
+|-
+|[[Wallsburg, Utah|Wallsburg]]
+|[[Wasatch County, Utah|Wasatch]]
+|305
+|{{sort|{{nts|.50}}|{{convert|0.50|sqmi|km2|abbr=on}}}}
+|{{convert|5676|ft|m}}
+|1861<ref>{{cite journal | last=Jenson | first=Andrew | title=Origin of Western Geographic Names | journal=The Utah genealogical and historical magazine | publisher=The Genealogical Society of Utah | volume=13 | year=1922 | page=39 | url=http://books.google.com/?id=tsUUAAAAYAAJ&lpg=PA39 | accessdate=August 1, 2010}}</ref>
+|$55,313
+|William Madison Wall, local settler and explorer
+|-
+|[[Washington, Utah|Washington]]
+|[[Washington County, Utah|Washington]]
+|17,716
+|{{sort|{{nts|31.55}}|{{convert|31.55|sqmi|km2|abbr=on}}}}
+|{{convert|2792|ft|m}}
+|1857
+|$35,341
+|[[George Washington]], [[President of the United States]]
+|-
+|[[Washington Terrace, Utah|Washington Terrace]]
+|[[Weber County, Utah|Weber]]
+|8,515
+|{{sort|{{nts|1.91}}|{{convert|1.91|sqmi|km2|abbr=on}}}}
+|{{convert|4610|ft|m}}
+|1878
+|$42,243
+|{{scref|c}}
+|-
+|[[Wellington, Utah|Wellington]]
+|[[Carbon County, Utah|Carbon]]
+|1,571
+|{{sort|{{nts|3.52}}|{{convert|3.52|sqmi|km2|abbr=on}}}}
+|{{convert|5413|ft|m}}
+|1878
+|$36,979
+|Wellington Seeley Jr., Judge of the Emery County Court
+|-
+|[[Wellsville, Utah|Wellsville]]
+|[[Cache County, Utah|Cache]]
+|3,259
+|{{sort|{{nts|6.38}}|{{convert|6.38|sqmi|km2|abbr=on}}}}
+|{{convert|4547|ft|m}}
+|1856
+|$49,115
+|[[Daniel H. Wells]], LDS Church [[Apostle (Latter Day Saints)|Apostle]]
+|-
+|[[Wendover, Utah|Wendover]]
+|[[Tooele County, Utah|Tooele]]
+|1,632
+|{{sort|{{nts|6.43}}|{{convert|6.43|sqmi|km2|abbr=on}}}}
+|{{convert|4291|ft|m}}
+|1906
+|$31,196
+|{{scref|c}}
+|-
+|[[West Bountiful, Utah|West Bountiful]]
+|[[Davis County, Utah|Davis]]
+|5,337
+|{{sort|{{nts|2.97}}|{{convert|2.97|sqmi|km2|abbr=on}}}}
+|{{convert|4268|ft|m}}
+|{{scref|b}}
+|$61,063
+|Located west of [[Bountiful, Utah|Bountiful]]
+|-
+|[[West Haven, Utah|West Haven]]
+|[[Weber County, Utah|Weber]]
+|8,357
+|{{sort|{{nts|10.17}}|{{convert|10.17|sqmi|km2|abbr=on}}}}
+|{{convert|4272|ft|m}}
+|1854
+|$57,120
+|{{scref|c}}
+|-
+|[[West Jordan, Utah|West Jordan]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|104,447
+|{{sort|{{nts|30.90}}|{{convert|30.90|sqmi|km2|abbr=on}}}}
+|{{convert|4373|ft|m}}
+|1848
+|$55,794
+|Located on the west side of the [[Jordan River (Utah)|Jordan River]]
+|-
+|[[West Point, Utah|West Point]]
+|[[Davis County, Utah|Davis]]
+|9,001
+|{{sort|{{nts|7.22}}|{{convert|7.22|sqmi|km2|abbr=on}}}}
+|{{convert|4314|ft|m}}
+|1867
+|$56,563
+|{{scref|c}}
+|-
+|[[West Valley City, Utah|West Valley City]]
+|[[Salt Lake County, Utah|Salt Lake]]
+|123,447
+|{{sort|{{nts|35.45}}|{{convert|35.45|sqmi|km2|abbr=on}}}}
+|{{convert|4304|ft|m}}
+|1849
+|$45,773
+|Located on the western side of the [[Salt Lake Valley]]
+|-
+|[[Willard, Utah|Willard]]
+|[[Box Elder County, Utah|Box Elder]]
+|1,747
+|{{sort|{{nts|7.22}}|{{convert|7.22|sqmi|km2|abbr=on}}}}
+|{{convert|4350|ft|m}}
+|1851
+|$52,150
+|[[Willard Richards]], a LDS Church [[Apostle (Latter Day Saints)|Apostle]]
+|-
+|[[Woodland Hills, Utah|Woodland Hills]]
+|[[Utah County, Utah|Utah]]
+|1,747
+|{{sort|{{nts|2.74}}|{{convert|2.74|sqmi|km2|abbr=on}}}}
+|{{convert|5331|ft|m}}
+|1867
+|$80,854
+|Located at the base of canyon where groves of trees are located
+|-
+|[[Woodruff, Utah|Woodruff]]
+|[[Rich County, Utah|Rich]]
+|198
+|{{sort|{{nts|.54}}|{{convert|0.54|sqmi|km2|abbr=on}}}}
+|{{convert|6339|ft|m}}
+|1865
+|$43,000
+|[[Wilford Woodruff]], [[LDS Church President]]
+|-
+|[[Woods Cross, Utah|Woods Cross]]
+|[[Davis County, Utah|Davis]]
+|8,705
+|{{sort|{{nts|3.60}}|{{convert|3.60|sqmi|km2|abbr=on}}}}
+|{{convert|4377|ft|m}}
+|1865
+|$46,271
+|Daniel C. Wood, an early settler
+|-
+|}
+
+==Notes==
+
+{{cnote|a|Apple Valley, Bryce Canyon City, Central Valley, Cottonwood Heights, Daniel, Hideout, and Independence were incorporated after the 2000 Census; therefore, these city or town's area and median household income are not reported by the Census Bureau.}}
+{{cnote|b|No known source on when the city or town was settled}}
+{{cnote|c|No known source on how the city or town received its name}}
+{{cnote|d|Sources are unsure how Levan, Lynndyl, Marysvale, and Mona received their names.}}
+
+==See also==
+
+*[[List of ghost towns in Utah]]
+*[[Utah locations by per capita income]]
+
+==References==
+
+{{reflist|2}}
+
+{{Utah}}
+{{Lists of cities by U.S. state}}
+
+{{featured list}}
+
+{{DEFAULTSORT:List Of Cities And Towns In Utah}}
+[[Category:Cities in Utah|*]]
+[[Category:Lists of cities in the United States by state|U]]
+[[Category:Utah-related lists|Cities in Utah]]
+
+[[bjn:Daptar kuta di Utah]]
+[[de:Liste der Städte in Utah]]
+[[es:Anexo:Localidades de Utah]]
+[[hi:???? ?? ????? ?? ????]]
+[[id:Daftar kota di Utah]]
+[[it:Lista delle città dello Utah]]
+[[nl:Lijst van steden in Utah]]
+[[pt:Anexo:Lista de cidades do Utah]]
+[[ro:Lista de ora?e din statul Utah]]

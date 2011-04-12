@@ -15,7 +15,8 @@ require("Arrays.nut");		//	My Array library
 require("OpDOT.nut");		//	OperationDOT
 require("OpMoney.nut");		//	Operation Money
 require("OpLog.nut");		//	Operation Log
-require("TownRegistrar.nut")	//	Town Registrar
+require("TownRegistrar.nut");	//	Town Registrar
+require("Neighbourhood.nut");	//	Neighbourhood Class	
 		
 
  
@@ -65,6 +66,8 @@ function WmDOT::Start()
 	local MyRoadPathfiner = RoadPathfinder();
 	Log.Note("     " + MyRoadPathfiner.GetName() + ", v." + MyRoadPathfiner.GetVersion() + " r." + MyRoadPathfiner.GetRevision() + "  loaded!",0);	
 	Log.Note("     " + DOT.GetName() + ", v." + DOT.GetVersion() + " r." + DOT.GetRevision() + "  loaded!",0);
+	local MyNeighbourhood = NeighbourhoodInfo();
+	Log.Note("     " + MyNeighbourhood.GetName() + ", v." + MyNeighbourhood.GetVersion() + " r." + MyNeighbourhood.GetRevision() + "  loaded!",0);
 	Log.Note("     " + Towns.GetName() + ", v." + Towns.GetVersion() + " r." + Towns.GetRevision() + "  loaded!",0);
 	Log.Note("",0);
 	

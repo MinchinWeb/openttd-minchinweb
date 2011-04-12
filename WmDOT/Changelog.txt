@@ -3,6 +3,9 @@ v.4, r.52b, 2011-04-08
 Copyright © 2011 by W. Minchin. For more info, please visit
 	http://openttd-noai-wmdot.googlecode.com/
 
+.
+r53a 2011-04-08	[TownRegistrar] introduced
+				Post-initialization cross-class linking implemented
 r52d 2011-04-08	[OpDOT] Added escape if the pathfinder returns null	
 r52c 2011-04-08	Add Readme.txt	
 r52b 2011-04-08	[OpDOT] Added path check to Mode 6	
@@ -93,5 +96,8 @@ Roadmap:
 - check the town centres are actually roads (use AIRoad::IsRoadTile() )
 - add license file - http://opensource.org/licenses/qtpl ?
 - generally impove the speed of the pathfinder
-- rename and add pathfinder to main folder
 - somehow allow a 'connectioned' matrix to be built based on the array of built connections
+
+Issues
+- can't built bridges from the flat (like for over railway tracks)
+- Funds Request fails if greater than the maximum loan amount

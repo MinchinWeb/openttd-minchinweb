@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.4  r.52d  [2011-04-08]
+﻿/*	WmDOT v.5  r.53a  [2011-04-08]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -7,15 +7,16 @@ class WmDOT extends AIInfo
 {
 	function GetAuthor()        { return "W. Minchin"; }
 	function GetName()          { return "WmDOT"; }
-	function GetDescription()   { return "An AI that doesn't compete with you but rather builds out the highway network. We're still looking for a revenue stream. v.4 (r.52d)"; }
-	function GetVersion()       { return 4; }
+	function GetDescription()   { return "An AI that doesn't compete with you but rather builds out the highway network. We're still looking for a revenue stream. v.4 (r.53a)"; }
+	function GetVersion()       { return 5; }
 	function MinVersionToLoad() { return 1; }
 	function GetDate()          { return "2011-04-08"; }
 	function GetShortName()     { return "}}mW"; }	//	0x576D7D7D
 	function CreateInstance()   { return "WmDOT"; }
 	function GetAPIVersion()    { return "1.0"; }
 	function UseAsRandomAI()	{ return false; }
-	function GetURL()			{ return "http://www.tt-forums.net/viewtopic.php?f=65&t=53698  OR  http://code.google.com/p/openttd-noai-wmdot/issues/"; }
+	function GetURL()			{ return "http://www.tt-forums.net/viewtopic.php?f=65&t=53698"; }
+//	function GetURL()			{ return "http://code.google.com/p/openttd-noai-wmdot/issues/"; }
 	function GetEmail()			{ return "w_minchin@hotmail.com"}
 
 	function GetSettings() {

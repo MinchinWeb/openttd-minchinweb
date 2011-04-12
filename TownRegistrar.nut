@@ -1,5 +1,5 @@
 ﻿/*	Town Registrar v.1, part of 
- *	WmDOT v.5  r.53d  [2011-04-09]
+ *	WmDOT v.5  r.53f  [2011-04-10]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -14,8 +14,8 @@
  
  class TownRegistrar {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return "53d"; }
-	function GetDate()          { return "2011-04-09"; }
+	function GetRevision()		{ return "53f"; }
+	function GetDate()          { return "2011-04-10"; }
 	function GetName()          { return "Town Registrar"; }
 		
 	_MaxAtlasSize = null;
@@ -27,8 +27,8 @@
 							//		the town is in
 	_NeighbourhoodCapitalToHQ = null;
 	_ConnectionsTT = null;	//	town<>town connections
-	_ConnectionsTN = null;	//	town<>neighbourhood connections
-	_ConnectionsNN = null;	//	neighbourhood<>neighbourhood connections
+//	_ConnectionsTN = null;	//	town<>neighbourhood connections
+//	_ConnectionsNN = null;	//	neighbourhood<>neighbourhood connections
 							//		2D arrays. The index corresponds to the
 							//			town (or neighbourhood) in question,
 							//			and the array at that index is the
@@ -38,6 +38,7 @@
 	
 	_NextRun = null;
 	_UpdateInterval = null;
+	_Mode = null;
 	
 	Log = null;
 	
@@ -49,20 +50,50 @@
 		//	TO-DO:
 		//		- Lower this to 6500, but then _ConnectionsTN & _ConnectionsNN
 		//			need to be remapped based on _ConnectionsTT 
+		this._Mode = 1;
+		this._PopLimit = 0;
 		this._ListOfNeighbourhoods = [];
 		this._LookUpList = [];
 		this._NeighbourhoodCapitalToHQ = [];
 		this._ConnectionsTT = [];
-		this._ConnectionsTN = [];
-		this._ConnectionsNN = [];
+//		this._ConnectionsTN = [];
+//		this._ConnectionsNN = [];
 		this._ConnectedHeap = Fibonacci_Heap();
 		this._UnconnectedHeap = Fibonacci_Heap();
 		
 		Log = OpLog();
 		
 		this.State = this.State(this);
+		this.Settings = this.Settings(this);
 	}
 }
+
+class TownRegistrar.Settings {
+
+	_main = null;
+	
+	function _set(idx, val)
+	{
+		switch (idx) {
+			case "PopLimit":			this._main._PopLimit = val; break;
+			default: throw("the index '" + idx + "' does not exist");
+		}
+		return val;
+	}
+		
+	function _get(idx)
+	{
+		switch (idx) {
+			case "PopLimit":			return this._main._PopLimit; break;
+			default: throw("the index '" + idx + "' does not exist");
+		}
+	}
+	
+	constructor(main)
+	{
+		this._main = main;
+	}
+ }
 
 class TownRegistrar.State {
 
@@ -71,10 +102,11 @@ class TownRegistrar.State {
 	function _get(idx)
 	{
 		switch (idx) {
-//			case "Mode":			return this._main._Mode; break;
+			case "Mode":			return this._main._Mode; break;
 			case "NextRun":			return this._main._NextRun; break;
 //			case "ROI":				return this._main._ROI; break;
 //			case "Cost":			return this._main._Cost; break;
+			case "NeighbourhoodCount":	return this._main._ListOfNeighbourhoods.len(); break;
 			default: throw("The index '" + idx + "' does not exist");
 		}
 	}
@@ -112,7 +144,7 @@ function TownRegistrar::Run()
 		iTown = ListOfTowns.Next();
 	}
 	
-	_ListOfNeighbourhoods = [];
+//	_ListOfNeighbourhoods = [];
 	_ListOfNeighbourhoods.push(Neighbourhood(0,WmTownArray));
 	// If WorldSize < MaxAtlasSize, dump everyone in the same neighbourhood and be done with it
 //	ListOfTowns.Valuate(AITown.GetTownID);
@@ -134,16 +166,16 @@ function TownRegistrar::Run()
 	
 	this._LookUpList = MapTownsToNeighbourhoods(this._WorldSize, this._ListOfNeighbourhoods);
 	this._ConnectionsTT.resize(this._WorldSize);
-	this._ConnectionsTN.resize(this._WorldSize);
-	this._ConnectionsNN.resize(this._ListOfNeighbourhoods.len());
+//	this._ConnectionsTN.resize(this._WorldSize);
+//	this._ConnectionsNN.resize(this._ListOfNeighbourhoods.len());
 	
 	for  (local i = 0; i < this._WorldSize; i++) {
 		this._ConnectionsTT[i] = [];
-		this._ConnectionsTN[i] = [];
+//		this._ConnectionsTN[i] = [];
 	}
-	for  (local i = 0; i < this._ConnectionsNN.len(); i++) {
-		this._ConnectionsNN[i] = [];
-	}
+//	for  (local i = 0; i < this._ConnectionsNN.len(); i++) {
+//		this._ConnectionsNN[i] = [];
+//	}
 	
 	Log.Note(this._ListOfNeighbourhoods.len() + " neighbourhoods generated. Took " + (AIController.GetTick() - tick) + " ticks.",3);
 	
@@ -158,65 +190,12 @@ function TownRegistrar::Run()
 }
 
 //	this._TownArray = Towns.GenerateTownList(this._Mode);
-function TownRegistrar::GenerateTownList(Mode, HQTown)
+function TownRegistrar::GenerateTownList(HQTown)
 {
 //	Generates the town list for OpDOT
-//
-//	Modes 1 and 3 won't connect beyond the lower of a quarter of the map or 'speed'
-//	Modes 2 and 4 are bound to the higher one
-//	Mode 5 is not bound by distance
+//	The town list corresponds to the neighbourhood where the HQ is located
 
-	local TownArray = [];
-	
-	switch (Mode) {
-		case 1:
-		case 2:
-		//	In Mode 1 and 2, the town list corresponds to the neighbourhood where the
-		//		HQ is located
-		//	Mode 1 and 2 just connect towns to the capital
-			return this._ListOfNeighbourhoods[this._LookUpList[HQTown]].GetTowns();
-			break;
-		case 3:
-		case 4:
-			if (this._NeighbourhoodCapitalToHQ == null) {
-				GenerateCapitalToHQArray(HQTown);
-			}
-//			TownArray.push(HQTown);
-			//	First add the Neighbourhood capitals that are close enough
-			//		This should include HQTown
-			for (local i = 0; i < this._NeighbourhoodCapitalToHQ.len(); i++) {
-				if (this._NeighbourhoodCapitalToHQ[i] <= OpDOT.GetMaxDistance(Mode) ) {
-					TownArray.push(this._ListOfNeighbourhoods[i].GetHighestPopulation() );
-				}
-			}
-			//	If a neighbourhood has been connected to the capital, add the
-			//		next unconnected town
-			
-			
-			
-/* 			local AlreadyAdded = [];
-			AlreadyAdded.push(this._ConnectedNeighbourhoods[HQTown]);
-			for (local i = 0; i < this._ConnectedNeighbourhoods.len(); i++) {
-				if (ContainedIn1DArray(AlreadyAdded, this._ConnectedNeighbourhoods[i][0]) != true) {
-					TownArray.push();
-					AlreadyAdded.push(this._ConnectedNeighbourhoods[i][0]);
-				}
-				if (ContainedIn1DArray(AlreadyAdded, this._ConnectedNeighbourhoods[i][1]) != true) {
-					TownArray.push();
-					AlreadyAdded.push(this._ConnectedNeighbourhoods[i][1]);
-				}
-			} */
-			
-			//	If there are spaces left, fill them up with highest population towns on the map, with triple points to towns in the capital region
-			
-			//	OR if we're over the Atlas size, drop random towns
-			
-		case 5:
-		case 6:
-		default:
-			return this._ListOfNeighbourhoods[this._LookUpList[HQTown]].GetTowns();
-			break;
-	}
+	return this._ListOfNeighbourhoods[this._LookUpList[HQTown]].GetTowns();
 }
 
 function TownRegistrar::GenerateCapitalToHQArray(HQTown)
@@ -255,4 +234,19 @@ function TownRegistrar::RegisterConnection(TownA, TownB)
 			this._ConnectedHeap.Inset(TownB, AITown.GetPopulation(TownB));
 		}
 	}
+}
+
+function TownRegistrar::UpdateMode(NewMode)
+{
+//	Changes the mode TownRegistrar is running in and sets it to run on the
+//	next pass
+//		Mode 1 = considers all towns, regardless of population (or allows you
+//					to set the population limit) (set population following this
+//					call but before you allow TownRegistrar to run again)
+//		Mode 2 = Abides by OpDOT's Population Limit
+	this._Mode = NewMode;
+	if (NewMode == 1) {
+		this._PopLimit = WmDOT.GetSetting("OpDOT_MinTownSize");
+	}
+	this._NextRun = AIController.GetTick();
 }

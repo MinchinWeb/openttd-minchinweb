@@ -4,6 +4,15 @@ Copyright © 2011 by W. Minchin. For more info, please visit
 	http://openttd-noai-wmdot.googlecode.com/
 
 .
+r53f 2011-04-09	[OpDOT] Allow use of neighbourhoods for Mode 1 (connect all
+					towns close to capital, regardless of population)
+				[OpDOT] In Mode 7, increase population limit and send DOT back
+					to Mode 3 with the new Atlas (allows connecting to higher
+					population centers across the map)
+				[OpLog] DebugLevel 5 now available to put signs on the map
+				[TownRegistrar] Commented out TN and NN links
+				[TownRegistrar] UpdateMode introduced (for OpDOT Mode 1 and 7)
+				[OpDOT] merged Mode 6 in Mode 1-5 cases
 r53e 2011-04-09	[Fibonacci Heap] introduced, base on NoAI Team's v2 library
 r53d 2011-04-09	[Pathfinder] Parameter refinements to decrease bridge building
 					and encourage reusing exisiting roads
@@ -16,8 +25,9 @@ r53b 2011-04-09	[TownRegistrar] Splits large neighbourhoods based on a
 					original neighbourhood
 r53a 2011-04-08	[TownRegistrar] introduced
 				Post-initialization cross-class linking implemented
+v4	2011-04-09	Version 4 release, based on r52d
 r52d 2011-04-08	[OpDOT] Added escape if the pathfinder returns null	
-r52c 2011-04-08	Add Readme.txt	
+r52c 2011-04-08	Added Readme.txt	
 r52b 2011-04-08	[OpDOT] Added path check to Mode 6	
 r52a 2011-04-08	[OpDOT] Replaced path check buy just refinding the original
 					road and considering it built if the BuiltCost == 0

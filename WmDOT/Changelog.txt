@@ -1,9 +1,13 @@
 ﻿WmDOT Version History
-v.4, r.52b, 2011-04-08
+v.4, r.52c, 2011-04-09
 Copyright © 2011 by W. Minchin. For more info, please visit
 	http://openttd-noai-wmdot.googlecode.com/
 
 .
+r53c 2011-04-09	[Neighbourhoods] Impromvements to debuging output
+r53b 2011-04-09	[TownRegistrar] Splits large neighbourhoods based on a
+					bisecting line between the two largest towns in the
+					original neighbourhood
 r53a 2011-04-08	[TownRegistrar] introduced
 				Post-initialization cross-class linking implemented
 r52d 2011-04-08	[OpDOT] Added escape if the pathfinder returns null	

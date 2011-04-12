@@ -1,5 +1,5 @@
 ﻿/*	Town Registrar v.1, part of 
- *	WmDOT v.5  r.53b  [2011-04-09]
+ *	WmDOT v.5  r.53c  [2011-04-09]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -14,7 +14,7 @@
  
  class TownRegistrar {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return "53b"; }
+	function GetRevision()		{ return "53c"; }
 	function GetDate()          { return "2011-04-09"; }
 	function GetName()          { return "Town Registrar"; }
 		
@@ -22,6 +22,7 @@
 	_PopLimit = null;
 	_WorldSize = null;
 	_ListOfNeighbourhoods = null;
+	_LookUpList = null;
 	
 	_NextRun = null;
 	_UpdateInterval = null;
@@ -34,6 +35,7 @@
 		this._NextRun = 0;
 		this._UpdateInterval = 6500;	//	6500 is about once a year
 		this._ListOfNeighbourhoods = [];
+		this._LookUpList = [];
 		
 		Log = OpLog();
 		
@@ -73,12 +75,13 @@ function TownRegistrar::LinkUp()
 function TownRegistrar::Run()
 {
 	local tick = AIController.GetTick();
+	this._NextRun = tick;
 	Log.Note("Town Registrar's office open at tick " + tick + " .",1);
 	
 	local ListOfTowns = AITownList();
+	this._WorldSize = ListOfTowns.Count();
 	ListOfTowns.Valuate(AITown.GetPopulation);
 	ListOfTowns.KeepAboveValue(this._PopLimit);
-	this._WorldSize = ListOfTowns.Count();
 	
 	local WmTownArray = [];
 	WmTownArray.resize(ListOfTowns.Count());
@@ -95,20 +98,29 @@ function TownRegistrar::Run()
 	local SplitMore = true;
 	while (SplitMore == true) {
 		SplitMore = false;
-		for (local i = 0; i < _ListOfNeighbourhoods.len(); i++) {
-			if (_ListOfNeighbourhoods[i].GetSize() > _MaxAtlasSize) {
+		for (local i = 0; i < this._ListOfNeighbourhoods.len(); i++) {
+			if (this._ListOfNeighbourhoods[i].GetSize() > this._MaxAtlasSize) {
 				Log.Note("Spliting neighbourhood " + i + "...",3);
 				local Splinters = [2];
-				Splinters = _ListOfNeighbourhoods[i].SplitNeighbourhood();
-				_ListOfNeighbourhoods[i].UpdateTownList(Splinters[0]);
-				_ListOfNeighbourhoods.push(Neighbourhood(_ListOfNeighbourhoods.len(), Splinters[1]));
-				SplitMore = true;	//	Double check we've done everyone
+				Splinters = this._ListOfNeighbourhoods[i].SplitNeighbourhood();
+				this._ListOfNeighbourhoods[i].UpdateTownList(Splinters[0]);
+				this._ListOfNeighbourhoods.push(Neighbourhood(this._ListOfNeighbourhoods.len(), Splinters[1]));
+				SplitMore = true;	//	Double check we've done everyone by taking another run
+				i--;				//	Double check this neighbourhood
 			}
 		}
 	}
 	
-	Log.Note(_ListOfNeighbourhoods.len() + " neighbourhoods generated. Took " + (AIController.GetTick() - tick) + " ticks.",3);
+	this._LookUpList = MapTownsToNeighbourhoods(this._WorldSize, this._ListOfNeighbourhoods);
 	
-	this._NextRun = tick + this._UpdateInterval;
+	Log.Note(this._ListOfNeighbourhoods.len() + " neighbourhoods generated. Took " + (AIController.GetTick() - tick) + " ticks.",3);
+	
+	if (Log.Settings.DebugLevel >= 3) {
+		for (local i = 0; i < this._ListOfNeighbourhoods.len(); i++) {
+			this._ListOfNeighbourhoods[i].MarkOut(Log.Settings.DebugLevel);
+		}
+	}
+	
+	this._NextRun += this._UpdateInterval;
 //	return null;
 }

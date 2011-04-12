@@ -1,13 +1,13 @@
 /*	Neighbourhood Class, v.1, part of
  *	Town Registrar v.1, part of 
- *	WmDOT v.5  r.53b  [2011-04-09]
+ *	WmDOT v.5  r.53c  [2011-04-09]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
 class NeighbourhoodInfo {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return "53b"; }
+	function GetRevision()		{ return "53c"; }
 	function GetDate()          { return "2011-04-09"; }
 	function GetName()          { return "Neighbourhood Library"; }
 }
@@ -126,4 +126,34 @@ function Neighbourhood::UpdateTownList(NewTowns)
 //	Bulk updates the town list (this completely replaces it! use with caution)
 	this._townlist = NewTowns;
 	this._size = this._townlist.len();
+}
+
+function MapTownsToNeighbourhoods(WorldSize, ListOfNeighbourhoods)
+{
+//	Returns an array where the index corresponds to the townID and the value at
+//		that index corresponds to the Neighbourhood it's in
+	local LookUpList = [];
+	LookUpList.resize(WorldSize);
+	
+	for (local i = 0; i  < ListOfNeighbourhoods.len(); i++) {
+		for (local j = 0; j < ListOfNeighbourhoods[i]._townlist.len(); j++) {
+			LookUpList[ListOfNeighbourhoods[i]._townlist[j]] = i;
+		}
+	}
+	
+	return LookUpList;
+}
+
+function Neighbourhood::MarkOut(Debug = 4)
+{
+//	When called, posts signs at the town centre of each town in the
+//		neighbourhood with the neighbourhood's index number. The capital is
+//		noted with stars **
+	SuperLib.Helper.SetSign(AITown.GetLocation(this._townlist[0]), "** " + this._index + " **", true);
+	if (Debug >= 4) {
+		for (local i = 1; i < this._townlist.len(); i++) {
+			local text = this._index;
+			SuperLib.Helper.SetSign(AITown.GetLocation(this._townlist[i]), text, true);
+		}
+	}
 }

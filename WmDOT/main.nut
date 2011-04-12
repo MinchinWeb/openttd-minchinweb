@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.5  r.53d  [2011-04-08]
+﻿/*	WmDOT v.5  r.53f  [2011-04-10]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -28,7 +28,7 @@ require("Fibonacci.Heap.WM.nut");	//	Fibonacci Heap (Max)
 	WmDOTv = 5;
 	/*	Version number of AI
 	 */	
-	WmDOTr = "53d";
+	WmDOTr = "53f";
 	/*	Reversion number of AI
 	 */
 	 
@@ -53,9 +53,10 @@ require("Fibonacci.Heap.WM.nut");	//	Fibonacci Heap (Max)
 
 function WmDOT::Start()
 {
+	local Build_Number = "v." + WmDOTv + ", r." + WmDOTr;	//	For debugging crashes...
 //	AILog.Info("Welcome to WmDOT, version " + GetVersion() + ", revision " + WmDOTr + " by " + GetAuthor() + ".");
 	AILog.Info("Welcome to WmDOT, version " + WmDOTv + ", revision " + WmDOTr + " by W. Minchin.");
-	AILog.Info("Copyright © 2011 by W. Minchin. For more info, please visit http://openttd-noai-wmdot.googlecode.com/")
+	AILog.Info("Copyright © 2011 by W. Minchin. For more info, please visit http://www.tt-forums.net/viewtopic.php?f=65&t=53698")
 	AILog.Info(" ");
 	
 	Log.Settings.DebugLevel = GetSetting("Debug_Level");
@@ -63,16 +64,12 @@ function WmDOT::Start()
 
 	Log.Note("     " + Log.GetName() + ", v." + Log.GetVersion() + " r." + Log.GetRevision() + "  loaded!",0);
 	Log.Note("     " + Money.GetName() + ", v." + Money.GetVersion() + " r." + Money.GetRevision() + "  loaded!",0);
-	local MyAyStar = AyStarInfo();
-	Log.Note("     " + MyAyStar.GetName() + ", v." + MyAyStar.GetVersion() + " r." + MyAyStar.GetRevision() + "  loaded!",0);
-	local MyRoadPathfiner = RoadPathfinder();
-	Log.Note("     " + MyRoadPathfiner.GetName() + ", v." + MyRoadPathfiner.GetVersion() + " r." + MyRoadPathfiner.GetRevision() + "  loaded!",0);	
 	Log.Note("     " + DOT.GetName() + ", v." + DOT.GetVersion() + " r." + DOT.GetRevision() + "  loaded!",0);
-	local MyNeighbourhood = NeighbourhoodInfo();
-	Log.Note("     " + MyNeighbourhood.GetName() + ", v." + MyNeighbourhood.GetVersion() + " r." + MyNeighbourhood.GetRevision() + "  loaded!",0);
 	Log.Note("     " + Towns.GetName() + ", v." + Towns.GetVersion() + " r." + Towns.GetRevision() + "  loaded!",0);
-	local FHI = Fibonacci_Heap_Info();
-	Log.Note("     " + FHI.GetName() + ", v." + FHI.GetVersion() + " r." + FHI.GetRevision() + "  loaded!",0);
+	StartInfo();		//	AyStarInfo()
+						//	RoadPathfinder()
+						//	NeighbourhoodInfo()
+						//	Fibonacci_Heap_Info()
 	Log.Note("",0);
 	
 	Log.Settings.DebugLevel = GetSetting("Debug_Level");
@@ -101,6 +98,21 @@ function WmDOT::Start()
 
 		this.Sleep(1);		
 	}
+}
+
+function WmDOT::StartInfo()
+{
+//	By placing classes here that need to be created to get their info, we
+//		destroy them right away (which double to clean up the bug report
+//		screens and to free up a little bit of memory)
+	local MyAyStar = AyStarInfo();
+	Log.Note("     " + MyAyStar.GetName() + ", v." + MyAyStar.GetVersion() + " r." + MyAyStar.GetRevision() + "  loaded!",0);
+	local MyRoadPathfiner = RoadPathfinder();
+	Log.Note("     " + MyRoadPathfiner.GetName() + ", v." + MyRoadPathfiner.GetVersion() + " r." + MyRoadPathfiner.GetRevision() + "  loaded!",0);	
+	local MyNeighbourhood = NeighbourhoodInfo();
+	Log.Note("     " + MyNeighbourhood.GetName() + ", v." + MyNeighbourhood.GetVersion() + " r." + MyNeighbourhood.GetRevision() + "  loaded!",0);
+	local FHI = Fibonacci_Heap_Info();
+	Log.Note("     " + FHI.GetName() + ", v." + FHI.GetVersion() + " r." + FHI.GetRevision() + "  loaded!",0);
 }
 
 function WmDOT::NameWmDOT()

@@ -1,13 +1,13 @@
 /*	Neighbourhood Class, v.1, part of
  *	Town Registrar v.1, part of 
- *	WmDOT v.5  r.53c  [2011-04-09]
+ *	WmDOT v.5  r.53f  [2011-04-09]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
 class NeighbourhoodInfo {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return "53c"; }
+	function GetRevision()		{ return "53f"; }
 	function GetDate()          { return "2011-04-09"; }
 	function GetName()          { return "Neighbourhood Library"; }
 }
@@ -150,13 +150,13 @@ function MapTownsToNeighbourhoods(WorldSize, ListOfNeighbourhoods)
 	return LookUpList;
 }
 
-function Neighbourhood::MarkOut(Debug = 4)
+function Neighbourhood::MarkOut(DebugLevel = 5)
 {
 //	When called, posts signs at the town centre of each town in the
 //		neighbourhood with the neighbourhood's index number. The capital is
 //		noted with stars **
 	SuperLib.Helper.SetSign(AITown.GetLocation(this._townlist[0]), "** " + this._index + " **", true);
-	if (Debug >= 4) {
+	if (DebugLevel >= 5) {
 		for (local i = 1; i < this._townlist.len(); i++) {
 			local text = this._index;
 			SuperLib.Helper.SetSign(AITown.GetLocation(this._townlist[i]), text, true);

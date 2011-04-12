@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.4  r.52d  [2011-04-08]
+﻿/*	WmDOT v.4  r.53  [2011-04-08]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -24,7 +24,7 @@ require("OpLog.nut");		//	Operation Log
 	WmDOTv = 4;
 	/*	Version number of AI
 	 */	
-	WmDOTr = "52d";
+	WmDOTr = 53;
 	/*	Reversion number of AI
 	 */
 	 
@@ -65,6 +65,7 @@ function WmDOT::Start()
 	Log.Note("     " + MyRoadPathfiner.GetName() + ", v." + MyRoadPathfiner.GetVersion() + " r." + MyRoadPathfiner.GetRevision() + "  loaded!",0);	
 	local MyOpDOT = OpDOT();
 	Log.Note("     " + MyOpDOT.GetName() + ", v." + MyOpDOT.GetVersion() + " r." + MyOpDOT.GetRevision() + "  loaded!",0);
+
 	
 	Log.Note("",0);
 	if (WmDOT.GetSetting("Debug_Level") == 0) {

@@ -41,12 +41,21 @@ class Neighbourhood {
 		this._Info = NeighbourhoodInfo();
 		this.Log = WmDOT.Log;
 	}
+	
+	function GetSize()			{ return this._size; }
+	function GetTowns()			{ return this._townlist }
+	function GetIndex()			{ return this._index; }
+	
+	function GetVersion()       { return this._Info.GetVersion(); }
+	function GetRevision()		{ return this._Info.GetRevision(); }
+	function GetDate()          { return this._Info.GetDate(); }
+	function GetName()          { return this._Info.GetName(); }
 }
 
-function Neighbourhood::GetSize()
+/* function Neighbourhood::GetSize()
 {
 	return this._size;
-}
+} */
 
 function Neighbourhood::SplitNeighbourhood()
 {
@@ -101,8 +110,6 @@ function Neighbourhood::SplitNeighbourhood()
 	return [NA,NB];
 }
 
-
-
 function Neighbourhood::GetHighestPopulation(IgnoreList = [-1])
 {
 //	Returns the town with the highest population
@@ -119,7 +126,6 @@ function Neighbourhood::GetHighestPopulation(IgnoreList = [-1])
 	
 	return KeepIndex;
 }
-
 
 function Neighbourhood::UpdateTownList(NewTowns)
 {

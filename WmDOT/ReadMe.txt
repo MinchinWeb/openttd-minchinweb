@@ -13,7 +13,7 @@ WmDOT (short for "William's Department of Transportation") is an AI for
     time.
 
 -- Requirements ---------------------------------------------------------------
-WmDOT required OpenTTD version 1.0 or better. This is available as a free
+WmDOT requires OpenTTD version 1.0 or better. This is available as a free
     download from OpenTTD.org
 As dependances, WmDOT also requires:
     - SuperLib, v.6 ('SuperLib-6.tar')

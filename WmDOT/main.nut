@@ -10,13 +10,15 @@ require("Road.Pathfinder.WM.nut");	//	class RoadPathfinder
 import("util.superlib", "SuperLib", 6);		//	For loan management
 	SLMoney <- SuperLib.Money;
 
-require("Arrays.nut");		//	My Array library
-							//			I need to play with this more to get it to work the way I want		
-require("OpDOT.nut");		//	OperationDOT
-require("OpMoney.nut");		//	Operation Money
-require("OpLog.nut");		//	Operation Log
-require("TownRegistrar.nut");	//	Town Registrar
-require("Neighbourhood.nut");	//	Neighbourhood Class	
+require("Arrays.nut");				//	My Array library
+									//		I need to play with this more to
+									//		get it to work the way I want		
+require("OpDOT.nut");				//	OperationDOT
+require("OpMoney.nut");				//	Operation Money
+require("OpLog.nut");				//	Operation Log
+require("TownRegistrar.nut");		//	Town Registrar
+require("Neighbourhood.nut");		//	Neighbourhood Class	
+require("Fibonacci.Heap.WM.nut");	//	Fibonacci Heap (Max)
 		
 
  
@@ -69,6 +71,8 @@ function WmDOT::Start()
 	local MyNeighbourhood = NeighbourhoodInfo();
 	Log.Note("     " + MyNeighbourhood.GetName() + ", v." + MyNeighbourhood.GetVersion() + " r." + MyNeighbourhood.GetRevision() + "  loaded!",0);
 	Log.Note("     " + Towns.GetName() + ", v." + Towns.GetVersion() + " r." + Towns.GetRevision() + "  loaded!",0);
+	local FHI = Fibonacci_Heap_Info();
+	Log.Note("     " + FHI.GetName() + ", v." + FHI.GetVersion() + " r." + FHI.GetRevision() + "  loaded!",0);
 	Log.Note("",0);
 	
 	Log.Settings.DebugLevel = GetSetting("Debug_Level");

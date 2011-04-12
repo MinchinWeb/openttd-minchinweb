@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.4  r.52d  [2011-04-08]
+﻿/*	WmDOT v.5  r.53&  [2011-04-08]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -15,16 +15,17 @@ require("Arrays.nut");		//	My Array library
 require("OpDOT.nut");		//	OperationDOT
 require("OpMoney.nut");		//	Operation Money
 require("OpLog.nut");		//	Operation Log
+require("TownRegistrar.nut")	//	Town Registrar
 		
 
  
  class WmDOT extends AIController 
 {
 	//	SETTINGS
-	WmDOTv = 4;
+	WmDOTv = 5;
 	/*	Version number of AI
 	 */	
-	WmDOTr = "52d";
+	WmDOTr = "53a";
 	/*	Reversion number of AI
 	 */
 	 
@@ -36,8 +37,9 @@ require("OpLog.nut");		//	Operation Log
 	//	END SETTINGS
 	
 	Log = OpLog();
-//	Money = OpMoney();
-//	DOT = OpDOT();
+	Towns = TownRegistrar();
+	Money = OpMoney();
+	DOT = OpDOT();
   
 	function Start();
 }
@@ -57,17 +59,19 @@ function WmDOT::Start()
 	Log.Note("Loading Libraries...",0);		// Actually, by this point it's already happened
 
 	Log.Note("     " + Log.GetName() + ", v." + Log.GetVersion() + " r." + Log.GetRevision() + "  loaded!",0);
-	local Money = OpMoney();
 	Log.Note("     " + Money.GetName() + ", v." + Money.GetVersion() + " r." + Money.GetRevision() + "  loaded!",0);
 	local MyAyStar = AyStarInfo();
 	Log.Note("     " + MyAyStar.GetName() + ", v." + MyAyStar.GetVersion() + " r." + MyAyStar.GetRevision() + "  loaded!",0);
 	local MyRoadPathfiner = RoadPathfinder();
 	Log.Note("     " + MyRoadPathfiner.GetName() + ", v." + MyRoadPathfiner.GetVersion() + " r." + MyRoadPathfiner.GetRevision() + "  loaded!",0);	
-	local MyOpDOT = OpDOT();
-	Log.Note("     " + MyOpDOT.GetName() + ", v." + MyOpDOT.GetVersion() + " r." + MyOpDOT.GetRevision() + "  loaded!",0);
-	
+	Log.Note("     " + DOT.GetName() + ", v." + DOT.GetVersion() + " r." + DOT.GetRevision() + "  loaded!",0);
+	Log.Note("     " + Towns.GetName() + ", v." + Towns.GetVersion() + " r." + Towns.GetRevision() + "  loaded!",0);
 	Log.Note("",0);
-	if (WmDOT.GetSetting("Debug_Level") == 0) {
+	
+	Log.Settings.DebugLevel = GetSetting("Debug_Level");
+	TheGreatLinkUp();
+		
+	if (GetSetting("Debug_Level") == 0) {
 		Log.Note("Increase Debug Level in AI settings to get more verbose output.",0);
 		Log.Note("",0);
 	}
@@ -79,16 +83,14 @@ function WmDOT::Start()
 	local HQTown = BuildWmHQ();
 	local Time;
 	
-	MyOpDOT.Settings.HQTown = HQTown;
+	DOT.Settings.HQTown = HQTown;
 	while (true) {
-		Time = this.GetTick();
-		
+		Time = this.GetTick();	
 		Log.Settings.DebugLevel = GetSetting("Debug_Level");
-//		MyOpDOT.Log.Settings.DebugLevel = GetSetting("Debug_Level");
-//		Money.Log.Settings.DebugLevel = GetSetting("Debug_Level");
-	
-		if (Time > MyOpDOT.State.NextRun) { MyOpDOT.Run(); }
-		if (Time > Money.State.NextRun) { Money.Run(); }
+
+		if (Time > Money.State.NextRun)		{ Money.Run(); }
+		if (Time > Towns.State.NextRun)		{ Towns.Run(); }
+		if (Time > DOT.State.NextRun)		{ DOT.Run(); }
 
 		this.Sleep(1);		
 	}
@@ -483,6 +485,16 @@ function WmDOT::TileIsWhatTown(TileIn)
 	//	If it get this far, it's not in any town's influence
 	return -1;
 }
+
+function WmDOT::TheGreatLinkUp()
+{
+	DOT.LinkUp();
+	Money.LinkUp();
+	Towns.LinkUp();
+	Log.Note("The Great Link Up is Complete!",1);
+	Log.Note("",1);
+}
+
 
 /*
 function TestAI::Save()

@@ -1,5 +1,5 @@
 ﻿/*	OperationDOT v.2, part of 
- *	WmDOT v.4  r.52d  [2011-04-08]
+ *	WmDOT v.5  r.53a  [2011-04-08]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -19,9 +19,9 @@
 //	Requires "OpLog.nut"
 //	Requires "OpMoney.nut"
 //		Note that OpDOT runs a seperate money manager from the main program
+//	Requires "TownRegistrar.nut"
 
 //	TO-DO
-//	- return cost of route selection before building
 //	- break into more steps (Modes) to allow breaking during pathfinding
  
  
@@ -37,7 +37,7 @@
 
  class OpDOT {
 	function GetVersion()       { return 2; }
-	function GetRevision()		{ return "52d"; }
+	function GetRevision()		{ return "53a"; }
 	function GetDate()          { return "2011-04-08"; }
 	function GetName()          { return "Operation DOT"; }
  
@@ -88,6 +88,7 @@
 	
 	Log = null;
 	Money = null;
+	Towns = null;
 	
 	 
 	constructor()
@@ -114,10 +115,11 @@
 		
 		this.Settings = this.Settings(this);
 		this.State = this.State(this);
-		Log = WmDOT.Log;
+		Log = OpLog();
 		Money = OpMoney();
+		Towns = TownRegistrar();
 	}
-};
+}
 
 class OpDOT.Settings {
 
@@ -174,9 +176,9 @@ class OpDOT.Settings {
 	{
 		this._main = main;
 	}
-};
+}
  
- class OpDOT.State {
+class OpDOT.State {
 
 	_main = null;
 	
@@ -195,7 +197,15 @@ class OpDOT.Settings {
 	{
 		this._main = main;
 	}
-};
+}
+
+function OpDOT::LinkUp() 
+{
+	this.Log = WmDOT.Log;
+	this.Money = WmDOT.Money;
+	this.Towns = WmDOT.Towns;
+	Log.Note(this.GetName() + " linked up!",3);
+}
  
 function OpDOT::Run() {
 	//	This is used to keep track of what 'step' the AI is at

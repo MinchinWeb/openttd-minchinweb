@@ -1,5 +1,5 @@
-﻿/*	OperationDOT v.2, part of 
- *	WmDOT v.5  r.53a  [2011-04-08]
+﻿/*	OperationDOT v.3, part of 
+ *	WmDOT v.5  r.53d  [2011-04-08]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -36,9 +36,9 @@
 
 
  class OpDOT {
-	function GetVersion()       { return 2; }
-	function GetRevision()		{ return "53a"; }
-	function GetDate()          { return "2011-04-08"; }
+	function GetVersion()       { return 3; }
+	function GetRevision()		{ return "53d"; }
+	function GetDate()          { return "2011-04-09"; }
 	function GetName()          { return "Operation DOT"; }
  
 	_MaxAtlasSize = null;		//  UNUSED
@@ -70,8 +70,8 @@
 	_Atlas = null;
 	_TownArray = null;
 	_PairsToConnect = null;
-	_ConnectedPairs = null;
-	_SomeoneElseConnected = null;
+	_ConnectedPairs = null;			//	TO-DO: Tranisition to TownRegistrar
+	_SomeoneElseConnected = null;	//	TO-DO: Tranisition to TownRegistrar
 	_NumOfTownsOnList = null;
 	_BuiltSomething = null;
 	_ModeStart = null;
@@ -226,25 +226,28 @@ function OpDOT::Run() {
 	Log.Note("OpDOT running in Mode " + this._Mode + " at tick " + this._NextRun + ".",1);
 	
 	if (WmDOT.GetSetting("OpDOT") == 0) {
-		this._NextRun += 10000;
+		this._NextRun = AIController.GetTick() + 13001;			//	6500 ticks is about a year
 		Log.Note("** OpDOT has been disabled. **",0);
 		return;
 	}
 	
 	if (this._ModeStart == true) {
-		if (this._Mode == 1) {
+		/* if (this._Mode == 1) {
 			this._TownArray = GenerateTownList(0);
-			//	In Mode 1, all towns are considered regardless of the
-			//		population limit (this doesn't become too onerous because
-			//		Mode 1 has a very small distance limit)
+				// In Mode 1, all towns are considered regardless of the
+				// 	population limit (this doesn't become too onerous because
+				// 	Mode 1 has a very small distance limit)
 		} else {
 			this._TownArray = GenerateTownList();
-		}
+		} */
+		this._TownArray = Towns.GenerateTownList(this._Mode, this._HQTown);
+		//	Moving to the TownRegistrar doesn't support overriding the
+		//		population limit on the fly
 	}
 	
 	//	If another town goes above the population threshold, restart 'Mode 1'
 	//	Ignores what happens if you change the population threshold limit down externally...
-	if ( (this._NumOfTownsOnList < this._TownArray.len()) && (this._Mode != 1)) {
+	if ( (this._NumOfTownsOnList < this._TownArray.len()) && (this._Mode != 1) ) {
 		Log.Note("** Returning to Mode 1. **",2);
 		this._Mode = 1;
 		this._BuiltSomething = false;
@@ -310,11 +313,9 @@ function OpDOT::Run() {
 					local Tries = 1;
 					local Path;
 					local BuildCost;
-//					local OldLength;
 					
 					Log.Note("Attempt " + Tries + " to connect " +AITown.GetName(this._PairsToConnect[0]) + " to " + AITown.GetName(this._PairsToConnect[1]) + ".", 3);
 					Path = RunPathfinderOnTownPairs(this._PairsToConnect);
-//					OldLength = Path.GetLength();
 					
 					while (KeepTrying == true && Path != null) {
 						Tries++;
@@ -348,6 +349,7 @@ function OpDOT::Run() {
 					}
 
 					this._ConnectedPairs.push(this._PairsToConnect);	//	Add the pair to the list of built roads
+					Towns.RegisterConnection(this._PairsToConnect[0],this._PairsToConnect[1]);
 					this._Atlas = RemoveBuiltConnections(this._Atlas, [this._PairsToConnect]);
 					this._BuiltSomething = true;
 				} else if (TestAtlas[0][2] == 0) {
@@ -430,6 +432,7 @@ function OpDOT::Run() {
 				}
 				
 				this._ConnectedPairs.push(this._PairsToConnect);	//	Add the pair to the list of built roads
+				Towns.RegisterConnection(this._PairsToConnect[0],this._PairsToConnect[1]);
 				this._Atlas = RemoveBuiltConnections(this._Atlas, [this._PairsToConnect]);
 				this._BuiltSomething = true;
 			}
@@ -919,9 +922,9 @@ function OpDOT::RunPathfinder(Start, End)
 												//	default tile cost is 30
 	pathfinder.cost.max_bridge_length = this._MaxBridge;
 	pathfinder.cost.max_tunnel_length = this._MaxTunnel;
-	pathfinder.cost.no_existing_road = 160;		//	default = 40
-	pathfinder.cost.slope = 300;				//	default = 200
-	pathfinder.cost.bridge_per_tile = 200;		//	default = 150
+	pathfinder.cost.no_existing_road = 210;		//	default = 40
+	pathfinder.cost.slope = 150;				//	default = 200
+	pathfinder.cost.bridge_per_tile = 350;		//	default = 150
 												//	the hope is that random bridges on flat ground won't
 												//		show up, but they will for the little dips  \_/
 	pathfinder.cost.turn = 50;					//	default = 100

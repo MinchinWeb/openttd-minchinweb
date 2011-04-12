@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.5  r.53c  [2011-04-08]
+﻿/*	WmDOT v.5  r.53d  [2011-04-08]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -26,7 +26,7 @@ require("Neighbourhood.nut");	//	Neighbourhood Class
 	WmDOTv = 5;
 	/*	Version number of AI
 	 */	
-	WmDOTr = "53c";
+	WmDOTr = "53d";
 	/*	Reversion number of AI
 	 */
 	 

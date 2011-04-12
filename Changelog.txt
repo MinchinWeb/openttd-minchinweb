@@ -4,11 +4,12 @@ Copyright © 2011 by W. Minchin. For more info, please visit
 	http://openttd-noai-wmdot.googlecode.com/
 
 .
+r53e 2011-04-09	[Fibonacci Heap] introduced, base on NoAI Team's v2 library
 r53d 2011-04-09	[Pathfinder] Parameter refinements to decrease bridge building
 					and encourage reusing exisiting roads
 				[TownRegistrar] RegisterConnection
-				[Arrays] Added null array check to  ContainedIn1DArray and
-					 ContainedIn2DArray functions
+				[Arrays] Added null array check to ContainedIn1DArray and
+					ContainedIn2DArray functions
 r53c 2011-04-09	[Neighbourhoods] Impromvements to debuging output
 r53b 2011-04-09	[TownRegistrar] Splits large neighbourhoods based on a
 					bisecting line between the two largest towns in the

@@ -33,6 +33,8 @@
 							//			town (or neighbourhood) in question,
 							//			and the array at that index is the
 							//			connections out.
+	_ConnectedHeap = null;
+	_UnconnectedHeap = null;
 	
 	_NextRun = null;
 	_UpdateInterval = null;
@@ -53,6 +55,8 @@
 		this._ConnectionsTT = [];
 		this._ConnectionsTN = [];
 		this._ConnectionsNN = [];
+		this._ConnectedHeap = Fibonacci_Heap();
+		this._UnconnectedHeap = Fibonacci_Heap();
 		
 		Log = OpLog();
 		
@@ -187,6 +191,9 @@ function TownRegistrar::GenerateTownList(Mode, HQTown)
 			}
 			//	If a neighbourhood has been connected to the capital, add the
 			//		next unconnected town
+			
+			
+			
 /* 			local AlreadyAdded = [];
 			AlreadyAdded.push(this._ConnectedNeighbourhoods[HQTown]);
 			for (local i = 0; i < this._ConnectedNeighbourhoods.len(); i++) {
@@ -239,6 +246,13 @@ function TownRegistrar::RegisterConnection(TownA, TownB)
 		}
 		if (ContainedIn1DArray(this._ConnectionsTN[TownB], this._LookUpList[TownA]) != true) {
 			this._ConnectionsTN[TownB].push(this._LookUpList[TownA]);
+		}
+		
+		if (this._ConnectedHeap.Exists(TownA) != true) {
+			this._ConnectedHeap.Inset(TownA, AITown.GetPopulation(TownA));
+		}
+		if (this._ConnectedHeap.Exists(TownB) != true) {
+			this._ConnectedHeap.Inset(TownB, AITown.GetPopulation(TownB));
 		}
 	}
 }

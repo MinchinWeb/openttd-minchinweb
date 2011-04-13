@@ -133,6 +133,10 @@ function TownRegistrar::Run()
 	this._NextRun = tick;
 	Log.Note("Town Registrar's office open at tick " + tick + " . Population Limit is " + this._PopLimit + ".",1);
 	
+	if (this._Mode == 1) {
+		this._PopLimit = WmDOT.GetSetting("OpDOT_MinTownSize");
+	}
+	
 	local ListOfTowns = AITownList();
 	this._WorldSize = ListOfTowns.Count();
 	ListOfTowns.Valuate(AITown.GetPopulation);

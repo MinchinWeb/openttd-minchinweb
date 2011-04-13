@@ -1,9 +1,12 @@
 ﻿WmDOT Version History
-v.5, r.69, 2011-04-13
+v.5, r.70, 2011-04-13
 Copyright © 2011 by W. Minchin. For more info, please visit
 	http://openttd-noai-wmdot.googlecode.com/
 
 .
+r70	2011-04-13	v5 Based on r70
+				Large map issue considered resolved
+					Fixed issue 14
 r69	2011-04-13	Adjust Pathfinder wieghts (too many bridges, not enough road
 					reuse) (both still issues...)
 				[TownRegistrar] Old Neighbourhoods are now deleted when new

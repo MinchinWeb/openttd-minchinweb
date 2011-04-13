@@ -1,5 +1,5 @@
 ﻿/*	Town Registrar v.1, part of 
- *	WmDOT v.5  r.64 [2011-04-12]
+ *	WmDOT v.5  r.69 [2011-04-13]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -14,7 +14,7 @@
  
  class TownRegistrar {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return 64; }
+	function GetRevision()		{ return 69; }
 	function GetDate()          { return "2011-04-12"; }
 	function GetName()          { return "Town Registrar"; }
 		
@@ -38,7 +38,7 @@
 	
 	_NextRun = null;
 	_UpdateInterval = null;
-//	_Mode = null;
+	_Mode = null;
 	
 	Log = null;
 	
@@ -50,7 +50,7 @@
 		//	TO-DO:
 		//		- Lower this to 6500, but then _ConnectionsTN & _ConnectionsNN
 		//			need to be remapped based on _ConnectionsTT 
-//		this._Mode = 1;
+		this._Mode = 1;
 		this._PopLimit = 0;
 		this._ListOfNeighbourhoods = [];
 		this._LookUpList = [];
@@ -102,7 +102,7 @@ class TownRegistrar.State {
 	function _get(idx)
 	{
 		switch (idx) {
-//			case "Mode":			return this._main._Mode; break;
+			case "Mode":			return this._main._Mode; break;
 			case "NextRun":			return this._main._NextRun; break;
 //			case "ROI":				return this._main._ROI; break;
 //			case "Cost":			return this._main._Cost; break;
@@ -128,9 +128,10 @@ function TownRegistrar::LinkUp()
 function TownRegistrar::Run()
 {
 //	Running the Town Registrar will destroy previous neighbourhoods
+//	Call TownRegistrar::LinkUp() before calling this function for the first time
 	local tick = AIController.GetTick();
 	this._NextRun = tick;
-	Log.Note("Town Registrar's office open at tick " + tick + " .",1);
+	Log.Note("Town Registrar's office open at tick " + tick + " . Population Limit is " + this._PopLimit + ".",1);
 	
 	local ListOfTowns = AITownList();
 	this._WorldSize = ListOfTowns.Count();
@@ -237,14 +238,14 @@ function TownRegistrar::RegisterConnection(TownA, TownB)
 	}
 }
 
-function TownRegistrar::UpdateMode(NewMode)
+function TownRegistrar::UpdateMode(NewMode = 1)
 {
 //	Changes the mode TownRegistrar is running in and sets it to run on the
 //	next pass
-//		Mode 1 = considers all towns, regardless of population (or allows you
+//		Mode 0 = considers all towns, regardless of population (or allows you
 //					to set the population limit) (set population following this
 //					call but before you allow TownRegistrar to run again)
-//		Mode 2 = Abides by OpDOT's Population Limit
+//		Mode 1 = Abides by OpDOT's Population Limit
 	this._Mode = NewMode;
 	if (NewMode == 1) {
 		this._PopLimit = WmDOT.GetSetting("OpDOT_MinTownSize");

@@ -1,5 +1,5 @@
 ﻿/*	OperationDOT v.3, part of 
- *	WmDOT v.5  r.53f  [2011-04-08]
+ *	WmDOT v.5  r.69  [2011-04-13]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -37,8 +37,8 @@
 
  class OpDOT {
 	function GetVersion()       { return 3; }
-	function GetRevision()		{ return "53f"; }
-	function GetDate()          { return "2011-04-09"; }
+	function GetRevision()		{ return 69; }
+	function GetDate()          { return "2011-04-13"; }
 	function GetName()          { return "Operation DOT"; }
  
 	_MaxAtlasSize = null;		//  UNUSED
@@ -360,14 +360,16 @@ function OpDOT::Run() {
 						//		second path
 						tick = AIController.GetTick();
 						Log.Note("Attempt " + Tries + " to connect " +AITown.GetName(this._PairsToConnect[0]) + " to " + AITown.GetName(this._PairsToConnect[1]) + ".", 3)
-						Path = RunPathfinderOnTownPairs(this._PairsToConnect);
+//						Path = RunPathfinderOnTownPairs(this._PairsToConnect);
 						BuildCost = GetPathBuildCost(Path);
+						// TO-DO:	Check that the bridges and tunnels got
+						//			built; if unbuildable, their cost remains 0£
 						
 						if (BuildCost == 0) {
 							Log.Note("Successful connection!",3);
 							KeepTrying = false;
 						}						
-						if (Tries >= WmDOT.GetSetting("OpDOT_RebuildAttempts") && KeepTrying == true) {
+						if ((Tries >= (WmDOT.GetSetting("OpDOT_RebuildAttempts") + 1)) && (KeepTrying == true)) {
 							Log.Warning("After " + Tries + " tries, unable to build path from " +AITown.GetName(this._PairsToConnect[0]) + " to " + AITown.GetName(this._PairsToConnect[1]) + ".")
 							KeepTrying = false;
 						}
@@ -404,7 +406,7 @@ function OpDOT::Run() {
 				Log.Note("In Mode 7: It's tick " + AIController.GetTick() + " and apparently I've done everything! I'm taking a nap... Next run at " + this._NextRun + ".",2);
 			} else {
 				this._Mode7Counter ++;
-				Log.Note("In Mode 7: It's tick " + AIController.GetTick() + " and I'm resetting the Atlas with a population limit of  " + (WmDOT.GetSetting("OpDOT_MinTownSize") * (this._Mode7Counter + 1) ) + ".",2);				
+				Log.Note("In Mode 7: It's tick " + AIController.GetTick() + " and I'm resetting the Atlas with a population limit of " + (WmDOT.GetSetting("OpDOT_MinTownSize") * (this._Mode7Counter + 1) ) + ".",2);				
 				this.Towns.UpdateMode(0);
 				this.Towns.Settings.PopLimit = (WmDOT.GetSetting("OpDOT_MinTownSize") * (this._Mode7Counter + 1) );
 				this._Mode = 3;
@@ -507,8 +509,8 @@ function OpDOT::RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, Mode)
 {
 //	Designed to only allow connections based on already connected towns.
 //	In Modes 1 & 2, anything not connecting directly to the 'capital' is removed
-//	In Modes 3 & 4, anything not connected to the capital is (directly or via
-//		already built roads) is removed
+//	In Modes 3, 4, & 5, anything not connected to the capital is (directly or
+//		via already built roads) is removed
 
 	local tick;
 	tick = AIController.GetTick();
@@ -890,9 +892,9 @@ function OpDOT::RunPathfinder(Start, End)
 												//	default tile cost is 30
 	pathfinder.cost.max_bridge_length = this._MaxBridge;
 	pathfinder.cost.max_tunnel_length = this._MaxTunnel;
-	pathfinder.cost.no_existing_road = 240;		//	default = 40
+	pathfinder.cost.no_existing_road = 301;		//	default = 40
 	pathfinder.cost.slope = 150;				//	default = 200
-	pathfinder.cost.bridge_per_tile = 350;		//	default = 150
+	pathfinder.cost.bridge_per_tile = 750;		//	default = 150
 												//	the hope is that random bridges on flat ground won't
 												//		show up, but they will for the little dips  \_/
 	pathfinder.cost.turn = 50;					//	default = 100
@@ -907,11 +909,10 @@ function OpDOT::RunPathfinder(Start, End)
 	while (path == false) {
 		path = pathfinder.FindPath(this._PathFinderCycles);
 		CycleCounter+=this._PathFinderCycles;
-		if (CycleCounter % 2000 == 0) {
+		if ((CycleCounter % 2000 < this._PathFinderCycles) || (this._PathFinderCycles > 2000) ) {
 			//	A safety to make sure that the AI doesn't run out
 			//		of money while pathfinding...
 			Money.GreaseMoney();
-//			CycleCounter = 0;
 			WmDOT.Sleep(1);
 		}
 	}
@@ -986,6 +987,7 @@ function OpDOT::GetPathBuildCost(Path)
 						//	At this point, an error has occured while building the tunnel.
 						//	Fail the pathfiner
 						//	return null;
+						Log.Warning("OpDOT::GetPathBuildCost can't build a tunnel from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
 						}
 					} else {
 					//	if not a tunnel, we assume we're buildng a bridge
@@ -996,6 +998,7 @@ function OpDOT::GetPathBuildCost(Path)
 						//	At this point, an error has occured while building the bridge.
 						//	Fail the pathfiner
 						//	return null;
+						Log.Warning("OpDOT::GetPathBuildCost can't build a bridge from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
 						}
 					}
 				}
@@ -1051,10 +1054,19 @@ function OpDOT::BuildPath(Path)
 						AITile.DemolishTile(Path.GetTile());
 					}
 					if (AITunnel.GetOtherTunnelEnd(Path.GetTile()) == SubPath.GetTile()) {
+					//	The assumption here is that the land hasn't changed
+					//		from when the pathfinder was run and when we try to
+					//		build the path. If the tunnel building fails, we
+					//		get the 'can't build tunnel' message, but if the
+					//		land has changed such that the tunnel end is at a
+					//		different spot than is was when the pathfinder ran,
+					//		we skip tunnel building and try and build a bridge
+					//		instead, which will fail because the slopes are wrong...
 						if (!AITunnel.BuildTunnel(AIVehicle.VT_ROAD, Path.GetTile())) {
 						//	At this point, an error has occured while building the tunnel.
 						//	Fail the pathfiner
-							return null;
+						//	return null;
+							Log.Warning("OpDOT::BuildPath can't build a tunnel from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
 						}
 					} else {
 					//	if not a tunnel, we assume we're buildng a bridge
@@ -1064,7 +1076,8 @@ function OpDOT::BuildPath(Path)
 						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
 						//	At this point, an error has occured while building the bridge.
 						//	Fail the pathfiner
-							return null;
+						//	return null;
+						Log.Warning("OpDOT::BuildPath can't build a bridge from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!! (or the tunnel end moved...)" );
 						}
 					}
 				}

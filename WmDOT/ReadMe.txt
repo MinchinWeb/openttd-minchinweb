@@ -16,7 +16,7 @@ WmDOT (short for "William's Department of Transportation") is an AI for
 WmDOT requires OpenTTD version 1.0 or better. This is available as a free
     download from OpenTTD.org
 As dependances, WmDOT also requires:
-    - SuperLib, v.6 ('SuperLib-6.tar')
+    - SuperLib, v.7 ('SuperLib-7.tar')
     - Binary Heap, v.1 ('Queue.BinaryHeap-1.tar')
 
 -- Installation ---------------------------------------------------------------
@@ -78,6 +78,7 @@ Version 5 [2011-04-13]
 	Will now start building almost as fast (within ~15 days) regardless of map
 		size. It does this by dividing the map into smaller chunks
 	Tweaks to pathfinder
+	Updated for SuperLib v7
 Version 4 [2011-04-08]
     Changes to pathfinder allowing in to run in 1/20 the time in some cases
     Double check the road got built

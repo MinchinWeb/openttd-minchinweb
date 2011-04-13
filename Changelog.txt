@@ -1,9 +1,11 @@
 ﻿WmDOT Version History
-v.4, r.52d, 2011-04-09
+v.5, r.64, 2011-04-12
 Copyright © 2011 by W. Minchin. For more info, please visit
 	http://openttd-noai-wmdot.googlecode.com/
 
 .
+r64	2011-04-12	Improve debug crash strings
+				[OpDOT] Add setting to change number of rebuild attempts
 r53f 2011-04-09	[OpDOT] Allow use of neighbourhoods for Mode 1 (connect all
 					towns close to capital, regardless of population)
 				[OpDOT] In Mode 7, increase population limit and send DOT back

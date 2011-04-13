@@ -367,7 +367,7 @@ function OpDOT::Run() {
 							Log.Note("Successful connection!",3);
 							KeepTrying = false;
 						}						
-						if (Tries >= 10 && KeepTrying == true) {
+						if (Tries >= WmDOT.GetSetting("OpDOT_RebuildAttempts") && KeepTrying == true) {
 							Log.Warning("After " + Tries + " tries, unable to build path from " +AITown.GetName(this._PairsToConnect[0]) + " to " + AITown.GetName(this._PairsToConnect[1]) + ".")
 							KeepTrying = false;
 						}

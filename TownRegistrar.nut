@@ -1,5 +1,5 @@
 ﻿/*	Town Registrar v.1, part of 
- *	WmDOT v.5  r.53f  [2011-04-10]
+ *	WmDOT v.5  r.64 [2011-04-12]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -14,8 +14,8 @@
  
  class TownRegistrar {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return "53f"; }
-	function GetDate()          { return "2011-04-10"; }
+	function GetRevision()		{ return 64; }
+	function GetDate()          { return "2011-04-12"; }
 	function GetName()          { return "Town Registrar"; }
 		
 	_MaxAtlasSize = null;
@@ -25,7 +25,7 @@
 	_LookUpList = null;		//	An array, where the index corresponds to the
 							//		TownID and the value is the neighbourhood
 							//		the town is in
-	_NeighbourhoodCapitalToHQ = null;
+//	_NeighbourhoodCapitalToHQ = null;
 	_ConnectionsTT = null;	//	town<>town connections
 //	_ConnectionsTN = null;	//	town<>neighbourhood connections
 //	_ConnectionsNN = null;	//	neighbourhood<>neighbourhood connections
@@ -33,12 +33,12 @@
 							//			town (or neighbourhood) in question,
 							//			and the array at that index is the
 							//			connections out.
-	_ConnectedHeap = null;
-	_UnconnectedHeap = null;
+//	_ConnectedHeap = null;
+//	_UnconnectedHeap = null;
 	
 	_NextRun = null;
 	_UpdateInterval = null;
-	_Mode = null;
+//	_Mode = null;
 	
 	Log = null;
 	
@@ -50,16 +50,16 @@
 		//	TO-DO:
 		//		- Lower this to 6500, but then _ConnectionsTN & _ConnectionsNN
 		//			need to be remapped based on _ConnectionsTT 
-		this._Mode = 1;
+//		this._Mode = 1;
 		this._PopLimit = 0;
 		this._ListOfNeighbourhoods = [];
 		this._LookUpList = [];
-		this._NeighbourhoodCapitalToHQ = [];
+//		this._NeighbourhoodCapitalToHQ = [];
 		this._ConnectionsTT = [];
 //		this._ConnectionsTN = [];
 //		this._ConnectionsNN = [];
-		this._ConnectedHeap = Fibonacci_Heap();
-		this._UnconnectedHeap = Fibonacci_Heap();
+//		this._ConnectedHeap = Fibonacci_Heap();
+//		this._UnconnectedHeap = Fibonacci_Heap();
 		
 		Log = OpLog();
 		
@@ -102,7 +102,7 @@ class TownRegistrar.State {
 	function _get(idx)
 	{
 		switch (idx) {
-			case "Mode":			return this._main._Mode; break;
+//			case "Mode":			return this._main._Mode; break;
 			case "NextRun":			return this._main._NextRun; break;
 //			case "ROI":				return this._main._ROI; break;
 //			case "Cost":			return this._main._Cost; break;
@@ -127,6 +127,7 @@ function TownRegistrar::LinkUp()
 
 function TownRegistrar::Run()
 {
+//	Running the Town Registrar will destroy previous neighbourhoods
 	local tick = AIController.GetTick();
 	this._NextRun = tick;
 	Log.Note("Town Registrar's office open at tick " + tick + " .",1);
@@ -144,7 +145,7 @@ function TownRegistrar::Run()
 		iTown = ListOfTowns.Next();
 	}
 	
-//	_ListOfNeighbourhoods = [];
+	_ListOfNeighbourhoods = [];
 	_ListOfNeighbourhoods.push(Neighbourhood(0,WmTownArray));
 	// If WorldSize < MaxAtlasSize, dump everyone in the same neighbourhood and be done with it
 //	ListOfTowns.Valuate(AITown.GetTownID);

@@ -7,7 +7,7 @@ require("AyStar.WM.nut");			//	A* Graph
 									//	Requires "Binary_Heap" Library v.1
 require("Road.Pathfinder.WM.nut");	//	class RoadPathfinder
 
-import("util.superlib", "SuperLib", 6);		//	For loan management
+import("util.superlib", "SuperLib", 7);		//	For loan management
 	SLMoney <- SuperLib.Money;
 
 require("Arrays.nut");				//	My Array library

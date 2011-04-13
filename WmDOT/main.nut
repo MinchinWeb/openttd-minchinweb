@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.5  r.53f  [2011-04-10]
+﻿/*	WmDOT v.5  r.64 [2011-04-12]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -28,7 +28,7 @@ require("Fibonacci.Heap.WM.nut");	//	Fibonacci Heap (Max)
 	WmDOTv = 5;
 	/*	Version number of AI
 	 */	
-	WmDOTr = "53f";
+	WmDOTr = 64;
 	/*	Reversion number of AI
 	 */
 	 
@@ -53,7 +53,10 @@ require("Fibonacci.Heap.WM.nut");	//	Fibonacci Heap (Max)
 
 function WmDOT::Start()
 {
-	local Build_Number = "v." + WmDOTv + ", r." + WmDOTr;	//	For debugging crashes...
+//	For debugging crashes...
+	local Debug_2 = "/* Settings: " + GetSetting("DOT_name1") + "-" + GetSetting("DOT_name2") + " - dl" + GetSetting("Debug_Level") + " // OpDOT: " + GetSetting("OpDOT") + " - " + GetSetting("OpDOT_MinTownSize") + " - " + GetSetting("TownRegistrar_AtlasSize") + " - " + GetSetting("OpDOT_RebuildAttempts") + " */" ;
+	local Debug_1 = "/* v." + WmDOTv + ", r." + WmDOTr + " // " + AIDate.GetYear(AIDate.GetCurrentDate()) + "-" + AIDate.GetMonth(AIDate.GetCurrentDate()) + "-" + AIDate.GetDayOfMonth(AIDate.GetCurrentDate()) + " start // " + AIMap.GetMapSizeX() + "x" + AIMap.GetMapSizeY() + " map - " + AITown.GetTownCount() + " towns */";
+	
 //	AILog.Info("Welcome to WmDOT, version " + GetVersion() + ", revision " + WmDOTr + " by " + GetAuthor() + ".");
 	AILog.Info("Welcome to WmDOT, version " + WmDOTv + ", revision " + WmDOTr + " by W. Minchin.");
 	AILog.Info("Copyright © 2011 by W. Minchin. For more info, please visit http://www.tt-forums.net/viewtopic.php?f=65&t=53698")

@@ -147,6 +147,11 @@ function MapTownsToNeighbourhoods(WorldSize, ListOfNeighbourhoods)
 		}
 	}
 	
+	//	Remove exisiting signs
+	SuperLib.Helper.ClearAllSigns();	//	I don't like this really, but I
+										//	don't put signs elsewhere, so this
+										//	isn't a problem (yet...)
+	
 	return LookUpList;
 }
 
@@ -155,6 +160,8 @@ function Neighbourhood::MarkOut(DebugLevel = 5)
 //	When called, posts signs at the town centre of each town in the
 //		neighbourhood with the neighbourhood's index number. The capital is
 //		noted with stars **
+
+	//	Now place
 	SuperLib.Helper.SetSign(AITown.GetLocation(this._townlist[0]), "** " + this._index + " **", true);
 	if (DebugLevel >= 5) {
 		for (local i = 1; i < this._townlist.len(); i++) {

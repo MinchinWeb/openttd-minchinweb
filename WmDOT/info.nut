@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.5  r.69 [2011-04-13]
+﻿/*	WmDOT v.5  r.70 [2011-04-13]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  *		OR  http://www.tt-forums.net/viewtopic.php?f=65&t=53698
@@ -8,7 +8,7 @@ class WmDOT extends AIInfo
 {
 	function GetAuthor()        { return "W. Minchin"; }
 	function GetName()          { return "WmDOT"; }
-	function GetDescription()   { return "An AI that doesn't compete with you but rather builds out the highway network. We're still looking for a revenue stream. v.5 (r.69)"; }
+	function GetDescription()   { return "An AI that doesn't compete with you but rather builds out the highway network. We're still looking for a revenue stream. v.5 (r.70)"; }
 	function GetVersion()       { return 5; }
 	function MinVersionToLoad() { return 1; }
 	function GetDate()          { return "2011-04-13"; }

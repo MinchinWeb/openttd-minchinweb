@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.5  r.69 [2011-04-13]
+﻿/*	WmDOT v.5  r.70 [2011-04-13]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -28,7 +28,7 @@ require("Fibonacci.Heap.WM.nut");	//	Fibonacci Heap (Max)
 	WmDOTv = 5;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 69;
+	WmDOTr = 70;
 	/*	Reversion number of AI
 	 */
 	 

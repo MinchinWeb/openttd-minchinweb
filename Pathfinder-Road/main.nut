@@ -1,4 +1,4 @@
-/*	RoadPathfinder v.6 r.77 [2011-04-15], originally part of 
+/*	RoadPathfinder v.6 r.79 [2011-04-15], originally part of 
  *	WmDOT v.4  r.50 [2011-04-06]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -24,31 +24,31 @@
 //	Requires Graph.AyStar v4 library
 
 //	This file provides functions:
-//		Road.InitializePath(sources, goals)	//	Set up the pathfinder
-//		Road.FindPath(iterations)			//	Run the pathfinder; returns false if it isn't finished
-//											//		the path if it has finished, and null if it can't
-//											//		find a path
-//		Road.cost.[xx]						//	Allows you to set or find out the pathfinder costs 
-//											//		directly. See the function below for valid entries
+//		RoadWm.InitializePath(sources, goals)	//	Set up the pathfinder
+//		RoadWm.FindPath(iterations)				//	Run the pathfinder; returns false if it isn't finished
+//												//		the path if it has finished, and null if it can't
+//												//		find a path
+//		RoadWm.cost.[xx]						//	Allows you to set or find out the pathfinder costs 
+//												//		directly. See the function below for valid entries
+//		RoadWm.Info.GetVersion()				//	Useful for check provided version or debugging screen output
+//				   .GetMinorVersion()
+//				   .GetRevision()
+//				   .GetDate()
+//				   .GetName()
+//		RoadWm.PresetOriginal()				//	Presets for the pathfinder parameters
+//				.PresetPerfectPath()
+//				.PresetDirty()
+//				.PresetCheckExisting()
+//				.PresetStreetcar() 
+//		RoadWm.GetBuildCost()					//	How much would it be to build the path?
+//		RoadWm.BuildPath()						//	Build the path
+//		RoadWm.GetPathLength()					//	How long is the path?
+//		RoadWm.LoadPath(Path)					//	Provide your own path
+//		RoadWm.InitializePathOnTowns(StartTown, EndTown)
+//												//	Initializes the pathfinder using the seed tiles to the
+//												//		given towns
 
-require("auxiliary.nut");
-//	Provides functions:
-//		Road.Info.GetVersion()				//	Useful for check provided version or debugging screen output
-//				 .GetMinorVersion()
-//				 .GetRevision()
-//				 .GetDate()
-//				 .GetName()
-//		Road.Presets.Original()			//	Presets for the pathfinder parameters
-//					.PerfectPath()
-//					.Dirty()
-//					.ExistingCheck()
-//					.Streetcar() 
-//		Road.GetPathBuildCost()			//	How much would it be to build the path?
-//		Road.BuildPath()				//	Build the path
-//		Road.GetPathLength()			//	How long is the path?
-//		Road.LoadPath(Path)				//	Provide your own path
-
-class Road
+class RoadWm
 {
 	_aystar_class = import("graph.aystar", "", 4);
 	_max_cost = null;              ///< The maximum cost for a route.
@@ -64,9 +64,12 @@ class Road
 	_max_tunnel_length = null;     ///< The maximum length of a tunnel that will be build.
 	_cost_only_existing_roads = null;	   ///< Choose whether to only search through exisitng connected roads
 	_distance_penalty = null;		///< Penalty to use to speed up pathfinder, 1 is no penalty
+	_road_type = null;
 	cost = null;                   ///< Used to change the costs.
 	_mypath = null;					///< Used to store the path after it's been found for Building functions
 	_running = null;
+	info = null;
+//	presets = null;
 
 	constructor()
 	{
@@ -83,9 +86,12 @@ class Road
 		this._cost_only_existing_roads = false;
 		this._pathfinder = this._aystar_class(this._Cost, this._Estimate, this._Neighbours, this._CheckDirection, this, this, this, this);
 		this._distance_penalty = 1;
+		this._road_type = AIRoad.ROADTYPE_ROAD;
 		this._mypath = null;
 
 		this.cost = this.Cost(this);
+		this.info = this.Info(this);
+//		this.presets = this.Presets(this);
 		this._running = false;
 	}
 
@@ -118,7 +124,7 @@ class Road
 	function FindPath(iterations);
 };
 
-class Road.Cost
+class RoadWm.Cost
 {
 	_main = null;
 
@@ -170,7 +176,7 @@ class Road.Cost
 	}
 };
 
-function Road::FindPath(iterations)
+function RoadWm::FindPath(iterations)
 {
 	local test_mode = AITestMode();
 	local ret = this._pathfinder.FindPath(iterations);
@@ -179,7 +185,7 @@ function Road::FindPath(iterations)
 	return ret;
 }
 
-function Road::_GetBridgeNumSlopes(end_a, end_b)
+function RoadWm::_GetBridgeNumSlopes(end_a, end_b)
 {
 	local slopes = 0;
 	local direction = (end_b - end_a) / AIMap.DistanceManhattan(end_a, end_b);
@@ -200,7 +206,7 @@ function Road::_GetBridgeNumSlopes(end_a, end_b)
 	return slopes;
 }
 
-function Road::_Cost(path, new_tile, new_direction, self)
+function RoadWm::_Cost(path, new_tile, new_direction, self)
 {
 	/* path == null means this is the first node of a path, so the cost is 0. */
 	if (path == null) return 0;
@@ -257,7 +263,7 @@ function Road::_Cost(path, new_tile, new_direction, self)
 	return path.GetCost() + cost;
 }
 
-function Road::_Estimate(cur_tile, cur_direction, goal_tiles, self)
+function RoadWm::_Estimate(cur_tile, cur_direction, goal_tiles, self)
 {
 	local min_cost = self._max_cost;
 	/* As estimate we multiply the lowest possible cost for a single tile with
@@ -268,7 +274,7 @@ function Road::_Estimate(cur_tile, cur_direction, goal_tiles, self)
 	return min_cost;
 }
 
-function Road::_Neighbours(path, cur_node, self)
+function RoadWm::_Neighbours(path, cur_node, self)
 {
 	/* self._max_cost is the maximum path cost, if we go over it, the path isn't valid. */
 	if (path.GetCost() >= self._max_cost) return [];
@@ -321,12 +327,12 @@ function Road::_Neighbours(path, cur_node, self)
 	return tiles;
 }
 
-function Road::_CheckDirection(tile, existing_direction, new_direction, self)
+function RoadWm::_CheckDirection(tile, existing_direction, new_direction, self)
 {
 	return false;
 }
 
-function Road::_GetDirection(from, to, is_bridge)
+function RoadWm::_GetDirection(from, to, is_bridge)
 {
 	if (!is_bridge && AITile.GetSlope(to) == AITile.SLOPE_FLAT) return 0xFF;
 	if (from - to == 1) return 1;
@@ -341,7 +347,7 @@ function Road::_GetDirection(from, to, is_bridge)
  * for performance reasons. Tunnels will only be build if no terraforming
  * is needed on both ends.
  */
-function Road::_GetTunnelsBridges(last_node, cur_node, bridge_dir)
+function RoadWm::_GetTunnelsBridges(last_node, cur_node, bridge_dir)
 {
 	local slope = AITile.GetSlope(cur_node);
 	if (slope == AITile.SLOPE_FLAT) return [];
@@ -368,7 +374,7 @@ function Road::_GetTunnelsBridges(last_node, cur_node, bridge_dir)
 	return tiles;
 }
 
-function Road::_IsSlopedRoad(start, middle, end)
+function RoadWm::_IsSlopedRoad(start, middle, end)
 {
 	local NW = 0; //Set to true if we want to build a road to / from the north-west
 	local NE = 0; //Set to true if we want to build a road to / from the north-east
@@ -397,7 +403,7 @@ function Road::_IsSlopedRoad(start, middle, end)
 	return false;
 }
 
-function Road::_CheckTunnelBridge(current_tile, new_tile)
+function RoadWm::_CheckTunnelBridge(current_tile, new_tile)
 {
 	if (!AIBridge.IsBridgeTile(new_tile) && !AITunnel.IsTunnelTile(new_tile)) return false;
 	local dir = new_tile - current_tile;
@@ -410,4 +416,339 @@ function Road::_CheckTunnelBridge(current_tile, new_tile)
 	    (dir < AIMap.GetMapSizeX() && dir2 >= AIMap.GetMapSizeX())) return false;
 
 	return true;
+}
+
+
+/*	These are supplimentary to the Road Pathfinder itself, but will
+ *		hopefully prove useful either directly or as a model for writing your
+ *		own functions. They include:
+ *	- Info class - useful for outputing the details fo the library to the debug
+ *		screen
+ *	- Build function - used to build the path generated by the pathfinder
+ *	- Cost function - used to determine the cost of building the path generated
+ *		by the pathfinder
+ *	- Length - used to determine how long the generated path is
+ *	- Presets - a combination of settings for the pathfinder for using it in
+ *		different circumstances
+ *		- Original - the settings in the original (v3) pathfinder by NoAI Team
+ *		- PerfectPath - my slighlty updated version of Original. Good for
+ *			reusing exisiting roads
+ *		- Dirty - quick but messy preset. Runs in as little as 5% of the time
+ *			of 'PerfectPath', but builds odd bridges and loops
+ *		- ExistingCheck - based on PerfectPath, but uses only exising roads.
+ *			Useful for checking if there an exisiting route and how long it is
+ *		- Streetcar - reserved for future use for intraurban tram lines
+ *		If you would like a preset added here, I would be happy to include it
+ *			in future versions!
+ */
+ 
+
+class RoadWm.Info
+{
+	_main = null;
+	
+	function GetVersion()       { return 6; }
+	function GetMinorVersion()	{ return 0; }
+	function GetRevision()		{ return 79; }
+	function GetDate()          { return "2011-04-15"; }
+	function GetName()          { return "Road Pathfinder (Wm)"; }
+	
+	constructor(main)
+	{
+		this._main = main;
+	}
+}
+
+//	Presets
+function RoadWm::PresetOriginal() {
+//	the settings in the original (v3) pathfinder by NoAI Team
+	this._max_cost = 10000000;
+	this._cost_tile = 100;
+	this._cost_no_existing_road = 40;
+	this._cost_turn = 100;
+	this._cost_slope = 200;
+	this._cost_bridge_per_tile = 150;
+	this._cost_tunnel_per_tile = 120;
+	this._cost_coast = 20;
+	this._max_bridge_length = 10;
+	this._max_tunnel_length = 20;
+	this._cost_only_existing_roads = false;
+	this._distance_penalty = 1;
+	this._road_type = AIRoad.ROADTYPE_ROAD;
+	return;
+}
+
+function RoadWm::PresetPerfectPath() {
+//	my slighlty updated version of Original. Good for reusing exisiting
+//		roads
+	this._max_cost = 100000;
+	this._cost_tile = 30;
+	this._cost_no_existing_road = 40;
+	this._cost_turn = 100;
+	this._cost_slope = 200;
+	this._cost_bridge_per_tile = 150;
+	this._cost_tunnel_per_tile = 120;
+	this._cost_coast = 20;
+	this._max_bridge_length = 10;
+	this._max_tunnel_length = 20;
+	this._cost_only_existing_roads = false;
+	this._distance_penalty = 1;
+	this._road_type = AIRoad.ROADTYPE_ROAD;
+	return;
+}
+function RoadWm::PresetDirty() {
+//	quick but messy preset. Runs in as little as 5% of the time of
+//		'PerfectPath', but builds odd bridges and loops
+	this._max_cost = 100000;
+	this._cost_tile = 30;
+	this._cost_no_existing_road = 301;
+	this._cost_turn = 50;
+	this._cost_slope = 150;
+	this._cost_bridge_per_tile = 750;
+	this._cost_tunnel_per_tile = 120;
+	this._cost_coast = 20;
+	this._max_bridge_length = 16;
+	this._max_tunnel_length = 10;
+	this._cost_only_existing_roads = false;
+	this._distance_penalty = 5;
+	this._road_type = AIRoad.ROADTYPE_ROAD;
+	return;
+}
+
+function RoadWm::PresetCheckExisting() {
+//	based on PerfectPath, but uses only exising roads. Useful for checking
+//		if there an exisiting route and how long it is
+	this._max_cost = 100000;
+	this._cost_tile = 30;
+	this._cost_no_existing_road = 40;
+	this._cost_turn = 100;
+	this._cost_slope = 200;
+	this._cost_bridge_per_tile = 150;
+	this._cost_tunnel_per_tile = 120;
+	this._cost_coast = 20;
+	this._max_bridge_length = 9999;
+	this._max_tunnel_length = 9999;
+	this._cost_only_existing_roads = true;
+	this._distance_penalty = 1;
+	this._road_type = AIRoad.ROADTYPE_ROAD;
+	return;
+}
+
+function RoadWm::PresetStreetcar () {
+//	reserved for future use for intraurban tram lines
+	return;
+}
+
+function RoadWm::GetBuildCost()
+{
+//	Turns to 'test mode,' builds the route provided, and returns the cost (all
+//		money for AI's is in British Pounds)
+//	Note that due to inflation, this value can get stale
+//	Returns false if the test build fails somewhere
+
+	if (this._running) {
+		AILog.Warning("You can't find the build costs while there's a running pathfinder.");
+		return false;
+	}
+	if (this._mypath == null) {
+		AILog.Warning("You have tried to get the build costs of a 'null' path.");
+		return false;
+	}
+	
+	local BeanCounter = AIAccounting();
+	local TestMode = AITestMode();
+	local Path = this._mypath;
+
+//	AIRoad.SetCurrentRoadType(this._road_type);
+	while (Path != null) {
+		local SubPath = Path.GetParent();
+		if (SubPath != null) {
+			local Node = Path.GetTile();
+			if (AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile()) == 1) {
+			//	MD == 1 == road joining the two tiles
+				if (!AIRoad.BuildRoad(Path.GetTile(), SubPath.GetTile())) {
+				//	If we get here, then the road building has failed
+				//	Possible that the road already exists
+				//	TO-DO
+				//	- fail the road builder if the road cannot be built and
+				//		does not already exist
+				//	return null;
+				}
+			} else {
+			//	Implies that we're building either a tunnel or a bridge
+				if (!AIBridge.IsBridgeTile(Path.GetTile()) && !AITunnel.IsTunnelTile(Path.GetTile())) {
+					if (AIRoad.IsRoadTile(Path.GetTile())) {
+					//	Original example demolishes tile if it's already a road
+					//		tile to get around expanded roadbits.
+					//	I don't like this approach as it could destroy Railway
+					//		tracks/tram tracks/station
+					//	TO-DO
+					//	- figure out a way to do this while keeping the other
+					//		things I've built on the tile
+					//	(can I just remove the road?)
+						AITile.DemolishTile(Path.GetTile());
+					}
+					if (AITunnel.GetOtherTunnelEnd(Path.GetTile()) == SubPath.GetTile()) {
+						if (!AITunnel.BuildTunnel(AIVehicle.VT_ROAD, Path.GetTile())) {
+						//	At this point, an error has occured while building the tunnel.
+						//	Fail the pathfiner
+						//	return null;
+						Log.Warning("RoadWm::GetBuildCost can't build a tunnel from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
+						}
+					} else {
+					//	if not a tunnel, we assume we're buildng a bridge
+						local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
+						BridgeList.Valuate(AIBridge.GetMaxSpeed);
+						BridgeList.Sort(AIAbstractList.SORT_BY_VALUE, false);
+						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
+						//	At this point, an error has occured while building the bridge.
+						//	Fail the pathfiner
+						//	return null;
+						Log.Warning("RoadWm::GetBuildCost can't build a bridge from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
+						}
+					}
+				}
+			}
+		}
+	Path = SubPath;
+	}
+	
+	//	End build sequence
+		return BeanCounter.GetCosts();
+}
+
+function RoadWm::BuildPath()
+{
+	if (this._running) {
+		AILog.Warning("You can't build a path while there's a running pathfinder.");
+		return false;
+	}
+	if (this._mypath == null) {
+		AILog.Warning("You have tried to build a 'null' path.");
+		return false;
+	}
+	
+	local TestMode = AIExecMode();	//	We're really doing this!
+	local Path = this._mypath;
+
+	AIRoad.SetCurrentRoadType(this._road_type);
+	while (Path != null) {
+		local SubPath = Path.GetParent();
+		if (SubPath != null) {
+			local Node = Path.GetTile();
+			if (AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile()) == 1) {
+			//	MD == 1 == road joining the two tiles
+				if (!AIRoad.BuildRoad(Path.GetTile(), SubPath.GetTile())) {
+				//	If we get here, then the road building has failed
+				//	Possible that the road already exists
+				//	TO-DOz
+				//	- fail the road builder if the road cannot be built and
+				//		does not already exist
+				//	return null;
+				}
+			} else {
+			//	Implies that we're building either a tunnel or a bridge
+				if (!AIBridge.IsBridgeTile(Path.GetTile()) && !AITunnel.IsTunnelTile(Path.GetTile())) {
+					if (AIRoad.IsRoadTile(Path.GetTile())) {
+					//	Original example demolishes tile if it's already a road
+					//		tile to get around expanded roadbits.
+					//	I don't like this approach as it could destroy Railway
+					//		tracks/tram tracks/station
+					//	TO-DO
+					//	- figure out a way to do this while keeping the other
+					//		things I've built on the tile
+					//	(can I just remove the road?)
+						AITile.DemolishTile(Path.GetTile());
+					}
+					if (AITunnel.GetOtherTunnelEnd(Path.GetTile()) == SubPath.GetTile()) {
+					//	The assumption here is that the land hasn't changed
+					//		from when the pathfinder was run and when we try to
+					//		build the path. If the tunnel building fails, we
+					//		get the 'can't build tunnel' message, but if the
+					//		land has changed such that the tunnel end is at a
+					//		different spot than is was when the pathfinder ran,
+					//		we skip tunnel building and try and build a bridge
+					//		instead, which will fail because the slopes are wrong...
+						if (!AITunnel.BuildTunnel(AIVehicle.VT_ROAD, Path.GetTile())) {
+						//	At this point, an error has occured while building the tunnel.
+						//	Fail the pathfiner
+						//	return null;
+							Log.Warning("RoadWm::BuildPath can't build a tunnel from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
+						}
+					} else {
+					//	if not a tunnel, we assume we're buildng a bridge
+						local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
+						BridgeList.Valuate(AIBridge.GetMaxSpeed);
+						BridgeList.Sort(AIAbstractList.SORT_BY_VALUE, false);
+						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
+						//	At this point, an error has occured while building the bridge.
+						//	Fail the pathfiner
+						//	return null;
+						Log.Warning("RoadWm::BuildPath can't build a bridge from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!! (or the tunnel end moved...)" );
+						}
+					}
+				}
+			}
+		}
+	Path = SubPath;
+	}
+	
+	//	End build sequence
+	return true;
+}
+
+function RoadWm::LoadPath (Path)
+{
+//	'Loads' a path to allow GetBuildCost(), BuildPath() and GetPathLength()
+//		to be used
+	if (this._running) {
+		AILog.Warning("You can't load a path while there's a running pathfinder.");
+		return false;
+	}
+	this._mypath = Path;
+}
+
+function RoadWm::GetPath()
+{
+//	Returns the path
+	if (this._running) {
+		AILog.Warning("You can't get the path while there's a running pathfinder.");
+		return false;
+	}
+	return this._mypath;
+}
+
+function RoadWm::GetPathLength()
+{
+//	Runs over the path to determine its length
+	if (this._running) {
+		AILog.Warning("You can't get the path length while there's a running pathfinder.");
+		return false;
+	}
+	if (this._mypath == null) {
+		AILog.Warning("You have tried to get the length of a 'null' path.");
+		return false;
+	}
+
+	local Length = 0;
+	local Path = this._mypath;
+
+	while (Path != null) {
+		local SubPath = Path.GetParent();
+		if (SubPath != null) {
+			Length += AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile())
+		}
+		Path = SubPath;
+	}
+	
+	return Length;
+}
+
+function RoadWm::InitializePathOnTowns(StartTown, EndTown)
+{
+//	Initializes the pathfinder using two towns
+//	Assumes that the town centers are road tiles (if this is not the case, the
+//		pathfinder will still run, but it will take a long time and eventually
+//		fail to return a path)
+	return this.InitializePath([AITown.GetLocation(StartTown)], [AITown.GetLocation(EndTown)]);
 }

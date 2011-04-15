@@ -21,12 +21,36 @@
  *  'true'.
  */
  
-//	Requires Graph.AyStar-Wm v7 library
+//	Requires Graph.AyStar v4 library
+
+//	This file provides functions:
+//		Road.InitializePath(sources, goals)	//	Set up the pathfinder
+//		Road.FindPath(iterations)			//	Run the pathfinder; returns false if it isn't finished
+//											//		the path if it has finished, and null if it can't
+//											//		find a path
+//		Road.cost.[xx]						//	Allows you to set or find out the pathfinder costs 
+//											//		directly. See the function below for valid entries
+
 require("auxiliary.nut");
+//	Provides functions:
+//		Road.Info.GetVersion()				//	Useful for check provided version or debugging screen output
+//				 .GetMinorVersion()
+//				 .GetRevision()
+//				 .GetDate()
+//				 .GetName()
+//		Road.Presets.Original()			//	Presets for the pathfinder parameters
+//					.PerfectPath()
+//					.Dirty()
+//					.ExistingCheck()
+//					.Streetcar() 
+//		Road.GetPathBuildCost()			//	How much would it be to build the path?
+//		Road.BuildPath()				//	Build the path
+//		Road.GetPathLength()			//	How long is the path?
+//		Road.LoadPath(Path)				//	Provide your own path
 
 class Road
 {
-	_aystar_class = import("graph.aystar-wm", "", 7);
+	_aystar_class = import("graph.aystar", "", 4);
 	_max_cost = null;              ///< The maximum cost for a route.
 	_cost_tile = null;             ///< The cost for a single tile.
 	_cost_no_existing_road = null; ///< The cost that is added to _cost_tile if no road exists yet.

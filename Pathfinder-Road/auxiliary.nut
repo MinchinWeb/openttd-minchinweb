@@ -269,3 +269,25 @@ function Road::BuildPath()
 	return true;
 }
 
+function Road::LoadPath (Path)
+{
+//	'Loads' a path to allow GetPathBuildCost(), BuildPath() and GetPathLength()
+//		to be used
+	this._mypath = Path;
+}
+
+function Road::GetPathLength()
+{
+//	Runs over the path to determine its length
+	local Length = 0;
+	local Path = this._mypath;
+
+	while (Path != null) {
+		local SubPath = Path.GetParent();
+		if (SubPath != null) {
+			Length += AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile())
+		Path = SubPath;
+	}
+	
+	return Length;
+}

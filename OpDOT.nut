@@ -1,5 +1,5 @@
 ﻿/*	OperationDOT v.3, part of 
- *	WmDOT v.5  r.69  [2011-04-13]
+ *	WmDOT v.6  r.79  [2011-04-15]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -12,10 +12,8 @@
  *		generating alternate connections. No revenue stream.
  */ 
  
-//	Requires SuperLib v6 or better
-//	Requires "Road.Pathfinder.WM.nut"
-//		Requires "AyStar.WM.nut"
-//			Requires queue.binary_heap v1
+//	Requires SuperLib v7 or better
+//	Requires Pathfinder.RoadWM library v6
 //	Requires "OpLog.nut"
 //	Requires "OpMoney.nut"
 //		Note that OpDOT runs a seperate money manager from the main program
@@ -37,14 +35,10 @@
 
  class OpDOT {
 	function GetVersion()       { return 3; }
-	function GetRevision()		{ return 69; }
-	function GetDate()          { return "2011-04-13"; }
+	function GetRevision()		{ return 79; }
+	function GetDate()          { return "2011-04-15"; }
 	function GetName()          { return "Operation DOT"; }
  
-	_MaxAtlasSize = null;		//  UNUSED
-	//	This sets the maximum number of towns that will printed to the debug
-	//	screen.
-	 
 	_SleepLength = null;
 	//	Controls how many ticks the AI sleeps between iterations.
 	 
@@ -54,8 +48,8 @@
 	_PathFinderCycles = null;
 	//	Set the number of tries the pathfinders should run for
 	 
-	_MaxBridge = null;
-	_MaxTunnel = null;
+//	_MaxBridge = null;
+//	_MaxTunnel = null;
 	//	Max tunnel and bridge length it will build
 	
 	_DebugLevel = null;
@@ -76,7 +70,7 @@
 	_BuiltSomething = null;
 	_ModeStart = null;
 	_RoadType = null;
-	_PathfinderDistancePenalty = null;	//	Extra distance penalty applied
+//	_PathfinderDistancePenalty = null;	//	Extra distance penalty applied
 											//	to pathfinder. Higher numbers
 											//	make it run faster but can do
 											//	funny things to the resulting
@@ -94,12 +88,12 @@
 	 
 	constructor()
 	{
-		this._MaxAtlasSize = 99;
+//		this._MaxAtlasSize = 99;
 		this._SleepLength = 50;
 		this._FloatOffset = 0.001;
 		this._PathFinderCycles = 100;
-		this._MaxBridge = 16;
-		this._MaxTunnel = 10;
+//		this._MaxBridge = 16;
+//		this._MaxTunnel = 10;
 		this._Mode = 1;
 		this._HQTown = null;
 		this._Atlas = [];
@@ -112,7 +106,7 @@
 		this._ModeStart = true;
 		this._NextRun = 0;
 		this._RoadType = AIRoad.ROADTYPE_ROAD;
-		this._PathfinderDistancePenalty = 5;
+//		this._PathfinderDistancePenalty = 5;
 		this._Mode7Counter = 0;
 		
 		this.Settings = this.Settings(this);
@@ -130,12 +124,12 @@ class OpDOT.Settings {
 	function _set(idx, val)
 	{
 		switch (idx) {
-			case "MaxAtlasSize":		this._main._MaxAtlasSize = val; break;
+//			case "MaxAtlasSize":		this._main._MaxAtlasSize = val; break;
 			case "SleepLength":			this._main._SleepLength = val; break;
 			case "FloatOffset":			this._main._FloatOffset = val; break;
 			case "PathFinderCycles":	this._main._PathFinderCycles = val; break;
-			case "MaxBridge":			this._main._MaxBridge = val; break;
-			case "MaxTunnel":			this._main._MaxTunnel = val; break;
+//			case "MaxBridge":			this._main._MaxBridge = val; break;
+//			case "MaxTunnel":			this._main._MaxTunnel = val; break;
 			case "Mode":				this._main._Mode = val; break;
 			case "HQTown":				this._main._HQTown = val; break;
 			case "Atlas":				this._main._Atlas = val; break;
@@ -145,7 +139,7 @@ class OpDOT.Settings {
 			case "SomeoneElseConnected":	this._main._SomeoneElseConnected = val; break;
 			case "DebugLevel":			this._main._DebugLevel = val; break;
 			case "RoadType":			this._main._RoadType = val; break;
-			case "PathfinderDistancePenalty":	this._main._PathfinderDistancePenalty = val; break;
+//			case "PathfinderDistancePenalty":	this._main._PathfinderDistancePenalty = val; break;
 			default: throw("The index '" + idx + "' does not exist");
 		}
 		return val;
@@ -154,12 +148,12 @@ class OpDOT.Settings {
 	function _get(idx)
 	{
 		switch (idx) {
-			case "MaxAtlasSize":		return this._main._MaxAtlasSize; break;
+//			case "MaxAtlasSize":		return this._main._MaxAtlasSize; break;
 			case "SleepLength":			return this._main._SleepLength; break;
 			case "FloatOffset":			return this._main._FloatOffset; break;
 			case "PathFinderCycles":	return this._main._PathFinderCycles; break;
-			case "MaxBridge":			return this._main._MaxBridge; break;
-			case "MaxTunnel":			return this._main._MaxTunnel; break;
+//			case "MaxBridge":			return this._main._MaxBridge; break;
+//			case "MaxTunnel":			return this._main._MaxTunnel; break;
 			case "Mode":				return this._main._Mode; break;
 			case "HQTown":				return this._main._HQTown; break;
 			case "Atlas":				return this._main._Atlas; break;
@@ -169,7 +163,7 @@ class OpDOT.Settings {
 			case "SomeoneElseConnected":	return this._main._SomeoneElseConnected; break;
 			case "DebugLevel":			return this._main._DebugLevel; break;
 			case "RoadType":			return this._main._RoadType; break;
-			case "PathfinderDistancePenalty":	return this._main._PathfinderDistancePenalty; break;
+//			case "PathfinderDistancePenalty":	return this._main._PathfinderDistancePenalty; break;
 			default: throw("The index '" + idx + "' does not exist");
 		}
 	}
@@ -340,20 +334,20 @@ function OpDOT::Run() {
 					local tick = AIController.GetTick();
 					local KeepTrying = true;
 					local Tries = 1;
-					local Path;
+					local PathFinder;
 					local BuildCost = 0;
 					
 					Log.Note("Attempt " + Tries + " to connect " +AITown.GetName(this._PairsToConnect[0]) + " to " + AITown.GetName(this._PairsToConnect[1]) + ".", 3);
-					Path = RunPathfinderOnTownPairs(this._PairsToConnect);
+					PathFinder = RunPathfinderOnTownPairs(this._PairsToConnect);
 					
-					while (KeepTrying == true && Path != null) {
+					while (KeepTrying == true && PathFinder.GetPath() != null) {
 						Tries++;
-						Log.Note("Pathfinding took " + (AIController.GetTick() - tick) + " ticks. (MD = " + AIMap.DistanceManhattan(AITown.GetLocation(this._PairsToConnect[0]),AITown.GetLocation(this._PairsToConnect[1])) + ", Length = " + Path.GetLength() + ").",3);
+						Log.Note("Pathfinding took " + (AIController.GetTick() - tick) + " ticks. (MD = " + AIMap.DistanceManhattan(AITown.GetLocation(this._PairsToConnect[0]),AITown.GetLocation(this._PairsToConnect[1])) + ", Length = " + PathFinder.GetPathLength() + ").",3);
 						tick = AIController.GetTick();
-						BuildCost = GetPathBuildCost(Path);
+						BuildCost = PathFinder.GetBuildCost();
 						Log.Note("Cost of path is " + BuildCost + "£. Took " + (AIController.GetTick() - tick) + " ticks.", 3);
 						Money.FundsRequest(BuildCost*1.1);		//	To allow for inflation during construction
-						BuildPath(Path);
+						PathFinder.BuildPath();
 						
 						//	Test to see if construction worked by running the
 						//		pathfinder and computing build cost of the 
@@ -361,7 +355,7 @@ function OpDOT::Run() {
 						tick = AIController.GetTick();
 						Log.Note("Attempt " + Tries + " to connect " +AITown.GetName(this._PairsToConnect[0]) + " to " + AITown.GetName(this._PairsToConnect[1]) + ".", 3)
 //						Path = RunPathfinderOnTownPairs(this._PairsToConnect);
-						BuildCost = GetPathBuildCost(Path);
+						BuildCost = PathFinder.GetBuildCost();
 						// TO-DO:	Check that the bridges and tunnels got
 						//			built; if unbuildable, their cost remains 0£
 						
@@ -375,7 +369,7 @@ function OpDOT::Run() {
 						}
 					}
 					
-					if (Path == null) {
+					if (PathFinder.GetPath() == null) {
 						Log.Warning("Pathfinding took " + (AIController.GetTick() - tick) + " ticks and failed. (MD = " + AIMap.DistanceManhattan(AITown.GetLocation(this._PairsToConnect[0]),AITown.GetLocation(this._PairsToConnect[1])) + ").");
 					}
 
@@ -734,12 +728,13 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 	//	create instance of road pathfinder
 	local pathfinder = RoadPathfinder();
 	//	pathfinder settings
-	pathfinder.cost.max_bridge_length = this._MaxBridge;
+	pathfinder.PresetCheckExisting()
+/*	pathfinder.cost.max_bridge_length = this._MaxBridge;
 	pathfinder.cost.max_tunnel_length = this._MaxTunnel;
 //	pathfinder.cost.no_existing_road = pathfinder.cost.max_cost;	// only use exisiting roads
 	pathfinder.cost.only_existing_roads = true;
 	pathfinder.cost.distance_penalty = max(this._PathfinderDistancePenalty/2, 1);
-	
+*/	
 	local iTown = AITile();
 	local jTown = AITile();
 	local RemovedCount = 0;
@@ -748,9 +743,10 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 	for (local i = 0; i < WmAtlas.len(); i++ ) {
 		for (local j=1; j < WmAtlas[i].len(); j++ ) {
 			if (WmAtlas[i][j] > 0) {		// Ignore already zeroed entries
-				iTown = AITown.GetLocation(WmAtlas[i][0]);
+/*				iTown = AITown.GetLocation(WmAtlas[i][0]);
 				jTown = AITown.GetLocation(WmAtlas[j-1][0]);	// j-1 needed to get town index
 				pathfinder.InitializePath([iTown], [jTown]);
+	*/			pathfinder.InitializePathOnTowns(WmAtlas[i][0], WmAtlas[j-1][0]);	// j-1 needed to get town index
 				
 				local path = false;
 				local CycleCounter = 0;
@@ -758,11 +754,12 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 					path = pathfinder.FindPath(this._PathFinderCycles);
 //					AIController.Sleep(1);
 					CycleCounter+=this._PathFinderCycles;
-					if (CycleCounter > 2000) {
+					if ((CycleCounter % 2000 < this._PathFinderCycles) || (this._PathFinderCycles > 2000)) {
 						//	A safety to make sure that the AI doesn't run out
 						//		of money while pathfinding...
 						Money.GreaseMoney();
-						CycleCounter = 0;
+//						CycleCounter = 0;
+						AIController.Sleep(1);
 					}
 				}
 				
@@ -884,10 +881,13 @@ function OpDOT::RunPathfinder(Start, End)
 {
 //	Takes the starting and ending tiles, and runs the pathfinder to join the two.
 //	Takes Bridge Length, Tunnel Lenght, and Road Type from OpDOT settings.
+//	Returns the pathfinder instance
 	
 	AIRoad.SetCurrentRoadType(this._RoadType);
 	local pathfinder = RoadPathfinder();
+	pathfinder.PresetDirty();
 	
+/*	
 	//	Set Parameters
 												//	default tile cost is 30
 	pathfinder.cost.max_bridge_length = this._MaxBridge;
@@ -900,7 +900,7 @@ function OpDOT::RunPathfinder(Start, End)
 	pathfinder.cost.turn = 50;					//	default = 100
 	pathfinder.cost.distance_penalty = this._PathfinderDistancePenalty;	// 5
 	
-	// Give the source and goal tiles to the pathfinder.
+*/	// Give the source and goal tiles to the pathfinder.
 	pathfinder.InitializePath([Start], [End]);
 	
 	local path = false;
@@ -913,7 +913,7 @@ function OpDOT::RunPathfinder(Start, End)
 			//	A safety to make sure that the AI doesn't run out
 			//		of money while pathfinding...
 			Money.GreaseMoney();
-			WmDOT.Sleep(1);
+			AIController.Sleep(1);
 		}
 	}
 	
@@ -922,7 +922,7 @@ function OpDOT::RunPathfinder(Start, End)
 		Log.Warning("pathfinder.FindPath return null - seeking path from " + AIMap.GetTileX(Start) + "," + AIMap.GetTileY(Start) + " to " + AIMap.GetTileX(End) + "," + AIMap.GetTileY(End) + ".");
 	}
 	
-	return path;
+	return pathfinder;
 }
 
 function OpDOT::RunPathfinderOnTowns(TownA, TownB)
@@ -932,13 +932,13 @@ function OpDOT::RunPathfinderOnTowns(TownA, TownB)
 //	- add check that the center of town is indeed a road tile
 
 	Log.Note("Connecting " + AITown.GetName(TownA) + " and " + AITown.GetName(TownB) + "...", 2);
-	
 	return RunPathfinder(AITown.GetLocation(TownA),AITown.GetLocation(TownB));
 }
 
 function OpDOT::RunPathfinderOnTownPairs(ConnectPairs)
 {
 //	ConnectedPairs is expected to be an array with two TownID's
+
 	return RunPathfinderOnTowns(ConnectPairs[0], ConnectPairs[1]);
 }
 
@@ -1100,12 +1100,13 @@ function OpDOT::LengthOfExistingConnections(TileA, TileB)
 	//	create instance of road pathfinder
 	local pathfinder = RoadPathfinder();
 	//	pathfinder settings
-	pathfinder.cost.max_bridge_length = 9999;
+	pathfinder.Presets.ExistingCheck();
+/*	pathfinder.cost.max_bridge_length = 9999;
 	pathfinder.cost.max_tunnel_length = 9999;
 //	pathfinder.cost.no_existing_road = pathfinder.cost.max_cost;	// only use exisiting roads
 	pathfinder.cost.only_existing_roads = true;
 	pathfinder.cost.distance_penalty = max(this._PathfinderDistancePenalty, 1);
-	
+*/	
 	pathfinder.InitializePath([TileA], [TileB]);
 	
 	local path = false;
@@ -1114,7 +1115,7 @@ function OpDOT::LengthOfExistingConnections(TileA, TileB)
 		path = pathfinder.FindPath(this._PathFinderCycles);
 //					AIController.Sleep(1);
 		CycleCounter+=this._PathFinderCycles;
-		if (CycleCounter % 2000 == 0) {
+		if ((CycleCounter % 2000 < this._PathFinderCycles) || (this._PathFinderCycles > 2000)) {
 			//	A safety to make sure that the AI doesn't run out
 			//		of money while pathfinding...
 			Money.GreaseMoney();

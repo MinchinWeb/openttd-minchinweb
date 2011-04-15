@@ -529,7 +529,7 @@ function RoadWm::PresetCheckExisting() {
 	this._max_bridge_length = 9999;
 	this._max_tunnel_length = 9999;
 	this._cost_only_existing_roads = true;
-	this._distance_penalty = 1;
+	this._distance_penalty = 3;
 	this._road_type = AIRoad.ROADTYPE_ROAD;
 	return;
 }

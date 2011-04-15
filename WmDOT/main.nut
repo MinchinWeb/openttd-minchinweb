@@ -1,12 +1,13 @@
-﻿/*	WmDOT v.5  r.70 [2011-04-13]
+﻿/*	WmDOT v.5  r.79 [2011-04-15]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
-require("AyStar.WM.nut");			//	A* Graph
+// require("AyStar.WM.nut");			//	A* Graph
 									//	Requires "Binary_Heap" Library v.1
-require("Road.Pathfinder.WM.nut");	//	class RoadPathfinder
+// require("Road.Pathfinder.WM.nut");	//	class RoadPathfinder
 
+import("pathfinder.roadwm", "RoadPathfinder", 6);
 import("util.superlib", "SuperLib", 7);		//	For loan management
 	SLMoney <- SuperLib.Money;
 
@@ -18,7 +19,7 @@ require("OpMoney.nut");				//	Operation Money
 require("OpLog.nut");				//	Operation Log
 require("TownRegistrar.nut");		//	Town Registrar
 require("Neighbourhood.nut");		//	Neighbourhood Class	
-require("Fibonacci.Heap.WM.nut");	//	Fibonacci Heap (Max)
+// require("Fibonacci.Heap.WM.nut");	//	Fibonacci Heap (Max)
 		
 
  
@@ -28,7 +29,7 @@ require("Fibonacci.Heap.WM.nut");	//	Fibonacci Heap (Max)
 	WmDOTv = 5;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 70;
+	WmDOTr = 79;
 	/*	Reversion number of AI
 	 */
 	 
@@ -108,14 +109,14 @@ function WmDOT::StartInfo()
 //	By placing classes here that need to be created to get their info, we
 //		destroy them right away (which double to clean up the bug report
 //		screens and to free up a little bit of memory)
-	local MyAyStar = AyStarInfo();
-	Log.Note("     " + MyAyStar.GetName() + ", v." + MyAyStar.GetVersion() + " r." + MyAyStar.GetRevision() + "  loaded!",0);
+//	local MyAyStar = AyStarInfo();
+//	Log.Note("     " + MyAyStar.GetName() + ", v." + MyAyStar.GetVersion() + " r." + MyAyStar.GetRevision() + "  loaded!",0);
 	local MyRoadPathfiner = RoadPathfinder();
-	Log.Note("     " + MyRoadPathfiner.GetName() + ", v." + MyRoadPathfiner.GetVersion() + " r." + MyRoadPathfiner.GetRevision() + "  loaded!",0);	
+	Log.Note("     " + MyRoadPathfiner.Info.GetName() + ", v." + MyRoadPathfiner.Info.GetVersion() + " r." + MyRoadPathfiner.Info.GetRevision() + "  loaded!",0);	
 	local MyNeighbourhood = NeighbourhoodInfo();
 	Log.Note("     " + MyNeighbourhood.GetName() + ", v." + MyNeighbourhood.GetVersion() + " r." + MyNeighbourhood.GetRevision() + "  loaded!",0);
-	local FHI = Fibonacci_Heap_Info();
-	Log.Note("     " + FHI.GetName() + ", v." + FHI.GetVersion() + " r." + FHI.GetRevision() + "  loaded!",0);
+//	local FHI = Fibonacci_Heap_Info();
+//	Log.Note("     " + FHI.GetName() + ", v." + FHI.GetVersion() + " r." + FHI.GetRevision() + "  loaded!",0);
 }
 
 function WmDOT::NameWmDOT()

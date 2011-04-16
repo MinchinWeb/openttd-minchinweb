@@ -55,5 +55,7 @@ require("Pathfinder.Road.nut");
 // require("Fibonacci.Heap.WM.nut");
 
 class MetaLib {
-	static RoadPathfinder = _MetaLib_RoadPathfinder_;
+	static RoadPathfinder = _MetaLib_RoadPathfinder_;	
 }
+
+//	requires AyStar v4

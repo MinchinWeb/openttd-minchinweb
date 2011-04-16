@@ -497,7 +497,7 @@ function _MetaLib_RoadPathfinder_::PresetPerfectPath() {
 	this._road_type = AIRoad.ROADTYPE_ROAD;
 	return;
 }
-function _MetaLib_RoadPathfinder_::PresetDirty() {
+function _MetaLib_RoadPathfinder_::PresetQuickAndDirty() {
 //	quick but messy preset. Runs in as little as 5% of the time of
 //		'PerfectPath', but builds odd bridges and loops
 	this._max_cost = 100000;

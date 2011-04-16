@@ -21,3 +21,8 @@ function _MetaLib_Extras_::DistanceShip(TileA, TileB)
 //		and then finish up the trip by going along a cardinal direction
 	return ((AIMap.GetDistanceManhattan(TileA, TileB) - AIMap.DistanceMax(TileA, TileB)) * 0.4 + AIMap.DistanceMax(TileA, TileB))
 }
+
+//	_MetaLib_Extras_.MidPoint(TileA, TileB)
+
+//	_MetaLib_Extras_.Perpendicular(SlopeIn)
+

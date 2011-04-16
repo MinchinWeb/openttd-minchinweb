@@ -1,8 +1,8 @@
-/*	Array SubLibrary, v.2 r.89 [2011-04-16],
+﻿/*	Array SubLibrary, v.2 r.89 [2011-04-16],
  *	part of Minchinweb's MetaLibrary v1, r86, [2011-04-16],
  *	originally part of WmDOT v.5  r.53d	[2011-04-09]
  *		and WmArray library v.1  r.1 [2011-02-13].
- *	Copyright � 2011 by W. Minchin. For more info,
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
@@ -19,7 +19,7 @@
  *					 .Find2D(InArray, SearchValue)
  *					 .Find3D(InArray, SearchValue)
  *					 .RemoveValueAt(InArray, Index)
- *					 .AddValueAt(InArray, Index, Value)
+ *					 .InsertValueAt(InArray, Index, Value)
  */
  
 class _MetaLib_Array_ {
@@ -241,7 +241,7 @@ function _MetaLib_Array_::RemoveValueAt(InArray, Index)
 	return Return;	
 }
 
-function _MetaLib_Array_::AddValueAt(InArray, Index, Value)
+function _MetaLib_Array_::InsertValueAt(InArray, Index, Value)
 {
 //	Adds 'Value' to the 'InArray' at the given 'Index'. The rest of the array
 //		is shift one place to the right. The returned array is thus 1 longer

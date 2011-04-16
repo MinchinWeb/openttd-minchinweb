@@ -1,6 +1,6 @@
-/*	Minchinweb's MetaLibrary v.1 r.89 [2011-04-16],  
+﻿/*	Minchinweb's MetaLibrary v.1 r.91 [2011-04-16],  
  *	originally part of, WmDOT v.6
- *	Copyright � 2011 by W. Minchin. For more info,
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
@@ -9,16 +9,18 @@ require("Pathfinder.Road.nut");
 require("Arrays.nut");
 // require("Fibonacci.Heap.WM.nut");
 require("Extras.nut")
-require("Pathfinder.Ship.nut")
+//require("Pathfinder.Ship.nut")
+require("Waterbody.Check.nut")
 
 class MetaLib {
 	static RoadPathfinder = _MetaLib_RoadPathfinder_;
-	static ShipPathfinder = _MetaLib_ShipPathfinder_;	
+//	static ShipPathfinder = _MetaLib_ShipPathfinder_;	
 	static Array = _MetaLib_Array_;
 	static Extras = _MetaLib_Extras_;
+	static WaterbodyCheck = _MetaLib_Waterbody_Check_;
 }
  
-/*	Q:	What is MetaLib?
+/*	Q:	What is MetaLibrary?
  *	A:	MetaLib is the collection of code I've written for WmDOT, my AI for
  *			OpenTTD, that I felt should properly be in a library. I also hope
  *			will this code will help some aspiring AI writer get off the ground
@@ -28,8 +30,8 @@ class MetaLib {
  *	A:	Import the main library, and then create global points to the
  *			sublibaries you want to use. Eg:
  *		
- *			Import("util.metalib", "MetaLib", 1);
- *			Arrays <- MetaLib.Arrays;
+ *			Import("util.metalib", "MetaLibrary", 1);
+ *			Arrays <- MetaLibrary.Arrays;
  *
  *	Info:	See the sub-library files for the functions available and their
  *				implementation.
@@ -62,6 +64,3 @@ class MetaLib {
  *		model, to all the NoAI team to their work on making the AI system work,
  *		and to everyone that has brought us the amazing game of OpenTTD.
  */
-
-//	requires AyStar v4
-//	requires Fibonacci Heap v2

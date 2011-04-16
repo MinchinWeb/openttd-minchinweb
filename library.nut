@@ -1,6 +1,6 @@
-/*	Minchinweb's MetaLibrary v.1 r.90 [2011-04-16],  
+﻿/*	Minchinweb's MetaLibrary v.1 r.90 [2011-04-16],  
  *	originally part of, WmDOT v.6
- *	Copyright � 2011 by W. Minchin. For more info,
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
@@ -19,3 +19,6 @@ class MetaLib extends AILibrary {
 }
 
 RegisterLibrary(MetaLib());
+
+//	requires AyStar v6
+//	requires Fibonacci Heap v2

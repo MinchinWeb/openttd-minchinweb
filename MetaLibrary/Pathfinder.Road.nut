@@ -25,29 +25,32 @@
 //	Requires Graph.AyStar v4 library
 
 //	This file provides functions:
-//		_MetaLib_RoadPathfinder_.InitializePath(sources, goals)	//	Set up the pathfinder
-//		_MetaLib_RoadPathfinder_.FindPath(iterations)				//	Run the pathfinder; returns false if it isn't finished
-//												//		the path if it has finished, and null if it can't
-//												//		find a path
-//		_MetaLib_RoadPathfinder_.cost.[xx]						//	Allows you to set or find out the pathfinder costs 
-//												//		directly. See the function below for valid entries
-//		_MetaLib_RoadPathfinder_.Info.GetVersion()				//	Useful for check provided version or debugging screen output
-//				   .GetMinorVersion()
-//				   .GetRevision()
-//				   .GetDate()
-//				   .GetName()
-//		_MetaLib_RoadPathfinder_.PresetOriginal()				//	Presets for the pathfinder parameters
-//				.PresetPerfectPath()
-//				.PresetDirty()
-//				.PresetCheckExisting()
-//				.PresetStreetcar() 
-//		_MetaLib_RoadPathfinder_.GetBuildCost()					//	How much would it be to build the path?
-//		_MetaLib_RoadPathfinder_.BuildPath()						//	Build the path
-//		_MetaLib_RoadPathfinder_.GetPathLength()					//	How long is the path?
-//		_MetaLib_RoadPathfinder_.LoadPath(Path)					//	Provide your own path
-//		_MetaLib_RoadPathfinder_.InitializePathOnTowns(StartTown, EndTown)
-//												//	Initializes the pathfinder using the seed tiles to the
-//												//		given towns
+//		MetaLib.RoadPathfinder.InitializePath(sources, goals)
+			//	Set up the pathfinder
+//		MetaLib.RoadPathfinder.FindPath(iterations)	
+			//	Run the pathfinder; returns false if it isn't finished the path
+			//		 if it has finished, and null if it can't find a path
+//		MetaLib.RoadPathfinder.cost.[xx]
+			//	Allows you to set or find out the pathfinder costs directly.
+//			//		 See the function below for valid entries
+//		MetaLib.RoadPathfinder.Info.GetVersion()
+//									.GetMinorVersion()
+//									.GetRevision()
+//									.GetDate()
+//									.GetName()
+			//	Useful for check provided version or debugging screen output
+//		MetaLib.RoadPathfinder.PresetOriginal()
+//								.PresetPerfectPath()
+//								.PresetDirty()
+//								.PresetCheckExisting()
+//								.PresetStreetcar() 
+			//	Presets for the pathfinder parameters
+//		MetaLib.RoadPathfinder.GetBuildCost()					//	How much would it be to build the path?
+//		MetaLib.RoadPathfinder.BuildPath()						//	Build the path
+//		MetaLib.RoadPathfinder.GetPathLength()					//	How long is the path?
+//		MetaLib.RoadPathfinder.LoadPath(Path)					//	Provide your own path
+//		MetaLib.RoadPathfinder.InitializePathOnTowns(StartTown, EndTown)
+//			//	Initializes the pathfinder using the seed tiles to the given towns	
 
 class _MetaLib_RoadPathfinder_
 {
@@ -109,6 +112,7 @@ class _MetaLib_RoadPathfinder_
 			nsources.push([node, 0xFF]);
 		}
 		this._pathfinder.InitializePath(nsources, goals);
+		this._mypath = null;
 	}
 
 	/**

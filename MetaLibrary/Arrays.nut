@@ -1,4 +1,4 @@
-/*	Array SubLibrary, v.2 r.88 [2011-04-16],
+/*	Array SubLibrary, v.2 r.89 [2011-04-16],
  *	part of Minchinweb's MetaLibrary v1, r86, [2011-04-16],
  *	originally part of WmDOT v.5  r.53d	[2011-04-09]
  *		and WmArray library v.1  r.1 [2011-02-13].

@@ -1,7 +1,7 @@
-/*	RoadPathfinder v.6 r.91 [2011-04-16],
+﻿/*	RoadPathfinder v.6 r.91 [2011-04-16],
  *	part of Minchinweb's MetaLibrary v1, r91, [2011-04-16],
  *	originally part of WmDOT v.4  r.50 [2011-04-06]
- *	Copyright � 2011 by W. Minchin. For more info,
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
@@ -22,7 +22,7 @@
  *  'true'.
  */
  
-//	Requires Graph.AyStar v4 library
+//	Requires Graph.AyStar v6 library
 
 //	This file provides functions:
 //		MetaLib.RoadPathfinder.InitializePath(sources, goals)

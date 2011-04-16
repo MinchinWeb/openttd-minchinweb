@@ -3,11 +3,8 @@
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
-// require("AyStar.WM.nut");			//	A* Graph
-									//	Requires "Binary_Heap" Library v.1
-// require("Road.Pathfinder.WM.nut");	//	class RoadPathfinder
-
-import("pathfinder.roadwm", "RoadPathfinder", 6);
+import("util.MetaLib", "MetaLib", 1);
+	RoadPathfinder <- MetaLib.RoadPathfinder;
 import("util.superlib", "SuperLib", 7);		//	For loan management
 	SLMoney <- SuperLib.Money;
 

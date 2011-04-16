@@ -1,5 +1,5 @@
 ﻿/*	OperationDOT v.3, part of 
- *	WmDOT v.6  r.81  [2011-04-15]
+ *	WmDOT v.6  r.89  [2011-04-16]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -35,8 +35,8 @@
 
  class OpDOT {
 	function GetVersion()       { return 3; }
-	function GetRevision()		{ return 81; }
-	function GetDate()          { return "2011-04-15"; }
+	function GetRevision()		{ return 89; }
+	function GetDate()          { return "2011-04-16"; }
 	function GetName()          { return "Operation DOT"; }
  
 	_SleepLength = null;
@@ -442,7 +442,7 @@ function OpDOT::GenerateAtlas(WmTownArray)
 		WmAtlas[i]=TempArray;
 	}
 
-	Log.Note(ToSting2DArray(WmAtlas), 4);
+	Log.Note(Array.ToSting2D(WmAtlas), 4);
 
 	return WmAtlas;
 }
@@ -475,7 +475,7 @@ function OpDOT::RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, Mode)
 				}
 			}
 			
-			Log.Note(ToSting2DArray(WmAtlas), 4);
+			Log.Note(Array.ToSting2D(WmAtlas), 4);
 			Log.Note(Count + " routes removed. Took " + (AIController.GetTick() - tick) + " ticks.",3);
 			return WmAtlas;
 		case 3:
@@ -484,7 +484,7 @@ function OpDOT::RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, Mode)
 			Log.Note("     Removing towns not indirectly connected to the capital...", 2);
 			WmAtlas = MirrorAtlas(WmAtlas);		//	Thus it doesn't matter if the HQ town is not the first on the list
 			for (local i = 0; i < WmAtlas.len(); i++ ) {
-				if (!ContainedIn2DArray(ConnectedPairs, WmAtlas[i][0])) {
+				if (!Array.ContainedIn2D(ConnectedPairs, WmAtlas[i][0])) {
 					for (local j=1; j < WmAtlas[i].len(); j++ ) {
 						if (WmAtlas[i][j] != 0) {		//	Avoid alredy zeroed entries
 							WmAtlas[i][j] = 0;
@@ -494,7 +494,7 @@ function OpDOT::RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, Mode)
 				}
 			}			
 			
-			Log.Note(ToSting2DArray(WmAtlas), 4);
+			Log.Note(Array.ToSting2D(WmAtlas), 4);
 			Log.Note(Count + " routes removed. Took " + (AIController.GetTick() - tick) + " ticks.", 3);
 			return WmAtlas;
 		default:
@@ -536,7 +536,7 @@ function OpDOT::RemoveBuiltConnections(WmAtlas, ConnectedPairs)
 		Count++;
 	}
 	
-	Log.Note(ToSting2DArray(WmAtlas), 4);
+	Log.Note(Array.ToSting2D(WmAtlas), 4);
 	Log.Note(Count + " routes removed. Took " + (AIController.GetTick() - tick) + " ticks.", 3);
 
 	return WmAtlas;
@@ -567,7 +567,7 @@ function OpDOT::RemoveOverDistance(WmAtlas, MaxDistance)
 			}
 		}
 	}
-	Log.Note(ToSting2DArray(WmAtlas),4);
+	Log.Note(Array.ToSting2D(WmAtlas),4);
 	Log.Note(Count + " routes removed. Took " + (AIController.GetTick() - tick) + " ticks.", 3);
 
 	return WmAtlas;
@@ -606,7 +606,7 @@ function OpDOT::ApplyTripGenerationModel(WmAtlas)
 			WmAtlas[i][j] = FactorTemp;
 		}
 	}
-	Log.Note(ToSting2DArray(WmAtlas), 4);
+	Log.Note(Array.ToSting2D(WmAtlas), 4);
 	return WmAtlas
 }
 
@@ -714,7 +714,7 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 		}
 	}
 	
-	Log.Note(ToSting2DArray(WmAtlas),4);
+	Log.Note(Array.ToSting2D(WmAtlas),4);
 	
 	tick = AIController.GetTick() - tick;
 	Log.Note(RemovedCount + " of " + ExaminedCount + " routes removed. Took " + tick + " tick(s).", 3);

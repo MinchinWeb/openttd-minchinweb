@@ -1,10 +1,10 @@
-/*	WmBasic v.1  r.95
+/*	WmBasic v.1  r.96
  *	Created by W. Minchin
  */
  
 import("util.MetaLib", "MetaLib", 1);
  
-class WmBasic extends AIController 
+class WmShipPFTest extends AIController 
 {
 	//	SETTINGS
 	WmBasicv = 1;
@@ -14,7 +14,7 @@ class WmBasic extends AIController
 	/*	Reversion number of AI
 	 */
 	 
-	SleepLength = 50;
+	SleepLength = 5;
 	/*	Controls how many ticks the AI sleeps between iterations.
 	 */
 	 
@@ -39,12 +39,15 @@ function WmShipPFTest::Start()
 	while (true) {
 		Start = MetaLib.Extras.SignLocation("Start");
 		End = MetaLib.Extras.SignLocation("End");
+		//	To DO: Change the signs above so that the pathfinder doesn't keep running
 		
 		if ( (Start != null) && (End != null) ) {
+			AILog.Info("Starting pathfinder...");
 			tick = AIController.GetTick();
-			MetaLib.WaterbodyCheck.Initialize(Start, End);
-			local Result = MetaLib.WaterbodyCheck.FindPath(-1);
-			AILog.Info("Path from " + AIMap.GetTileX(Start) + "," + AIMap.GetTileY(Start) + " to " + AIMap.GetTileX(End) + "," + AIMap.GetTileY(End) + " returns " + Result + ". Took " (AIController.GetTick() - tick) + " ticks." )
+			local PF = MetaLib.WaterbodyCheck();
+			PF.InitializePath([Start], [End]);
+			local Result = PF.FindPath(-1);
+			AILog.Info("Path from " + AIMap.GetTileX(Start) + "," + AIMap.GetTileY(Start) + " to " + AIMap.GetTileX(End) + "," + AIMap.GetTileY(End) + ". Length " + (PF.GetPathLength()) + ". Took " + (AIController.GetTick() - tick) + " ticks." );
 			AILog.Info(" ");
 			Start = null;
 			End = null;

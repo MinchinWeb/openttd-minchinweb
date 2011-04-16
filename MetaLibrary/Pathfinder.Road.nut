@@ -1,5 +1,5 @@
-/*	RoadPathfinder v.6 r.79 [2011-04-15],
- *	part of Minchinweb's MetaLibrary v1, r81, [2011-04-16],
+/*	RoadPathfinder v.6 r.91 [2011-04-16],
+ *	part of Minchinweb's MetaLibrary v1, r91, [2011-04-16],
  *	originally part of WmDOT v.4  r.50 [2011-04-06]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -54,7 +54,7 @@
 
 class _MetaLib_RoadPathfinder_
 {
-	_aystar_class = import("graph.aystar", "", 4);
+	_aystar_class = import("graph.aystar", "", 6);
 	_max_cost = null;              ///< The maximum cost for a route.
 	_cost_tile = null;             ///< The cost for a single tile.
 	_cost_no_existing_road = null; ///< The cost that is added to _cost_tile if no road exists yet.
@@ -88,7 +88,8 @@ class _MetaLib_RoadPathfinder_
 		this._max_bridge_length = 10;
 		this._max_tunnel_length = 20;
 		this._cost_only_existing_roads = false;
-		this._pathfinder = this._aystar_class(this._Cost, this._Estimate, this._Neighbours, this._CheckDirection, this, this, this, this);
+//		this._pathfinder = this._aystar_class(this._Cost, this._Estimate, this._Neighbours, this._CheckDirection, this, this, this, this);
+		this._pathfinder = this._aystar_class(this, this._Cost, this._Estimate, this._Neighbours, this._CheckDirection);
 		this._distance_penalty = 1;
 		this._road_type = AIRoad.ROADTYPE_ROAD;
 		this._mypath = null;
@@ -211,7 +212,7 @@ function _MetaLib_RoadPathfinder_::_GetBridgeNumSlopes(end_a, end_b)
 	return slopes;
 }
 
-function _MetaLib_RoadPathfinder_::_Cost(path, new_tile, new_direction, self)
+function _MetaLib_RoadPathfinder_::_Cost(self, path, new_tile, new_direction)
 {
 	/* path == null means this is the first node of a path, so the cost is 0. */
 	if (path == null) return 0;
@@ -268,7 +269,7 @@ function _MetaLib_RoadPathfinder_::_Cost(path, new_tile, new_direction, self)
 	return path.GetCost() + cost;
 }
 
-function _MetaLib_RoadPathfinder_::_Estimate(cur_tile, cur_direction, goal_tiles, self)
+function _MetaLib_RoadPathfinder_::_Estimate(self, cur_tile, cur_direction, goal_tiles)
 {
 	local min_cost = self._max_cost;
 	/* As estimate we multiply the lowest possible cost for a single tile with
@@ -279,7 +280,7 @@ function _MetaLib_RoadPathfinder_::_Estimate(cur_tile, cur_direction, goal_tiles
 	return min_cost;
 }
 
-function _MetaLib_RoadPathfinder_::_Neighbours(path, cur_node, self)
+function _MetaLib_RoadPathfinder_::_Neighbours(self, path, cur_node)
 {
 	/* self._max_cost is the maximum path cost, if we go over it, the path isn't valid. */
 	if (path.GetCost() >= self._max_cost) return [];
@@ -332,7 +333,7 @@ function _MetaLib_RoadPathfinder_::_Neighbours(path, cur_node, self)
 	return tiles;
 }
 
-function _MetaLib_RoadPathfinder_::_CheckDirection(tile, existing_direction, new_direction, self)
+function _MetaLib_RoadPathfinder_::_CheckDirection(self, tile, existing_direction, new_direction)
 {
 	return false;
 }
@@ -734,19 +735,8 @@ function _MetaLib_RoadPathfinder_::GetPathLength()
 		AILog.Warning("You have tried to get the length of a 'null' path.");
 		return false;
 	}
-
-	local Length = 0;
-	local Path = this._mypath;
-
-	while (Path != null) {
-		local SubPath = Path.GetParent();
-		if (SubPath != null) {
-			Length += AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile())
-		}
-		Path = SubPath;
-	}
 	
-	return Length;
+	return _mypath.GetLength();
 }
 
 function _MetaLib_RoadPathfinder_::InitializePathOnTowns(StartTown, EndTown)

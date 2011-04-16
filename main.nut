@@ -1,4 +1,4 @@
-/*	Minchinweb's MetaLibrary v.1 r.86 [2011-04-16],  
+/*	Minchinweb's MetaLibrary v.1 r.89 [2011-04-16],  
  *	originally part of, WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -8,10 +8,14 @@ require("Pathfinder.Road.nut");
 // require("AyStar.WM.nut");
 require("Arrays.nut");
 // require("Fibonacci.Heap.WM.nut");
+require("Extras.nut")
+require("Pathfinder.Ship.nut")
 
 class MetaLib {
-	static RoadPathfinder = _MetaLib_RoadPathfinder_;	
+	static RoadPathfinder = _MetaLib_RoadPathfinder_;
+	static ShipPathfinder = _MetaLib_ShipPathfinder_;	
 	static Array = _MetaLib_Array_;
+	static Extras = _MetaLib_Extras_;
 }
  
 /*	Q:	What is MetaLib?
@@ -60,3 +64,4 @@ class MetaLib {
  */
 
 //	requires AyStar v4
+//	requires Fibonacci Heap v2

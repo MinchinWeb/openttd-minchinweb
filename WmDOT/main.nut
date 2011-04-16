@@ -1,14 +1,15 @@
-﻿/*	WmDOT v.5  r.79 [2011-04-15]
+﻿/*	WmDOT v.5  r.89 [2011-04-16]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
 import("util.MetaLib", "MetaLib", 1);
 	RoadPathfinder <- MetaLib.RoadPathfinder;
+	Array <- MetaLib.Array;
 import("util.superlib", "SuperLib", 7);		//	For loan management
 	SLMoney <- SuperLib.Money;
 
-require("Arrays.nut");				//	My Array library
+// require("Arrays.nut");				//	My Array library
 									//		I need to play with this more to
 									//		get it to work the way I want		
 require("OpDOT.nut");				//	OperationDOT
@@ -26,7 +27,7 @@ require("Neighbourhood.nut");		//	Neighbourhood Class
 	WmDOTv = 5;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 79;
+	WmDOTr = 89;
 	/*	Reversion number of AI
 	 */
 	 
@@ -393,7 +394,7 @@ function WmDOT::BuildWmHQ()
 	local HQTown = AITown();	
 	HQTown = WmTownList.Begin();
 	
-	while (ContainedIn1DArray(DotHQList, HQTown)) {
+	while (Array.ContainedIn1D(DotHQList, HQTown)) {
 		Log.Note("Failed best for HQTown " + HQTown + ".",3);
 		HQTown = WmTownList.Next();
 	}

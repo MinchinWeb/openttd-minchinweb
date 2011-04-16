@@ -22,6 +22,10 @@
  *					 .AddValueAt(InArray, Index, Value)
  */
  
+class _MetaLib_Array_ {
+	main = null;
+}
+
 function _MetaLib_Array_::Create1D(length)
 {
     return array[length];

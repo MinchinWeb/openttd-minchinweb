@@ -12,8 +12,8 @@
  *		generating alternate connections. No revenue stream.
  */ 
  
-//	Requires SuperLib v7 or better
-//	Requires Pathfinder.RoadWM library v6
+//	Requires SuperLib v7
+//	Requires MetaLib v1
 //	Requires "OpLog.nut"
 //	Requires "OpMoney.nut"
 //		Note that OpDOT runs a seperate money manager from the main program
@@ -817,7 +817,7 @@ function OpDOT::RunPathfinder(Start, End)
 	
 	AIRoad.SetCurrentRoadType(this._RoadType);
 	local pathfinder = RoadPathfinder();
-	pathfinder.PresetDirty();					//	Set Parameters
+	pathfinder.PresetQuickAndDirty();					//	Set Parameters
 	pathfinder.InitializePath([Start], [End]);	// Give the source and goal tiles to the pathfinder.
 	
 	local path = false;
@@ -866,7 +866,7 @@ function OpDOT::LengthOfExistingConnections(TileA, TileB)
 	tick = AIController.GetTick();
 	
 	local pathfinder = RoadPathfinder();	//	create instance of road pathfinder
-	pathfinder.Presets.ExistingCheck();		//	pathfinder settings
+	pathfinder.PresetExistingCheck();		//	pathfinder settings
 	pathfinder.InitializePath([TileA], [TileB]);
 	
 	local path = false;

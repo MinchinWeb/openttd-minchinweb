@@ -1,4 +1,4 @@
-/*	WmBasic v.1  r.1
+/*	WmBasic v.1  r.95
  *	Created by W. Minchin
  */
  
@@ -10,7 +10,7 @@ class WmBasic extends AIController
 	WmBasicv = 1;
 	/*	Version number of AI
 	 */	
-	WmBasicr = 94;
+	WmBasicr = 95;
 	/*	Reversion number of AI
 	 */
 	 
@@ -35,11 +35,13 @@ function WmShipPFTest::Start()
 	// Keep us going forever
 	local Start;
 	local End;
+	local tick;
 	while (true) {
 		Start = MetaLib.Extras.SignLocation("Start");
 		End = MetaLib.Extras.SignLocation("End");
 		
 		if ( (Start != null) && (End != null) ) {
+			tick = AIController.GetTick();
 			MetaLib.WaterbodyCheck.Initialize(Start, End);
 			local Result = MetaLib.WaterbodyCheck.FindPath(-1);
 			AILog.Info("Path from " + AIMap.GetTileX(Start) + "," + AIMap.GetTileY(Start) + " to " + AIMap.GetTileX(End) + "," + AIMap.GetTileY(End) + " returns " + Result + ". Took " (AIController.GetTick() - tick) + " ticks." )

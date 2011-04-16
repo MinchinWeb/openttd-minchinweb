@@ -1,8 +1,18 @@
-/*	Minchinweb's MetaLibrary v.1 r.82 [2011-04-16],  
+/*	Minchinweb's MetaLibrary v.1 r.86 [2011-04-16],  
  *	originally part of, WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
+ 
+require("Pathfinder.Road.nut");
+// require("AyStar.WM.nut");
+require("Arrays.nut");
+// require("Fibonacci.Heap.WM.nut");
+
+class MetaLib {
+	static RoadPathfinder = _MetaLib_RoadPathfinder_;	
+	static Array = _MetaLib_Array_;
+}
  
 /*	Q:	What is MetaLib?
  *	A:	MetaLib is the collection of code I've written for WmDOT, my AI for
@@ -48,14 +58,5 @@
  *		model, to all the NoAI team to their work on making the AI system work,
  *		and to everyone that has brought us the amazing game of OpenTTD.
  */
- 
-require("Pathfinder.Road.nut");
-// require("AyStar.WM.nut");
-// require("Arrays.nut");
-// require("Fibonacci.Heap.WM.nut");
-
-class MetaLib {
-	static RoadPathfinder = _MetaLib_RoadPathfinder_;	
-}
 
 //	requires AyStar v4

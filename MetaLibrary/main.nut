@@ -1,4 +1,4 @@
-﻿/*	Minchinweb's MetaLibrary v.1 r.91 [2011-04-16],  
+﻿/*	Minchinweb's MetaLibrary v.1 r.97 [2011-04-16],  
  *	originally part of, WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -8,16 +8,16 @@ require("Pathfinder.Road.nut");
 // require("AyStar.WM.nut");
 require("Arrays.nut");
 // require("Fibonacci.Heap.WM.nut");
-require("Extras.nut")
-//require("Pathfinder.Ship.nut")
-require("Waterbody.Check.nut")
+require("Extras.nut");
+// require("Pathfinder.Ship.nut")
+require("Waterbody.Check.nut");
 
 class MetaLib {
 	static RoadPathfinder = _MetaLib_RoadPathfinder_;
 //	static ShipPathfinder = _MetaLib_ShipPathfinder_;	
 	static Array = _MetaLib_Array_;
 	static Extras = _MetaLib_Extras_;
-	static WaterbodyCheck = _MetaLib_Waterbody_Check_;
+	static WaterbodyCheck = _MetaLib_WBC_;
 }
  
 /*	Q:	What is MetaLibrary?

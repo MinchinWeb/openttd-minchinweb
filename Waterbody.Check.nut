@@ -1,5 +1,5 @@
-﻿/*	Waterbody Check v.1 r.90 [2011-04-16],
- *	part of Minchinweb's MetaLibrary v1, r90, [2011-04-16],
+﻿/*	Waterbody Check v.1 r.97 [2011-04-16],
+ *	part of Minchinweb's MetaLibrary v1, r97, [2011-04-16],
  *	originally part of WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -14,18 +14,20 @@
  *	It is based on the NoAI Team's Road Pathfinder v3.
  */
  
-class _MetaLib_WaterBody_Check_
+class _MetaLib_WBC_
 {
 	_aystar_class = import("graph.aystar", "", 6);
 	_max_tiles = null;              ///< The maximum cost for a route.
 	_distance_penalty = null;		///< Penalty to use to speed up pathfinder, 1 is no penalty
+	_pathfinder = null;
 	cost = null;                   ///< Used to change the costs.
 	_running = null;
+	_mypath = null;
 	
 	constructor()
 	{
 		this._max_tiles = 16000;
-		this._distance_penalty = 5;
+		this._distance_penalty = 1;
 		
 		this._pathfinder = this._aystar_class(this, this._Cost, this._Estimate, this._Neighbours, this._CheckDirection);
 		this.cost = this.Cost(this);
@@ -45,6 +47,7 @@ class _MetaLib_WaterBody_Check_
 			nsources.push([node, 0xFF]);
 		}
 		this._pathfinder.InitializePath(nsources, goals);
+		this._mypath = null;
 
 	}
 
@@ -62,7 +65,7 @@ class _MetaLib_WaterBody_Check_
 	function FindPath(iterations);
 };
 
-class _MetaLib_WaterBody_Check_.Cost
+class _MetaLib_WBC_.Cost
 {
 	_main = null;
 
@@ -94,15 +97,16 @@ class _MetaLib_WaterBody_Check_.Cost
 	}
 };
 
-function _MetaLib_WaterBody_Check_::FindPath(iterations)
+function _MetaLib_WBC_::FindPath(iterations)
 {
 	local ret = this._pathfinder.FindPath(iterations);
 	this._running = (ret == false) ? true : false;
+	if (this._running == false) { this._mypath = ret; }
 	return ret;
 }
 
 
-function _MetaLib_WaterBody_Check_::_Cost(self, path, new_tile, new_direction)
+function _MetaLib_WBC_::_Cost(self, path, new_tile, new_direction)
 {
 	/* path == null means this is the first node of a path, so the cost is 0. */
 	if (path == null) return 0;
@@ -117,7 +121,7 @@ function _MetaLib_WaterBody_Check_::_Cost(self, path, new_tile, new_direction)
 	return path.GetCost() + cost;
 }
 
-function _MetaLib_WaterBody_Check_::_Estimate(self, cur_tile, cur_direction, goal_tiles)
+function _MetaLib_WBC_::_Estimate(self, cur_tile, cur_direction, goal_tiles)
 {
 	local min_cost = 1;
 	/* As estimate we multiply the lowest possible cost for a single tile with
@@ -128,10 +132,10 @@ function _MetaLib_WaterBody_Check_::_Estimate(self, cur_tile, cur_direction, goa
 	return min_cost;
 }
 
-function _MetaLib_WaterBody_Check_::_Neighbours(self, path, cur_node)
+function _MetaLib_WBC_::_Neighbours(self, path, cur_node)
 {
 	/* self._max_cost is the maximum path cost, if we go over it, the path isn't valid. */
-	if (path.GetCost() >= self._max_cost) return [];
+	if (path.GetCost() >= self._max_tiles) return [];
 	local tiles = [];
 
 	local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
@@ -146,12 +150,12 @@ function _MetaLib_WaterBody_Check_::_Neighbours(self, path, cur_node)
 	return tiles;
 }
 
-function _MetaLib_WaterBody_Check_::_CheckDirection(self, tile, existing_direction, new_direction)
+function _MetaLib_WBC_::_CheckDirection(self, tile, existing_direction, new_direction)
 {
 	return false;
 }
 
-function _MetaLib_WaterBody_Check_::_GetDirection(from, to)
+function _MetaLib_WBC_::_GetDirection(from, to)
 {
 	if (AITile.GetSlope(to) == AITile.SLOPE_FLAT) return 0xFF;
 	if (from - to == 1) return 1;
@@ -160,3 +164,17 @@ function _MetaLib_WaterBody_Check_::_GetDirection(from, to)
 	if (from - to == -AIMap.GetMapSizeX()) return 8;
 }
 
+function _MetaLib_WBC_::GetPathLength()
+{
+//  Runs over the path to determine its length
+    if (this._running) {
+        AILog.Warning("You can't get the path length while there's a running pathfinder.");
+        return false;
+    }
+    if (this._mypath == null) {
+        AILog.Warning("You have tried to get the length of a 'null' path.");
+        return false;
+    }
+    
+    return _mypath.GetLength();
+}

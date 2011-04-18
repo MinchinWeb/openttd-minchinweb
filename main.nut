@@ -24,7 +24,7 @@ class WmShipPFTest extends AIController
   function Start();
 }
 
-function WmShipPFTest::Start()
+function WmShipPF::Start()
 {
 	AILog.Info("Welcome to WmBasic, version " + WmBasicv + ", revision " + WmBasicr + " by W. Minchin.");
 	AILog.Info("Copyright © 2011 by W. Minchin. For more info, please visit http://blog.minchin.ca")

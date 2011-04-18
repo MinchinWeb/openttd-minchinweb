@@ -195,4 +195,3 @@ function _MetaLib_WBC_::PresetSafety(Start, End)
 //	Caps the pathfinder as twice the Manhattan distance between the two tiles
 	this._max_cost = this._cost_per_tile * AIMap.DistanceManhattan(Start, End) * 2;
 }
-

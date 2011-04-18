@@ -1,5 +1,5 @@
-﻿/*	Array SubLibrary, v.2 r.89 [2011-04-16],
- *	part of Minchinweb's MetaLibrary v1, r86, [2011-04-16],
+﻿/*	Array SubLibrary, v.2 r.100 [2011-04-18],
+ *	part of Minchinweb's MetaLibrary v1, r100, [2011-04-18],
  *	originally part of WmDOT v.5  r.53d	[2011-04-09]
  *		and WmArray library v.1  r.1 [2011-02-13].
  *	Copyright © 2011 by W. Minchin. For more info,
@@ -20,6 +20,7 @@
  *					 .Find3D(InArray, SearchValue)
  *					 .RemoveValueAt(InArray, Index)
  *					 .InsertValueAt(InArray, Index, Value)
+ *					 .ToStingTiles1D(InArrayOfTiles)
  */
  
 class _MetaLib_Array_ {
@@ -257,4 +258,22 @@ function _MetaLib_Array_::InsertValueAt(InArray, Index, Value)
 		Return.push(InArray[i]);
 	}
 	return Return;	
+}
+
+function _MetaLib_Array_::ToStingTiles1D(InArrayOfTiles)
+{
+	//	Add error check that an array is provided
+	
+	if (InArrayOfTiles == null) {
+		return null;
+	} else {
+		local Length = InArrayOfTiles.len();
+		local i = 0;
+		local Temp = "";
+		while (i < InArrayOfTiles.len() ) {
+			Temp = Temp + "  " + AIMap.GetTileX(InArrayOfTiles[i]) + "," + AIMap.GetTileY(InArrayOfTiles[i]);
+			i++;
+		}
+		return ("The array is " + Length + " long.  " + Temp + " ");
+	}
 }

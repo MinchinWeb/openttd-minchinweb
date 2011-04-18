@@ -19,6 +19,8 @@
  *						  .Restart()
  *						  .Walk()
  *						  .IsEnd()
+ *						  .GetStart()
+ *						  .GetEnd()
  */
  
 class _MetaLib_LW_ {
@@ -32,11 +34,15 @@ class _MetaLib_LW_ {
 	_past_end = null;
 	_x = null;
 	_y = null;
+	_dirx = null;
 	_current_tile = null;
+	_infinity = null;
 	
 	constructor()
 	{
 		this._past_end = true;
+		this._infinity = 10000;	//	close enough to infinity :P
+								//	Slopes are capped at 10,000 and 1/10,000
 	}
 }
 
@@ -47,11 +53,22 @@ function _MetaLib_LW_::Start(Tile)
 	this._startx = AIMap.GetTileX(Tile);
 	this._starty = AIMap.GetTileY(Tile);
 	this._x = this._startx;
-	this._y = this._starty;
+	this._y = this._starty;	
 	this._past_end = false;
 	this._current_tile = AIMap.GetTileIndex(this._x, this._y);
-	if ((this._slope == null) && (this._end != null)) {
-		this.Slope(_MetaLib_Extras_.Slope(this._start, this._end));
+	this._x = this._x.tofloat();
+	this._y = this._y.tofloat();
+	
+	if (this._end != null) {
+		if (this._slope == null) {
+			this._slope = _MetaLib_Extras_.Slope(this._start, this._end);
+		}
+		
+		if (this._startx < this._endx) {
+			this._dirx = 1;		//	+1
+		} else {
+			this._dirx = -1;	//	-1
+		}
 	}
 }
 
@@ -62,21 +79,47 @@ function _MetaLib_LW_::End(Tile)
 	this._end = Tile;
 	this._endx = AIMap.GetTileX(Tile);
 	this._endy = AIMap.GetTileY(Tile);
-	if ((this._slope == null) && (this._start != null)) {
-		this.Slope(_MetaLib_Extras_.Slope(this._start, this._end));
+	
+	if (this._start != null) {
+		if (this._slope == null) {
+			this._slope = _MetaLib_Extras_.Slope(this._start, this._end);
+		}
+		
+		if (this._startx < this._endx) {
+			this._dirx = 1;		//	+1
+		} else {
+			this._dirx = -1;	//	-1
+		}
 	}
 }
 
-function _MetaLib_LW_::Slope(Slope)
+function _MetaLib_LW_::Slope(Slope, ThirdQuadrant = false)
 {
 //	Sets the slope for LineWalker
-	if (Slope > _MetaLib_Extras_._infinity) {
-		AILog.Warning("Slope is capped at " + _MetaLib_Extras_._infinity + ", you provided " + Slope + ".");
-		Slope = _MetaLib_Extras_._infinity;
+//	Assumes that the slope is in the first or second quadrant until ThirdQuadrant == true
+
+	if (abs(Slope) > this._infinity) {
+		AILog.Warning("Slope is capped at " + this._infinity + ", you provided " + Slope + ".");
+		Slope = this._infinity;
 	}
-	if (Slope < (1 / _MetaLib_Extras_._infinity)) {
-		AILog.Warning("Slope is capped at " + (1 / _MetaLib_Extras_._infinity) + ", you provided " + Slope + ".");
-		Slope = (1 / _MetaLib_Extras_._infinity);
+	if (abs(Slope) < (1 / this._infinity)) {
+		AILog.Warning("Slope is capped at " + (1 / this._infinity) + ", you provided " + Slope + ".");
+		Slope = (1 / this._infinity);
+	}
+	
+	if (Slope > 0) {
+		this._endy = this._infinity;
+	} else {
+		this._endy = -1 * this._infinity;
+	}
+	
+	if (ThirdQuadrant = false) {
+		this._dirx = 1;		//	+1
+		this._endx = this._infinity;
+	} else {
+		this._dirx = -1;	//	-1
+		this._endx = -1 * this._infinity;
+		this._endy = -1 * this._endy;
 	}
 	
 	this._slope = Slope;
@@ -116,31 +159,37 @@ function _MetaLib_LW_::Walk()
 	
 	if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(this._x.tointeger(), this._y.tointeger())) == 1 ) {
 		this._current_tile = AIMap.GetTileIndex(this._x.tointeger(), this._y.tointeger());
+		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) + " from " + this._x + "," + this._y );
 		return this._current_tile;
 	}
 	
-	//	_MetaLib_Extras_._infinity assumed to be 10,000
-	local RightAngle = _MetaLib_Extras_.Perpendicular(this._slope);
-	local multiplier = min(this._slope, RightAngle);
+	//	this._infinity assumed to be 10,000
+	local multiplier = 0.0;
 	
-	local NewX = this._x + multiplier;
-	local NewY = this._y + this._slope * multiplier;
+	multiplier = _MetaLib_Extras_.MinAbsFloat(1.0, _MetaLib_Extras_.Perpendicular(this._slope));
 	
-	if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(NewX.tointeger(), this._y.tointeger())) == 1 ) {
-		this._current_tile = AIMap.GetTileIndex(NewX.tointeger(), this._y.tointeger());
-
-	} else if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(NewX.tointeger(), NewY.tointeger())) == 1 ) {
+	local NewX = 0.0;
+	local NewY = 0.0;
+	NewX = this._x + this._slope * multiplier * -this._dirx;
+	NewY = this._y + multiplier * -this._dirx;
+	AILog.Info("Linewalker new : " + NewX + "," + NewY);
+	
+	if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(NewX.tointeger(), NewY.tointeger())) == 1 ) {
 		this._current_tile = AIMap.GetTileIndex(NewX.tointeger(), NewY.tointeger());
+	} else if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(NewX.tointeger(), this._y.tointeger())) == 1 ) {
+		this._current_tile = AIMap.GetTileIndex(NewX.tointeger(), this._y.tointeger());
 	}
 	
 	this._x = NewX;
 	this._y = NewY;
 	
 	//	Check that we're still within our bounding box
-	if (_MetaLib_Extras_.Within(this._startx, this._endx, this._x) == false) || (_MetaLib_Extras_.Within(this._starty, this._endy, this._y) == false) {
+	if ((_MetaLib_Extras_.Within(this._startx, this._endx, this._x) == false) || (_MetaLib_Extras_.Within(this._starty, this._endy, this._y) == false)) {
+		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MetaLib_Extras_.Within(this._startx, this._endx, this._x) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MetaLib_Extras_.Within(this._starty, this._endy, this._y)));
 		this._past_end = true;
 		return false;
 	} else {
+		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) );
 		return this._current_tile;
 	}
 }
@@ -151,3 +200,14 @@ function _MetaLib_LW_::IsEnd()
 	return this._past_end;
 }
 
+function _MetaLib_LW_::GetStart()
+{
+//	Returns the tile the LineWalker is starting on
+	return this._start;
+}
+
+function _MetaLib_LW_::GetEnd()
+{
+//	Returns the tile the LineWalker is starting on
+	return this._end;
+}

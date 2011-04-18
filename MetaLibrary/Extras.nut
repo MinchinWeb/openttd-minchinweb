@@ -1,5 +1,5 @@
-﻿/*	Extra functions v.1 r.99 [2011-04-18],
- *	part of Minchinweb's MetaLibrary v1, r99, [2011-04-18],
+﻿/*	Extra functions v.1 r.100 [2011-04-18],
+ *	part of Minchinweb's MetaLibrary v1, r100, [2011-04-18],
  *	originally part of WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -14,6 +14,8 @@
  *					  .Perpendicular(SlopeIn)
  *					  .Slope(TileA, TileB)
  *					  .Within(Bound1, Bound2, Value)
+ *					  .MinAbsFloat(Value1, Value2)
+ *					  .MaxAbsFloat(Value1, Value2)
  */
  
 class _MetaLib_Extras_ {
@@ -31,7 +33,7 @@ function _MetaLib_Extras_::DistanceShip(TileA, TileB)
 {
 //	Assuming open ocean, ship in OpenTTD will travel 45° angle where possible,
 //		and then finish up the trip by going along a cardinal direction
-	return ((AIMap.GetDistanceManhattan(TileA, TileB) - AIMap.DistanceMax(TileA, TileB)) * 0.4 + AIMap.DistanceMax(TileA, TileB))
+	return ((AIMap.DistanceManhattan(TileA, TileB) - AIMap.DistanceMax(TileA, TileB)) * 0.4 + AIMap.DistanceMax(TileA, TileB))
 }
 
 function _MetaLib_Extras_::SignLocation(text)
@@ -64,11 +66,12 @@ function _MetaLib_Extras_::Perpendicular(SlopeIn)
 	if (SlopeIn == 0) {
 		return this._infinity;
 	} else {
-		return (1 / SlopeIn);
+		SlopeIn = SlopeIn.tofloat();
+		return (-1 / SlopeIn);
 	}
 }
 
-_MetaLib_Extras_::Slope(TileA, TileB)
+function _MetaLib_Extras_::Slope(TileA, TileB)
 {
 //	Returns the slope between two tiles
 	local dx = AIMap.GetTileX(TileA) - AIMap.GetTileX(TileB);
@@ -81,14 +84,41 @@ _MetaLib_Extras_::Slope(TileA, TileB)
 	if (dy == 0) {
 		return (1 / this._infinity);
 	}
-	return dx / dy;	
+	dx = dx.tofloat();
+	dy = dy.tofloat();
+
+	return (dx / dy);	
 }
 
 
-_MetaLib_Extras_::Within(Bound1, Bound2, Value)
+function _MetaLib_Extras_::Within(Bound1, Bound2, Value)
 {
 	local UpperBound = max(Bound1, Bound2);
 	local LowerBound = min(Bound1, Bound2);
 
 	return ((Value <= UpperBound) && (Value >= LowerBound));
+}
+
+function _MetaLib_Extras_::MinAbsFloat(Value1, Value2)
+{
+//	Takes the absolute value of both numbers and then returns the smaller of the two
+	if (Value1 < 0) { Value1 = Value1 * -1.0; }
+	if (Value2 < 0) { Value2 = Value2 * -1.0; }
+	if (Value1 < Value2) {
+		return Value1;
+	} else {
+		return Value2;
+	}
+}
+
+function _MetaLib_Extras_::MaxAbsFloat(Value1, Value2)
+{
+//	Takes the absolute value of both numbers and then returns the larger of the two
+	if (Value1 < 0) { Value1 = Value1 * -1.0; }
+	if (Value2 < 0) { Value2 = Value2 * -1.0; }
+	if (Value1 > Value2) {
+		return Value1;
+	} else {
+		return Value2;
+	}
 }

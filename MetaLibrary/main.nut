@@ -9,8 +9,8 @@ require("Pathfinder.Road.nut");
 require("Arrays.nut");
 // require("Fibonacci.Heap.WM.nut");
 require("Extras.nut");
-require("Pathfinder.Ship.nut");
 require("Waterbody.Check.nut");
+require("Pathfinder.Ship.nut");
 require("Line.Walker.nut");
 
 class MetaLib {

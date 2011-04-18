@@ -2,7 +2,7 @@ class WmShipPFTest extends AIInfo
 {
 	function GetAuthor()        { return "William Minchin"; }
 	function GetName()          { return "WmShipPFTest"; }
-	function GetDescription()   { return "This AI is to test the Ship Pathfinder in MinchinWeb's MetaLibrary. r.98"; }
+	function GetDescription()   { return "This AI is to test the Ship Pathfinder in MinchinWeb's MetaLibrary. r.100"; }
 	function GetVersion()       { return 1; }
 	function MinVersionToLoad() { return 1; }
 	function GetDate()          { return "2011-04-18"; }

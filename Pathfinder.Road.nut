@@ -599,7 +599,7 @@ function _MetaLib_RoadPathfinder_::GetBuildCost()
 						//	At this point, an error has occured while building the tunnel.
 						//	Fail the pathfiner
 						//	return null;
-						Log.Warning("MetaLib.RoadPathfinder.GetBuildCost can't build a tunnel from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
+						AILog.Warning("MetaLib.RoadPathfinder.GetBuildCost can't build a tunnel from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
 						}
 					} else {
 					//	if not a tunnel, we assume we're buildng a bridge
@@ -610,7 +610,7 @@ function _MetaLib_RoadPathfinder_::GetBuildCost()
 						//	At this point, an error has occured while building the bridge.
 						//	Fail the pathfiner
 						//	return null;
-						Log.Warning("MetaLib.RoadPathfinder.GetBuildCost can't build a bridge from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
+						AILog.Warning("MetaLib.RoadPathfinder.GetBuildCost can't build a bridge from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
 						}
 					}
 				}
@@ -679,7 +679,7 @@ function _MetaLib_RoadPathfinder_::BuildPath()
 						//	At this point, an error has occured while building the tunnel.
 						//	Fail the pathfiner
 						//	return null;
-							Log.Warning("MetaLib.RoadPathfinder.BuildPath can't build a tunnel from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
+							AILog.Warning("MetaLib.RoadPathfinder.BuildPath can't build a tunnel from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
 						}
 					} else {
 					//	if not a tunnel, we assume we're buildng a bridge
@@ -690,7 +690,7 @@ function _MetaLib_RoadPathfinder_::BuildPath()
 						//	At this point, an error has occured while building the bridge.
 						//	Fail the pathfiner
 						//	return null;
-						Log.Warning("MetaLib.RoadPathfinder.BuildPath can't build a bridge from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!! (or the tunnel end moved...)" );
+						AILog.Warning("MetaLib.RoadPathfinder.BuildPath can't build a bridge from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!! (or the tunnel end moved...)" );
 						}
 					}
 				}

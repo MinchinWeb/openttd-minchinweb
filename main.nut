@@ -1,8 +1,9 @@
-/*	WmBasic v.1  r.96
+/*	WmBasic v.1  r.98
  *	Created by W. Minchin
  */
  
 import("util.MetaLib", "MetaLib", 1);
+import("util.SuperLib", "SuperLib", 7);
  
 class WmShipPFTest extends AIController 
 {
@@ -10,7 +11,7 @@ class WmShipPFTest extends AIController
 	WmBasicv = 1;
 	/*	Version number of AI
 	 */	
-	WmBasicr = 95;
+	WmBasicr = 98;
 	/*	Reversion number of AI
 	 */
 	 
@@ -44,8 +45,13 @@ function WmShipPFTest::Start()
 		if ( (Start != null) && (End != null) ) {
 			AILog.Info("Starting pathfinder...");
 			tick = AIController.GetTick();
+			SuperLib.Helper.SetSign(Start, "Start!", true);	//	Remove signs so it doesn't run infinately
+			SuperLib.Helper.SetSign(End, "End!", true);
 			local PF = MetaLib.WaterbodyCheck();
 			PF.InitializePath([Start], [End]);
+			PF.PresetSafety(Start, End);
+		//	PF.Cost.max_cost = (AIMap.DistanceManhattan(Start, End) * 2);
+			AILog.Info("     Max distance is " + PF.cost.max_cost );
 			local Result = PF.FindPath(-1);
 			AILog.Info("Path from " + AIMap.GetTileX(Start) + "," + AIMap.GetTileY(Start) + " to " + AIMap.GetTileX(End) + "," + AIMap.GetTileY(End) + ". Length " + (PF.GetPathLength()) + ". Took " + (AIController.GetTick() - tick) + " ticks." );
 			AILog.Info(" ");

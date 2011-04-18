@@ -1,5 +1,5 @@
-﻿/*	ShipPathfinder v.1 r.90 [2011-04-16],
- *	part of Minchinweb's MetaLibrary v1, r90, [2011-04-16],
+﻿/*	ShipPathfinder v.1 r.99 [2011-04-18],
+ *	part of Minchinweb's MetaLibrary v1, r99, [2011-04-18],
  *	originally part of WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -31,9 +31,9 @@ class _MetaLib_ShipPathfinder_
 
 	constructor()
 	{
-		this._max_cost = 10000000;
-		this._cost_tile = 100;
-		this._cost_turn = 100;
+		this._max_cost = 10000;
+		this._cost_tile = 1;
+		this._cost_turn = 1;
 		
 		this._points = [];
 		this._paths = [];
@@ -184,7 +184,7 @@ function _MetaLib_ShipPathfinder_::FindPath(iterations)
 				//		the unfinished paths, return the finished path
 				if (_MetaLib_ShipPathfinder_._PathLength(this._FinishedPaths.Peek()) < _MetaLib_ShipPathfinder_._PathLength(this._UnfinishedPaths.Peek())) ) {
 					this._running = false;
-					this._mypath = PathToTilesArray(this._FinishedPaths.Peek());
+					this._mypath = _PathToTilesArray(this._FinishedPaths.Peek());
 					return this._mypath;
 				}
 			}
@@ -201,8 +201,71 @@ function _MetaLib_ShipPathfinder_::_PathLength(PathIndex)
 	}
 }
 
-LandHo(this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]])
+function _MetaLib_ShipPathfinder_::LandHo(TileA, TileB) {
+	local LandA = 0;
+	local LandB = 0;
+	
+	local Walker = LineWalker();
+	Walker.Start(TileA);
+	Walker.End(TileB);
+	local PrevTile = Walker.Start();
+	local CurTile = Walker.Walk();
+	while (!Walker.IsEnd() && (LandA == 0)) {
+		if (AIMarine.AreWaterTilesConnected(PrevTile, CurTile) != ture) {
+			LandA = PrevTile	
+		}
+		PrevTile = CurTile;
+		CurTile = Walker.Walk();
+	}
+	if (LandA == 0) {
+	//	We're all water!
+		return [0,0];
+	}
+	
+	Walker.Reset();
+	Walker.Start(TileB);
+	Walker.End(TileA);
+	PrevTile = Walker.Start();
+	CurTile = Walker.Walk();
+	
+	while (!Walker.IsEnd() && (LandB == 0)) {
+		if (AIMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) {
+			LandB = PrevTile	
+		}
+		PrevTile = CurTile;
+		CurTile = Walker.Walk();
+	}
 
-WaterHo(MidPoint, m)
+	return [LandA, LandB];
+}
 
-PathToTilesArray
+function _MetaLib_ShipPathfinder_::WaterHo(StartTile, Slope)
+{
+//	Starts at a given tile and then walks out at the given slope until it hits water
+	local Walker = LineWalker();
+	Walker.Start(StartTile);
+	Walker.Slope(Slope);
+	local PrevTile = Walker.Start();
+	local CurTile = Walker.Walk();
+	while ((AIMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) && (AITile.DistanceManhattan(PrevTile, CurTile) == 1)) {
+		PrevTile = CurTile;
+		CurTile = Walker.Walk();
+	}
+	
+	if (AIMarine.AreWaterTilesConnected(PrevTile, CurTile) == true) {
+		return CurTile,
+	} else{
+		return null;
+	}
+}
+
+function _MetaLib_ShipPathfinder_::_PathToTilesArray(PathIndex)
+{
+//	turns a path into an index to tiles (just the start, end, and turning points)
+	local Tiles = [];
+	for (local i = 0; i < (this._paths[PathIndex].len() - 1); i++) {
+			Tiles.push(this._points[this._paths[PathIndex][i]]);
+	} 
+	
+	return Tiles;
+}

@@ -1,5 +1,5 @@
-﻿/*	Array SubLibrary, v.2 r.100 [2011-04-18],
- *	part of Minchinweb's MetaLibrary v1, r100, [2011-04-18],
+﻿/*	Array SubLibrary, v.2 r.103 [2011-04-19],
+ *	part of Minchinweb's MetaLibrary v1, r103, [2011-04-19],
  *	originally part of WmDOT v.5  r.53d	[2011-04-09]
  *		and WmArray library v.1  r.1 [2011-02-13].
  *	Copyright © 2011 by W. Minchin. For more info,
@@ -21,6 +21,8 @@
  *					 .RemoveValueAt(InArray, Index)
  *					 .InsertValueAt(InArray, Index, Value)
  *					 .ToStingTiles1D(InArrayOfTiles)
+ *					 .FindPairs(InArray2D, SearchValue1, SearchValue2)
+ *					 .ContainedInPairs(InArray2D, SearchValue1, SearchValue2)
  */
  
 class _MetaLib_Array_ {
@@ -127,6 +129,9 @@ function _MetaLib_Array_::ContainedIn2D(InArray, SearchValue)
 //	Searches the array for the given value. Returns 'TRUE' if found and
 //		'FALSE' if not.
 //	Accepts 2D Arrays
+//	Note that using this to see if an given array is an element of the parent
+//		array does not seem to be returning expected results. Use
+//		ContainedInPairs(InArray2D, SearchValue1, SearchValue2) instead. 
 
 	if (InArray == null) {
 		return null;
@@ -169,6 +174,9 @@ function _MetaLib_Array_::Find1D(InArray, SearchValue)
 //		found and 'FALSE' if not. Will only return the index of the
 //		first time the value is found.
 //	Accepts 1D Arrays
+//	Note that using this to see if an given array is an element of the parent
+//		array does not seem to be returning expected results. Use
+//		FindPairs(InArray2D, SearchValue1, SearchValue2) instead.
 
 	if (InArray == null) {
 		return null;
@@ -275,5 +283,71 @@ function _MetaLib_Array_::ToStingTiles1D(InArrayOfTiles)
 			i++;
 		}
 		return ("The array is " + Length + " long.  " + Temp + " ");
+	}
+}
+
+function _MetaLib_Array_::FindPairs(InArray2D, SearchValue1, SearchValue2)
+{
+//	Searches the array for the given pair of value. Returns a the index  
+//		if found and 'FALSE' if not. Will only return the index of the
+//		first time the value is found.
+//	The idea is to povide an array of pairs, and find out if SearchValue1
+//		and SearchValue2 is listed as one of the pairs
+//	Accepts 2D Arrays
+
+	if (InArray2D == null) {
+		return null;
+	} else {
+		local Return1 = false;
+		local Return2 = false;
+		for (local i = 0; i < InArray2D.len(); i++ ) {
+			for (local j=0; j < InArray2D[i].len(); j++ ) {
+				if ((InArray2D[i][j] == SearchValue1) && !Return1) {
+					Return1 = true;	
+				} else if (InArray2D[i][j] == SearchValue2) {
+					Return2 = true;	
+				}
+			}
+			if (Return1 && Return2) {
+				return i;
+			} else {
+				Return1 = false;
+				Return2 = false;
+			}
+		}
+		return false;
+	}
+}
+
+function _MetaLib_Array_::ContainedInPairs(InArray2D, SearchValue1, SearchValue2)
+{
+//	Searches the array for the given pair of value. Returns a the index  
+//		if found and 'FALSE' if not. Will only return the index of the
+//		first time the value is found.
+//	The idea is to povide an array of pairs, and find out if SearchValue1
+//		and SearchValue2 is listed as one of the pairs
+//	Accepts 2D Arrays
+
+	if (InArray2D == null) {
+		return null;
+	} else {
+		local Return1 = false;
+		local Return2 = false;
+		for (local i = 0; i < InArray2D.len(); i++ ) {
+			for (local j=0; j < InArray2D[i].len(); j++ ) {
+				if ((InArray2D[i][j] == SearchValue1) && !Return1) {
+					Return1 = true;	
+				} else if (InArray2D[i][j] == SearchValue2) {
+					Return2 = true;	
+				}
+			}
+			if (Return1 && Return2) {
+				return true;
+			} else {
+				Return1 = false;
+				Return2 = false;
+			}
+		}
+		return false;
 	}
 }

@@ -1,5 +1,5 @@
-/*	LineWalker class v.1 r.99 [2011-04-18],
- *	part of Minchinweb's MetaLibrary v1, r99, [2011-04-18],
+/*	LineWalker class v.1 r.103 [2011-04-19],
+ *	part of Minchinweb's MetaLibrary v1, r103, [2011-04-19],
  *	originally part of WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -91,6 +91,8 @@ function _MetaLib_LW_::End(Tile)
 			this._dirx = -1;	//	-1
 		}
 	}
+	
+	AILog.Info("    LineWalker.End out " + this._endx + " " + this._endy + " m" + this._slope + " ± " + this._dirx);
 }
 
 function _MetaLib_LW_::Slope(Slope, ThirdQuadrant = false)
@@ -98,31 +100,41 @@ function _MetaLib_LW_::Slope(Slope, ThirdQuadrant = false)
 //	Sets the slope for LineWalker
 //	Assumes that the slope is in the first or second quadrant until ThirdQuadrant == true
 
-	if (abs(Slope) > this._infinity) {
+	if (_MetaLib_Extras_.AbsFloat(Slope) > this._infinity) {
 		AILog.Warning("Slope is capped at " + this._infinity + ", you provided " + Slope + ".");
-		Slope = this._infinity;
-	}
-	if (abs(Slope) < (1 / this._infinity)) {
+		this._slope = this._infinity;
+	} else if (_MetaLib_Extras_.AbsFloat(Slope) < (1.0 / this._infinity)) {
 		AILog.Warning("Slope is capped at " + (1 / this._infinity) + ", you provided " + Slope + ".");
-		Slope = (1 / this._infinity);
-	}
-	
-	if (Slope > 0) {
-		this._endy = this._infinity;
+		this._slope = (1.0 / this._infinity);
 	} else {
-		this._endy = -1 * this._infinity;
+		this._slope = Slope;
 	}
 	
-	if (ThirdQuadrant = false) {
-		this._dirx = 1;		//	+1
-		this._endx = this._infinity;
+	if (this._slope > 0.0) {
+//		this._endy = this._infinity;
+		this._endy = AIMap.GetMapSizeY();
 	} else {
-		this._dirx = -1;	//	-1
-		this._endx = -1 * this._infinity;
-		this._endy = -1 * this._endy;
+//		this._endy = -1 * this._infinity;
+		this._endy = 0;
 	}
 	
-	this._slope = Slope;
+	if (ThirdQuadrant == false) {
+		this._dirx = -1;		//	+1
+//		this._endx = this._infinity;
+		this._endx = AIMap.GetMapSizeX();
+	} else {
+		this._dirx = 1;	//	-1
+//		this._endx = -1 * this._infinity;
+//		this._endy = -1 * this._endy;
+		this._endx = 0;
+		if (this._endy == 0) {
+			this._endy = AIMap.GetMapSizeY();
+		} else {
+			this._endy = 0;
+		}
+	}
+	
+	AILog.Info("   LineWalker.Slope out: " + Slope + " " + ThirdQuadrant + " : " + this._endx + " " + this._endy + " " + this._slope + " +/- " + this._dirx);
 }
 
 function _MetaLib_LW_::Reset()
@@ -144,10 +156,10 @@ function _MetaLib_LW_::Reset()
 function _MetaLib_LW_::Restart()
 {
 //	Moves the LineWalker to the orginal starting position
-	this._x = this._startx;
-	this._y = this._starty;
+	this._x = this._startx.tofloat();
+	this._y = this._starty.tofloat();
 	this._past_end = false;
-	this._current_tile = AIMap.GetTileIndex(this._x, this._y);
+	this._current_tile = AIMap.GetTileIndex(this._x.tointeger(), this._y.tointeger());
 }
 
 function _MetaLib_LW_::Walk()
@@ -159,7 +171,7 @@ function _MetaLib_LW_::Walk()
 	
 	if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(this._x.tointeger(), this._y.tointeger())) == 1 ) {
 		this._current_tile = AIMap.GetTileIndex(this._x.tointeger(), this._y.tointeger());
-		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) + " from " + this._x + "," + this._y );
+//		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) + " from " + this._x + "," + this._y );
 		return this._current_tile;
 	}
 	
@@ -172,7 +184,7 @@ function _MetaLib_LW_::Walk()
 	local NewY = 0.0;
 	NewX = this._x + this._slope * multiplier * -this._dirx;
 	NewY = this._y + multiplier * -this._dirx;
-	AILog.Info("Linewalker new : " + NewX + "," + NewY);
+//	AILog.Info("Linewalker new : " + NewX + "," + NewY);
 	
 	if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(NewX.tointeger(), NewY.tointeger())) == 1 ) {
 		this._current_tile = AIMap.GetTileIndex(NewX.tointeger(), NewY.tointeger());
@@ -184,12 +196,13 @@ function _MetaLib_LW_::Walk()
 	this._y = NewY;
 	
 	//	Check that we're still within our bounding box
-	if ((_MetaLib_Extras_.Within(this._startx, this._endx, this._x) == false) || (_MetaLib_Extras_.Within(this._starty, this._endy, this._y) == false)) {
+//	AILog.Info("    " + this._startx + " , " + this._endx + " , " + this._x.tointeger() + " , " + this._starty + " , " + this._endy + " , " + this._y.tointeger());
+	if ((_MetaLib_Extras_.Within(this._startx, this._endx, this._x.tointeger()) == false) || (_MetaLib_Extras_.Within(this._starty, this._endy, this._y.tointeger()) == false)) {
 		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MetaLib_Extras_.Within(this._startx, this._endx, this._x) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MetaLib_Extras_.Within(this._starty, this._endy, this._y)));
 		this._past_end = true;
-		return false;
+		return this._current_tile;
 	} else {
-		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) );
+//		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) );
 		return this._current_tile;
 	}
 }

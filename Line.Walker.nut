@@ -1,5 +1,5 @@
-/*	LineWalker class v.1 r.103 [2011-04-19],
- *	part of Minchinweb's MetaLibrary v1, r103, [2011-04-19],
+/*	LineWalker class v.1 r.104 [2011-04-19],
+ *	part of Minchinweb's MetaLibrary v1, r104, [2011-04-19],
  *	originally part of WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -70,6 +70,8 @@ function _MetaLib_LW_::Start(Tile)
 			this._dirx = -1;	//	-1
 		}
 	}
+	
+	AILog.Info("    LineWalker.Start out: " + this._startx + " " + this._starty + " m" + this._slope + " ± " + this._dirx);
 }
 
 function _MetaLib_LW_::End(Tile)
@@ -92,7 +94,7 @@ function _MetaLib_LW_::End(Tile)
 		}
 	}
 	
-	AILog.Info("    LineWalker.End out " + this._endx + " " + this._endy + " m" + this._slope + " ± " + this._dirx);
+	AILog.Info("    LineWalker.End out: " + this._endx + " " + this._endy + " m" + this._slope + " ± " + this._dirx);
 }
 
 function _MetaLib_LW_::Slope(Slope, ThirdQuadrant = false)
@@ -134,7 +136,7 @@ function _MetaLib_LW_::Slope(Slope, ThirdQuadrant = false)
 		}
 	}
 	
-	AILog.Info("   LineWalker.Slope out: " + Slope + " " + ThirdQuadrant + " : " + this._endx + " " + this._endy + " " + this._slope + " +/- " + this._dirx);
+	AILog.Info("   LineWalker.Slope out: " + Slope + " " + ThirdQuadrant + " : " + this._endx + " " + this._endy + " " + this._slope + " ± " + this._dirx);
 }
 
 function _MetaLib_LW_::Reset()

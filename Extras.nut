@@ -1,5 +1,5 @@
-﻿/*	Extra functions v.1 r.100 [2011-04-18],
- *	part of Minchinweb's MetaLibrary v1, r100, [2011-04-18],
+﻿/*	Extra functions v.1 r.103 [2011-04-19],
+ *	part of Minchinweb's MetaLibrary v1, r103, [2011-04-19],
  *	originally part of WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -16,6 +16,7 @@
  *					  .Within(Bound1, Bound2, Value)
  *					  .MinAbsFloat(Value1, Value2)
  *					  .MaxAbsFloat(Value1, Value2)
+ *					  .AbsFloat(Value)
  */
  
 class _MetaLib_Extras_ {
@@ -120,5 +121,15 @@ function _MetaLib_Extras_::MaxAbsFloat(Value1, Value2)
 		return Value1;
 	} else {
 		return Value2;
+	}
+}
+
+function _MetaLib_Extras_::AbsFloat(Value)
+{
+//	Returns the absolute Value as a floating number if one is provided
+	if (Value > 0) {
+		return Value;
+	} else {
+		return (Value * (-1.0));
 	}
 }

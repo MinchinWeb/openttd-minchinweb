@@ -1,5 +1,5 @@
-/*	LineWalker class v.1 r.104 [2011-04-19],
- *	part of Minchinweb's MetaLibrary v1, r104, [2011-04-19],
+/*	LineWalker class v.1 r.108 [2011-04-20],
+ *	part of Minchinweb's MetaLibrary v1, r108, [2011-04-20],
  *	originally part of WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -70,6 +70,11 @@ function _MetaLib_LW_::Start(Tile)
 			this._dirx = -1;	//	-1
 			this._x += 0.9999;
 		}
+		
+		if (this._starty = this._endy) {
+			this._endy = this._endy.tofloat();
+			this._endy += 0.9999;
+		}
 	}
 	
 	AILog.Info("    LineWalker.Start out: " + this._startx + " " + this._starty + " m" + this._slope + " ± " + this._dirx);
@@ -93,6 +98,11 @@ function _MetaLib_LW_::End(Tile)
 		} else {
 			this._dirx = -1;	//	-1
 			this._x += 0.9999;
+		}
+		
+		if (this._starty = this._endy) {
+			this._endy = this._endy.tofloat();
+			this._endy += 0.9999;
 		}
 	}
 	
@@ -168,6 +178,9 @@ function _MetaLib_LW_::Restart()
 	this._current_tile = AIMap.GetTileIndex(this._x.tointeger(), this._y.tointeger());
 }
 
+//	=== LineWalker Walk ===
+//		This is where (most) of the action is!
+
 function _MetaLib_LW_::Walk()
 {
 //	'Walks' the LineWalker one tile at a tile
@@ -189,7 +202,7 @@ function _MetaLib_LW_::Walk()
 	local NewX = 0.0;
 	local NewY = 0.0;
 	NewX = this._x + multiplier * this._dirx;
-	NewY = this._y + this._slope * multiplier * -this._dirx;
+	NewY = this._y + this._slope * multiplier * this._dirx;
 //	AILog.Info("Linewalker new : " + NewX + "," + NewY);
 	
 	if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(NewX.tointeger(), NewY.tointeger())) == 1 ) {
@@ -204,8 +217,10 @@ function _MetaLib_LW_::Walk()
 	//	Check that we're still within our bounding box
 //	AILog.Info("    " + this._startx + " , " + this._endx + " , " + this._x.tointeger() + " , " + this._starty + " , " + this._endy + " , " + this._y.tointeger());
 	
-	if ((_MetaLib_Extras_.Within(this._startx, this._endx, this._x.tointeger()) == false) || (_MetaLib_Extras_.Within(this._starty, this._endy, this._y.tointeger()) == false)) {
-		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MetaLib_Extras_.Within(this._startx, this._endx, this._x.tointeger()) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MetaLib_Extras_.Within(this._starty, this._endy, this._y.tointeger())));
+	if ((_MetaLib_Extras_.WithinFloat(this._startx, this._endx, this._x.tointeger()) == false) || (_MetaLib_Extras_.WithinFloat(this._starty, this._endy, this._y.tointeger()) == false)) {
+		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MetaLib_Extras_.WithinFloat(this._startx, this._endx, this._x.tointeger()) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MetaLib_Extras_.WithinFloat(this._starty, this._endy, this._y.tointeger())));
+//	if ((_MetaLib_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), (this._x.tointeger()).tofloat()) == false) || (_MetaLib_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), (this._y.tointeger()).tofloat()) == false)) {
+//		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MetaLib_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), (this._x.tointeger()).tofloat()) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MetaLib_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), (this._y.tointeger()).tofloat())));
 		this._past_end = true;
 		return this._current_tile;
 	} else {

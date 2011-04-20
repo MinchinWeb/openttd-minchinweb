@@ -1,5 +1,5 @@
-﻿/*	Extra functions v.1 r.103 [2011-04-19],
- *	part of Minchinweb's MetaLibrary v1, r103, [2011-04-19],
+﻿/*	Extra functions v.1 r.107 [2011-04-20],
+ *	part of Minchinweb's MetaLibrary v1, r107, [2011-04-20],
  *	originally part of WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -14,10 +14,13 @@
  *					  .Perpendicular(SlopeIn)
  *					  .Slope(TileA, TileB)
  *					  .Within(Bound1, Bound2, Value)
+ *					  .WithinFloat(Bound1, Bound2, Value)
  *					  .MinAbsFloat(Value1, Value2)
  *					  .MaxAbsFloat(Value1, Value2)
  *					  .AbsFloat(Value)
  *					  .Sign(Value)
+ *					  .MinFloat(Value1, Value2)
+ *					  .MaxFloat(Value1, Value2)
  */
  
 class _MetaLib_Extras_ {
@@ -92,11 +95,18 @@ function _MetaLib_Extras_::Slope(TileA, TileB)
 	}
 }
 
-
 function _MetaLib_Extras_::Within(Bound1, Bound2, Value)
 {
 	local UpperBound = max(Bound1, Bound2);
 	local LowerBound = min(Bound1, Bound2);
+
+	return ((Value <= UpperBound) && (Value >= LowerBound));
+}
+
+function _MetaLib_Extras_::WithinFloat(Bound1, Bound2, Value)
+{
+	local UpperBound = _MetaLib_Extras_.MaxFloat(Bound1, Bound2);
+	local LowerBound = _MetaLib_Extras_.MinFloat(Bound1, Bound2);
 
 	return ((Value <= UpperBound) && (Value >= LowerBound));
 }
@@ -142,5 +152,25 @@ function _MetaLib_Extras_::Sign(Value)
 		return 1;
 	} else {
 		return -1;
+	}
+}
+
+function _MetaLib_Extras_::MinFloat(Value1, Value2)
+{
+//	Returns the smaller of the two
+	if (Value1 < Value2) {
+		return Value1;
+	} else {
+		return Value2;
+	}
+}
+
+function _MetaLib_Extras_::MaxFloat(Value1, Value2)
+{
+//	Returns the larger of the two
+	if (Value1 > Value2) {
+		return Value1;
+	} else {
+		return Value2;
 	}
 }

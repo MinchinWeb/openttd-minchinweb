@@ -9,6 +9,13 @@
  * A Ship Pathfinder.
  */
  
+//	TO-DO
+//		- Inflections Point Check:
+//				Run the pathfinder without WBC as long as the length of the
+//					paths keep going up. Once the length starts going down, if
+//					the length goes back up, either fail the pathfinder or
+//					invoke WBC
+ 
 class _MetaLib_ShipPathfinder_
 {
 	_heap_class = import("queue.fibonacci_heap", "", 2);

@@ -1,4 +1,4 @@
-﻿/*	Minchinweb's MetaLibrary v.1 r.99 [2011-04-18],  
+﻿/*	Minchinweb's MetaLibrary v.1 r.108 [2011-04-20],  
  *	originally part of, WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -13,7 +13,7 @@ require("Waterbody.Check.nut");
 require("Pathfinder.Ship.nut");
 require("Line.Walker.nut");
 
-class MetaLib {
+class MinchinWeb {
 	static RoadPathfinder = _MetaLib_RoadPathfinder_;
 	static ShipPathfinder = _MetaLib_ShipPathfinder_;	
 	static Array = _MetaLib_Array_;
@@ -22,7 +22,7 @@ class MetaLib {
 	static LineWalker = _MetaLib_LW_;
 }
  
-/*	Q:	What is MetaLibrary?
+/*	Q:	What is MinchinWeb's MetaLibrary?
  *	A:	MetaLib is the collection of code I've written for WmDOT, my AI for
  *			OpenTTD, that I felt should properly be in a library. I also hope
  *			will this code will help some aspiring AI writer get off the ground
@@ -32,8 +32,8 @@ class MetaLib {
  *	A:	Import the main library, and then create global points to the
  *			sublibaries you want to use. Eg:
  *		
- *			Import("util.metalib", "MetaLibrary", 1);
- *			Arrays <- MetaLibrary.Arrays;
+ *			Import("util.MinchinWeb", "MinchinWeb", 1);
+ *			Arrays <- MinchinWeb.Arrays;
  *
  *	Info:	See the sub-library files for the functions available and their
  *				implementation.

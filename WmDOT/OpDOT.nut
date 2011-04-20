@@ -21,6 +21,14 @@
 
 //	TO-DO
 //	- break into more steps (Modes) to allow breaking during pathfinding
+//	- add CleaupCrew() after each link connections to remove extra built roads
+//		- for each road connections pair:
+//				- check if it's connected, if so don't do anything (don't build)
+//					if not, build and add to 'built' heap with random priority
+//		- dump the path to 'Safe Route'
+//				- 'Safe Route' is replaced everythime a new path is built
+//		- after final route, Pop the 'built' heap: if the pair exists in 'Safe
+//			Route', keep it; otherwise destroy the connection
  
  
 /*	AILog.Info("OpDOT settings: " + MyDOT.Settings.PrintTownAtlas + " " + MyDOT.Settings.MaxAtlasSize + " " + MyDOT.Settings.FloatOffset);

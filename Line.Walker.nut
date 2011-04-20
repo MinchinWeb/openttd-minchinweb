@@ -64,10 +64,11 @@ function _MetaLib_LW_::Start(Tile)
 			this._slope = _MetaLib_Extras_.Slope(this._start, this._end);
 		}
 		
-		if (this._startx < this._endx) {
+		if (this._startx <= this._endx) {
 			this._dirx = 1;		//	+1
 		} else {
 			this._dirx = -1;	//	-1
+			this._x += 0.9999;
 		}
 	}
 	
@@ -87,10 +88,11 @@ function _MetaLib_LW_::End(Tile)
 			this._slope = _MetaLib_Extras_.Slope(this._start, this._end);
 		}
 		
-		if (this._startx < this._endx) {
+		if (this._startx <= this._endx) {
 			this._dirx = 1;		//	+1
 		} else {
 			this._dirx = -1;	//	-1
+			this._x += 0.9999;
 		}
 	}
 	
@@ -126,6 +128,7 @@ function _MetaLib_LW_::Slope(Slope, ThirdQuadrant = false)
 		this._endx = AIMap.GetMapSizeX();
 	} else {
 		this._dirx = 1;	//	-1
+		this._x += 0.9999;
 //		this._endx = -1 * this._infinity;
 //		this._endy = -1 * this._endy;
 		this._endx = 0;
@@ -153,6 +156,7 @@ function _MetaLib_LW_::Reset()
 	this._x = null;
 	this._y = null;
 	this._current_tile = null;
+	this._dirx = null;
 }
 
 function _MetaLib_LW_::Restart()
@@ -173,7 +177,7 @@ function _MetaLib_LW_::Walk()
 	
 	if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(this._x.tointeger(), this._y.tointeger())) == 1 ) {
 		this._current_tile = AIMap.GetTileIndex(this._x.tointeger(), this._y.tointeger());
-//		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) + " from " + this._x + "," + this._y );
+		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) + " from " + this._x + "," + this._y );
 		return this._current_tile;
 	}
 	
@@ -184,8 +188,8 @@ function _MetaLib_LW_::Walk()
 	
 	local NewX = 0.0;
 	local NewY = 0.0;
-	NewX = this._x + this._slope * multiplier * -this._dirx;
-	NewY = this._y + multiplier * -this._dirx;
+	NewX = this._x + multiplier * this._dirx;
+	NewY = this._y + this._slope * multiplier * -this._dirx;
 //	AILog.Info("Linewalker new : " + NewX + "," + NewY);
 	
 	if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(NewX.tointeger(), NewY.tointeger())) == 1 ) {
@@ -199,12 +203,13 @@ function _MetaLib_LW_::Walk()
 	
 	//	Check that we're still within our bounding box
 //	AILog.Info("    " + this._startx + " , " + this._endx + " , " + this._x.tointeger() + " , " + this._starty + " , " + this._endy + " , " + this._y.tointeger());
+	
 	if ((_MetaLib_Extras_.Within(this._startx, this._endx, this._x.tointeger()) == false) || (_MetaLib_Extras_.Within(this._starty, this._endy, this._y.tointeger()) == false)) {
-		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MetaLib_Extras_.Within(this._startx, this._endx, this._x) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MetaLib_Extras_.Within(this._starty, this._endy, this._y)));
+		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MetaLib_Extras_.Within(this._startx, this._endx, this._x.tointeger()) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MetaLib_Extras_.Within(this._starty, this._endy, this._y.tointeger())));
 		this._past_end = true;
 		return this._current_tile;
 	} else {
-//		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) );
+		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) );
 		return this._current_tile;
 	}
 }

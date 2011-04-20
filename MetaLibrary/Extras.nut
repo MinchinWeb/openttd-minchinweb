@@ -17,6 +17,7 @@
  *					  .MinAbsFloat(Value1, Value2)
  *					  .MaxAbsFloat(Value1, Value2)
  *					  .AbsFloat(Value)
+ *					  .Sign(Value)
  */
  
 class _MetaLib_Extras_ {
@@ -80,15 +81,15 @@ function _MetaLib_Extras_::Slope(TileA, TileB)
 	
 	//	Zero check
 	if (dx == 0) {
-		return this._infinity;
-	}
-	if (dy == 0) {
-		return (1 / this._infinity);
-	}
-	dx = dx.tofloat();
-	dy = dy.tofloat();
+		return this._infinity * _MetaLib_Extras_.Sign(dy);
+	} else if (dy == 0) {
+		return (1.0 / this._infinity) * _MetaLib_Extras_.Sign(dx);
+	} else {
+		dx = dx.tofloat();
+		dy = dy.tofloat();
 
-	return (dx / dy);	
+		return (dx / dy);	
+	}
 }
 
 
@@ -131,5 +132,15 @@ function _MetaLib_Extras_::AbsFloat(Value)
 		return Value;
 	} else {
 		return (Value * (-1.0));
+	}
+}
+
+function _MetaLib_Extras_::Sign(Value)
+{
+//	Returns +1 if the Value >= 0, -1 Value < 0
+	if (Value >= 0) {
+		return 1;
+	} else {
+		return -1;
 	}
 }

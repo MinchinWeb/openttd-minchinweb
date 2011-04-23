@@ -1,5 +1,5 @@
-﻿/*	ShipPathfinder v.1 r.104 [2011-04-19],
- *	part of Minchinweb's MetaLibrary v1, r104, [2011-04-19],
+﻿/*	ShipPathfinder v.1 r.109 [2011-04-23],
+ *	part of Minchinweb's MetaLibrary v1, r109, [2011-04-23],
  *	originally part of WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -25,6 +25,7 @@ class _MetaLib_ShipPathfinder_
 	_cost_turn = null;             ///< The cost that is added to _cost_tile if the direction changes.
 	cost = null;                   ///< Used to change the costs.
 	
+	_infinity = null;
 	_first_run = null;
 	_first_run2 = null;
 	_waterbody_check = null;
@@ -43,6 +44,8 @@ class _MetaLib_ShipPathfinder_
 		this._cost_tile = 1;
 		this._cost_turn = 1;
 		
+//		this._infinity = 10000;		//	Seperate from Line Walker
+		this._infinity = 10;	//	For Testing
 		this._points = [];
 		this._paths = [];
 		this._clearedpaths = [];
@@ -167,7 +170,7 @@ function _MetaLib_ShipPathfinder_::FindPath(iterations)
 					ReturnWP = false;
 				//	On hitting land, do the right angle split creating two copies
 				//		of the path with a new midpoint
-					local m = _MetaLib_Extras_.Perpendicular(_MetaLib_Extras_.Slope(this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]));
+					local m = _MetaLib_Extras_.Perpendicular(_MetaLib_Extras_.Slope(this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]], this._infinity));
 					local MidPoint = _MetaLib_Extras_.MidPoint(Land[0], Land[1]);
 					local NewPoint1 = WaterHo(MidPoint, m, false);
 					local NewPoint2 = WaterHo(MidPoint, m, true);

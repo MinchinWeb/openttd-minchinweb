@@ -10,8 +10,8 @@
  *		MetaLib.Array.Create1D(length)
  *					 .Create2D(length, width)
  *					 .Create3D(length, width, height)
- *					 .ToSting1D(InArray)
- *					 .ToSting2D(InArray)
+ *					 .ToString1D(InArray)
+ *					 .ToString2D(InArray)
  *					 .ContainedIn1D(InArray, SearchValue)
  *					 .ContainedIn2D(InArray, SearchValue)
  *					 .ContainedIn3D(InArray, SearchValue)
@@ -62,7 +62,7 @@ function _MetaLib_Array_::Create3D(length, width, height)
     return ReturnArray;
 }
 
-function _MetaLib_Array_::ToSting1D(InArray)
+function _MetaLib_Array_::ToString1D(InArray)
 {
 	//	Add error check that an array is provided
 	
@@ -80,7 +80,7 @@ function _MetaLib_Array_::ToSting1D(InArray)
 	}
 }
 
-function _MetaLib_Array_::ToSting2D(InArray)
+function _MetaLib_Array_::ToString2D(InArray)
 {
 	//	Add error check that a 2D array is provided
 

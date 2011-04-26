@@ -1,6 +1,6 @@
-/*	SpiralWalker class v.2 r.110 [2011-04-26],
- *	part of Minchinweb's MetaLibrary v1, r110, [2011-04-26],
- *	originally part of WmDOT v.6
+/*	SpiralWalker class v.2 r.112 [2011-04-26],
+ *	part of Minchinweb's MetaLibrary v.1, r.112, [2011-04-26],
+ *	originally part of WmDOT v.5
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -134,8 +134,7 @@ function _MetaLib_SW_::Walk()
 		}
 	}
 
-	AILog.Info("     SpiralWalker.Walk: " + this._dx + " " + this._dy + " : " + this._Steps + " " + this._Stage + " " + this._StageSteps + " " + this._StageMax);
-//	AILog.Info("     SpiralWalker.Walk: " + this._dx + " " + this._dy + " : " + this._Steps + " " + this._Stage);
+//	AILog.Info("     SpiralWalker.Walk: " + this._dx + " " + this._dy + " : " + this._Steps + " " + this._Stage + " " + this._StageSteps + " " + this._StageMax);
 	this._current_tile = AIMap.GetTileIndex(this._x, this._y);
 	return this._current_tile;
 }

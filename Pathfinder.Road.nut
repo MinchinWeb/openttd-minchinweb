@@ -1,5 +1,5 @@
-﻿/*	RoadPathfinder v.6 r.91 [2011-04-16],
- *	part of Minchinweb's MetaLibrary v1, r91, [2011-04-16],
+﻿/*	RoadPathfinder v.7 r.112 [2011-04-26],
+ *	part of Minchinweb's MetaLibrary v.1, r.112, [2011-04-26],
  *	originally part of WmDOT v.4  r.50 [2011-04-06]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -51,6 +51,8 @@
 //		MetaLib.RoadPathfinder.LoadPath(Path)					//	Provide your own path
 //		MetaLib.RoadPathfinder.InitializePathOnTowns(StartTown, EndTown)
 //			//	Initializes the pathfinder using the seed tiles to the given towns	
+//		MetaLib.RoadPathfinder.PathToTilePairs()
+//			//	Returns a 2D array that has each pair of tiles that path joins
 
 class _MetaLib_RoadPathfinder_
 {
@@ -746,4 +748,31 @@ function _MetaLib_RoadPathfinder_::InitializePathOnTowns(StartTown, EndTown)
 //		pathfinder will still run, but it will take a long time and eventually
 //		fail to return a path)
 	return this.InitializePath([AITown.GetLocation(StartTown)], [AITown.GetLocation(EndTown)]);
+}
+
+function _MetaLib_RoadPathfinder_::PathToTilePairs()
+{
+//	Returns a 2D array that has each pair of tiles that path joins
+	if (this._running) {
+		AILog.Warning("You can't convert a path while there's a running pathfinder.");
+		return false;
+	}
+	if (this._mypath == null) {
+		AILog.Warning("You have tried to convert a 'null' path.");
+		return false;
+	}
+	
+	local Path = this._mypath;
+	local TilePairs = [];
+
+	while (Path != null) {
+		local SubPath = Path.GetParent();
+		if (SubPath != null) {
+			TilePairs.push(Path.GetTile(), SubPath.GetTile());	
+		}
+	Path = SubPath;
+	}
+	
+	//	End build sequence
+	return TilePairs;
 }

@@ -13,10 +13,9 @@
  */ 
  
 //	Requires SuperLib v7
-//	Requires MetaLib v1
+//	Requires MinchinWeb's MetaLib v1
 //	Requires "OpLog.nut"
 //	Requires "OpMoney.nut"
-//		Note that OpDOT runs a seperate money manager from the main program
 //	Requires "TownRegistrar.nut"
 
 //	TO-DO
@@ -307,6 +306,7 @@ function OpDOT::Run() {
 						Log.Note("Cost of path is " + BuildCost + "£. Took " + (AIController.GetTick() - tick) + " ticks.", 3);
 						Money.FundsRequest(BuildCost*1.1);		//	To allow for inflation during construction
 						PathFinder.BuildPath();
+						AILog.Info(Array.ToString2D(PathFinder.PathToTilePairs()));
 						
 						//	Test to see if construction worked by running the
 						//		pathfinder and computing build cost of the 

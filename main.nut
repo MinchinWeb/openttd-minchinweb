@@ -406,7 +406,7 @@ function WmDOT::BuildWmHQ()
 	local HQBuilt = false;
 	while (HQBuilt == false) {
 		HQBuilt = AICompany.BuildCompanyHQ(Walker.Walk());
-		AISign.BuildSign(Walker.GetTile(), Walker.GetStep());
+//		AISign.BuildSign(Walker.GetTile(), Walker.GetStep());
 		
 		// Safety: Break if it tries for 400 times and still doesn't work!
 		if (Walker.GetStage() == 40) {

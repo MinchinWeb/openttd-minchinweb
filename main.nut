@@ -1,4 +1,4 @@
-﻿/*	Minchinweb's MetaLibrary v.1 r.108 [2011-04-20],  
+﻿/*	Minchinweb's MetaLibrary v.1 r.110 [2011-04-26],  
  *	originally part of, WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -12,6 +12,7 @@ require("Extras.nut");
 require("Waterbody.Check.nut");
 require("Pathfinder.Ship.nut");
 require("Line.Walker.nut");
+require("Spiral.Walker.nut");
 
 class MinchinWeb {
 	static RoadPathfinder = _MetaLib_RoadPathfinder_;
@@ -20,6 +21,7 @@ class MinchinWeb {
 	static Extras = _MetaLib_Extras_;
 	static WaterbodyCheck = _MetaLib_WBC_;
 	static LineWalker = _MetaLib_LW_;
+	static SpiralWalker = _MetaLib_SW_;
 }
  
 /*	Q:	What is MinchinWeb's MetaLibrary?

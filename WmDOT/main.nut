@@ -1,9 +1,9 @@
-﻿/*	WmDOT v.5  r.89 [2011-04-16]
+﻿/*	WmDOT v.6  r.110 [2011-04-26]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
-import("util.MetaLib", "MetaLib", 1);
+import("util.MinchinWeb", "MetaLib", 1);
 	RoadPathfinder <- MetaLib.RoadPathfinder;
 	Array <- MetaLib.Array;
 import("util.superlib", "SuperLib", 7);		//	For loan management
@@ -24,10 +24,10 @@ require("Neighbourhood.nut");		//	Neighbourhood Class
  class WmDOT extends AIController 
 {
 	//	SETTINGS
-	WmDOTv = 5;
+	WmDOTv = 6;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 89;
+	WmDOTr = 110;
 	/*	Reversion number of AI
 	 */
 	 
@@ -393,75 +393,46 @@ function WmDOT::BuildWmHQ()
 	WmTownList.Valuate(AITown.GetPopulation);	
 	local HQTown = AITown();	
 	HQTown = WmTownList.Begin();
+	local OriginalHQTown = HQTown;
 	
 	while (Array.ContainedIn1D(DotHQList, HQTown)) {
 		Log.Note("Failed best for HQTown " + HQTown + ".",3);
 		HQTown = WmTownList.Next();
 	}
+	//	TO-DO: Doesn't address the case where all towns have a DOT HQ in them...
 	
-	// Get tile index of the centre of town
-	local HQx;
-	local HQy;
-	HQx = AIMap.GetTileX(AITown.GetLocation(HQTown));
-	HQy = AIMap.GetTileY(AITown.GetLocation(HQTown));
-	Log.Note("HQ will be build in " + AITown.GetName(HQTown) + " at " + HQx + ", " + HQy + ".",3);
-	
-	// Starts a spiral out from the centre of town, trying to build the HQ until it works!
-	local dx = -1;
-	local dy =  0;
-	local Steps = 0;
-	local Stage = 1;
-	local StageMax = 1;
-	local StageSteps = 0;
+	local Walker = MetaLib.SpiralWalker();
+	Walker.Start(AITown.GetLocation(HQTown));
 	local HQBuilt = false;
-	
 	while (HQBuilt == false) {
-		HQx += dx;
-		HQy += dy;
-		HQBuilt = AICompany.BuildCompanyHQ(AIMap.GetTileIndex(HQx,HQy));
-		Steps ++;
-		StageSteps ++;
-//			AILog.Info("          Step " + Steps + ". dx=" + dx + " dy=" + dy + ". Trying at "+ HQx + ", " + HQy + ". Stage: " + Stage + ". StageMax: " + StageMax + ". StageSteps: " + StageSteps + ".")
-
-		// Check if it's time to turn
-		if (StageSteps == StageMax) {
-			StageSteps = 0;
-			if (Stage % 2 == 0) {
-				StageMax++;
-			}
-			Stage ++;
-			
-			// Turn Clockwise
-			switch (dx) {
-				case 0:
-					switch (dy) {
-						case -1:
-							dx = -1;
-							dy =  0;
-							break;
-						case 1:
-							dx = 1;
-							dy = 0;
-							break;
-					}
-					break;
-				case -1:
-					dx = 0;
-					dy = 1;
-					break;
-				case 1:
-					dx =  0;
-					dy = -1;
-					break;
-			}
-		}
-
-		// Safety: Break if it tries for 20 times and still doesn't work!
-		if (Stage == 20) return -1;			
-	}
+		HQBuilt = AICompany.BuildCompanyHQ(Walker.Walk());
+		AISign.BuildSign(Walker.GetTile(), Walker.GetStep());
 		
+		// Safety: Break if it tries for 400 times and still doesn't work!
+		if (Walker.GetStage() == 40) {
+			Log.Warning("Failed to build HQ!");
+			HQTown = WmTownList.Next();
+			while (Array.ContainedIn1D(DotHQList, HQTown)) {
+				Log.Note("Failed best for HQTown " + HQTown + ".",3);
+				HQTown = WmTownList.Next();
+				
+				//	TO-DO: Is this check needed here, or is the check two lines down good enough?
+				if (WmTownList.IsEnd() == true) {
+					Log.Warning("Failed to Build HQ. Returning town " + OriginalHQTown + " anyway...");
+					return OriginalHQTown;
+				}
+			}
+			if (WmTownList.IsEnd() == true) {
+				Log.Warning("Failed to Build HQ. Returning town " + OriginalHQTown + " anyway...");
+				return OriginalHQTown;
+			}
+			Walker.Start(AITown.GetLocation(HQTown));	
+			
+		}
+	}
+	
 	tick = this.GetTick() - tick;
-	Log.Note("HQ built at "+ HQx + ", " + HQy + ". Took " + Steps + " tries. Took " + tick + " tick(s).",2);
+	Log.Note("HQ built at "+ AIMap.GetTileX(Walker.GetTile()) + ", " + AIMap.GetTileY(Walker.GetTile()) + ". Took " + Walker.GetStep() + " tries. Took " + tick + " tick(s).",2);
 	return HQTown;
 }
 

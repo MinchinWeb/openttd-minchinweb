@@ -12,10 +12,21 @@ WmDOT (short for "William's Department of Transportation") is an AI for
     in love with years ago and to bursh up on my programming skills at the same
     time.
 
+-- What WmDOT Does ------------------------------------------------------------
+WmDOT is non-competitive. At the present time, it just builds out your highway
+    network. It has no revenue source.
+WmDOT starts by selecting a 'capital' and builds its Headquarters there. (If
+    you run multiple instances of WmDOT, they should pick different towns as
+    their respective capitals.) First, WmDOT connects the surrounding towns to
+    the capital. Next it connects the towns further out to the existing
+    network. Once all towns have been connected to the network, WmDOT looks for
+    shorter cross connections to fill out the network.
+	
 -- Requirements ---------------------------------------------------------------
 WmDOT requires OpenTTD version 1.0 or better. This is available as a free
     download from OpenTTD.org
 As dependances, WmDOT also requires:
+	- MinchinWeb's MetaLibrary, v.1
     - SuperLib, v.7 ('SuperLib-7.tar')
     - Binary Heap, v.1 ('Queue.BinaryHeap-1.tar')
 
@@ -33,16 +44,6 @@ Once installed, WmDOT can be selected through 'AI Settings' on OpenTTD's main
     interface. Alternately, WmDOT can be launched manually in-game by bringing
     up the console (press the key to the right of the '1', usually the '~' key;
     press the same key to close the console) and typing 'start_ai wmdot'.
-
--- What WmDOT Does ------------------------------------------------------------
-WmDOT is non-competitive. At the present time, it just builds out your highway
-    network. It has no revenue source.
-WmDOT starts by selecting a 'capital' and builds its Headquarters there. (If
-    you run multiple instances of WmDOT, they should pick different towns as
-    their respective capitals.) First, WmDOT connects the surrounding towns to
-    the capital. Next it connects the towns further out to the existing
-    network. Once all towns have been connected to the network, WmDOT looks for
-    shorter cross connections to fill out the network.
 
 -- Settings -------------------------------------------------------------------
 Settings can be accessed by going to 'AI Settings', selecting WmDOT, and then
@@ -74,6 +75,10 @@ Rebuild Attempts: 1..15
 		in way), it will try again this many times
 
 -- Version History ------------------------------------------------------------
+Version 5.1
+	Now requires MinchinWeb's MetaLibrary
+	Fixes bug where WmDOT crashed because the town it was trying to build its
+		HQ in was too big.
 Version 5 [2011-04-13]
 	Will now start building almost as fast (within ~15 days) regardless of map
 		size. It does this by dividing the map into smaller chunks
@@ -111,8 +116,6 @@ Building multiple versions of the same routes is a tradeoff for pathfinder
 Pathfinding can take an exceptionally long time if there is no possible path.
     This is most often an issue when the two towns in question are on different
     islands.
-Superlib v6 is no longer available on Bananas. It should still be available via
-	TT-Forums.net.
 
 -- Help! It broke! (Bug Report) -----------------------------------------------
 If WmDOT crashes, please help me fix it! Save a screenshot (under the ? on the
@@ -129,6 +132,7 @@ WmDOT's thread on TT-Forums: release announcements, bug reports,
 WmDOT on Google Code: source code, and WmDOT: Bleeding Edge edition
                                     http://code.google.com/p/openttd-noai-wmdot
 To report issues:            http://code.google.com/p/openttd-noai-wmdot/issues
+
 My other projects (for OpenTTD):
     Alberta Town Names      http://www.tt-forums.net/viewtopic.php?f=67&t=53313
     MinchinWeb's Random Town Name Generator

@@ -1,5 +1,6 @@
 Ideas for my Random Names
 March 29, 2011
+April 17, 2011
 
 win appears twice
 
@@ -15,9 +16,13 @@ Suffixs
  - Ford
  - Ferry
  - Retreat
+ - Cliffs
+ - Drop
  
 Prefix
  - The
+ - de
+ - Camp
  
 Name Prefixes
  - Lord
@@ -30,9 +35,15 @@ Names
  - Jacob(son)
  - John(son)
  - Amelia
- 
+ - Tenny(son)
+ - Timothy
+ - Guilliame
+ - Ste Jean d'Arc
+
 Holy Places
  - 's Parish
+ - Basilica
+ - Pilligramige
  
 Water Suffixes
  - Bay
@@ -41,15 +52,26 @@ Water Suffixes
  - Delta
  - Outfall
  - Outlet
+ - Whirlpool
+ - Reef
+ - Breakwater
  
 Add the (Ox)(shire) 's
 
 More Gaillic names
 
 Add French localization
+Add Itialian localization
+Add Spanish localization
+Add German localization
+Add Chinese localization
 
 French town names
 Utah town names
+ - National Parks in Utah
+ - Rivers and Lakes in Utah
+ - State Parks in Utah
 Saskatchewan names
+ - Fort Qu'Appelle
  
  

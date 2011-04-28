@@ -96,7 +96,7 @@ function OpCleanupCrew::AcceptBuiltTiles(TilePairArray)
 
 	Log.Note("Running CleanupCrew.AcceptBuildTiles...", 3);
 	for (local i = 0; i < TilePairArray.len(); i++ ) {
-//		Log.Note("Inserting " + Array.ToStingTiles1D(TilePairArray[i]) + " : " + i + ".", 4);
+//		Log.Note("Inserting " + Array.ToStringTiles1D(TilePairArray[i]) + " : " + i + ".", 4);
 		this._heap.Insert(TilePairArray[i], AIBase.RandRange(255) );
 	}
 }
@@ -150,17 +150,17 @@ function OpCleanupCrew::Run()
 				Money.GreaseMoney((AIRoad.GetBuildCost(this._road_type, AIRoad.BT_ROAD) * 2.5).tointeger() );
 				AIRoad.RemoveRoadFull(TestPair[0], TestPair[1]);
 				i++;
-				Log.Note(i +". Testpair at " + Array.ToStingTiles1D(TestPair) + " removed.", 4);
+				Log.Note(i +". Testpair at " + Array.ToStringTiles1D(TestPair) + " removed.", 4);
 			} else {
 			// we're either a tunnel or a bridge, remove both!
 				i++;
-				Log.Note(i +". Testpair at " + Array.ToStingTiles1D(TestPair) + " removed. (Bridge or Tunnel)", 4);
+				Log.Note(i +". Testpair at " + Array.ToStringTiles1D(TestPair) + " removed. (Bridge or Tunnel)", 4);
 				Money.GreaseMoney((AIRoad.GetBuildCost(this._road_type, AIRoad.BT_ROAD) * AIMap.DistanceManhattan(TestPair[0], TestPair[1]) * 2) );
 				AIBridge.RemoveBridge(TestPair[0]);
 				AITunnel.RemoveTunnel(TestPair[0]);
 			}
 		} else {
-			Log.Note(i +". Testpair at " + Array.ToStingTiles1D(TestPair) + " NOT removed.", 4);
+			Log.Note(i +". Testpair at " + Array.ToStringTiles1D(TestPair) + " NOT removed.", 4);
 		}
 	}
 

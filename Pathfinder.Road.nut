@@ -1,5 +1,5 @@
-﻿/*	RoadPathfinder v.7 r.112 [2011-04-26],
- *	part of Minchinweb's MetaLibrary v.1, r.112, [2011-04-26],
+﻿/*	RoadPathfinder v.7 r.116 [2011-04-28],
+ *	part of Minchinweb's MetaLibrary v.1, r.116, [2011-04-28],
  *	originally part of WmDOT v.4  r.50 [2011-04-06]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -53,6 +53,9 @@
 //			//	Initializes the pathfinder using the seed tiles to the given towns	
 //		MetaLib.RoadPathfinder.PathToTilePairs()
 //			//	Returns a 2D array that has each pair of tiles that path joins
+//		MetaLib.RoadPathfinder.TilesPairsToBuild()
+//			//	Similiar to PathToTilePairs(), but only returns those pairs 
+//			//	where there isn't a current road connection
 
 class _MetaLib_RoadPathfinder_
 {
@@ -504,10 +507,11 @@ function _MetaLib_RoadPathfinder_::PresetPerfectPath() {
 	this._road_type = AIRoad.ROADTYPE_ROAD;
 	return;
 }
+
 function _MetaLib_RoadPathfinder_::PresetQuickAndDirty() {
 //	quick but messy preset. Runs in as little as 5% of the time of
 //		'PerfectPath', but builds odd bridges and loops
-	this._max_cost = 100000;
+/*	this._max_cost = 100000;
 	this._cost_tile = 30;
 	this._cost_no_existing_road = 301;
 	this._cost_turn = 50;
@@ -521,6 +525,23 @@ function _MetaLib_RoadPathfinder_::PresetQuickAndDirty() {
 	this._distance_penalty = 5;
 	this._road_type = AIRoad.ROADTYPE_ROAD;
 	return;
+	*/
+	
+// v4 DOT
+	this._max_cost = 100000;
+	this._cost_tile = 30;
+	this._cost_no_existing_road = 100;
+	this._cost_turn = 50;
+	this._cost_slope = 300;
+	this._cost_bridge_per_tile = 200;
+	this._cost_tunnel_per_tile = 120;
+	this._cost_coast = 20;
+	this._max_bridge_length = 16;
+	this._max_tunnel_length = 10;
+	this._cost_only_existing_roads = false;
+	this._distance_penalty = 5;
+	this._road_type = AIRoad.ROADTYPE_ROAD;
+	return;	
 }
 
 function _MetaLib_RoadPathfinder_::PresetCheckExisting() {
@@ -567,7 +588,7 @@ function _MetaLib_RoadPathfinder_::GetBuildCost()
 	local TestMode = AITestMode();
 	local Path = this._mypath;
 
-//	AIRoad.SetCurrentRoadType(this._road_type);
+	AIRoad.SetCurrentRoadType(this._road_type);
 	while (Path != null) {
 		local SubPath = Path.GetParent();
 		if (SubPath != null) {
@@ -768,7 +789,46 @@ function _MetaLib_RoadPathfinder_::PathToTilePairs()
 	while (Path != null) {
 		local SubPath = Path.GetParent();
 		if (SubPath != null) {
-			TilePairs.push(Path.GetTile(), SubPath.GetTile());	
+			TilePairs.push([Path.GetTile(), SubPath.GetTile()]);	
+		}
+	Path = SubPath;
+	}
+	
+	//	End build sequence
+	return TilePairs;
+}
+
+function _MetaLib_RoadPathfinder_::TilesPairsToBuild()
+{
+//	Similiar to PathToTilePairs(), but only returns those pairs where there
+//		isn't a current road connection
+
+	if (this._running) {
+		AILog.Warning("You can't convert a (partial) path while there's a running pathfinder.");
+		return false;
+	}
+	if (this._mypath == null) {
+		AILog.Warning("You have tried to convert a (partial) 'null' path.");
+		return false;
+	}
+	
+	local Path = this._mypath;
+	local TilePairs = [];
+
+	while (Path != null) {
+		local SubPath = Path.GetParent();
+		if (SubPath != null) {
+			if (AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile()) == 1) {
+			//	Could join with a road
+				if (AIRoad.AreRoadTilesConnected(Path.GetTile(), SubPath.GetTile()) != true) {
+					TilePairs.push([Path.GetTile(), SubPath.GetTile()]);
+				}
+			} else {
+			//	Implies that we're building either a tunnel or a bridge
+				if (!AIBridge.IsBridgeTile(Path.GetTile()) && !AITunnel.IsTunnelTile(Path.GetTile())) {
+					TilePairs.push([Path.GetTile(), SubPath.GetTile()]);
+				}
+			}
 		}
 	Path = SubPath;
 	}

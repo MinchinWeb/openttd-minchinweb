@@ -1,5 +1,5 @@
 ﻿WmDOT Read-me
-v.5, r.70, 2011-04-13
+v.6, r.119, 2011-04-28
 Copyright © 2011 by W. Minchin. For more info, please visit
     http://openttd-noai-wmdot.googlecode.com/
 
@@ -35,7 +35,7 @@ The easiest (and recommended) way to install WmDOT is use OpenTTD's 'Check
     Online Content' inferface. Search for 'WmDOT.' If you have not already
     installed the required libraries, OpenTTD will prompt you to download them
     at the same time. This also makes it very easy for me to provide updates.
-Manual installation can be accomplished by putting the 'WmDOT.4.tar' file you
+Manual installation can be accomplished by putting the 'WmDOT.6.tar' file you
     downloaded in the  '..\OpenTTD\ai'  folder. If you are manually installing,
     the libraries mentioned above need to be in the '..\OpenTTD\ai\library'
     folder.
@@ -75,15 +75,17 @@ Rebuild Attempts: 1..15
 		in way), it will try again this many times
 
 -- Version History ------------------------------------------------------------
-Version 5.1
-	Now requires MinchinWeb's MetaLibrary
-	Fixes bug where WmDOT crashed because the town it was trying to build its
-		HQ in was too big.
+Version 6 [2011-04-28]
+    Now requires MinchinWeb's MetaLibrary v1
+    Fixes bug where WmDOT crashed because the town it was trying to build its
+        HQ in was too big.
+    (Partially) fixes the problem of WmDOT spamming the map with roads. It
+        will now only keep the best path between towns.
 Version 5 [2011-04-13]
-	Will now start building almost as fast (within ~15 days) regardless of map
-		size. It does this by dividing the map into smaller chunks
-	Tweaks to pathfinder
-	Updated for SuperLib v7
+    Will now start building almost as fast (within ~15 days) regardless of map
+        size. It does this by dividing the map into smaller chunks
+    Tweaks to pathfinder
+    Updated for SuperLib v7
 Version 4 [2011-04-08]
     Changes to pathfinder allowing in to run in 1/20 the time in some cases
     Double check the road got built
@@ -99,20 +101,25 @@ Version 1
 
 -- Roadmap --------------------------------------------------------------------
 These are features I hope to add to WmDOT shortly. However, this is subject to
-    change without notice. I am open to suggestions however!
-v6. Bring water and food to towns in the desert and above the snowline to help
+    change without notice. However,I am open to suggestions!
+v7. Ship Pathfinder and transporting oil from oil rigs to refinaries
+v8. Provide inter-city valuables transportation
+v9. Bring water and food to towns in the desert and above the snowline to help
         them grow
-v7. Provide streetcar service in towns
+v10 Provide streetcar service in towns
 
 -- Known Issues ---------------------------------------------------------------
 Bankruptcy: Because WmDOT has no revenue source and so may go bankrupt. This
     becomes more of an issue in long games, on mountainous and watery maps, and
     on large maps. Allowing WmDOT to go bankrupt and then restarting itself will
-    allowWmDOT to keep going.
+    allow WmDOT to keep going.
 Save/Load functionality has not been added. On loading a game, WmDOT will take
     some time but should eventaully pick up where it left off.
 Building multiple versions of the same routes is a tradeoff for pathfinder
-	speed. If it becomes excessive, let me know.
+    speed. While WmDOT only builds one road between each town pair, it has no
+    conception of the compete network. If the extra road becomes excessive, let
+    me know. (a savegame or screenshot would be very helpful to illistrate the
+	particular problem)
 Pathfinding can take an exceptionally long time if there is no possible path.
     This is most often an issue when the two towns in question are on different
     islands.

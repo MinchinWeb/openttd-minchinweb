@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.6  r.115 [2011-04-27]
+﻿/*	WmDOT v.6  r.116 [2011-04-27]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  *		OR  http://www.tt-forums.net/viewtopic.php?f=65&t=53698
@@ -8,7 +8,7 @@ class WmDOT extends AIInfo
 {
 	function GetAuthor()        { return "W. Minchin"; }
 	function GetName()          { return "WmDOT"; }
-	function GetDescription()   { return "An AI that doesn't compete with you but rather builds out the highway network. We're still looking for a revenue stream. v.6 (r.115)"; }
+	function GetDescription()   { return "An AI that doesn't compete with you but rather builds out the highway network. We're still looking for a revenue stream. v.6 (r.116)"; }
 	function GetVersion()       { return 6; }
 	function MinVersionToLoad() { return 1; }
 	function GetDate()          { return "2011-04-27"; }
@@ -45,3 +45,8 @@ class WmDOT extends AIInfo
 
 /* Tell the core we are an AI */
 RegisterAI(WmDOT());
+
+//	Requires:
+//		SuperLib, v.7
+//		MinchinWeb's MetaLib, v.1
+//		Queue.Fibonacci_Heap v.2

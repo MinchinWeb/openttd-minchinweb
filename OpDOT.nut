@@ -1,5 +1,5 @@
-﻿/*	OperationDOT v.3, part of 
- *	WmDOT v.6  r.114 [2011-04-26]
+﻿/*	OperationDOT v.4, part of 
+ *	WmDOT v.6  r.116 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -17,6 +17,7 @@
 //	Requires "OpLog.nut"
 //	Requires "OpMoney.nut"
 //	Requires "TownRegistrar.nut"
+//	Requires "Cleanup.Crew.nut"
 
 //	TO-DO
 //	- break into more steps (Modes) to allow breaking during pathfinding
@@ -82,6 +83,7 @@
 	Log = null;
 	Money = null;
 	Towns = null;
+	CleanupCrew = null;
 	
 	 
 	constructor()
@@ -108,6 +110,7 @@
 		Log = OpLog();
 		Money = OpMoney();
 		Towns = TownRegistrar();
+		CleanupCrew = OpCleanupCrew();
 	}
 }
 
@@ -186,6 +189,7 @@ function OpDOT::LinkUp()
 	this.Log = WmDOT.Log;
 	this.Money = WmDOT.Money;
 	this.Towns = WmDOT.Towns;
+	this.CleanupCrew = WmDOT.CleanupCrew;
 	Log.Note(this.GetName() + " linked up!",3);
 }
  
@@ -303,6 +307,7 @@ function OpDOT::Run() {
 						Tries++;
 						Log.Note("Pathfinding took " + (AIController.GetTick() - tick) + " ticks. (MD = " + AIMap.DistanceManhattan(AITown.GetLocation(this._PairsToConnect[0]),AITown.GetLocation(this._PairsToConnect[1])) + ", Length = " + PathFinder.GetPathLength() + ").",3);
 						tick = AIController.GetTick();
+						CleanupCrew.AcceptBuiltTiles(Pathfinder.TilesPairsToBuild() );
 						BuildCost = PathFinder.GetBuildCost();
 						Log.Note("Cost of path is " + BuildCost + "£. Took " + (AIController.GetTick() - tick) + " ticks.", 3);
 						Money.FundsRequest(BuildCost*1.1);		//	To allow for inflation during construction
@@ -321,10 +326,14 @@ function OpDOT::Run() {
 						
 						if (BuildCost == 0) {
 							Log.Note("Successful connection!",3);
+							CleanupCrew.AcceptGoldenPath(Pathfinder.PathToTilePairs());
+							CleanupCrew.SetToRun();
 							KeepTrying = false;
 						}						
 						if ((Tries >= (WmDOT.GetSetting("OpDOT_RebuildAttempts") + 1)) && (KeepTrying == true)) {
-							Log.Warning("After " + Tries + " tries, unable to build path from " +AITown.GetName(this._PairsToConnect[0]) + " to " + AITown.GetName(this._PairsToConnect[1]) + ".")
+							Log.Warning("After " + Tries + " tries, unable to build path from " +AITown.GetName(this._PairsToConnect[0]) + " to " + AITown.GetName(this._PairsToConnect[1]) + ".");
+							CleanupCrew.AcceptGoldenPath(Pathfinder.PathToTilePairs());
+							CleanupCrew.SetToRun();
 							KeepTrying = false;
 						}
 					}

@@ -1,5 +1,5 @@
 /*	Cleanup Crew v.1, part of 
- *	WmDOT v.6  r.115 [2011-04-26]
+ *	WmDOT v.6  r.116 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -16,10 +16,10 @@
 //	Requires
 //		Queue.Fibonacci_Heap v.2
 
-class CleanupCrew {
+class OpCleanupCrew {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return 115; }
-	function GetDate()          { return "2011-04-26"; }
+	function GetRevision()		{ return 116; }
+	function GetDate()          { return "2011-04-28"; }
 	function GetName()          { return "Cleanup Crew"; }
 
 	_heap_class = import("Queue.Fibonacci_Heap", "", 2);
@@ -45,7 +45,7 @@ class CleanupCrew {
 
 }
 
-class CleanupCrew.State {
+class OpCleanupCrew.State {
 
 	_main = null;
 	
@@ -66,14 +66,14 @@ class CleanupCrew.State {
 	}
 }
 
-function CleanupCrew::LinkUp() 
+function OpCleanupCrew::LinkUp() 
 {
 	this.Log = WmDOT.Log;
 	this.Money = WmDOT.Money;
 	Log.Note(this.GetName() + " linked up!",3);
 }
 
-function CleanupCrew::Reset()
+function OpCleanupCrew::Reset()
 {
 //	Clears the internal heap and the Golden Path
 //	Can be invoked externally, but is invoked internally at the end of Run()
@@ -85,7 +85,7 @@ function CleanupCrew::Reset()
 }
 
 
-function CleanupCrew::AcceptBuiltTiles(TilePairArray)
+function OpCleanupCrew::AcceptBuiltTiles(TilePairArray)
 {
 //	Takes in a Array of Tile Pairs and adds them to an internal heap to be
 //		dealt with later
@@ -99,7 +99,7 @@ function CleanupCrew::AcceptBuiltTiles(TilePairArray)
 	}
 }
 
-function CleanupCrew::AcceptGoldenPath(TilePairArray)
+function OpCleanupCrew::AcceptGoldenPath(TilePairArray)
 {
 //	Takes in an Array of Tile Pairs that represents the 'Golden Path' or
 //		perfect routing. Tile Pairs appearing on this list will not be un-built
@@ -109,7 +109,7 @@ function CleanupCrew::AcceptGoldenPath(TilePairArray)
 	return this._golden_path;
 }
 
-function CleanupCrew::SetToRun()
+function OpCleanupCrew::SetToRun()
 {
 //	Involved OpDOT to have Cleanup Crew run on the next pass in the main loop
 
@@ -122,7 +122,7 @@ function CleanupCrew::SetToRun()
 	return this._next_run();
 }
 
-function CleanupCrew::Run()
+function OpCleanupCrew::Run()
 {
 //	This is where the real action is!
 	local tick = AIController.GetTick();
@@ -154,7 +154,7 @@ function CleanupCrew::Run()
 	Log.Note("Cleanup Crew's work is complete at tick " + (AIController.GetTick() - tick) + ", " + i + " tiles removed.", 2);
 }
 
-function CleanupCrew::SetRoadType(ARoadType)
+function OpCleanupCrew::SetRoadType(ARoadType)
 {
 //	Changes the road type Cleanup Crew is operating in
 //	TO-DO: Add an error check on the supplied value

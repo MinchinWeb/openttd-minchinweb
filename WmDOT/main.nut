@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.6  r.110 [2011-04-26]
+﻿/*	WmDOT v.6  r.116 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -18,6 +18,7 @@ require("OpLog.nut");				//	Operation Log
 require("TownRegistrar.nut");		//	Town Registrar
 require("Neighbourhood.nut");		//	Neighbourhood Class	
 // require("Fibonacci.Heap.WM.nut");	//	Fibonacci Heap (Max)
+require("Cleanup.Crew.nut");		//	Cleanup Crew
 		
 
  
@@ -27,7 +28,7 @@ require("Neighbourhood.nut");		//	Neighbourhood Class
 	WmDOTv = 6;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 110;
+	WmDOTr = 116;
 	/*	Reversion number of AI
 	 */
 	 
@@ -42,6 +43,7 @@ require("Neighbourhood.nut");		//	Neighbourhood Class
 	Towns = TownRegistrar();
 	Money = OpMoney();
 	DOT = OpDOT();
+	CleanupCrew = OpCleanupCrew();
   
 	function Start();
 }
@@ -68,6 +70,7 @@ function WmDOT::Start()
 	Log.Note("     " + Money.GetName() + ", v." + Money.GetVersion() + " r." + Money.GetRevision() + "  loaded!",0);
 	Log.Note("     " + DOT.GetName() + ", v." + DOT.GetVersion() + " r." + DOT.GetRevision() + "  loaded!",0);
 	Log.Note("     " + Towns.GetName() + ", v." + Towns.GetVersion() + " r." + Towns.GetRevision() + "  loaded!",0);
+	Log.Note("     " + CleanupCrew.GetName() + ", v." + CleanupCrew.GetVersion() + " r." + CleanupCrew.GetRevision() + "  loaded!",0);
 	StartInfo();		//	AyStarInfo()
 						//	RoadPathfinder()
 						//	NeighbourhoodInfo()
@@ -94,9 +97,10 @@ function WmDOT::Start()
 		Time = this.GetTick();	
 		Log.Settings.DebugLevel = GetSetting("Debug_Level");
 
-		if (Time > Money.State.NextRun)		{ Money.Run(); }
-		if (Time > Towns.State.NextRun)		{ Towns.Run(); }
-		if (Time > DOT.State.NextRun)		{ DOT.Run(); }
+		if (Time > Money.State.NextRun)			{ Money.Run(); }
+		if (Time > Towns.State.NextRun)			{ Towns.Run(); }
+		if (Time > CleanupCrew.State.NextRun)	{ CleanupCrew.Run(); }
+		if (Time > DOT.State.NextRun)			{ DOT.Run(); }
 
 		this.Sleep(1);		
 	}

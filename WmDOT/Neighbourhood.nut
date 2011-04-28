@@ -1,14 +1,14 @@
 /*	Neighbourhood Class, v.1, part of
  *	Town Registrar v.1, part of 
- *	WmDOT v.5  r.89  [2011-04-16]
+ *	WmDOT v.5  r.114 [2011-04-26]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
 class NeighbourhoodInfo {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return "89"; }
-	function GetDate()          { return "2011-04-16"; }
+	function GetRevision()		{ return 114; }
+	function GetDate()          { return "2011-04-26"; }
 	function GetName()          { return "Neighbourhood Library"; }
 }
 
@@ -103,8 +103,8 @@ function Neighbourhood::SplitNeighbourhood()
 		}
 	}
 	
-	Log.Note("NA is: " + Array.ToSting1D(NA),4);
-	Log.Note("NB is: " + Array.ToSting1D(NB),4);
+	Log.Note("NA is: " + Array.ToString1D(NA),4);
+	Log.Note("NB is: " + Array.ToString1D(NB),4);
 	
 	
 	return [NA,NB];

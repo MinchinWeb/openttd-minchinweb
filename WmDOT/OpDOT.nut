@@ -1,5 +1,5 @@
 ﻿/*	OperationDOT v.3, part of 
- *	WmDOT v.6  r.89  [2011-04-16]
+ *	WmDOT v.6  r.114 [2011-04-26]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -42,8 +42,8 @@
 
  class OpDOT {
 	function GetVersion()       { return 3; }
-	function GetRevision()		{ return 89; }
-	function GetDate()          { return "2011-04-16"; }
+	function GetRevision()		{ return 114; }
+	function GetDate()          { return "2011-04-26"; }
 	function GetName()          { return "Operation DOT"; }
  
 	_SleepLength = null;
@@ -288,7 +288,8 @@ function OpDOT::Run() {
 					TestAtlas = RemoveExistingConnections(TestAtlas);
 				}
 				
-				if ((this._Mode == 6) || (TestAtlas[0][2] == 1) ) {
+//				if ((this._Mode == 6) || (TestAtlas[0][2] == 1) ) {
+				if (TestAtlas[0][2] == 1) {
 					local tick = AIController.GetTick();
 					local KeepTrying = true;
 					local Tries = 1;
@@ -306,7 +307,7 @@ function OpDOT::Run() {
 						Log.Note("Cost of path is " + BuildCost + "£. Took " + (AIController.GetTick() - tick) + " ticks.", 3);
 						Money.FundsRequest(BuildCost*1.1);		//	To allow for inflation during construction
 						PathFinder.BuildPath();
-						AILog.Info(Array.ToString2D(PathFinder.PathToTilePairs()));
+//						AILog.Info(Array.ToString2D(PathFinder.PathToTilePairs()));
 						
 						//	Test to see if construction worked by running the
 						//		pathfinder and computing build cost of the 
@@ -450,7 +451,7 @@ function OpDOT::GenerateAtlas(WmTownArray)
 		WmAtlas[i]=TempArray;
 	}
 
-	Log.Note(Array.ToSting2D(WmAtlas), 4);
+	Log.Note(Array.ToString2D(WmAtlas), 4);
 
 	return WmAtlas;
 }
@@ -483,7 +484,7 @@ function OpDOT::RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, Mode)
 				}
 			}
 			
-			Log.Note(Array.ToSting2D(WmAtlas), 4);
+			Log.Note(Array.ToString2D(WmAtlas), 4);
 			Log.Note(Count + " routes removed. Took " + (AIController.GetTick() - tick) + " ticks.",3);
 			return WmAtlas;
 		case 3:
@@ -502,7 +503,7 @@ function OpDOT::RemoveExculsiveDepart(WmAtlas, HQTown, ConnectedPairs, Mode)
 				}
 			}			
 			
-			Log.Note(Array.ToSting2D(WmAtlas), 4);
+			Log.Note(Array.ToString2D(WmAtlas), 4);
 			Log.Note(Count + " routes removed. Took " + (AIController.GetTick() - tick) + " ticks.", 3);
 			return WmAtlas;
 		default:
@@ -544,7 +545,7 @@ function OpDOT::RemoveBuiltConnections(WmAtlas, ConnectedPairs)
 		Count++;
 	}
 	
-	Log.Note(Array.ToSting2D(WmAtlas), 4);
+	Log.Note(Array.ToString2D(WmAtlas), 4);
 	Log.Note(Count + " routes removed. Took " + (AIController.GetTick() - tick) + " ticks.", 3);
 
 	return WmAtlas;
@@ -575,7 +576,7 @@ function OpDOT::RemoveOverDistance(WmAtlas, MaxDistance)
 			}
 		}
 	}
-	Log.Note(Array.ToSting2D(WmAtlas),4);
+	Log.Note(Array.ToString2D(WmAtlas),4);
 	Log.Note(Count + " routes removed. Took " + (AIController.GetTick() - tick) + " ticks.", 3);
 
 	return WmAtlas;
@@ -614,7 +615,7 @@ function OpDOT::ApplyTripGenerationModel(WmAtlas)
 			WmAtlas[i][j] = FactorTemp;
 		}
 	}
-	Log.Note(Array.ToSting2D(WmAtlas), 4);
+	Log.Note(Array.ToString2D(WmAtlas), 4);
 	return WmAtlas
 }
 
@@ -722,7 +723,7 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 		}
 	}
 	
-	Log.Note(Array.ToSting2D(WmAtlas),4);
+	Log.Note(Array.ToString2D(WmAtlas),4);
 	
 	tick = AIController.GetTick() - tick;
 	Log.Note(RemovedCount + " of " + ExaminedCount + " routes removed. Took " + tick + " tick(s).", 3);
@@ -817,6 +818,8 @@ function OpDOT::MirrorAtlas(WmAtlas)
 	return WmAtlas;
 }
 
+/* ===== Start of PATHFINDER FUNCTIONS ====== */
+
 function OpDOT::RunPathfinder(Start, End)
 {
 //	Takes the starting and ending tiles, and runs the pathfinder to join the two.
@@ -825,7 +828,7 @@ function OpDOT::RunPathfinder(Start, End)
 	
 	AIRoad.SetCurrentRoadType(this._RoadType);
 	local pathfinder = RoadPathfinder();
-	pathfinder.PresetQuickAndDirty();					//	Set Parameters
+	pathfinder.PresetQuickAndDirty();			//	Set Parameters
 	pathfinder.InitializePath([Start], [End]);	// Give the source and goal tiles to the pathfinder.
 	
 	local path = false;
@@ -917,3 +920,5 @@ function OpDOT::LengthOfExistingConnectionsOnTownPairs(ConnectPairs)
 //	ConnectedPairs is expected to be an array with two TownID's
 	return LengthOfExistingConnectionsOnTowns(ConnectPairs[0], ConnectPairs[1]);
 }
+
+/* ===== END OF PATHFINDER FUNCTIONS ====== */

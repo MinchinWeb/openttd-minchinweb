@@ -1,5 +1,5 @@
-﻿/*	ShipPathfinder v.1 r.109 [2011-04-23],
- *	part of Minchinweb's MetaLibrary v1, r109, [2011-04-23],
+﻿/*	ShipPathfinder v.1 r.119 [2011-04-28],
+ *	part of Minchinweb's MetaLibrary v1, r119, [2011-04-28],
  *	originally part of WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -156,12 +156,12 @@ function _MetaLib_ShipPathfinder_::FindPath(iterations)
 		local ReturnWP = false;
 		//	Walk the path segment by segment until we hit land
 		for (local i = 0; i < (this._paths[WorkingPath].len() - 1); i++) {
-			AILog.Info("Contained in test... " + i + " : " + (this._paths[WorkingPath].len() - 2) + " : " + _MetaLib_Array_.ToSting2D(this._clearedpaths) + " " + this._points[this._paths[WorkingPath][i]] + " " + this._points[this._paths[WorkingPath][i+1]] + " : " + _MetaLib_Array_.ContainedInPairs(this._clearedpaths, this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]));
+			AILog.Info("Contained in test... " + i + " : " + (this._paths[WorkingPath].len() - 2) + " : " + _MetaLib_Array_.ToString2D(this._clearedpaths) + " " + this._points[this._paths[WorkingPath][i]] + " " + this._points[this._paths[WorkingPath][i+1]] + " : " + _MetaLib_Array_.ContainedInPairs(this._clearedpaths, this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]));
 		
 			if (_MetaLib_Array_.ContainedInPairs(this._clearedpaths, this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]) != true) {
 				//	This means we haven't already cleared the path...
 				local Land = LandHo(this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]);
-				AILog.Info("Land : " + _MetaLib_Array_.ToSting1D(Land) + " : "+ _MetaLib_Array_.ToStingTiles1D(Land));
+				AILog.Info("Land : " + _MetaLib_Array_.ToString1D(Land) + " : "+ _MetaLib_Array_.ToStringTiles1D(Land));
 				if (Land[0] == -1) {
 					//	All water
 					this._clearedpaths.push([this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]]);
@@ -192,7 +192,7 @@ function _MetaLib_ShipPathfinder_::FindPath(iterations)
 						}
 						//	Put both paths back into the UnfinishedPath heap					
 						this._paths[WorkingPath] = WPPoints1;
-						AILog.Info("     Inserting Path #" + WorkingPath + " : " +  _MetaLib_Array_.ToSting1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath));
+						AILog.Info("     Inserting Path #" + WorkingPath + " : " +  _MetaLib_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath));
 						this._UnfinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
 					}
 					if (NewPoint2 != null) {
@@ -207,7 +207,7 @@ function _MetaLib_ShipPathfinder_::FindPath(iterations)
 							WPPoints2 = _MetaLib_Array_.RemoveValueAt(WPPoints2, i);		
 						}
 						this._paths.push(WPPoints2);
-						AILog.Info("     Inserting Path #" + (this._paths.len() - 1) + " : " +  _MetaLib_Array_.ToSting1D(WPPoints2) + " l=" + _PathLength(this._paths.len() - 1));
+						AILog.Info("     Inserting Path #" + (this._paths.len() - 1) + " : " +  _MetaLib_Array_.ToString1D(WPPoints2) + " l=" + _PathLength(this._paths.len() - 1));
 						this._UnfinishedPaths.Insert(this._paths.len() - 1, _PathLength(this._paths.len() - 1));
 					}
 				}
@@ -230,7 +230,7 @@ function _MetaLib_ShipPathfinder_::FindPath(iterations)
 			if (this._FinishedPaths.Count() !=0) {
 				this._running = false;
 				this._mypath = _PathToTilesArray(this._FinishedPaths.Peek());
-				AILog.Info("My Path is " + _MetaLib_Array_.ToSting1D(this._mypath));
+				AILog.Info("My Path is " + _MetaLib_Array_.ToString1D(this._mypath));
 				return this._mypath;
 			} else {
 				//	If the UnfinishedPath heap is empty, fail the pathfinder
@@ -244,7 +244,7 @@ function _MetaLib_ShipPathfinder_::FindPath(iterations)
 				if (this._PathLength(this._FinishedPaths.Peek()) < this._PathLength(this._UnfinishedPaths.Peek()))  {
 					this._running = false;
 					this._mypath = _PathToTilesArray(this._FinishedPaths.Peek());
-					AILog.Info("My Path is " + _MetaLib_Array_.ToSting1D(this._mypath));
+					AILog.Info("My Path is " + _MetaLib_Array_.ToString1D(this._mypath));
 					return this._mypath;
 				}
 			}
@@ -316,7 +316,7 @@ function _MetaLib_ShipPathfinder_::WaterHo(StartTile, Slope, ThirdQuadrant = fal
 	}
 	
 	if (AIMarine.AreWaterTilesConnected(PrevTile, CurTile) == true) {
-		AILog.Info("     WaterHo returning " + _MetaLib_Array_.ToStingTiles1D([CurTile]) );
+		AILog.Info("     WaterHo returning " + _MetaLib_Array_.ToStringTiles1D([CurTile]) );
 		return CurTile;
 	} else {
 		return null;
@@ -330,8 +330,8 @@ function _MetaLib_ShipPathfinder_::_PathToTilesArray(PathIndex)
 	for (local i = 0; i < (this._paths[PathIndex].len()); i++) {
 			Tiles.push(this._points[this._paths[PathIndex][i]]);
 	} 
-	AILog.Info("PathToTilesArray input " + _MetaLib_Array_.ToSting1D(this._paths[PathIndex]) );
-	AILog.Info("     and output " + _MetaLib_Array_.ToSting1D(Tiles) );
+	AILog.Info("PathToTilesArray input " + _MetaLib_Array_.ToString1D(this._paths[PathIndex]) );
+	AILog.Info("     and output " + _MetaLib_Array_.ToString1D(Tiles) );
 	return Tiles;
 }
 

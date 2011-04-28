@@ -1,5 +1,5 @@
-﻿/*	Array SubLibrary, v.2 r.103 [2011-04-19],
- *	part of Minchinweb's MetaLibrary v1, r103, [2011-04-19],
+﻿/*	Array SubLibrary, v.2 r.119 [2011-04-28],
+ *	part of Minchinweb's MetaLibrary v1, r119, [2011-04-28],
  *	originally part of WmDOT v.5  r.53d	[2011-04-09]
  *		and WmArray library v.1  r.1 [2011-02-13].
  *	Copyright © 2011 by W. Minchin. For more info,
@@ -20,7 +20,7 @@
  *					 .Find3D(InArray, SearchValue)
  *					 .RemoveValueAt(InArray, Index)
  *					 .InsertValueAt(InArray, Index, Value)
- *					 .ToStingTiles1D(InArrayOfTiles)
+ *					 .ToStringTiles1D(InArrayOfTiles)
  *					 .FindPairs(InArray2D, SearchValue1, SearchValue2)
  *					 .ContainedInPairs(InArray2D, SearchValue1, SearchValue2)
  */
@@ -268,7 +268,7 @@ function _MetaLib_Array_::InsertValueAt(InArray, Index, Value)
 	return Return;	
 }
 
-function _MetaLib_Array_::ToStingTiles1D(InArrayOfTiles)
+function _MetaLib_Array_::ToStringTiles1D(InArrayOfTiles)
 {
 	//	Add error check that an array is provided
 	

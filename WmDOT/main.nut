@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.6  r.116 [2011-04-28]
+﻿/*	WmDOT v.6  r.118 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -28,7 +28,7 @@ require("Cleanup.Crew.nut");		//	Cleanup Crew
 	WmDOTv = 6;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 116;
+	WmDOTr = 118;
 	/*	Reversion number of AI
 	 */
 	 
@@ -487,6 +487,7 @@ function WmDOT::TheGreatLinkUp()
 	DOT.LinkUp();
 	Money.LinkUp();
 	Towns.LinkUp();
+	CleanupCrew.LinkUp();
 	Log.Note("The Great Link Up is Complete!",1);
 	Log.Note("",1);
 }

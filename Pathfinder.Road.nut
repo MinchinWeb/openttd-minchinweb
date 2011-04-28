@@ -1,5 +1,5 @@
-﻿/*	RoadPathfinder v.7 r.116 [2011-04-28],
- *	part of Minchinweb's MetaLibrary v.1, r.116, [2011-04-28],
+﻿/*	RoadPathfinder v.7 r.118 [2011-04-28],
+ *	part of Minchinweb's MetaLibrary v.1, r.118, [2011-04-28],
  *	originally part of WmDOT v.4  r.50 [2011-04-06]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -40,10 +40,11 @@
 //									.GetName()
 			//	Useful for check provided version or debugging screen output
 //		MetaLib.RoadPathfinder.PresetOriginal()
-//								.PresetPerfectPath()
-//								.PresetDirty()
-//								.PresetCheckExisting()
-//								.PresetStreetcar() 
+//							  .PresetPerfectPath()
+//							  .PresetQuickAndDirty()
+//							  .PresetCheckExisting()
+//							  .PresetMode6()
+//							  .PresetStreetcar() 
 			//	Presets for the pathfinder parameters
 //		MetaLib.RoadPathfinder.GetBuildCost()					//	How much would it be to build the path?
 //		MetaLib.RoadPathfinder.BuildPath()						//	Build the path
@@ -530,7 +531,7 @@ function _MetaLib_RoadPathfinder_::PresetQuickAndDirty() {
 // v4 DOT
 	this._max_cost = 100000;
 	this._cost_tile = 30;
-	this._cost_no_existing_road = 100;
+	this._cost_no_existing_road = 120;
 	this._cost_turn = 50;
 	this._cost_slope = 300;
 	this._cost_bridge_per_tile = 200;

@@ -1,5 +1,5 @@
-/*	Cleanup Crew v.1, part of 
- *	WmDOT v.6  r.116 [2011-04-28]
+/*	Cleanup Crew v.2, part of 
+ *	WmDOT v.6  r.118 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -17,8 +17,8 @@
 //		Queue.Fibonacci_Heap v.2
 
 class OpCleanupCrew {
-	function GetVersion()       { return 1; }
-	function GetRevision()		{ return 116; }
+	function GetVersion()       { return 2; }
+	function GetRevision()		{ return 118; }
 	function GetDate()          { return "2011-04-28"; }
 	function GetName()          { return "Cleanup Crew"; }
 
@@ -35,7 +35,7 @@ class OpCleanupCrew {
 	State = null;
 	
 	constructor() {
-		this._money = OpMoney();
+		this.Money = OpMoney();
 		this.Log = OpLog();
 		this.State = this.State(this);
 		this._heap = this._heap_class();
@@ -94,8 +94,10 @@ function OpCleanupCrew::AcceptBuiltTiles(TilePairArray)
 //	Note: Tiles are added with a random priority. This is so that they get
 //		pulled off the map in a 'random' order, which I thought would look cool :)
 
+	Log.Note("Running CleanupCrew.AcceptBuildTiles...", 3);
 	for (local i = 0; i < TilePairArray.len(); i++ ) {
-		this._heap.Insert(TilePairArray[i], AIBase.Rand() );
+//		Log.Note("Inserting " + Array.ToStingTiles1D(TilePairArray[i]) + " : " + i + ".", 4);
+		this._heap.Insert(TilePairArray[i], AIBase.RandRange(255) );
 	}
 }
 
@@ -105,7 +107,7 @@ function OpCleanupCrew::AcceptGoldenPath(TilePairArray)
 //		perfect routing. Tile Pairs appearing on this list will not be un-built
 //	TO-DO: Add an error check on the supplied array
 
-	this._golden_path = TilePairArray();
+	this._golden_path = TilePairArray;
 	return this._golden_path;
 }
 
@@ -119,7 +121,7 @@ function OpCleanupCrew::SetToRun()
 //			CleanupCrew runs before OpDOT does again.
 
 	this._next_run = AIController.GetTick();
-	return this._next_run();
+	return this._next_run;
 }
 
 function OpCleanupCrew::Run()
@@ -127,13 +129,13 @@ function OpCleanupCrew::Run()
 //	This is where the real action is!
 	local tick = AIController.GetTick();
 	if (this._golden_path == null) {
-		Log.Note("Cleanup Crew: At tick " + ".",1);
+		Log.Note("Cleanup Crew: At tick " + tick + ".",1);
 		Log.Note("          There has been no 'Golden Path' set so, yum, yeah...we're still unemployed...", 1);
+		this._next_run = tick + 10000;
 		return;
 	}
 	
 	Log.Note("Cleanup Crew is employed at tick " + tick + ".",1);
-	
 	//	Funds Request
 //	Money.FundsRequest()
 	
@@ -141,17 +143,30 @@ function OpCleanupCrew::Run()
 	local TestPair;
 	local i = 0;
 	while (this._heap.Count() > 0) {
+		local count = this._heap.Count();	// For debugging
 		TestPair = this._heap.Pop();
 		if (!Array.ContainedInPairs(this._golden_path, TestPair[0], TestPair[1])) {
-			Money.GreaseMoney((AIRoad.GetBuildCost(this._road_type, BT_ROAD) * 2.5).tointeger() );
-			AIRoad.RemoveRoad(TestPair[0], TestPair[1]);
-			i++;			
+			if (AIMap.DistanceManhattan(TestPair[0], TestPair[1]) == 1) {
+				Money.GreaseMoney((AIRoad.GetBuildCost(this._road_type, AIRoad.BT_ROAD) * 2.5).tointeger() );
+				AIRoad.RemoveRoadFull(TestPair[0], TestPair[1]);
+				i++;
+				Log.Note(i +". Testpair at " + Array.ToStingTiles1D(TestPair) + " removed.", 4);
+			} else {
+			// we're either a tunnel or a bridge, remove both!
+				i++;
+				Log.Note(i +". Testpair at " + Array.ToStingTiles1D(TestPair) + " removed. (Bridge or Tunnel)", 4);
+				Money.GreaseMoney((AIRoad.GetBuildCost(this._road_type, AIRoad.BT_ROAD) * AIMap.DistanceManhattan(TestPair[0], TestPair[1]) * 2) );
+				AIBridge.RemoveBridge(TestPair[0]);
+				AITunnel.RemoveTunnel(TestPair[0]);
+			}
+		} else {
+			Log.Note(i +". Testpair at " + Array.ToStingTiles1D(TestPair) + " NOT removed.", 4);
 		}
 	}
 
 	this.Reset();
 	
-	Log.Note("Cleanup Crew's work is complete at tick " + (AIController.GetTick() - tick) + ", " + i + " tiles removed.", 2);
+	Log.Note("Cleanup Crew's work is complete, took " + (AIController.GetTick() - tick) + " ticks, " + i + " tiles removed.", 2);
 }
 
 function OpCleanupCrew::SetRoadType(ARoadType)

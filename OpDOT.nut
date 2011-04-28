@@ -1,5 +1,5 @@
 ﻿/*	OperationDOT v.4, part of 
- *	WmDOT v.6  r.116 [2011-04-28]
+ *	WmDOT v.6  r.118 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -307,7 +307,7 @@ function OpDOT::Run() {
 						Tries++;
 						Log.Note("Pathfinding took " + (AIController.GetTick() - tick) + " ticks. (MD = " + AIMap.DistanceManhattan(AITown.GetLocation(this._PairsToConnect[0]),AITown.GetLocation(this._PairsToConnect[1])) + ", Length = " + PathFinder.GetPathLength() + ").",3);
 						tick = AIController.GetTick();
-						CleanupCrew.AcceptBuiltTiles(Pathfinder.TilesPairsToBuild() );
+						CleanupCrew.AcceptBuiltTiles(PathFinder.TilesPairsToBuild() );
 						BuildCost = PathFinder.GetBuildCost();
 						Log.Note("Cost of path is " + BuildCost + "£. Took " + (AIController.GetTick() - tick) + " ticks.", 3);
 						Money.FundsRequest(BuildCost*1.1);		//	To allow for inflation during construction
@@ -319,20 +319,20 @@ function OpDOT::Run() {
 						//		second path
 						tick = AIController.GetTick();
 						Log.Note("Attempt " + Tries + " to connect " +AITown.GetName(this._PairsToConnect[0]) + " to " + AITown.GetName(this._PairsToConnect[1]) + ".", 3)
-//						Path = RunPathfinderOnTownPairs(this._PairsToConnect);
+						PathFinder = RunPathfinderOnTownPairs(this._PairsToConnect);
 						BuildCost = PathFinder.GetBuildCost();
 						// TO-DO:	Check that the bridges and tunnels got
 						//			built; if unbuildable, their cost remains 0£
 						
 						if (BuildCost == 0) {
 							Log.Note("Successful connection!",3);
-							CleanupCrew.AcceptGoldenPath(Pathfinder.PathToTilePairs());
+							CleanupCrew.AcceptGoldenPath(PathFinder.PathToTilePairs());
 							CleanupCrew.SetToRun();
 							KeepTrying = false;
 						}						
 						if ((Tries >= (WmDOT.GetSetting("OpDOT_RebuildAttempts") + 1)) && (KeepTrying == true)) {
 							Log.Warning("After " + Tries + " tries, unable to build path from " +AITown.GetName(this._PairsToConnect[0]) + " to " + AITown.GetName(this._PairsToConnect[1]) + ".");
-							CleanupCrew.AcceptGoldenPath(Pathfinder.PathToTilePairs());
+							CleanupCrew.AcceptGoldenPath(PathFinder.PathToTilePairs());
 							CleanupCrew.SetToRun();
 							KeepTrying = false;
 						}

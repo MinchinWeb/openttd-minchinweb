@@ -1,8 +1,8 @@
-/*	WmBasic v.1  r.100
+/*	WmBasic v.1  r.104
  *	Created by W. Minchin
  */
  
-import("util.MetaLib", "MetaLib", 1);
+import("util.MinchinWeb", "MetaLib", 2);
 import("util.SuperLib", "SuperLib", 7);
  
 class WmShipPFTest extends AIController 
@@ -11,7 +11,7 @@ class WmShipPFTest extends AIController
 	WmBasicv = 1;
 	/*	Version number of AI
 	 */	
-	WmBasicr = 100;
+	WmBasicr = 104;
 	/*	Reversion number of AI
 	 */
 	 
@@ -40,9 +40,8 @@ function WmShipPFTest::Start()
 	local Mode = 1;
 	local tick;
 	
-	AISign.BuildSign(0x9D6E, "Start");
-	AISign.BuildSign(0x9A6F, "End");
-	
+//	AISign.BuildSign(40303, "Start");
+//	AISign.BuildSign(39815, "End");
 	
 	while (true) {
 		Start = MetaLib.Extras.SignLocation("Start");
@@ -68,7 +67,7 @@ function WmShipPFTest::Start()
 			PF.InitializePath([Start], [End]);
 			AILog.Info("     Max distance is " + PF.cost.max_cost );
 			local Result = PF.FindPath(-1);
-			AILog.Info("Path from " + AIMap.GetTileX(Start) + "," + AIMap.GetTileY(Start) + " to " + AIMap.GetTileX(End) + "," + AIMap.GetTileY(End) + ". Length " + (PF.GetPathLength()) + ". Took " + (AIController.GetTick() - tick) + " ticks." );
+			AILog.Info("** Path from " + AIMap.GetTileX(Start) + "," + AIMap.GetTileY(Start) + " to " + AIMap.GetTileX(End) + "," + AIMap.GetTileY(End) + ". Length " + (PF.GetPathLength()) + ". Took " + (AIController.GetTick() - tick) + " ticks. **" );
 			AILog.Info(" ");
 			Start = null;
 			End = null;

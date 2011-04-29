@@ -1,5 +1,5 @@
 ﻿/*	LineWalker class v.1 r.129 [2011-04-29],
- *	part of Minchinweb's MetaLibrary v2, r1é9, [2011-04-29],
+ *	part of Minchinweb's MetaLibrary v2, r129, [2011-04-29],
  *	originally part of WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -79,11 +79,12 @@ function _MinchinWeb_LW_::Start(Tile)
 		} else {
 		//	startX == EndX
 			if (this._starty < this._endy) {
-				this._dirx = -1;	
+				this._dirx = 1;
+
 			} else {
-				this._dirx = 1;	
+				this._dirx = 1;
 			}
-			this._endx = this._endx.tofloat() + (1.0 - (1.0 / _MinchinWeb_C_.Infinity()));	
+			this._endx = this._endx.tofloat() + (1.0 - (1.0 / _MinchinWeb_C_.Infinity()));			
 		}
 		
 		if (this._starty == this._endy) {
@@ -111,17 +112,14 @@ function _MinchinWeb_LW_::End(Tile)
 			this._dirx = 1;
 		} else if (this._startx > this._endx) {
 			this._dirx = -1;
-//			this._y = this._y.tofloat() + (1.0 - (1.0 / this._infinity));
 		} else {
 		//	startX == EndX
 			if (this._starty < this._endy) {
 				this._dirx = 1;
-//				this._dirx = -1;
-//				this._x = this._x.tofloat() + (1.0 - (1.0 / this._infinity));
+
 			} else {
 				this._dirx = 1;
 			}
-//			this._slope *= -1.0;
 			this._endx = this._endx.tofloat() + (1.0 - (1.0 / _MinchinWeb_C_.Infinity()));			
 		}
 		
@@ -151,25 +149,29 @@ function _MinchinWeb_LW_::Slope(Slope, ThirdQuadrant = false)
 	if (this._slope > 0.0) {
 //		this._endy = this._infinity;
 		this._endy = AIMap.GetMapSizeY();
+//		this._endy = 0;
 	} else {
 //		this._endy = -1 * this._infinity;
 		this._endy = 0;
+//		this._endy = AIMap.GetMapSizeY();
 	}
 	
 	if (ThirdQuadrant == false) {
-		this._dirx = -1;		//	+1
+		this._dirx = 1;		//	+1
 //		this._endx = this._infinity;
 		this._endx = AIMap.GetMapSizeX();
 	} else {
-		this._dirx = 1;	//	-1
+		this._dirx = -1;	//	-1
 		this._x += (1.0 - (1.0 / _MinchinWeb_C_.Infinity()));
 //		this._endx = -1 * this._infinity;
 //		this._endy = -1 * this._endy;
 		this._endx = 0;
 		if (this._endy == 0) {
-			this._endy = AIMap.GetMapSizeY();
-		} else {
 			this._endy = 0;
+//			this._endy = AIMap.GetMapSizeY();
+		} else {
+			this._endy = AIMap.GetMapSizeY();
+//			this._endy = 0;
 		}
 	}
 	
@@ -215,17 +217,15 @@ function _MinchinWeb_LW_::Walk()
 	
 	if ((AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(this._x.tointeger(), this._y.tointeger())) == 1 ) && _MinchinWeb_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x.tointeger()) &&_MinchinWeb_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y.tointeger())) {
 		this._current_tile = AIMap.GetTileIndex(this._x.tointeger(), this._y.tointeger());
-		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) + " from " + this._x + "," + this._y );
+//		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) + " from " + this._x + "," + this._y );
 		return this._current_tile;
 	}
 	
-	//	this._infinity assumed to be 10,000
+	//	Infinity assumed to be 10,000
 	local multiplier = 0.0;
 
 	//	We need to find the value, such that MAX(ABS(∆x, m∆x)) == 1
 	//		Therefore, our multiplier is MIN(ABS(1, 1/m))
-	
-//	multiplier = _MinchinWeb_Extras_.MinAbsFloat(1.0, _MinchinWeb_Extras_.Perpendicular(this._slope));
 	multiplier = _MinchinWeb_Extras_.MinAbsFloat(1.0, (1.0 / this._slope) );
 	
 	local NewX = 0.0;
@@ -237,7 +237,7 @@ function _MinchinWeb_LW_::Walk()
 	if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(NewX.tointeger(), NewY.tointeger())) == 1 ) {
 		this._current_tile = AIMap.GetTileIndex(NewX.tointeger(), NewY.tointeger());
 	} else if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(NewX.tointeger(), this._y.tointeger())) == 1 ) {
-		this._current_tile = AIMap.GetTileIndex(NewX.tointeger(), this._y.tointeger());
+//		this._current_tile = AIMap.GetTileIndex(NewX.tointeger(), this._y.tointeger());
 	}
 	
 	this._x = NewX;
@@ -246,14 +246,12 @@ function _MinchinWeb_LW_::Walk()
 	//	Check that we're still within our bounding box
 //	AILog.Info("    " + this._startx + " , " + this._endx + " , " + this._x.tointeger() + " , " + this._starty + " , " + this._endy + " , " + this._y.tointeger());
 	
-//	if ((_MinchinWeb_Extras_.WithinFloat(this._startx, this._endx, this._x.tointeger()) == false) || (_MinchinWeb_Extras_.WithinFloat(this._starty, this._endy, this._y.tointeger()) == false)) {
-//		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MinchinWeb_Extras_.WithinFloat(this._startx, this._endx, this._x.tointeger()) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MinchinWeb_Extras_.WithinFloat(this._starty, this._endy, this._y.tointeger())));
 	if (!_MinchinWeb_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x) || !_MinchinWeb_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y)) {
 		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MinchinWeb_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MinchinWeb_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y)));
 		this._past_end = true;
 		return this._current_tile;
 	} else {
-		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) );
+//		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) );
 		return this._current_tile;
 	}
 }

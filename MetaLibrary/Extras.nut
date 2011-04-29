@@ -1,9 +1,11 @@
-﻿/*	Extra functions v.1 r.109 [2011-04-23],
- *	part of Minchinweb's MetaLibrary v1, r109, [2011-04-23],
- *	originally part of WmDOT v.6
+﻿/*	Extra functions v.1 r.129 [2011-04-30],
+ *	part of Minchinweb's MetaLibrary v2, r129, [2011-04-30],
+ *	originally part of WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
+ 
+// TO-DO:	Break this into Constants, Math, Geometry, and Extras
  
 /*	These are 'random' functions that didn't seem to fit well elsewhere.
  *
@@ -25,14 +27,20 @@
  *					  .MaxAbsFloatKeepSign(Value1, Value2)
  *	//	Comparision functions will return the first value if the two are equal
  */
+
+class _MinchinWeb_C_ {
+	//	These are constants called by the various sublibraries
+	function Infinity() 	{ return 10; }	//	close enough to infinity :P
+												//	Slopes are capped at 10,000 and 1/10,000
+	function FloatOffset()	{ return 0.0005; }
+}
  
 class _MetaLib_Extras_ {
 	_infinity = null;
 	
 	constructor()
 	{
-		this._infinity = 10000;	//	close enough to infinity :P
-								//	Slopes are capped at 10,000 and 1/10,000
+		this._infinity = _MinchinWeb_C_.Infinity();	
 	}
 	
 }
@@ -79,24 +87,24 @@ function _MetaLib_Extras_::Perpendicular(SlopeIn)
 	}
 }
 
-function _MetaLib_Extras_::Slope(TileA, TileB, Infinity = _MetaLib_Extras_._infinity)
+function _MetaLib_Extras_::Slope(TileA, TileB)
 {
 //	Returns the slope between two tiles
 	local dx = AIMap.GetTileX(TileB) - AIMap.GetTileX(TileA);
 	local dy = AIMap.GetTileY(TileB) - AIMap.GetTileY(TileA);
-	local Inftest = _MetaLib_Extras_._infinity;
+//	local Inftest = _MetaLib_Extras_._infinity;
 //	AILog.Info(_MetaLib_Extras_._infinity);
 	
 	//	Zero check
 	if (dx == 0) {
-		return Infinity * _MetaLib_Extras_.Sign(dy);
+		return _MinchinWeb_C_.Infinity() * _MetaLib_Extras_.Sign(dy);
 	} else if (dy == 0) {
-		return (1.0 / Infinity) * _MetaLib_Extras_.Sign(dx);
+		return (1.0 / _MinchinWeb_C_.Infinity()) * _MetaLib_Extras_.Sign(dx);
 	} else {
 		dx = dx.tofloat();
 		dy = dy.tofloat();
 
-		return (dx / dy);	
+		return (dy / dx);	
 	}
 }
 
@@ -110,11 +118,11 @@ function _MetaLib_Extras_::Within(Bound1, Bound2, Value)
 
 function _MetaLib_Extras_::WithinFloat(Bound1, Bound2, Value)
 {
-	local UpperBound = _MetaLib_Extras_.MaxFloat(Bound1, Bound2);
-	local LowerBound = _MetaLib_Extras_.MinFloat(Bound1, Bound2);
+	local UpperBound = _MetaLib_Extras_.MaxFloat(Bound1, Bound2) + _MinchinWeb_C_.FloatOffset();
+	local LowerBound = _MetaLib_Extras_.MinFloat(Bound1, Bound2) - _MinchinWeb_C_.FloatOffset();
 //	local Value = Value.tofloat();
 	
-//	AILog.Info("          Extras.WithinFloat: Val=" + Value + " B1=" + Bound1 + " B2=" + Bound2 + " : UB=" + UpperBound + " LB=" + LowerBound + " is " + (Value <= UpperBound) + " " + (Value >= LowerBound) + " : " + ((Value <= UpperBound) && (Value >= LowerBound)))
+//	AILog.Info("          Extras.WithinFloat: Val=" + Value + " B1=" + Bound1 + " B2=" + Bound2 + " : UB=" + UpperBound + " LB=" + LowerBound + " is " + (Value <= UpperBound) + " " + (Value >= LowerBound) + " : " + ((Value <= UpperBound) && (Value >= LowerBound)) + " : above " + (Value - UpperBound) + " below " + (LowerBound - Value) + " : " + _MinchinWeb_C_.FloatOffset() );
 
 	return ((Value <= UpperBound) && (Value >= LowerBound));
 }

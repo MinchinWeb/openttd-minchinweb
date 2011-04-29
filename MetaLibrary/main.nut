@@ -22,7 +22,10 @@ class MinchinWeb {
 	static WaterbodyCheck = _MetaLib_WBC_;
 	static LineWalker = _MetaLib_LW_;
 	static SpiralWalker = _MetaLib_SW_;
+	static Constants = _MinchinWeb_C_;
 }
+
+
  
 /*	Q:	What is MinchinWeb's MetaLibrary?
  *	A:	MetaLib is the collection of code I've written for WmDOT, my AI for

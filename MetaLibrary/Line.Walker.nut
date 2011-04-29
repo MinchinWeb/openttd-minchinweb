@@ -1,7 +1,7 @@
-/*	LineWalker class v.1 r.129 [2011-04-29],
- *	part of Minchinweb's MetaLibrary v2, r1é9, [2011-04-29],
+ï»¿/*	LineWalker class v.1 r.129 [2011-04-29],
+ *	part of Minchinweb's MetaLibrary v2, r1Ã©9, [2011-04-29],
  *	originally part of WmDOT v.7
- *	Copyright © 2011 by W. Minchin. For more info,
+ *	Copyright Â© 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
@@ -48,7 +48,7 @@ class _MetaLib_LW_ {
 	constructor()
 	{
 		this._past_end = true;
-//		this._infinity = 10000;	//	close enough to infinity :P
+//		this._infinity = _MinchinWeb_C_.Infinity();	//	close enough to infinity :P
 								//	Slopes are capped at 10,000 and 1/10,000
 		this._infinity = 10;	//	For Testing
 	}
@@ -69,7 +69,7 @@ function _MetaLib_LW_::Start(Tile)
 	
 	if (this._end != null) {
 		if (this._slope == null) {
-			this._slope = _MetaLib_Extras_.Slope(this._start, this._end, this._infinity);
+			this._slope = _MetaLib_Extras_.Slope(this._start, this._end);
 		}
 		
 		if (this._startx < this._endx) {
@@ -83,15 +83,15 @@ function _MetaLib_LW_::Start(Tile)
 			} else {
 				this._dirx = 1;	
 			}
-			this._endx = this._endx.tofloat() + (1.0 - (1.0 / this._infinity));	
+			this._endx = this._endx.tofloat() + (1.0 - (1.0 / _MinchinWeb_C_.Infinity()));	
 		}
 		
 		if (this._starty == this._endy) {
-			this._endy = this._endy.tofloat() + (1.0 - (1.0 / this._infinity));
+			this._endy = this._endy.tofloat() + (1.0 - (1.0 / _MinchinWeb_C_.Infinity()));
 		}
 	}
 	
-	AILog.Info("    LineWalker.Start out: " + this._startx + " " + this._starty + " m" + this._slope + " ± " + this._dirx);
+	AILog.Info("    LineWalker.Start out: " + this._startx + " " + this._starty + " m" + this._slope + " Â± " + this._dirx);
 }
 
 function _MetaLib_LW_::End(Tile)
@@ -104,32 +104,33 @@ function _MetaLib_LW_::End(Tile)
 	
 	if (this._start != null) {
 		if (this._slope == null) {
-			this._slope = _MetaLib_Extras_.Slope(this._start, this._end, this._infinity);
+			this._slope = _MetaLib_Extras_.Slope(this._start, this._end);
 		}
 		
 		if (this._startx < this._endx) {
 			this._dirx = 1;
 		} else if (this._startx > this._endx) {
 			this._dirx = -1;
-			this._y = this._y.tofloat() + (1.0 - (1.0 / this._infinity));
+//			this._y = this._y.tofloat() + (1.0 - (1.0 / this._infinity));
 		} else {
 		//	startX == EndX
 			if (this._starty < this._endy) {
-				this._dirx = -1;
+				this._dirx = 1;
+//				this._dirx = -1;
+//				this._x = this._x.tofloat() + (1.0 - (1.0 / this._infinity));
 			} else {
 				this._dirx = 1;
-				this._x = this._x.tofloat() + (1.0 - (1.0 / this._infinity));
 			}
-			this._slope *= -1.0;
-			this._endx = this._endx.tofloat() + (1.0 - (1.0 / this._infinity));			
+//			this._slope *= -1.0;
+			this._endx = this._endx.tofloat() + (1.0 - (1.0 / _MinchinWeb_C_.Infinity()));			
 		}
 		
 		if (this._starty == this._endy) {
-			this._endy = this._endy.tofloat() + (1.0 - (1.0 / this._infinity));
+			this._endy = this._endy.tofloat() + (1.0 - (1.0 / _MinchinWeb_C_.Infinity()));
 		}
 	}
 	
-	AILog.Info("    LineWalker.End out: " + this._endx + " " + this._endy + " m" + this._slope + " ± " + this._dirx);
+	AILog.Info("    LineWalker.End out: " + this._endx + " " + this._endy + " m" + this._slope + " Â± " + this._dirx + " mult=" + _MetaLib_Extras_.MinAbsFloat(1.0, (1.0 / this._slope) ));
 }
 
 function _MetaLib_LW_::Slope(Slope, ThirdQuadrant = false)
@@ -137,12 +138,12 @@ function _MetaLib_LW_::Slope(Slope, ThirdQuadrant = false)
 //	Sets the slope for LineWalker
 //	Assumes that the slope is in the first or second quadrant until ThirdQuadrant == true
 
-	if (_MetaLib_Extras_.AbsFloat(Slope) > this._infinity) {
-		AILog.Warning("Slope is capped at " + this._infinity + ", you provided " + Slope + ".");
+	if (_MetaLib_Extras_.AbsFloat(Slope) > _MinchinWeb_C_.Infinity()) {
+		AILog.Warning("Slope is capped at " + _MinchinWeb_C_.Infinity() + ", you provided " + Slope + ".");
 		this._slope = this._infinity;
-	} else if (_MetaLib_Extras_.AbsFloat(Slope) < (1.0 / this._infinity)) {
-		AILog.Warning("Slope is capped at " + (1 / this._infinity) + ", you provided " + Slope + ".");
-		this._slope = (1.0 / this._infinity);
+	} else if (_MetaLib_Extras_.AbsFloat(Slope) < (1.0 / _MinchinWeb_C_.Infinity())) {
+		AILog.Warning("Slope is capped at 1/" + _MinchinWeb_C_.Infinity() + ", you provided " + Slope + ".");
+		this._slope = (1.0 / _MinchinWeb_C_.Infinity());
 	} else {
 		this._slope = Slope;
 	}
@@ -161,7 +162,7 @@ function _MetaLib_LW_::Slope(Slope, ThirdQuadrant = false)
 		this._endx = AIMap.GetMapSizeX();
 	} else {
 		this._dirx = 1;	//	-1
-		this._x += (1.0 - (1.0 / this._infinity));
+		this._x += (1.0 - (1.0 / _MinchinWeb_C_.Infinity()));
 //		this._endx = -1 * this._infinity;
 //		this._endy = -1 * this._endy;
 		this._endx = 0;
@@ -172,7 +173,7 @@ function _MetaLib_LW_::Slope(Slope, ThirdQuadrant = false)
 		}
 	}
 	
-	AILog.Info("   LineWalker.Slope out: " + Slope + " " + ThirdQuadrant + " : " + this._endx + " " + this._endy + " " + this._slope + " ± " + this._dirx);
+	AILog.Info("   LineWalker.Slope out: " + Slope + " " + ThirdQuadrant + " : " + this._endx + " " + this._endy + " " + this._slope + " Â± " + this._dirx );
 }
 
 function _MetaLib_LW_::Reset()
@@ -220,14 +221,17 @@ function _MetaLib_LW_::Walk()
 	
 	//	this._infinity assumed to be 10,000
 	local multiplier = 0.0;
+
+	//	We need to find the value, such that MAX(ABS(âˆ†x, mâˆ†x)) == 1
+	//		Therefore, our multiplier is MIN(ABS(1, 1/m))
 	
 //	multiplier = _MetaLib_Extras_.MinAbsFloat(1.0, _MetaLib_Extras_.Perpendicular(this._slope));
-	multiplier = _MetaLib_Extras_.MinAbsFloatKeepSign(this._dirx, _MetaLib_Extras_.Perpendicular(this._slope));
+	multiplier = _MetaLib_Extras_.MinAbsFloat(1.0, (1.0 / this._slope) );
 	
 	local NewX = 0.0;
 	local NewY = 0.0;
-	NewX = this._x + multiplier;
-	NewY = this._y + _MetaLib_Extras_.AbsFloat(this._slope) * multiplier;
+	NewX = this._x + multiplier * this._dirx;
+	NewY = this._y + this._slope * multiplier * this._dirx;
 //	AILog.Info("Linewalker new : " + NewX + "," + NewY);
 	
 	if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(NewX.tointeger(), NewY.tointeger())) == 1 ) {

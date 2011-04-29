@@ -1,6 +1,6 @@
-/*	LineWalker class v.1 r.109 [2011-04-23],
- *	part of Minchinweb's MetaLibrary v1, r109, [2011-04-23],
- *	originally part of WmDOT v.6
+/*	LineWalker class v.1 r.129 [2011-04-29],
+ *	part of Minchinweb's MetaLibrary v2, r1é9, [2011-04-29],
+ *	originally part of WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -78,16 +78,15 @@ function _MetaLib_LW_::Start(Tile)
 			this._dirx = -1;
 		} else {
 		//	startX == EndX
-			this._dirx = 1;
+			if (this._starty < this._endy) {
+				this._dirx = -1;	
+			} else {
+				this._dirx = 1;	
+			}
 			this._endx = this._endx.tofloat() + (1.0 - (1.0 / this._infinity));	
 		}
 		
 		if (this._starty == this._endy) {
-			if (this._startx > this._endx) {
-				this._dirx = 1;
-			} else {
-				this._dirx = -1;
-			}
 			this._endy = this._endy.tofloat() + (1.0 - (1.0 / this._infinity));
 		}
 	}
@@ -112,15 +111,21 @@ function _MetaLib_LW_::End(Tile)
 			this._dirx = 1;
 		} else if (this._startx > this._endx) {
 			this._dirx = -1;
+			this._y = this._y.tofloat() + (1.0 - (1.0 / this._infinity));
 		} else {
 		//	startX == EndX
-			this._dirx = 1;
-			this._endx = this._endx.tofloat() + (1.0 - (1.0 / this._infinity));	
+			if (this._starty < this._endy) {
+				this._dirx = -1;
+			} else {
+				this._dirx = 1;
+				this._x = this._x.tofloat() + (1.0 - (1.0 / this._infinity));
+			}
+			this._slope *= -1.0;
+			this._endx = this._endx.tofloat() + (1.0 - (1.0 / this._infinity));			
 		}
 		
 		if (this._starty == this._endy) {
 			this._endy = this._endy.tofloat() + (1.0 - (1.0 / this._infinity));
-			this._slope *= -1.0;
 		}
 	}
 	
@@ -222,7 +227,7 @@ function _MetaLib_LW_::Walk()
 	local NewX = 0.0;
 	local NewY = 0.0;
 	NewX = this._x + multiplier;
-	NewY = this._y + this._slope * multiplier;
+	NewY = this._y + _MetaLib_Extras_.AbsFloat(this._slope) * multiplier;
 //	AILog.Info("Linewalker new : " + NewX + "," + NewY);
 	
 	if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(NewX.tointeger(), NewY.tointeger())) == 1 ) {

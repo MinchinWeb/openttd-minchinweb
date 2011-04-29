@@ -1,5 +1,5 @@
-﻿/*	Minchinweb's MetaLibrary v.1 r.121 [2011-04-28],  
- *	originally part of, WmDOT v.6
+﻿/*	Minchinweb's MetaLibrary v.2 r.126 [2011-04-29],  
+ *	originally part of, WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -10,17 +10,17 @@ require("Arrays.nut");
 // require("Fibonacci.Heap.WM.nut");
 require("Extras.nut");
 require("Waterbody.Check.nut");
-//require("Pathfinder.Ship.nut");
-//require("Line.Walker.nut");
+require("Pathfinder.Ship.nut");
+require("Line.Walker.nut");
 require("Spiral.Walker.nut");
 
 class MinchinWeb {
 	static RoadPathfinder = _MetaLib_RoadPathfinder_;
-//	static ShipPathfinder = _MetaLib_ShipPathfinder_;	
+	static ShipPathfinder = _MetaLib_ShipPathfinder_;	
 	static Array = _MetaLib_Array_;
 	static Extras = _MetaLib_Extras_;
 	static WaterbodyCheck = _MetaLib_WBC_;
-//	static LineWalker = _MetaLib_LW_;
+	static LineWalker = _MetaLib_LW_;
 	static SpiralWalker = _MetaLib_SW_;
 }
  
@@ -34,7 +34,7 @@ class MinchinWeb {
  *	A:	Import the main library, and then create global points to the
  *			sublibaries you want to use. Eg:
  *		
- *			Import("util.MinchinWeb", "MinchinWeb", 1);
+ *			Import("util.MinchinWeb", "MinchinWeb", 2);
  *			Arrays <- MinchinWeb.Arrays;
  *
  *	Info:	See the sub-library files for the functions available and their

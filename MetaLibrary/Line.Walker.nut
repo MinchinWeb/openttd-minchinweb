@@ -30,7 +30,7 @@
 //		inflection point at the 'origin' so that as you move out from the start
 //		point, so stay slightly above the 'unchanging' index...
  
-class _MetaLib_LW_ {
+class _MinchinWeb_LW_ {
 	_start = null;
 	_end = null;
 	_slope = null;
@@ -54,7 +54,7 @@ class _MetaLib_LW_ {
 	}
 }
 
-function _MetaLib_LW_::Start(Tile)
+function _MinchinWeb_LW_::Start(Tile)
 {
 //	Sets the starting tile for LineWalker
 	this._start = Tile;
@@ -69,7 +69,7 @@ function _MetaLib_LW_::Start(Tile)
 	
 	if (this._end != null) {
 		if (this._slope == null) {
-			this._slope = _MetaLib_Extras_.Slope(this._start, this._end);
+			this._slope = _MinchinWeb_Extras_.Slope(this._start, this._end);
 		}
 		
 		if (this._startx < this._endx) {
@@ -94,7 +94,7 @@ function _MetaLib_LW_::Start(Tile)
 	AILog.Info("    LineWalker.Start out: " + this._startx + " " + this._starty + " m" + this._slope + " ± " + this._dirx);
 }
 
-function _MetaLib_LW_::End(Tile)
+function _MinchinWeb_LW_::End(Tile)
 {
 //	Sets the ending tile for LineWalker
 //	If the slope is also directly set, the start and end tiles define a bounding box
@@ -104,7 +104,7 @@ function _MetaLib_LW_::End(Tile)
 	
 	if (this._start != null) {
 		if (this._slope == null) {
-			this._slope = _MetaLib_Extras_.Slope(this._start, this._end);
+			this._slope = _MinchinWeb_Extras_.Slope(this._start, this._end);
 		}
 		
 		if (this._startx < this._endx) {
@@ -130,18 +130,18 @@ function _MetaLib_LW_::End(Tile)
 		}
 	}
 	
-	AILog.Info("    LineWalker.End out: " + this._endx + " " + this._endy + " m" + this._slope + " ± " + this._dirx + " mult=" + _MetaLib_Extras_.MinAbsFloat(1.0, (1.0 / this._slope) ));
+	AILog.Info("    LineWalker.End out: " + this._endx + " " + this._endy + " m" + this._slope + " ± " + this._dirx + " mult=" + _MinchinWeb_Extras_.MinAbsFloat(1.0, (1.0 / this._slope) ));
 }
 
-function _MetaLib_LW_::Slope(Slope, ThirdQuadrant = false)
+function _MinchinWeb_LW_::Slope(Slope, ThirdQuadrant = false)
 {
 //	Sets the slope for LineWalker
 //	Assumes that the slope is in the first or second quadrant until ThirdQuadrant == true
 
-	if (_MetaLib_Extras_.AbsFloat(Slope) > _MinchinWeb_C_.Infinity()) {
+	if (_MinchinWeb_Extras_.AbsFloat(Slope) > _MinchinWeb_C_.Infinity()) {
 		AILog.Warning("Slope is capped at " + _MinchinWeb_C_.Infinity() + ", you provided " + Slope + ".");
 		this._slope = this._infinity;
-	} else if (_MetaLib_Extras_.AbsFloat(Slope) < (1.0 / _MinchinWeb_C_.Infinity())) {
+	} else if (_MinchinWeb_Extras_.AbsFloat(Slope) < (1.0 / _MinchinWeb_C_.Infinity())) {
 		AILog.Warning("Slope is capped at 1/" + _MinchinWeb_C_.Infinity() + ", you provided " + Slope + ".");
 		this._slope = (1.0 / _MinchinWeb_C_.Infinity());
 	} else {
@@ -176,7 +176,7 @@ function _MetaLib_LW_::Slope(Slope, ThirdQuadrant = false)
 	AILog.Info("   LineWalker.Slope out: " + Slope + " " + ThirdQuadrant + " : " + this._endx + " " + this._endy + " " + this._slope + " ± " + this._dirx );
 }
 
-function _MetaLib_LW_::Reset()
+function _MinchinWeb_LW_::Reset()
 {
 //	resets the variables for the Linewalker
 	this._start = null;
@@ -193,7 +193,7 @@ function _MetaLib_LW_::Reset()
 	this._dirx = null;
 }
 
-function _MetaLib_LW_::Restart()
+function _MinchinWeb_LW_::Restart()
 {
 //	Moves the LineWalker to the orginal starting position
 	this._x = this._startx.tofloat();
@@ -205,7 +205,7 @@ function _MetaLib_LW_::Restart()
 //	=== LineWalker Walk ===
 //		This is where (most) of the action is!
 
-function _MetaLib_LW_::Walk()
+function _MinchinWeb_LW_::Walk()
 {
 //	'Walks' the LineWalker one tile at a tile
 	if (this._past_end == true) {
@@ -213,7 +213,7 @@ function _MetaLib_LW_::Walk()
 		return this._current_tile;
 	}
 	
-	if ((AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(this._x.tointeger(), this._y.tointeger())) == 1 ) && _MetaLib_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x.tointeger()) &&_MetaLib_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y.tointeger())) {
+	if ((AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(this._x.tointeger(), this._y.tointeger())) == 1 ) && _MinchinWeb_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x.tointeger()) &&_MinchinWeb_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y.tointeger())) {
 		this._current_tile = AIMap.GetTileIndex(this._x.tointeger(), this._y.tointeger());
 		AILog.Info("Linewalker output " + AIMap.GetTileX(this._current_tile) + "," + AIMap.GetTileY(this._current_tile) + " from " + this._x + "," + this._y );
 		return this._current_tile;
@@ -225,8 +225,8 @@ function _MetaLib_LW_::Walk()
 	//	We need to find the value, such that MAX(ABS(∆x, m∆x)) == 1
 	//		Therefore, our multiplier is MIN(ABS(1, 1/m))
 	
-//	multiplier = _MetaLib_Extras_.MinAbsFloat(1.0, _MetaLib_Extras_.Perpendicular(this._slope));
-	multiplier = _MetaLib_Extras_.MinAbsFloat(1.0, (1.0 / this._slope) );
+//	multiplier = _MinchinWeb_Extras_.MinAbsFloat(1.0, _MinchinWeb_Extras_.Perpendicular(this._slope));
+	multiplier = _MinchinWeb_Extras_.MinAbsFloat(1.0, (1.0 / this._slope) );
 	
 	local NewX = 0.0;
 	local NewY = 0.0;
@@ -246,10 +246,10 @@ function _MetaLib_LW_::Walk()
 	//	Check that we're still within our bounding box
 //	AILog.Info("    " + this._startx + " , " + this._endx + " , " + this._x.tointeger() + " , " + this._starty + " , " + this._endy + " , " + this._y.tointeger());
 	
-//	if ((_MetaLib_Extras_.WithinFloat(this._startx, this._endx, this._x.tointeger()) == false) || (_MetaLib_Extras_.WithinFloat(this._starty, this._endy, this._y.tointeger()) == false)) {
-//		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MetaLib_Extras_.WithinFloat(this._startx, this._endx, this._x.tointeger()) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MetaLib_Extras_.WithinFloat(this._starty, this._endy, this._y.tointeger())));
-	if (!_MetaLib_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x) || !_MetaLib_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y)) {
-		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MetaLib_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MetaLib_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y)));
+//	if ((_MinchinWeb_Extras_.WithinFloat(this._startx, this._endx, this._x.tointeger()) == false) || (_MinchinWeb_Extras_.WithinFloat(this._starty, this._endy, this._y.tointeger()) == false)) {
+//		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MinchinWeb_Extras_.WithinFloat(this._startx, this._endx, this._x.tointeger()) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MinchinWeb_Extras_.WithinFloat(this._starty, this._endy, this._y.tointeger())));
+	if (!_MinchinWeb_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x) || !_MinchinWeb_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y)) {
+		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MinchinWeb_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MinchinWeb_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y)));
 		this._past_end = true;
 		return this._current_tile;
 	} else {
@@ -258,19 +258,19 @@ function _MetaLib_LW_::Walk()
 	}
 }
 
-function _MetaLib_LW_::IsEnd()
+function _MinchinWeb_LW_::IsEnd()
 {
 //	Returns true if we are at the edge of the bounding box defined by the Starting and Ending point
 	return this._past_end;
 }
 
-function _MetaLib_LW_::GetStart()
+function _MinchinWeb_LW_::GetStart()
 {
 //	Returns the tile the LineWalker is starting on
 	return this._start;
 }
 
-function _MetaLib_LW_::GetEnd()
+function _MinchinWeb_LW_::GetEnd()
 {
 //	Returns the tile the LineWalker is starting on
 	return this._end;

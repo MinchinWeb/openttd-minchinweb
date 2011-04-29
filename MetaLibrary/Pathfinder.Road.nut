@@ -58,7 +58,7 @@
 //			//	Similiar to PathToTilePairs(), but only returns those pairs 
 //			//	where there isn't a current road connection
 
-class _MetaLib_RoadPathfinder_
+class _MinchinWeb_RoadPathfinder_
 {
 	_aystar_class = import("graph.aystar", "", 6);
 	_max_cost = null;              ///< The maximum cost for a route.
@@ -136,7 +136,7 @@ class _MetaLib_RoadPathfinder_
 	function FindPath(iterations);
 };
 
-class _MetaLib_RoadPathfinder_.Cost
+class _MinchinWeb_RoadPathfinder_.Cost
 {
 	_main = null;
 
@@ -188,7 +188,7 @@ class _MetaLib_RoadPathfinder_.Cost
 	}
 };
 
-function _MetaLib_RoadPathfinder_::FindPath(iterations)
+function _MinchinWeb_RoadPathfinder_::FindPath(iterations)
 {
 	local test_mode = AITestMode();
 	local ret = this._pathfinder.FindPath(iterations);
@@ -197,7 +197,7 @@ function _MetaLib_RoadPathfinder_::FindPath(iterations)
 	return ret;
 }
 
-function _MetaLib_RoadPathfinder_::_GetBridgeNumSlopes(end_a, end_b)
+function _MinchinWeb_RoadPathfinder_::_GetBridgeNumSlopes(end_a, end_b)
 {
 	local slopes = 0;
 	local direction = (end_b - end_a) / AIMap.DistanceManhattan(end_a, end_b);
@@ -218,7 +218,7 @@ function _MetaLib_RoadPathfinder_::_GetBridgeNumSlopes(end_a, end_b)
 	return slopes;
 }
 
-function _MetaLib_RoadPathfinder_::_Cost(self, path, new_tile, new_direction)
+function _MinchinWeb_RoadPathfinder_::_Cost(self, path, new_tile, new_direction)
 {
 	/* path == null means this is the first node of a path, so the cost is 0. */
 	if (path == null) return 0;
@@ -275,7 +275,7 @@ function _MetaLib_RoadPathfinder_::_Cost(self, path, new_tile, new_direction)
 	return path.GetCost() + cost;
 }
 
-function _MetaLib_RoadPathfinder_::_Estimate(self, cur_tile, cur_direction, goal_tiles)
+function _MinchinWeb_RoadPathfinder_::_Estimate(self, cur_tile, cur_direction, goal_tiles)
 {
 	local min_cost = self._max_cost;
 	/* As estimate we multiply the lowest possible cost for a single tile with
@@ -286,7 +286,7 @@ function _MetaLib_RoadPathfinder_::_Estimate(self, cur_tile, cur_direction, goal
 	return min_cost;
 }
 
-function _MetaLib_RoadPathfinder_::_Neighbours(self, path, cur_node)
+function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 {
 	/* self._max_cost is the maximum path cost, if we go over it, the path isn't valid. */
 	if (path.GetCost() >= self._max_cost) return [];
@@ -339,12 +339,12 @@ function _MetaLib_RoadPathfinder_::_Neighbours(self, path, cur_node)
 	return tiles;
 }
 
-function _MetaLib_RoadPathfinder_::_CheckDirection(self, tile, existing_direction, new_direction)
+function _MinchinWeb_RoadPathfinder_::_CheckDirection(self, tile, existing_direction, new_direction)
 {
 	return false;
 }
 
-function _MetaLib_RoadPathfinder_::_GetDirection(from, to, is_bridge)
+function _MinchinWeb_RoadPathfinder_::_GetDirection(from, to, is_bridge)
 {
 	if (!is_bridge && AITile.GetSlope(to) == AITile.SLOPE_FLAT) return 0xFF;
 	if (from - to == 1) return 1;
@@ -359,7 +359,7 @@ function _MetaLib_RoadPathfinder_::_GetDirection(from, to, is_bridge)
  * for performance reasons. Tunnels will only be build if no terraforming
  * is needed on both ends.
  */
-function _MetaLib_RoadPathfinder_::_GetTunnelsBridges(last_node, cur_node, bridge_dir)
+function _MinchinWeb_RoadPathfinder_::_GetTunnelsBridges(last_node, cur_node, bridge_dir)
 {
 	local slope = AITile.GetSlope(cur_node);
 	if (slope == AITile.SLOPE_FLAT) return [];
@@ -386,7 +386,7 @@ function _MetaLib_RoadPathfinder_::_GetTunnelsBridges(last_node, cur_node, bridg
 	return tiles;
 }
 
-function _MetaLib_RoadPathfinder_::_IsSlopedRoad(start, middle, end)
+function _MinchinWeb_RoadPathfinder_::_IsSlopedRoad(start, middle, end)
 {
 	local NW = 0; //Set to true if we want to build a road to / from the north-west
 	local NE = 0; //Set to true if we want to build a road to / from the north-east
@@ -415,7 +415,7 @@ function _MetaLib_RoadPathfinder_::_IsSlopedRoad(start, middle, end)
 	return false;
 }
 
-function _MetaLib_RoadPathfinder_::_CheckTunnelBridge(current_tile, new_tile)
+function _MinchinWeb_RoadPathfinder_::_CheckTunnelBridge(current_tile, new_tile)
 {
 	if (!AIBridge.IsBridgeTile(new_tile) && !AITunnel.IsTunnelTile(new_tile)) return false;
 	local dir = new_tile - current_tile;
@@ -455,7 +455,7 @@ function _MetaLib_RoadPathfinder_::_CheckTunnelBridge(current_tile, new_tile)
  */
  
 
-class _MetaLib_RoadPathfinder_.Info
+class _MinchinWeb_RoadPathfinder_.Info
 {
 	_main = null;
 	
@@ -472,7 +472,7 @@ class _MetaLib_RoadPathfinder_.Info
 }
 
 //	Presets
-function _MetaLib_RoadPathfinder_::PresetOriginal() {
+function _MinchinWeb_RoadPathfinder_::PresetOriginal() {
 //	the settings in the original (v3) pathfinder by NoAI Team
 	this._max_cost = 10000000;
 	this._cost_tile = 100;
@@ -490,7 +490,7 @@ function _MetaLib_RoadPathfinder_::PresetOriginal() {
 	return;
 }
 
-function _MetaLib_RoadPathfinder_::PresetPerfectPath() {
+function _MinchinWeb_RoadPathfinder_::PresetPerfectPath() {
 //	my slighlty updated version of Original. Good for reusing exisiting
 //		roads
 	this._max_cost = 100000;
@@ -509,7 +509,7 @@ function _MetaLib_RoadPathfinder_::PresetPerfectPath() {
 	return;
 }
 
-function _MetaLib_RoadPathfinder_::PresetQuickAndDirty() {
+function _MinchinWeb_RoadPathfinder_::PresetQuickAndDirty() {
 //	quick but messy preset. Runs in as little as 5% of the time of
 //		'PerfectPath', but builds odd bridges and loops
 /*	this._max_cost = 100000;
@@ -545,7 +545,7 @@ function _MetaLib_RoadPathfinder_::PresetQuickAndDirty() {
 	return;	
 }
 
-function _MetaLib_RoadPathfinder_::PresetCheckExisting() {
+function _MinchinWeb_RoadPathfinder_::PresetCheckExisting() {
 //	based on PerfectPath, but uses only exising roads. Useful for checking
 //		if there an exisiting route and how long it is
 	this._max_cost = 100000;
@@ -564,12 +564,12 @@ function _MetaLib_RoadPathfinder_::PresetCheckExisting() {
 	return;
 }
 
-function _MetaLib_RoadPathfinder_::PresetStreetcar () {
+function _MinchinWeb_RoadPathfinder_::PresetStreetcar () {
 //	reserved for future use for intraurban tram lines
 	return;
 }
 
-function _MetaLib_RoadPathfinder_::GetBuildCost()
+function _MinchinWeb_RoadPathfinder_::GetBuildCost()
 {
 //	Turns to 'test mode,' builds the route provided, and returns the cost (all
 //		money for AI's is in British Pounds)
@@ -647,7 +647,7 @@ function _MetaLib_RoadPathfinder_::GetBuildCost()
 		return BeanCounter.GetCosts();
 }
 
-function _MetaLib_RoadPathfinder_::BuildPath()
+function _MinchinWeb_RoadPathfinder_::BuildPath()
 {
 	if (this._running) {
 		AILog.Warning("You can't build a path while there's a running pathfinder.");
@@ -727,7 +727,7 @@ function _MetaLib_RoadPathfinder_::BuildPath()
 	return true;
 }
 
-function _MetaLib_RoadPathfinder_::LoadPath (Path)
+function _MinchinWeb_RoadPathfinder_::LoadPath (Path)
 {
 //	'Loads' a path to allow GetBuildCost(), BuildPath() and GetPathLength()
 //		to be used
@@ -738,7 +738,7 @@ function _MetaLib_RoadPathfinder_::LoadPath (Path)
 	this._mypath = Path;
 }
 
-function _MetaLib_RoadPathfinder_::GetPath()
+function _MinchinWeb_RoadPathfinder_::GetPath()
 {
 //	Returns the path
 	if (this._running) {
@@ -748,7 +748,7 @@ function _MetaLib_RoadPathfinder_::GetPath()
 	return this._mypath;
 }
 
-function _MetaLib_RoadPathfinder_::GetPathLength()
+function _MinchinWeb_RoadPathfinder_::GetPathLength()
 {
 //	Runs over the path to determine its length
 	if (this._running) {
@@ -763,7 +763,7 @@ function _MetaLib_RoadPathfinder_::GetPathLength()
 	return _mypath.GetLength();
 }
 
-function _MetaLib_RoadPathfinder_::InitializePathOnTowns(StartTown, EndTown)
+function _MinchinWeb_RoadPathfinder_::InitializePathOnTowns(StartTown, EndTown)
 {
 //	Initializes the pathfinder using two towns
 //	Assumes that the town centers are road tiles (if this is not the case, the
@@ -772,7 +772,7 @@ function _MetaLib_RoadPathfinder_::InitializePathOnTowns(StartTown, EndTown)
 	return this.InitializePath([AITown.GetLocation(StartTown)], [AITown.GetLocation(EndTown)]);
 }
 
-function _MetaLib_RoadPathfinder_::PathToTilePairs()
+function _MinchinWeb_RoadPathfinder_::PathToTilePairs()
 {
 //	Returns a 2D array that has each pair of tiles that path joins
 	if (this._running) {
@@ -799,7 +799,7 @@ function _MetaLib_RoadPathfinder_::PathToTilePairs()
 	return TilePairs;
 }
 
-function _MetaLib_RoadPathfinder_::TilesPairsToBuild()
+function _MinchinWeb_RoadPathfinder_::TilesPairsToBuild()
 {
 //	Similiar to PathToTilePairs(), but only returns those pairs where there
 //		isn't a current road connection

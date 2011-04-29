@@ -15,13 +15,13 @@ require("Line.Walker.nut");
 require("Spiral.Walker.nut");
 
 class MinchinWeb {
-	static RoadPathfinder = _MetaLib_RoadPathfinder_;
-	static ShipPathfinder = _MetaLib_ShipPathfinder_;	
-	static Array = _MetaLib_Array_;
-	static Extras = _MetaLib_Extras_;
-	static WaterbodyCheck = _MetaLib_WBC_;
-	static LineWalker = _MetaLib_LW_;
-	static SpiralWalker = _MetaLib_SW_;
+	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
+	static ShipPathfinder = _MinchinWeb_ShipPathfinder_;	
+	static Array = _MinchinWeb_Array_;
+	static Extras = _MinchinWeb_Extras_;
+	static WaterbodyCheck = _MinchinWeb_WBC_;
+	static LineWalker = _MinchinWeb_LW_;
+	static SpiralWalker = _MinchinWeb_SW_;
 	static Constants = _MinchinWeb_C_;
 }
 
@@ -43,7 +43,7 @@ class MinchinWeb {
  *	Info:	See the sub-library files for the functions available and their
  *				implementation.
  *
- *	Q:	What is the _MetaLib_... all over the place?
+ *	Q:	What is the _MinchinWeb_... all over the place?
  *	A:	I can't answer it better than Zuu when he put together his SuperLib, so
  *			I'll quote him.
  *
@@ -57,11 +57,11 @@ class MinchinWeb {
  *
  *		  "	To reduce the risk of causing you conflict problems this library
  *			prefixes everything that ends up at the global scope of AIs with
- *			[ _MetaLib_ ]. That is also why the library is not named Utils or
+ *			[ _MinchinWeb_ ]. That is also why the library is not named Utils or
  *			something with higher risk of you already having at your global
  *			scope.
  *
- *		  "	You should however never need to use any of the [ _MetaLib_... ]
+ *		  "	You should however never need to use any of the [ _MinchinWeb_... ]
  *			names as a user of this library. It is not even recommended to do
  *			so as it is part of the implementation and could change without
  *			notice. "

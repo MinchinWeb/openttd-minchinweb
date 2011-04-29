@@ -16,7 +16,7 @@
  
 //	TO-DO:	Add a cost for turns that then this would function as a 'real' pathfinder
  
-class _MetaLib_WBC_
+class _MinchinWeb_WBC_
 {
 	_aystar_class = import("graph.aystar", "", 6);
 	_cost_per_tile = null;
@@ -68,7 +68,7 @@ class _MetaLib_WBC_
 	function FindPath(iterations);
 };
 
-class _MetaLib_WBC_.Cost
+class _MinchinWeb_WBC_.Cost
 {
 	_main = null;
 
@@ -102,7 +102,7 @@ class _MetaLib_WBC_.Cost
 	}
 };
 
-function _MetaLib_WBC_::FindPath(iterations)
+function _MinchinWeb_WBC_::FindPath(iterations)
 {
 	local ret = this._pathfinder.FindPath(iterations);
 	this._running = (ret == false) ? true : false;
@@ -111,7 +111,7 @@ function _MetaLib_WBC_::FindPath(iterations)
 }
 
 
-function _MetaLib_WBC_::_Cost(self, path, new_tile, new_direction)
+function _MinchinWeb_WBC_::_Cost(self, path, new_tile, new_direction)
 {
 	/* path == null means this is the first node of a path, so the cost is 0. */
 	if (path == null) return 0;
@@ -129,7 +129,7 @@ function _MetaLib_WBC_::_Cost(self, path, new_tile, new_direction)
 	return path.GetCost() + self._cost_per_tile;
 }
 
-function _MetaLib_WBC_::_Estimate(self, cur_tile, cur_direction, goal_tiles)
+function _MinchinWeb_WBC_::_Estimate(self, cur_tile, cur_direction, goal_tiles)
 {
 	local min_cost = self._max_cost;
 	/* As estimate we multiply the lowest possible cost for a single tile with
@@ -140,7 +140,7 @@ function _MetaLib_WBC_::_Estimate(self, cur_tile, cur_direction, goal_tiles)
 	return min_cost;
 }
 
-function _MetaLib_WBC_::_Neighbours(self, path, cur_node)
+function _MinchinWeb_WBC_::_Neighbours(self, path, cur_node)
 {
 	/* self._max_cost is the maximum path cost, if we go over it, the path isn't valid. */
 	if (path.GetCost() >= self._max_cost) return [];
@@ -161,12 +161,12 @@ function _MetaLib_WBC_::_Neighbours(self, path, cur_node)
 	return tiles;
 }
 
-function _MetaLib_WBC_::_CheckDirection(self, tile, existing_direction, new_direction)
+function _MinchinWeb_WBC_::_CheckDirection(self, tile, existing_direction, new_direction)
 {
 	return false;
 }
 
-function _MetaLib_WBC_::_GetDirection(from, to)
+function _MinchinWeb_WBC_::_GetDirection(from, to)
 {
 	if (AITile.GetSlope(to) == AITile.SLOPE_FLAT) return 0xFF;
 	if (from - to == 1) return 1;
@@ -175,7 +175,7 @@ function _MetaLib_WBC_::_GetDirection(from, to)
 	if (from - to == -AIMap.GetMapSizeX()) return 8;
 }
 
-function _MetaLib_WBC_::GetPathLength()
+function _MinchinWeb_WBC_::GetPathLength()
 {
 //  Runs over the path to determine its length
     if (this._running) {
@@ -190,7 +190,7 @@ function _MetaLib_WBC_::GetPathLength()
     return _mypath.GetLength();
 }
 
-function _MetaLib_WBC_::PresetSafety(Start, End)
+function _MinchinWeb_WBC_::PresetSafety(Start, End)
 {
 //	Caps the pathfinder as twice the Manhattan distance between the two tiles
 	this._max_cost = this._cost_per_tile * AIMap.DistanceManhattan(Start, End) * 2;

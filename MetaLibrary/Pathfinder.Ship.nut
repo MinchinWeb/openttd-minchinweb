@@ -16,10 +16,10 @@
 //					the length goes back up, either fail the pathfinder or
 //					invoke WBC
  
-class _MetaLib_ShipPathfinder_
+class _MinchinWeb_ShipPathfinder_
 {
 	_heap_class = import("queue.fibonacci_heap", "", 2);
-	_WBC_class = _MetaLib_WBC_;		///< Class used to check if the two points are within the same waterbody
+	_WBC_class = _MinchinWeb_WBC_;		///< Class used to check if the two points are within the same waterbody
 	_max_cost = null;              ///< The maximum cost for a route.
 	_cost_tile = null;             ///< The cost for a single tile.
 	_cost_turn = null;             ///< The cost that is added to _cost_tile if the direction changes.
@@ -74,13 +74,13 @@ class _MetaLib_ShipPathfinder_
 		this._points.push(source[0]);
 		this._points.push(goal[0]);
 		this._paths.push([0,1]);
-		this._UnfinishedPaths.Insert(0, _MetaLib_ShipPathfinder_._PathLength(0));
+		this._UnfinishedPaths.Insert(0, _MinchinWeb_ShipPathfinder_._PathLength(0));
 	}
 	
 	function FindPath(iterations);
 }
 
-class _MetaLib_ShipPathfinder_.Info
+class _MinchinWeb_ShipPathfinder_.Info
 {
 	_main = null;
 	
@@ -96,7 +96,7 @@ class _MetaLib_ShipPathfinder_.Info
 	}
 }
 
-class _MetaLib_ShipPathfinder_.Cost
+class _MinchinWeb_ShipPathfinder_.Cost
 {
 	_main = null;
 
@@ -129,7 +129,7 @@ class _MetaLib_ShipPathfinder_.Cost
 	}
 };
 
-function _MetaLib_ShipPathfinder_::FindPath(iterations)
+function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 {
 	if (this._first_run == true) {
 		local WBC;
@@ -156,12 +156,12 @@ function _MetaLib_ShipPathfinder_::FindPath(iterations)
 		local ReturnWP = false;
 		//	Walk the path segment by segment until we hit land
 		for (local i = 0; i < (this._paths[WorkingPath].len() - 1); i++) {
-			AILog.Info("Contained in test... " + i + " : " + (this._paths[WorkingPath].len() - 2) + " : " + _MetaLib_Array_.ToString2D(this._clearedpaths) + " " + this._points[this._paths[WorkingPath][i]] + " " + this._points[this._paths[WorkingPath][i+1]] + " : " + _MetaLib_Array_.ContainedInPairs(this._clearedpaths, this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]));
+			AILog.Info("Contained in test... " + i + " : " + (this._paths[WorkingPath].len() - 2) + " : " + _MinchinWeb_Array_.ToString2D(this._clearedpaths) + " " + this._points[this._paths[WorkingPath][i]] + " " + this._points[this._paths[WorkingPath][i+1]] + " : " + _MinchinWeb_Array_.ContainedInPairs(this._clearedpaths, this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]));
 		
-			if (_MetaLib_Array_.ContainedInPairs(this._clearedpaths, this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]) != true) {
+			if (_MinchinWeb_Array_.ContainedInPairs(this._clearedpaths, this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]) != true) {
 				//	This means we haven't already cleared the path...
 				local Land = LandHo(this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]);
-				AILog.Info("Land : " + _MetaLib_Array_.ToString1D(Land) + " : "+ _MetaLib_Array_.ToStringTiles1D(Land));
+				AILog.Info("Land : " + _MinchinWeb_Array_.ToString1D(Land) + " : "+ _MinchinWeb_Array_.ToStringTiles1D(Land));
 				if (Land[0] == -1) {
 					//	All water
 					this._clearedpaths.push([this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]]);
@@ -170,8 +170,8 @@ function _MetaLib_ShipPathfinder_::FindPath(iterations)
 					ReturnWP = false;
 				//	On hitting land, do the right angle split creating two copies
 				//		of the path with a new midpoint
-					local m = _MetaLib_Extras_.Perpendicular(_MetaLib_Extras_.Slope(this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]], this._infinity));
-					local MidPoint = _MetaLib_Extras_.MidPoint(Land[0], Land[1]);
+					local m = _MinchinWeb_Extras_.Perpendicular(_MinchinWeb_Extras_.Slope(this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]));
+					local MidPoint = _MinchinWeb_Extras_.MidPoint(Land[0], Land[1]);
 					local NewPoint1 = WaterHo(MidPoint, m, false);
 					local NewPoint2 = WaterHo(MidPoint, m, true);
 					local WPPoints = this._paths[WorkingPath];
@@ -179,35 +179,35 @@ function _MetaLib_ShipPathfinder_::FindPath(iterations)
 						this._points.push(NewPoint1);
 						local NewPoint1Index = this._points.len() - 1;
 						AISign.BuildSign(NewPoint1, NewPoint1Index + "");
-						local WPPoints1 = _MetaLib_Array_.InsertValueAt(WPPoints, i+1, NewPoint1Index);
+						local WPPoints1 = _MinchinWeb_Array_.InsertValueAt(WPPoints, i+1, NewPoint1Index);
 						//	With the new point, check both forward and back to see if the
 						//		points both before and after the new midpoint to see if
 						//		they can be removed from the path (iff the resulting
 						//		segement would be only on the water)
 						if ( ((i+3) < WPPoints1.len()) && (LandHo(this._points[WPPoints1[i+1]], this._points[WPPoints1[i+3]])[0] == -1) ) {
-							WPPoints1 = _MetaLib_Array_.RemoveValueAt(WPPoints1, i+2);		
+							WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+2);		
 						}
 						if ( ((i-1) > 0) && (LandHo(this._points[WPPoints1[i-1]], this._points[WPPoints1[i+1]])[0] == -1)) {
-							WPPoints1 = _MetaLib_Array_.RemoveValueAt(WPPoints1, i);		
+							WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i);		
 						}
 						//	Put both paths back into the UnfinishedPath heap					
 						this._paths[WorkingPath] = WPPoints1;
-						AILog.Info("     Inserting Path #" + WorkingPath + " : " +  _MetaLib_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath));
+						AILog.Info("     Inserting Path #" + WorkingPath + " : " +  _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath));
 						this._UnfinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
 					}
 					if (NewPoint2 != null) {
 						this._points.push(NewPoint2);
 						local NewPoint2Index = this._points.len() - 1;
 						AISign.BuildSign(NewPoint2, NewPoint2Index + "");
-						local WPPoints2 = _MetaLib_Array_.InsertValueAt(WPPoints, i+1, NewPoint2Index);
+						local WPPoints2 = _MinchinWeb_Array_.InsertValueAt(WPPoints, i+1, NewPoint2Index);
 						if ( ((i+3) < WPPoints2.len()) && (LandHo(this._points[WPPoints2[i+1]], this._points[WPPoints2[i+3]])[0] == -1) ) {
-							WPPoints2 = _MetaLib_Array_.RemoveValueAt(WPPoints2, i+2);		
+							WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+2);		
 						}
 						if ( ((i-1) > 0) && (LandHo(this._points[WPPoints2[i-1]], this._points[WPPoints2[i+1]])[0] == -1)) {
-							WPPoints2 = _MetaLib_Array_.RemoveValueAt(WPPoints2, i);		
+							WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i);		
 						}
 						this._paths.push(WPPoints2);
-						AILog.Info("     Inserting Path #" + (this._paths.len() - 1) + " : " +  _MetaLib_Array_.ToString1D(WPPoints2) + " l=" + _PathLength(this._paths.len() - 1));
+						AILog.Info("     Inserting Path #" + (this._paths.len() - 1) + " : " +  _MinchinWeb_Array_.ToString1D(WPPoints2) + " l=" + _PathLength(this._paths.len() - 1));
 						this._UnfinishedPaths.Insert(this._paths.len() - 1, _PathLength(this._paths.len() - 1));
 					}
 				}
@@ -230,7 +230,7 @@ function _MetaLib_ShipPathfinder_::FindPath(iterations)
 			if (this._FinishedPaths.Count() !=0) {
 				this._running = false;
 				this._mypath = _PathToTilesArray(this._FinishedPaths.Peek());
-				AILog.Info("My Path is " + _MetaLib_Array_.ToString1D(this._mypath));
+				AILog.Info("My Path is " + _MinchinWeb_Array_.ToString1D(this._mypath));
 				return this._mypath;
 			} else {
 				//	If the UnfinishedPath heap is empty, fail the pathfinder
@@ -244,7 +244,7 @@ function _MetaLib_ShipPathfinder_::FindPath(iterations)
 				if (this._PathLength(this._FinishedPaths.Peek()) < this._PathLength(this._UnfinishedPaths.Peek()))  {
 					this._running = false;
 					this._mypath = _PathToTilesArray(this._FinishedPaths.Peek());
-					AILog.Info("My Path is " + _MetaLib_Array_.ToString1D(this._mypath));
+					AILog.Info("My Path is " + _MinchinWeb_Array_.ToString1D(this._mypath));
 					return this._mypath;
 				}
 			}
@@ -253,21 +253,21 @@ function _MetaLib_ShipPathfinder_::FindPath(iterations)
 	return false;
 }
 
-function _MetaLib_ShipPathfinder_::_PathLength(PathIndex)
+function _MinchinWeb_ShipPathfinder_::_PathLength(PathIndex)
 {
 	local Length = 0.0;
 	for (local i = 0; i < (this._paths[PathIndex].len() - 1); i++) {
-		Length += _MetaLib_Extras_.DistanceShip(this._points[this._paths[PathIndex][i]], this._points[this._paths[PathIndex][i + 1]]);
+		Length += _MinchinWeb_Extras_.DistanceShip(this._points[this._paths[PathIndex][i]], this._points[this._paths[PathIndex][i + 1]]);
 	}
 	return Length;
 }
 
-function _MetaLib_ShipPathfinder_::LandHo(TileA, TileB) {
+function _MinchinWeb_ShipPathfinder_::LandHo(TileA, TileB) {
 	AILog.Info("Running LandHo...");
 	local LandA = 0;
 	local LandB = 0;
 	
-	local Walker = _MetaLib_LW_();
+	local Walker = _MinchinWeb_LW_();
 	Walker.Start(TileA);
 	Walker.End(TileB);
 	local PrevTile = Walker.GetStart();
@@ -301,10 +301,10 @@ function _MetaLib_ShipPathfinder_::LandHo(TileA, TileB) {
 	return [LandA, LandB];
 }
 
-function _MetaLib_ShipPathfinder_::WaterHo(StartTile, Slope, ThirdQuadrant = false)
+function _MinchinWeb_ShipPathfinder_::WaterHo(StartTile, Slope, ThirdQuadrant = false)
 {
 //	Starts at a given tile and then walks out at the given slope until it hits water
-	local Walker = _MetaLib_LW_();
+	local Walker = _MinchinWeb_LW_();
 	Walker.Start(StartTile);
 	Walker.Slope(Slope, ThirdQuadrant);
 	AILog.Info("    WaterHo! " + StartTile + " , m=" + Slope  + " 3rdQ " + ThirdQuadrant);
@@ -316,26 +316,26 @@ function _MetaLib_ShipPathfinder_::WaterHo(StartTile, Slope, ThirdQuadrant = fal
 	}
 	
 	if (AIMarine.AreWaterTilesConnected(PrevTile, CurTile) == true) {
-		AILog.Info("     WaterHo returning " + _MetaLib_Array_.ToStringTiles1D([CurTile]) );
+		AILog.Info("     WaterHo returning " + _MinchinWeb_Array_.ToStringTiles1D([CurTile]) );
 		return CurTile;
 	} else {
 		return null;
 	}
 }
 
-function _MetaLib_ShipPathfinder_::_PathToTilesArray(PathIndex)
+function _MinchinWeb_ShipPathfinder_::_PathToTilesArray(PathIndex)
 {
 //	turns a path into an index to tiles (just the start, end, and turning points)
 	local Tiles = [];
 	for (local i = 0; i < (this._paths[PathIndex].len()); i++) {
 			Tiles.push(this._points[this._paths[PathIndex][i]]);
 	} 
-	AILog.Info("PathToTilesArray input " + _MetaLib_Array_.ToString1D(this._paths[PathIndex]) );
-	AILog.Info("     and output " + _MetaLib_Array_.ToString1D(Tiles) );
+	AILog.Info("PathToTilesArray input " + _MinchinWeb_Array_.ToString1D(this._paths[PathIndex]) );
+	AILog.Info("     and output " + _MinchinWeb_Array_.ToString1D(Tiles) );
 	return Tiles;
 }
 
-function _MetaLib_ShipPathfinder_::GetPathLength()
+function _MinchinWeb_ShipPathfinder_::GetPathLength()
 {
 //	Runs over the path to determine its length
 	if (this._running) {
@@ -349,7 +349,7 @@ function _MetaLib_ShipPathfinder_::GetPathLength()
 	
 	local Length = 0;
 	for (local i = 0; i < (this._mypath.len() - 1); i++) {
-		Length += _MetaLib_Extras_.DistanceShip(this._mypath[i], this._mypath[i + 1]);
+		Length += _MinchinWeb_Extras_.DistanceShip(this._mypath[i], this._mypath[i + 1]);
 	}
 	
 	return Length;

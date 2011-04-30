@@ -1,5 +1,5 @@
-﻿/*	LineWalker class v.1 r.129 [2011-04-29],
- *	part of Minchinweb's MetaLibrary v2, r129, [2011-04-29],
+﻿/*	LineWalker class v.1 r.131 [2011-04-30],
+ *	part of Minchinweb's MetaLibrary v2, r131, [2011-04-30],
  *	originally part of WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -43,14 +43,13 @@ class _MinchinWeb_LW_ {
 	_y = null;
 	_dirx = null;
 	_current_tile = null;
-	_infinity = null;			//	Seperate from Ship pathfinder
 	
 	constructor()
 	{
 		this._past_end = true;
 //		this._infinity = _MinchinWeb_C_.Infinity();	//	close enough to infinity :P
 								//	Slopes are capped at 10,000 and 1/10,000
-		this._infinity = 10;	//	For Testing
+
 	}
 }
 
@@ -138,7 +137,7 @@ function _MinchinWeb_LW_::Slope(Slope, ThirdQuadrant = false)
 
 	if (_MinchinWeb_Extras_.AbsFloat(Slope) > _MinchinWeb_C_.Infinity()) {
 		AILog.Warning("Slope is capped at " + _MinchinWeb_C_.Infinity() + ", you provided " + Slope + ".");
-		this._slope = this._infinity;
+		this._slope = _MinchinWeb_C_.Infinity();
 	} else if (_MinchinWeb_Extras_.AbsFloat(Slope) < (1.0 / _MinchinWeb_C_.Infinity())) {
 		AILog.Warning("Slope is capped at 1/" + _MinchinWeb_C_.Infinity() + ", you provided " + Slope + ".");
 		this._slope = (1.0 / _MinchinWeb_C_.Infinity());
@@ -146,32 +145,29 @@ function _MinchinWeb_LW_::Slope(Slope, ThirdQuadrant = false)
 		this._slope = Slope;
 	}
 	
-	if (this._slope > 0.0) {
-//		this._endy = this._infinity;
-		this._endy = AIMap.GetMapSizeY();
-//		this._endy = 0;
-	} else {
-//		this._endy = -1 * this._infinity;
-		this._endy = 0;
-//		this._endy = AIMap.GetMapSizeY();
-	}
-	
 	if (ThirdQuadrant == false) {
-		this._dirx = 1;		//	+1
-//		this._endx = this._infinity;
+		this._dirx = 1;
 		this._endx = AIMap.GetMapSizeX();
+		
+		if (this._slope > 0.0) {
+			this._endy = AIMap.GetMapSizeY();
+		} else {
+			this._endy = 0;
+		}	
+		
 	} else {
-		this._dirx = -1;	//	-1
-		this._x += (1.0 - (1.0 / _MinchinWeb_C_.Infinity()));
+		this._dirx = -1;
+//		this._x += (1.0 - (1.0 / _MinchinWeb_C_.Infinity()));
 //		this._endx = -1 * this._infinity;
 //		this._endy = -1 * this._endy;
 		this._endx = 0;
-		if (this._endy == 0) {
+
+		if (this._slope > 0.0) {
+	//		this._endy = AIMap.GetMapSizeY();
 			this._endy = 0;
-//			this._endy = AIMap.GetMapSizeY();
 		} else {
+	//		this._endy = 0;
 			this._endy = AIMap.GetMapSizeY();
-//			this._endy = 0;
 		}
 	}
 	
@@ -237,7 +233,7 @@ function _MinchinWeb_LW_::Walk()
 	if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(NewX.tointeger(), NewY.tointeger())) == 1 ) {
 		this._current_tile = AIMap.GetTileIndex(NewX.tointeger(), NewY.tointeger());
 	} else if (AIMap.DistanceManhattan(this._current_tile, AIMap.GetTileIndex(NewX.tointeger(), this._y.tointeger())) == 1 ) {
-//		this._current_tile = AIMap.GetTileIndex(NewX.tointeger(), this._y.tointeger());
+		this._current_tile = AIMap.GetTileIndex(NewX.tointeger(), this._y.tointeger());
 	}
 	
 	this._x = NewX;
@@ -247,7 +243,7 @@ function _MinchinWeb_LW_::Walk()
 //	AILog.Info("    " + this._startx + " , " + this._endx + " , " + this._x.tointeger() + " , " + this._starty + " , " + this._endy + " , " + this._y.tointeger());
 	
 	if (!_MinchinWeb_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x) || !_MinchinWeb_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y)) {
-		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MinchinWeb_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MinchinWeb_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y)));
+//		AILog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MinchinWeb_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MinchinWeb_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y)));
 		this._past_end = true;
 		return this._current_tile;
 	} else {

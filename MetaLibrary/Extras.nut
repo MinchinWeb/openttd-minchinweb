@@ -1,5 +1,5 @@
-﻿/*	Extra functions v.1 r.129 [2011-04-30],
- *	part of Minchinweb's MetaLibrary v2, r129, [2011-04-30],
+﻿/*	Extra functions v.1 r.131 [2011-04-30],
+ *	part of Minchinweb's MetaLibrary v2, r131, [2011-04-30],
  *	originally part of WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -30,7 +30,7 @@
 
 class _MinchinWeb_C_ {
 	//	These are constants called by the various sublibraries
-	function Infinity() 	{ return 10; }	//	close enough to infinity :P
+	function Infinity() 	{ return 10000; }	//	close enough to infinity :P
 												//	Slopes are capped at 10,000 and 1/10,000
 	function FloatOffset()	{ return 0.0005; }
 }

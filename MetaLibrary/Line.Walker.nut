@@ -91,7 +91,7 @@ function _MinchinWeb_LW_::Start(Tile)
 		}
 	}
 	
-	AILog.Info("    LineWalker.Start out: " + this._startx + " " + this._starty + " m" + this._slope + " ± " + this._dirx);
+//	AILog.Info("    LineWalker.Start out: " + this._startx + " " + this._starty + " m" + this._slope + " ± " + this._dirx);
 }
 
 function _MinchinWeb_LW_::End(Tile)
@@ -127,7 +127,7 @@ function _MinchinWeb_LW_::End(Tile)
 		}
 	}
 	
-	AILog.Info("    LineWalker.End out: " + this._endx + " " + this._endy + " m" + this._slope + " ± " + this._dirx + " mult=" + _MinchinWeb_Extras_.MinAbsFloat(1.0, (1.0 / this._slope) ));
+//	AILog.Info("    LineWalker.End out: " + this._endx + " " + this._endy + " m" + this._slope + " ± " + this._dirx + " mult=" + _MinchinWeb_Extras_.MinAbsFloat(1.0, (1.0 / this._slope) ));
 }
 
 function _MinchinWeb_LW_::Slope(Slope, ThirdQuadrant = false)
@@ -171,7 +171,7 @@ function _MinchinWeb_LW_::Slope(Slope, ThirdQuadrant = false)
 		}
 	}
 	
-	AILog.Info("   LineWalker.Slope out: " + Slope + " " + ThirdQuadrant + " : " + this._endx + " " + this._endy + " " + this._slope + " ± " + this._dirx );
+//	AILog.Info("   LineWalker.Slope out: " + Slope + " " + ThirdQuadrant + " : " + this._endx + " " + this._endy + " " + this._slope + " ± " + this._dirx );
 }
 
 function _MinchinWeb_LW_::Reset()

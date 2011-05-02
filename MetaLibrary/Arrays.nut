@@ -1,5 +1,5 @@
-﻿/*	Array SubLibrary, v.2 r.119 [2011-04-28],
- *	part of Minchinweb's MetaLibrary v1, r119, [2011-04-28],
+﻿/*	Array SubLibrary, v.3 r.133 [2011-05-02],
+ *	part of Minchinweb's MetaLibrary v2, r133, [2011-05-02],
  *	originally part of WmDOT v.5  r.53d	[2011-04-09]
  *		and WmArray library v.1  r.1 [2011-02-13].
  *	Copyright © 2011 by W. Minchin. For more info,
@@ -15,6 +15,7 @@
  *					 .ContainedIn1D(InArray, SearchValue)
  *					 .ContainedIn2D(InArray, SearchValue)
  *					 .ContainedIn3D(InArray, SearchValue)
+ *					 .ContainedIn1DIn2D(InArray2D, SearchArray1D)
  *					 .Find1D(InArray, SearchValue)
  *					 .Find2D(InArray, SearchValue)
  *					 .Find3D(InArray, SearchValue)
@@ -23,6 +24,7 @@
  *					 .ToStringTiles1D(InArrayOfTiles)
  *					 .FindPairs(InArray2D, SearchValue1, SearchValue2)
  *					 .ContainedInPairs(InArray2D, SearchValue1, SearchValue2)
+ *					 .Compare1D(InArray1D, TestArray1D)
  */
  
 class _MinchinWeb_Array_ {
@@ -162,6 +164,24 @@ function _MinchinWeb_Array_::ContainedIn3D(InArray, SearchValue)
 					if (InArray[i][j][k] == SearchValue) {
 						return true;
 					}
+			}
+		}
+		return false;
+	}
+}
+
+function _MinchinWeb_Array_::ContainedIn1DIn2D(InArray2D, SearchArray1D)
+{
+//	Searches the array for the given array. Returns 'TRUE' if found and
+//		'FALSE' if not.
+//	Accepts 2D Arrays for InArray and 1D Array for SearchArray
+
+	if (InArray2D == null) {
+		return null;
+	} else {
+		for (local i = 0; i < InArray2D.len(); i++ ) {
+			if (_MinchinWeb_Array_.Compare1D(InArray2D[i], SearchArray1D) == true) {
+				return true;
 			}
 		}
 		return false;
@@ -350,4 +370,22 @@ function _MinchinWeb_Array_::ContainedInPairs(InArray2D, SearchValue1, SearchVal
 		}
 		return false;
 	}
+}
+
+function _MinchinWeb_Array_::Compare1D(InArray1D, TestArray1D)
+{
+//	Compares the two arrays item for item. Returns true if every item pair
+//		matches.
+//	I wrote this because I don't trust (InArray == TestArray) to work this
+//		way...
+	if (InArray1D.len() != TestArray1D.len() ) {
+		return false;	
+	}
+	for (local i = 0; i < InArray1D.len(); i++) {
+		if (InArray1D[i] != TestArray1D[i]) {
+			return false;
+		}
+	}
+	
+	return true;
 }

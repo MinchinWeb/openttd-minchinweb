@@ -34,6 +34,7 @@ class _MinchinWeb_ShipPathfinder_
 	_clearedpaths = null;			///< Used to store points pairs that have already been cleared (all water)
 	_UnfinishedPaths = null;		///< Used to sort in-progess paths
 	_FinishedPaths = null			///< Used to store finished paths
+	_testedpaths = null;
 	_mypath = null;					///< Used to store the path after it's been found for Building functions
 	_running = null;
 	info = null;
@@ -49,6 +50,7 @@ class _MinchinWeb_ShipPathfinder_
 		this._points = [];
 		this._paths = [];
 		this._clearedpaths = [];
+		this._testedpaths = [];
 		this._UnfinishedPaths = this._heap_class();
 		this._FinishedPaths = this._heap_class();
 		
@@ -132,7 +134,7 @@ class _MinchinWeb_ShipPathfinder_.Cost
 function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 {
 //	Waterbody Check
-/*	if (this._first_run == true) {
+	if (this._first_run == true) {
 		local WBC;
 		if (this._first_run2 == true) {
 			WBC = this._WBC_class();
@@ -147,7 +149,7 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 		}
 		if (iterations != -1) { return false; }
 	}
-*/	
+	
 	if (iterations == -1) {iterations = _MinchinWeb_C_.Infinity() }	//  = 10000; close enough to infinity but able to avoid infinite loops?
 	for (local j = 0; j < iterations; j++) {
 		AILog.Info("UnfinishedPaths count " + this._UnfinishedPaths.Count() + " : " + j + " of " + iterations + " iterations.");
@@ -170,18 +172,15 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 					ReturnWP = true;
 				} else {
 					ReturnWP = false;
-				//	On hitting land, do the right angle split creating two copies
-				//		of the path with a new midpoint
+					// We're going to test this path and don't want to endlessly
+					//		be coming back to it
+					this._testedpaths.push(this._paths[WorkingPath]);
+					
+					//	On hitting land, do the right angle split creating two copies
+					//		of the path with a new midpoint
 					local m = _MinchinWeb_Extras_.Perpendicular(_MinchinWeb_Extras_.Slope(this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]));
 					local MidPoint = _MinchinWeb_Extras_.MidPoint(Land[0], Land[1]);
-					// in case line walker clears it from one way but not the other...
-					//		otherwise averages are strange...
-	//				if (Land[0] == 0) {
-	//					Midpoint = Land[1];					
-	//				} else if (Land[1] == 0) {
-	//					Midpoint = Land[0];
-	//				}
-					//	TO-DO: Check if Midpoint is on Water. If it is, add it and skip the right angle split
+					//	Check if Midpoint is on Water. If it is, add it and skip the right angle split
 					//	TO-DO: Midpoint should only be added if it's in the same Waterbody as the start and finish...
 					if ((AITile.IsWaterTile(MidPoint) == true) && ((Land[0] == -1) || (Land[1] == -1))) {
 						local WPPoints = this._paths[WorkingPath];
@@ -200,34 +199,71 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 							local NewPoint1Index = _InsertPoint(NewPoint1);
 							AISign.BuildSign(NewPoint1, NewPoint1Index + "");
 							local WPPoints1 = _MinchinWeb_Array_.InsertValueAt(WPPoints, i+1, NewPoint1Index);
+							
 							//	With the new point, check both forward and back to see if the
 							//		points both before and after the new midpoint to see if
 							//		they can be removed from the path (iff the resulting
 							//		segement would be only on the water)
 							if ( ((i+3) < WPPoints1.len()) && (LandHo(this._points[WPPoints1[i+1]], this._points[WPPoints1[i+3]])[0] == -1) ) {
-								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+2);		
+								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+2);
+							}
+							//	With the new point, check we're not putting the point in
+							//		twice in a row...
+							if ( ((i+2) < WPPoints1.len()) && (WPPoints1[i+1] == WPPoints1[i+2]) ) {
+								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+1);
+								AILog.Info("          Point Removed! " + WPPoints1[i+1] + " i=" + i);
+							} else {
+								AILog.Info("          Point Kept " + WPPoints1[i+1] + " " + WPPoints1[i+2] +  " i=" + i);
 							}
 							if ( ((i-1) > 0) && (LandHo(this._points[WPPoints1[i-1]], this._points[WPPoints1[i+1]])[0] == -1)) {
-								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i);		
+								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i);
+								i--;	//	For double point check
 							}
-							//	Put both paths back into the UnfinishedPath heap					
-							this._paths[WorkingPath] = WPPoints1;
-							AILog.Info("     Inserting Path #" + WorkingPath + " : " +  _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath));
-							this._UnfinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
+							if ( (i > 0) && (WPPoints1[i+1] == WPPoints1[i]) ) {
+								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+1);
+								AILog.Info("          Point Removed! " + WPPoints1[i+1] + " i=" + i);
+							} else {
+								AILog.Info("          Point Kept " + WPPoints1[i] + " " + WPPoints1[i+1] +  " i=" + i);
+							}
+							//	Put both paths back into the UnfinishedPath heap
+							//		(assuming we haven't been down this path before...)
+							if (_MinchinWeb_Array_.ContainedIn1DIn2D(this._testedpaths, WPPoints1) != true) {
+								this._paths[WorkingPath] = WPPoints1;
+								AILog.Info("     Inserting Path #" + WorkingPath + " : " +  _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath));
+								this._UnfinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
+							}
 						}
 						if (NewPoint2 != null) {
 							local NewPoint2Index = _InsertPoint(NewPoint2);
 							AISign.BuildSign(NewPoint2, NewPoint2Index + "");
 							local WPPoints2 = _MinchinWeb_Array_.InsertValueAt(WPPoints, i+1, NewPoint2Index);
+							
 							if ( ((i+3) < WPPoints2.len()) && (LandHo(this._points[WPPoints2[i+1]], this._points[WPPoints2[i+3]])[0] == -1) ) {
 								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+2);		
 							}
-							if ( ((i-1) > 0) && (LandHo(this._points[WPPoints2[i-1]], this._points[WPPoints2[i+1]])[0] == -1)) {
-								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i);		
+							if ( ((i+2) < WPPoints2.len()) && (WPPoints2[i+1] == WPPoints2[i+2]) ) {
+								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+1);
+								AILog.Info("          Point Removed! " + WPPoints2[i+1] + " i=" + i);
+							} else {
+								AILog.Info("          Point Kept " + WPPoints2[i+1] + " " + WPPoints2[i+2] +  " i=" + i);
 							}
-							this._paths.push(WPPoints2);
-							AILog.Info("     Inserting Path #" + (this._paths.len() - 1) + " : " +  _MinchinWeb_Array_.ToString1D(WPPoints2) + " l=" + _PathLength(this._paths.len() - 1));
-							this._UnfinishedPaths.Insert(this._paths.len() - 1, _PathLength(this._paths.len() - 1));
+							if ( ((i-1) > 0) && (LandHo(this._points[WPPoints2[i-1]], this._points[WPPoints2[i+1]])[0] == -1)) {
+								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i);	
+								i--;								
+							}
+							if ( (i > 0) && (WPPoints2[i+1] == WPPoints2[i]) ) {
+								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+1);
+								AILog.Info("          Point Removed! " + WPPoints2[i+1] + " i=" + i);
+							} else {
+								AILog.Info("          Point Kept " + WPPoints2[i] + " " + WPPoints2[i+1] +  " i=" + i);
+							}
+							//	Put the paths into the UnfinishedPath heap
+							//		(assuming we haven't been down this path before...)
+							if (_MinchinWeb_Array_.ContainedIn1DIn2D(this._testedpaths, WPPoints2) != true) {
+								this._paths.push(WPPoints2);
+								AILog.Info("     Inserting Path #" + (this._paths.len() - 1) + " : " +  _MinchinWeb_Array_.ToString1D(WPPoints2) + " l=" + _PathLength(this._paths.len() - 1));
+								this._UnfinishedPaths.Insert(this._paths.len() - 1, _PathLength(this._paths.len() - 1));
+							}
 						}
 					}	// End  of if MidPoint is on Water
 				}

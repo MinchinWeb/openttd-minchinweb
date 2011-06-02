@@ -1,6 +1,14 @@
 /*	WmBasic v.1  r.1
  *	Created by William Minchin		w_minchin@hotmail.com		http://blog.minchin.ca
  */
+ 
+ 
+import("util.MinchinWeb", "MetaLib", 2);
+	RoadPathfinder <- MetaLib.RoadPathfinder;
+	Array <- MetaLib.Array;
+	LineWalker <- MetaLib.LineWalker;
+	Atlas <- MetaLib.Atlas;
+ 
 class WmBasic extends AIController 
 {
 	//	SETTINGS

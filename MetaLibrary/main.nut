@@ -1,4 +1,4 @@
-﻿/*	Minchinweb's MetaLibrary v.2 r.126 [2011-04-29],  
+﻿/*	Minchinweb's MetaLibrary v.2 r.134 [2011-06-02],  
  *	originally part of, WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -13,6 +13,7 @@ require("Waterbody.Check.nut");
 require("Pathfinder.Ship.nut");
 require("Line.Walker.nut");
 require("Spiral.Walker.nut");
+require("Atlas.nut");
 
 class MinchinWeb {
 	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
@@ -23,6 +24,7 @@ class MinchinWeb {
 	static LineWalker = _MinchinWeb_LW_;
 	static SpiralWalker = _MinchinWeb_SW_;
 	static Constants = _MinchinWeb_C_;
+	static Atlas = _MinchinWeb_Atlas_;
 }
 
 

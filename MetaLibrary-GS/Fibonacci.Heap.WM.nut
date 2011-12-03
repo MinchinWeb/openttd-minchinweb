@@ -1,4 +1,4 @@
-/* Fibonacci Heap, v.3-GS, r.140 [2011-12-03],
+/* Fibonacci Heap, v.3-GS, r.142 [2011-12-03],
  *		part of MinchinWeb's MetaLibrary, v.2-GS, r.140 [2011-12-03],
  *		originally part of WmDOT, v.5, r53e [2011-04-09]
  *	Copyright © 2011 by W. Minchin. For more info,
@@ -23,7 +23,7 @@
  
 class _MinchinWeb_Fibonacci_Heap_Info {
 	function GetVersion()       { return 3; }
-	function GetRevision()		{ return "53e"; }
+	function GetRevision()		{ return 142; }
 	function GetDate()          { return "2011-12-03"; }
 	function GetName()          { return "Fibonacci Heap (Max) (MinchinWeb) Library"; }
 }
@@ -86,6 +86,11 @@ class _MinchinWeb_Fibonacci_Heap_ {
 	 * @return True if the item is already in the list.
 	 */
 	function Exists(item);
+	
+	function GetVersion()       { return _MinchinWeb_Fibonacci_Heap_Info.GetVersion(); }
+	function GetRevision()		{ return _MinchinWeb_Fibonacci_Heap_Info.GetRevision(); }
+	function GetDate()          { return _MinchinWeb_Fibonacci_Heap_Info.GetDate(); }
+	function GetName()          { return _MinchinWeb_Fibonacci_Heap_Info.GetName(); }
 };
 
 function _MinchinWeb_Fibonacci_Heap_::Insert(item, priority) {

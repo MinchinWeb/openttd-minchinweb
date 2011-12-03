@@ -1,4 +1,4 @@
-/*	AyStar v.7-GS, r.144 [2011-12-03],
+/*	AyStar v.8-GS, r.145 [2011-12-03],
  *		part of MinchinWeb's MetaLibrary v.2-GS r.143 [2011-12-03]
  *		adapted from WmDOT v.4  r.42 [2011-03-26]
  *	Copyright © 2011 by W. Minchin. For more info,
@@ -14,24 +14,27 @@
  *  It solves graphs by finding the fastest route from one point to the other.
  */
 class _MinchinWeb_AyStar_Info {
-	function GetVersion()       { return 7; }
-	function GetRevision()		{ return 144; }
+	function GetVersion()       { return 8; }
+	function GetRevision()		{ return 145; }
 	function GetDate()          { return "2011-12-03"; }
 	function GetName()          { return "A* (MinchinWeb) Library"; }
 }
  
  class _MinchinWeb_AyStar_
+
 {
 //	_queue_class = import("queue.binary_heap", "", 1);
-	_queue_class = _MinchinWeb_Binary_Heap_();
+	_queue_class = _MinchinWeb_Binary_Heap_;
+
 	_cost_callback = null;
 	_estimate_callback = null;
 	_neighbours_callback = null;
 	_check_direction_callback = null;
-	_cost_callback_param = null;
-	_estimate_callback_param = null;
-	_neighbours_callback_param = null;
-	_check_direction_callback_param = null;
+	_pf_instance = null;
+//	_cost_callback_param = null;
+//	_estimate_callback_param = null;
+//	_neighbours_callback_param = null;
+//	_check_direction_callback_param = null;
 	_open = null;
 	_closed = null;
 	_goals = null;
@@ -39,6 +42,8 @@ class _MinchinWeb_AyStar_Info {
 	_Info = null;
 
 	/**
+
+
 	 * @param cost_callback A function that returns the cost of a path. It
 	 *  should accept four parameters, old_path, new_tile, new_direction and
 	 *  cost_callback_param. old_path is an instance of AyStar.Path, and
@@ -59,7 +64,7 @@ class _MinchinWeb_AyStar_Info {
 	 *  true. It should accept four parameters, tile, existing_direction,
 	 *  new_direction and check_direction_callback_param. It should check
 	 *  if both directions can go together on a single tile.
-	 * @param cost_callback_param This parameters will be passed to cost_callback
+//	 * @param cost_callback_param This parameters will be passed to cost_callback
 	 *  as fourth parameter. Useful to send is an instance of an object.
 	 * @param estimate_callback_param This parameters will be passed to
 	 *  estimate_callback as fourth parameter. Useful to send is an instance of an
@@ -71,22 +76,25 @@ class _MinchinWeb_AyStar_Info {
 	 *  check_direction_callback as fourth parameter. Useful to send is an
 	 *  instance of an object.
 	 */
-	constructor(cost_callback, estimate_callback, neighbours_callback, check_direction_callback, cost_callback_param = null,
-	            estimate_callback_param = null, neighbours_callback_param = null, check_direction_callback_param = null)
+//	constructor(cost_callback, estimate_callback, neighbours_callback, check_direction_callback, cost_callback_param = null,
+//	            estimate_callback_param = null, neighbours_callback_param = null, check_direction_callback_param = null)
+	constructor(pf_instance, cost_callback, estimate_callback, neighbours_callback, check_direction_callback)
 	{
+		if (typeof(pf_instance) != "instance") throw("'pf_instance' has to be an instance.");
 		if (typeof(cost_callback) != "function") throw("'cost_callback' has to be a function-pointer.");
 		if (typeof(estimate_callback) != "function") throw("'estimate_callback' has to be a function-pointer.");
 		if (typeof(neighbours_callback) != "function") throw("'neighbours_callback' has to be a function-pointer.");
 		if (typeof(check_direction_callback) != "function") throw("'check_direction_callback' has to be a function-pointer.");
 
+		this._pf_instance = pf_instance;
 		this._cost_callback = cost_callback;
 		this._estimate_callback = estimate_callback;
 		this._neighbours_callback = neighbours_callback;
 		this._check_direction_callback = check_direction_callback;
-		this._cost_callback_param = cost_callback_param;
-		this._estimate_callback_param = estimate_callback_param;
-		this._neighbours_callback_param = neighbours_callback_param;
-		this._check_direction_callback_param = check_direction_callback_param;
+//		this._cost_callback_param = cost_callback_param;
+//		this._estimate_callback_param = estimate_callback_param;
+//		this._neighbours_callback_param = neighbours_callback_param;
+//		this._check_direction_callback_param = check_direction_callback_param;
 		
 		this._Info = _MinchinWeb_AyStar_Info();
 	}
@@ -124,8 +132,10 @@ function _MinchinWeb_AyStar_::InitializePath(sources, goals, ignored_tiles = [])
 		if (typeof(node) == "array") {
 			if (node[1] <= 0) throw("directional value should never be zero or negative.");
 
-			local new_path = this.Path(null, node[0], node[1], this._cost_callback, this._cost_callback_param);
-			this._open.Insert(new_path, new_path.GetCost() + this._estimate_callback(node[0], node[1], goals, this._estimate_callback_param));
+//			local new_path = this.Path(null, node[0], node[1], this._cost_callback, this._cost_callback_param);
+//			this._open.Insert(new_path, new_path.GetCost() + this._estimate_callback(node[0], node[1], goals, this._estimate_callback_param));
+			local new_path = this.Path(null, node[0], node[1], this._cost_callback, this._pf_instance);
+			this._open.Insert(new_path, new_path.GetCost() + this._estimate_callback(this._pf_instance, node[0], node[1], goals));
 		} else {
 			this._open.Insert(node, node.GetCost());
 		}
@@ -157,7 +167,8 @@ function _MinchinWeb_AyStar_::FindPath(iterations)
 			local mismatch = false;
 			while (scan_path != null) {
 				if (scan_path.GetTile() == cur_tile) {
-					if (!this._check_direction_callback(cur_tile, scan_path.GetDirection(), path.GetDirection(), this._check_direction_callback_param)) {
+//					if (!this._check_direction_callback(cur_tile, scan_path.GetDirection(), path.GetDirection(), this._check_direction_callback_param)) {
+					if (!this._check_direction_callback(this._pf_instance, cur_tile, scan_path.GetDirection(), path.GetDirection())) {
 						mismatch = true;
 						break;
 					}
@@ -176,7 +187,8 @@ function _MinchinWeb_AyStar_::FindPath(iterations)
 		foreach (goal in this._goals) {
 			if (typeof(goal) == "array") {
 				if (cur_tile == goal[0]) {
-					local neighbours = this._neighbours_callback(path, cur_tile, this._neighbours_callback_param);
+//					local neighbours = this._neighbours_callback(path, cur_tile, this._neighbours_callback_param);
+					local neighbours = this._neighbours_callback(this._pf_instance, path, cur_tile);
 					foreach (node in neighbours) {
 						if (node[0] == goal[1]) {
 							this._CleanPath();
@@ -193,14 +205,17 @@ function _MinchinWeb_AyStar_::FindPath(iterations)
 			}
 		}
 		/* Scan all neighbours */
-		local neighbours = this._neighbours_callback(path, cur_tile, this._neighbours_callback_param);
+//		local neighbours = this._neighbours_callback(path, cur_tile, this._neighbours_callback_param);
+		local neighbours = this._neighbours_callback(this._pf_instance, path, cur_tile);
 		foreach (node in neighbours) {
 			if (node[1] <= 0) throw("directional value should never be zero or negative.");
 
 			if ((this._closed.GetValue(node[0]) & node[1]) != 0) continue;
 			/* Calculate the new paths and add them to the open list */
-			local new_path = this.Path(path, node[0], node[1], this._cost_callback, this._cost_callback_param);
-			this._open.Insert(new_path, new_path.GetCost() + this._estimate_callback(node[0], node[1], this._goals, this._estimate_callback_param));
+//			local new_path = this.Path(path, node[0], node[1], this._cost_callback, this._cost_callback_param);
+//			this._open.Insert(new_path, new_path.GetCost() + this._estimate_callback(node[0], node[1], this._goals, this._estimate_callback_param));
+			local new_path = this.Path(path, node[0], node[1], this._cost_callback, this._pf_instance);
+			this._open.Insert(new_path, new_path.GetCost() + this._estimate_callback(this._pf_instance, node[0], node[1], this._goals));
 		}
 	}
 
@@ -230,16 +245,18 @@ class _MinchinWeb_AyStar_.Path
 	_cost = null;
 	_length = null;
 
-	constructor(old_path, new_tile, new_direction, cost_callback, cost_callback_param)
+//	constructor(old_path, new_tile, new_direction, cost_callback, cost_callback_param)
+	constructor(old_path, new_tile, new_direction, cost_callback, pf_instance)
 	{
 		this._prev = old_path;
 		this._tile = new_tile;
 		this._direction = new_direction;
-		this._cost = cost_callback(old_path, new_tile, new_direction, cost_callback_param);
+//		this._cost = cost_callback(old_path, new_tile, new_direction, cost_callback_param);
+		this._cost = cost_callback(pf_instance, old_path, new_tile, new_direction);
 		if (old_path == null) {
 			this._length = 0;
 		} else {
-			this._length = old_path.GetLength() + GSMap.DistanceManhattan(old_path.GetTile(), new_tile);
+			this._length = old_path.GetLength() + AIMap.DistanceManhattan(old_path.GetTile(), new_tile);
 		}
 	};
 
@@ -263,6 +280,7 @@ class _MinchinWeb_AyStar_.Path
 	 */
 	function GetCost() { return this._cost; }
 	
+
 	/**
 	 * Return the length (in tiles) of this path.
 	 */

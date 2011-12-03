@@ -4,18 +4,20 @@
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
- 
+
+require("Binary.Heap.nut");
+require("AyStar.WM.nut"); 
 require("Pathfinder.Road.nut");
-require("AyStar.WM.nut");
 require("Arrays.nut");
 require("Fibonacci.Heap.WM.nut");
+require("Fibonacci.Heap.WM.Min.nut");
 require("Extras.nut");
 require("Waterbody.Check.nut");
 require("Pathfinder.Ship.nut");
 require("Line.Walker.nut");
 require("Spiral.Walker.nut");
 require("Atlas.nut");
-require("Binary.Heap.nut");
+
 
 class MinchinWeb {
 	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
@@ -28,6 +30,7 @@ class MinchinWeb {
 	static Constants = _MinchinWeb_C_;
 	static Atlas = _MinchinWeb_Atlas_;
 	static Fibonacci_Heap = _MinchinWeb_Fibonacci_Heap_;
+	static Fibonacci_Heap_Min = _MinchinWeb_Fibonacci_Heap_Min_;
 	static AyStar = _MinchinWeb_AyStar_;
 	static Binary_Heap = _MinchinWeb_Binary_Heap_;
 }

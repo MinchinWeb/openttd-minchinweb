@@ -1,4 +1,4 @@
-﻿/*	Waterbody Check v.1-GS r.140 [2011-12-03],
+﻿/*	Waterbody Check v.1-GS r.144 [2011-12-03],
  *		part of MinchinWeb's MetaLibrary v.2-GS, r.140 [2011-12-03],
  *		adapted from Minchinweb's MetaLibrary v1, r104, [2011-04-19], and
  *		originally part of WmDOT v.6
@@ -19,7 +19,8 @@
  
 class _MinchinWeb_WBC_
 {
-	_aystar_class = import("graph.aystar", "", 6);
+//	_aystar_class = import("graph.aystar", "", 6);
+	_aystar_class = _MinchinWeb_AyStar_;
 	_cost_per_tile = null;
 	_max_cost = null;              ///< The maximum cost for a route.
 	_distance_penalty = null;		///< Penalty to use to speed up pathfinder, 1 is no penalty

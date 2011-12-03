@@ -1,4 +1,4 @@
-﻿/*	ShipPathfinder v.1-GS r.140 [2011-12-03],
+﻿/*	ShipPathfinder v.1-GS r.144 [2011-12-03],
  *		part of MinchinWeb's MetaLibrary v.2-GS, r.140 [2011-12-03],
  *		adapted from Minchinweb's MetaLibrary v1, r132, [2011-04-30], and
  *		originally part of WmDOT v.6
@@ -19,7 +19,8 @@
  
 class _MinchinWeb_ShipPathfinder_
 {
-	_heap_class = import("queue.fibonacci_heap", "", 2);
+//	_heap_class = import("queue.fibonacci_heap", "", 2);
+	_heap_class = _MinchinWeb_Fibonacci_Heap_Min_;
 	_WBC_class = _MinchinWeb_WBC_;		///< Class used to check if the two points are within the same waterbody
 	_max_cost = null;              ///< The maximum cost for a route.
 	_cost_tile = null;             ///< The cost for a single tile.
@@ -89,9 +90,9 @@ class _MinchinWeb_ShipPathfinder_.Info
 	
 	function GetVersion()       { return 1; }
 	function GetMinorVersion()	{ return 0; }
-	function GetRevision()		{ return 132; }
-	function GetDate()          { return "2011-04-30"; }
-	function GetName()          { return "Ship Pathfinder (Wm)"; }
+	function GetRevision()		{ return 144; }
+	function GetDate()          { return "2011-12-03"; }
+	function GetName()          { return "Ship Pathfinder (MinchinWeb)"; }
 	
 	constructor(main)
 	{

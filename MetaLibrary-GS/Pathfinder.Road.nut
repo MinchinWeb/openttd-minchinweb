@@ -62,7 +62,7 @@
 class _MinchinWeb_RoadPathfinder_
 {
 //	_aystar_class = import("graph.aystar", "", 6);
-	_aystar_class = _MinchinWeb_AyStar_();
+	_aystar_class = _MinchinWeb_AyStar_;
 	_max_cost = null;              ///< The maximum cost for a route.
 	_cost_tile = null;             ///< The cost for a single tile.
 	_cost_no_existing_road = null; ///< The cost that is added to _cost_tile if no road exists yet.

@@ -1,5 +1,5 @@
-/*	AyStar v.7-GS, r.140 [2011-12-03],
- *		part of MinchinWeb's MetaLibrary v.2-GS r.140 [2011-12-03]
+/*	AyStar v.7-GS, r.143 [2011-12-03],
+ *		part of MinchinWeb's MetaLibrary v.2-GS r.143 [2011-12-03]
  *		adapted from WmDOT v.4  r.42 [2011-03-26]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -13,14 +13,14 @@
  * An AyStar implementation.
  *  It solves graphs by finding the fastest route from one point to the other.
  */
-class AyStarInfo {
+class _MinchinWeb_AyStar_Info {
 	function GetVersion()       { return 7; }
-	function GetRevision()		{ return 140; }
+	function GetRevision()		{ return 143; }
 	function GetDate()          { return "2011-12-03"; }
 	function GetName()          { return "A* (MinchinWeb) Library"; }
 }
  
- class AyStar
+ class _MinchinWeb_AyStar_
 {
 	_queue_class = import("queue.binary_heap", "", 1);
 	_cost_callback = null;
@@ -87,7 +87,7 @@ class AyStarInfo {
 		this._neighbours_callback_param = neighbours_callback_param;
 		this._check_direction_callback_param = check_direction_callback_param;
 		
-		this._Info = AyStarInfo();
+		this._Info = _MinchinWeb_AyStar_Info();
 	}
 
 	/**
@@ -111,7 +111,7 @@ class AyStarInfo {
 	function FindPath(iterations);
 };
 
-function AyStar::InitializePath(sources, goals, ignored_tiles = [])
+function _MinchinWeb_AyStar_::InitializePath(sources, goals, ignored_tiles = [])
 {
 	if (typeof(sources) != "array" || sources.len() == 0) throw("sources has be a non-empty array.");
 	if (typeof(goals) != "array" || goals.len() == 0) throw("goals has be a non-empty array.");
@@ -137,7 +137,7 @@ function AyStar::InitializePath(sources, goals, ignored_tiles = [])
 	}
 }
 
-function AyStar::FindPath(iterations)
+function _MinchinWeb_AyStar_::FindPath(iterations)
 {
 	if (this._open == null) throw("can't execute over an uninitialized path");
 
@@ -208,7 +208,7 @@ function AyStar::FindPath(iterations)
 	return null;
 }
 
-function AyStar::_CleanPath()
+function _MinchinWeb_AyStar_::_CleanPath()
 {
 	this._closed = null;
 	this._open = null;
@@ -221,7 +221,7 @@ function AyStar::_CleanPath()
  *  than his GetParent(). You can walk this list to find the whole path.
  *  The last entry has a GetParent() of null.
  */
-class AyStar.Path
+class _MinchinWeb_AyStar_.Path
 {
 	_prev = null;
 	_tile = null;
@@ -269,7 +269,7 @@ class AyStar.Path
 };
 
 
-function AyStar::GetVersion()       { return this._Info.GetVersion(); }
-function AyStar::GetRevision()		{ return this._Info.GetRevision(); }
-function AyStar::GetDate()          { return this._Info.GetDate(); }
-function AyStar::GetName()          { return this._Info.GetName(); }
+function _MinchinWeb_AyStar_::GetVersion()       { return this._Info.GetVersion(); }
+function _MinchinWeb_AyStar_::GetRevision()		{ return this._Info.GetRevision(); }
+function _MinchinWeb_AyStar_::GetDate()          { return this._Info.GetDate(); }
+function _MinchinWeb_AyStar_::GetName()          { return this._Info.GetName(); }

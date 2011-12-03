@@ -6,7 +6,7 @@
  */
  
 require("Pathfinder.Road.nut");
-// require("AyStar.WM.nut");
+require("AyStar.WM.nut");
 require("Arrays.nut");
 require("Fibonacci.Heap.WM.nut");
 require("Extras.nut");
@@ -27,6 +27,7 @@ class MinchinWeb {
 	static Constants = _MinchinWeb_C_;
 	static Atlas = _MinchinWeb_Atlas_;
 	static Fibonacci_Heap = _MinchinWeb_Fibonacci_Heap_;
+	static AyStar = _MinchinWeb_AyStar_;
 }
 
 

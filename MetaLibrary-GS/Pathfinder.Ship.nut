@@ -1,6 +1,7 @@
-﻿/*	ShipPathfinder v.1 r.132 [2011-04-30],
- *	part of Minchinweb's MetaLibrary v1, r132, [2011-04-30],
- *	originally part of WmDOT v.6
+﻿/*	ShipPathfinder v.1-GS r.140 [2011-12-03],
+ *		part of MinchinWeb's MetaLibrary v.2-GS, r.140 [2011-12-03],
+ *		adapted from Minchinweb's MetaLibrary v1, r132, [2011-04-30], and
+ *		originally part of WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -152,20 +153,20 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 	
 	if (iterations == -1) {iterations = _MinchinWeb_C_.Infinity() }	//  = 10000; close enough to infinity but able to avoid infinite loops?
 	for (local j = 0; j < iterations; j++) {
-		AILog.Info("UnfinishedPaths count " + this._UnfinishedPaths.Count() + " : " + j + " of " + iterations + " iterations.");
+		GSLog.Info("UnfinishedPaths count " + this._UnfinishedPaths.Count() + " : " + j + " of " + iterations + " iterations.");
 		//	Pop the shortest path from the UnfinishedPath Heap
 		local WorkingPath = this._UnfinishedPaths.Pop();	//	WorkingPath is the Index to the path in question
-//		AILog.Info("     UnfinishedPath count after Pop... " + this._UnfinishedPaths.Count());
-		AILog.Info("     Path " + WorkingPath + " popped: " + _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath));
+//		GSLog.Info("     UnfinishedPath count after Pop... " + this._UnfinishedPaths.Count());
+		GSLog.Info("     Path " + WorkingPath + " popped: " + _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath));
 		local ReturnWP = false;
 		//	Walk the path segment by segment until we hit land
 		for (local i = 0; i < (this._paths[WorkingPath].len() - 1); i++) {
-//			AILog.Info("Contained in test... " + i + " : " + (this._paths[WorkingPath].len() - 2) + " : " + _MinchinWeb_Array_.ToString2D(this._clearedpaths) + " " + this._points[this._paths[WorkingPath][i]] + " " + this._points[this._paths[WorkingPath][i+1]] + " : " + _MinchinWeb_Array_.ContainedInPairs(this._clearedpaths, this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]));
+//			GSLog.Info("Contained in test... " + i + " : " + (this._paths[WorkingPath].len() - 2) + " : " + _MinchinWeb_Array_.ToString2D(this._clearedpaths) + " " + this._points[this._paths[WorkingPath][i]] + " " + this._points[this._paths[WorkingPath][i+1]] + " : " + _MinchinWeb_Array_.ContainedInPairs(this._clearedpaths, this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]));
 		
 			if (_MinchinWeb_Array_.ContainedInPairs(this._clearedpaths, this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]) != true) {
 				//	This means we haven't already cleared the path...
 				local Land = LandHo(this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]);
-				AILog.Info("Land : " + _MinchinWeb_Array_.ToString1D(Land) + " : "+ _MinchinWeb_Array_.ToStringTiles1D(Land));
+				GSLog.Info("Land : " + _MinchinWeb_Array_.ToString1D(Land) + " : "+ _MinchinWeb_Array_.ToStringTiles1D(Land));
 				if ((Land[0] == -1) && (Land[1] == -1)) {
 					//	All water
 					this._clearedpaths.push([this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]]);
@@ -182,22 +183,22 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 					local MidPoint = _MinchinWeb_Extras_.MidPoint(Land[0], Land[1]);
 					//	Check if Midpoint is on Water. If it is, add it and skip the right angle split
 					//	TO-DO: Midpoint should only be added if it's in the same Waterbody as the start and finish...
-					if ((AITile.IsWaterTile(MidPoint) == true) && ((Land[0] == -1) || (Land[1] == -1))) {
+					if ((GSTile.IsWaterTile(MidPoint) == true) && ((Land[0] == -1) || (Land[1] == -1))) {
 						local WPPoints = this._paths[WorkingPath];
 						local NewPointZIndex = _InsertPoint(MidPoint);
-						AISign.BuildSign(MidPoint, NewPointZIndex + "");
+						GSSign.BuildSign(MidPoint, NewPointZIndex + "");
 						local WPPointsZ = _MinchinWeb_Array_.InsertValueAt(WPPoints, i+1, NewPointZIndex);
 						this._paths[WorkingPath] = WPPointsZ;
 						this._UnfinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
-						AILog.Info("          Midpoint on Water...");
-						AILog.Info("     Inserting Path #" + WorkingPath + " : " +  _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath));
+						GSLog.Info("          Midpoint on Water...");
+						GSLog.Info("     Inserting Path #" + WorkingPath + " : " +  _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath));
 					} else {
 						local NewPoint1 = WaterHo(MidPoint, m, false);
 						local NewPoint2 = WaterHo(MidPoint, m, true);
 						local WPPoints = this._paths[WorkingPath];
 						if (NewPoint1 != null) {
 							local NewPoint1Index = _InsertPoint(NewPoint1);
-							AISign.BuildSign(NewPoint1, NewPoint1Index + "");
+							GSSign.BuildSign(NewPoint1, NewPoint1Index + "");
 							local WPPoints1 = _MinchinWeb_Array_.InsertValueAt(WPPoints, i+1, NewPoint1Index);
 							
 							//	With the new point, check both forward and back to see if the
@@ -211,9 +212,9 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 							//		twice in a row...
 							if ( ((i+2) < WPPoints1.len()) && (WPPoints1[i+1] == WPPoints1[i+2]) ) {
 								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+1);
-								AILog.Info("          Point Removed! " + WPPoints1[i+1] + " i=" + i);
+								GSLog.Info("          Point Removed! " + WPPoints1[i+1] + " i=" + i);
 							} else {
-								AILog.Info("          Point Kept " + WPPoints1[i+1] + " " + WPPoints1[i+2] +  " i=" + i);
+								GSLog.Info("          Point Kept " + WPPoints1[i+1] + " " + WPPoints1[i+2] +  " i=" + i);
 							}
 							if ( ((i-1) > 0) && (LandHo(this._points[WPPoints1[i-1]], this._points[WPPoints1[i+1]])[0] == -1)) {
 								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i);
@@ -221,21 +222,21 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 							}
 							if ( (i > 0) && (WPPoints1[i+1] == WPPoints1[i]) ) {
 								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+1);
-								AILog.Info("          Point Removed! " + WPPoints1[i+1] + " i=" + i);
+								GSLog.Info("          Point Removed! " + WPPoints1[i+1] + " i=" + i);
 							} else {
-								AILog.Info("          Point Kept " + WPPoints1[i] + " " + WPPoints1[i+1] +  " i=" + i);
+								GSLog.Info("          Point Kept " + WPPoints1[i] + " " + WPPoints1[i+1] +  " i=" + i);
 							}
 							//	Put both paths back into the UnfinishedPath heap
 							//		(assuming we haven't been down this path before...)
 							if (_MinchinWeb_Array_.ContainedIn1DIn2D(this._testedpaths, WPPoints1) != true) {
 								this._paths[WorkingPath] = WPPoints1;
-								AILog.Info("     Inserting Path #" + WorkingPath + " : " +  _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath));
+								GSLog.Info("     Inserting Path #" + WorkingPath + " : " +  _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath));
 								this._UnfinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
 							}
 						}
 						if (NewPoint2 != null) {
 							local NewPoint2Index = _InsertPoint(NewPoint2);
-							AISign.BuildSign(NewPoint2, NewPoint2Index + "");
+							GSSign.BuildSign(NewPoint2, NewPoint2Index + "");
 							local WPPoints2 = _MinchinWeb_Array_.InsertValueAt(WPPoints, i+1, NewPoint2Index);
 							
 							if ( ((i+3) < WPPoints2.len()) && (LandHo(this._points[WPPoints2[i+1]], this._points[WPPoints2[i+3]])[0] == -1) ) {
@@ -243,9 +244,9 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 							}
 							if ( ((i+2) < WPPoints2.len()) && (WPPoints2[i+1] == WPPoints2[i+2]) ) {
 								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+1);
-								AILog.Info("          Point Removed! " + WPPoints2[i+1] + " i=" + i);
+								GSLog.Info("          Point Removed! " + WPPoints2[i+1] + " i=" + i);
 							} else {
-								AILog.Info("          Point Kept " + WPPoints2[i+1] + " " + WPPoints2[i+2] +  " i=" + i);
+								GSLog.Info("          Point Kept " + WPPoints2[i+1] + " " + WPPoints2[i+2] +  " i=" + i);
 							}
 							if ( ((i-1) > 0) && (LandHo(this._points[WPPoints2[i-1]], this._points[WPPoints2[i+1]])[0] == -1)) {
 								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i);	
@@ -253,15 +254,15 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 							}
 							if ( (i > 0) && (WPPoints2[i+1] == WPPoints2[i]) ) {
 								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+1);
-								AILog.Info("          Point Removed! " + WPPoints2[i+1] + " i=" + i);
+								GSLog.Info("          Point Removed! " + WPPoints2[i+1] + " i=" + i);
 							} else {
-								AILog.Info("          Point Kept " + WPPoints2[i] + " " + WPPoints2[i+1] +  " i=" + i);
+								GSLog.Info("          Point Kept " + WPPoints2[i] + " " + WPPoints2[i+1] +  " i=" + i);
 							}
 							//	Put the paths into the UnfinishedPath heap
 							//		(assuming we haven't been down this path before...)
 							if (_MinchinWeb_Array_.ContainedIn1DIn2D(this._testedpaths, WPPoints2) != true) {
 								this._paths.push(WPPoints2);
-								AILog.Info("     Inserting Path #" + (this._paths.len() - 1) + " : " +  _MinchinWeb_Array_.ToString1D(WPPoints2) + " l=" + _PathLength(this._paths.len() - 1));
+								GSLog.Info("     Inserting Path #" + (this._paths.len() - 1) + " : " +  _MinchinWeb_Array_.ToString1D(WPPoints2) + " l=" + _PathLength(this._paths.len() - 1));
 								this._UnfinishedPaths.Insert(this._paths.len() - 1, _PathLength(this._paths.len() - 1));
 							}
 						}
@@ -270,23 +271,23 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 				i = this._paths[WorkingPath].len();	//	Exits us from the for... loop
 			} else if (i == (this._paths[WorkingPath].len() - 2)){
 			//	If we don't hit land, add the path to the FinishedPaths heap
-				AILog.Info("Inserting Finished Path " + WorkingPath + " l=" + _PathLength(WorkingPath));
+				GSLog.Info("Inserting Finished Path " + WorkingPath + " l=" + _PathLength(WorkingPath));
 				this._FinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
 			}	
 		}		// END  for (local i = 0; i < (this._paths[WorkingPath].len() - 1); i++)
 		
 		if (ReturnWP == true) {
 		//	If everything was water...
-			AILog.Info("     Inserting Path #" + WorkingPath + " (all water) on ReturnWP; l=" + _PathLength(WorkingPath));
+			GSLog.Info("     Inserting Path #" + WorkingPath + " (all water) on ReturnWP; l=" + _PathLength(WorkingPath));
 			this._UnfinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
 		}
 		
 		if (this._UnfinishedPaths.Count() == 0) {
-			AILog.Info("Unfinsihed count: " + this._UnfinishedPaths.Count() + " finished: " + this._FinishedPaths.Count());
+			GSLog.Info("Unfinsihed count: " + this._UnfinishedPaths.Count() + " finished: " + this._FinishedPaths.Count());
 			if (this._FinishedPaths.Count() !=0) {
 				this._running = false;
 				this._mypath = _PathToTilesArray(this._FinishedPaths.Peek());
-				AILog.Info("My Path is " + _MinchinWeb_Array_.ToString1D(this._mypath));
+				GSLog.Info("My Path is " + _MinchinWeb_Array_.ToString1D(this._mypath));
 				return this._mypath;
 			} else {
 				//	If the UnfinishedPath heap is empty, fail the pathfinder
@@ -300,7 +301,7 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 				if (this._PathLength(this._FinishedPaths.Peek()) < this._PathLength(this._UnfinishedPaths.Peek()))  {
 					this._running = false;
 					this._mypath = _PathToTilesArray(this._FinishedPaths.Peek());
-					AILog.Info("My Path is " + _MinchinWeb_Array_.ToString1D(this._mypath));
+					GSLog.Info("My Path is " + _MinchinWeb_Array_.ToString1D(this._mypath));
 					return this._mypath;
 				}
 			}
@@ -319,7 +320,7 @@ function _MinchinWeb_ShipPathfinder_::_PathLength(PathIndex)
 }
 
 function _MinchinWeb_ShipPathfinder_::LandHo(TileA, TileB) {
-	AILog.Info("Running LandHo... (" +  _MinchinWeb_Array_.ToStringTiles1D([TileA, TileB]) + ").");
+	GSLog.Info("Running LandHo... (" +  _MinchinWeb_Array_.ToStringTiles1D([TileA, TileB]) + ").");
 	local LandA = 0;
 	local LandB = 0;
 	
@@ -329,7 +330,7 @@ function _MinchinWeb_ShipPathfinder_::LandHo(TileA, TileB) {
 	local PrevTile = Walker.GetStart();
 	local CurTile = Walker.Walk();
 	while (!Walker.IsEnd() && (LandA == 0)) {
-		if (AIMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) {
+		if (GSMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) {
 			LandA = PrevTile	
 		}
 		PrevTile = CurTile;
@@ -347,7 +348,7 @@ function _MinchinWeb_ShipPathfinder_::LandHo(TileA, TileB) {
 	CurTile = Walker.Walk();
 	
 	while (!Walker.IsEnd() && (LandB == 0)) {
-		if (AIMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) {
+		if (GSMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) {
 			LandB = PrevTile	
 		}
 		PrevTile = CurTile;
@@ -367,16 +368,16 @@ function _MinchinWeb_ShipPathfinder_::WaterHo(StartTile, Slope, ThirdQuadrant = 
 	local Walker = _MinchinWeb_LW_();
 	Walker.Start(StartTile);
 	Walker.Slope(Slope, ThirdQuadrant);
-	AILog.Info("    WaterHo! " + StartTile + " , m=" + Slope  + " 3rdQ " + ThirdQuadrant);
+	GSLog.Info("    WaterHo! " + StartTile + " , m=" + Slope  + " 3rdQ " + ThirdQuadrant);
 	local PrevTile = Walker.GetStart();
 	local CurTile = Walker.Walk();
-	while ((AIMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) && (AIMap.DistanceManhattan(PrevTile, CurTile) == 1)) {
+	while ((GSMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) && (GSMap.DistanceManhattan(PrevTile, CurTile) == 1)) {
 		PrevTile = CurTile;
 		CurTile = Walker.Walk();
 	}
 	
-	if (AIMarine.AreWaterTilesConnected(PrevTile, CurTile) == true) {
-		AILog.Info("     WaterHo returning " + _MinchinWeb_Array_.ToStringTiles1D([CurTile]) );
+	if (GSMarine.AreWaterTilesConnected(PrevTile, CurTile) == true) {
+		GSLog.Info("     WaterHo returning " + _MinchinWeb_Array_.ToStringTiles1D([CurTile]) );
 		return CurTile;
 	} else {
 		return null;
@@ -390,8 +391,8 @@ function _MinchinWeb_ShipPathfinder_::_PathToTilesArray(PathIndex)
 	for (local i = 0; i < (this._paths[PathIndex].len()); i++) {
 			Tiles.push(this._points[this._paths[PathIndex][i]]);
 	} 
-	AILog.Info("PathToTilesArray input " + _MinchinWeb_Array_.ToString1D(this._paths[PathIndex]) );
-	AILog.Info("     and output " + _MinchinWeb_Array_.ToString1D(Tiles) );
+	GSLog.Info("PathToTilesArray input " + _MinchinWeb_Array_.ToString1D(this._paths[PathIndex]) );
+	GSLog.Info("     and output " + _MinchinWeb_Array_.ToString1D(Tiles) );
 	return Tiles;
 }
 
@@ -399,11 +400,11 @@ function _MinchinWeb_ShipPathfinder_::GetPathLength()
 {
 //	Runs over the path to determine its length
 	if (this._running) {
-		AILog.Warning("You can't get the path length while there's a running pathfinder.");
+		GSLog.Warning("You can't get the path length while there's a running pathfinder.");
 		return false;
 	}
 	if (this._mypath == null) {
-		AILog.Warning("You have tried to get the length of a 'null' path.");
+		GSLog.Warning("You have tried to get the length of a 'null' path.");
 		return false;
 	}
 	

@@ -1,5 +1,6 @@
-/* Fibonacci Heap, v.3
- * Part of WmDOT, v.5, r53e [2011-04-09]
+/* Fibonacci Heap, v.3-GS, r.140 [2011-12-03],
+ *		part of MinchinWeb's MetaLibrary, v.2-GS, r.140 [2011-12-03],
+ *		originally part of WmDOT, v.5, r53e [2011-04-09]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -23,8 +24,8 @@
 class Fibonacci_Heap_Info {
 	function GetVersion()       { return 3; }
 	function GetRevision()		{ return "53e"; }
-	function GetDate()          { return "2011-04-09"; }
-	function GetName()          { return "Fibonacci Heap (Max) (Wm) Library"; }
+	function GetDate()          { return "2011-12-03"; }
+	function GetName()          { return "Fibonacci Heap (Max) (MinchinWeb) Library"; }
 }
 
 class Fibonacci_Heap {

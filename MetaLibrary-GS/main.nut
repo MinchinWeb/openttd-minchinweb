@@ -1,5 +1,6 @@
-﻿/*	Minchinweb's MetaLibrary v.2 r.134 [2011-06-02],  
- *	originally part of, WmDOT v.7
+﻿/*	MinchinWeb's MetaLibrary v.2-GS, r.140 [2011-12-03],
+ *		adapted from Minchinweb's MetaLibrary v.2 r.134 [2011-06-02],  
+ *		originally part of, WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */

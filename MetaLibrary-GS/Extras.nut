@@ -1,6 +1,7 @@
-﻿/*	Extra functions v.1 r.131 [2011-04-30],
- *	part of Minchinweb's MetaLibrary v2, r131, [2011-04-30],
- *	originally part of WmDOT v.7
+﻿/*	Extra functions v.1-GS r.140 [2011-12-03],
+ *		part of MinchinWeb's MetaLibrary v.2-GS, r.140 [2011-12-03],
+ *		adapted from Minchinweb's MetaLibrary v2, r131, [2011-04-30],
+ *		and originally part of WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -49,17 +50,17 @@ function _MinchinWeb_Extras_::DistanceShip(TileA, TileB)
 {
 //	Assuming open ocean, ship in OpenTTD will travel 45° angle where possible,
 //		and then finish up the trip by going along a cardinal direction
-	return ((AIMap.DistanceManhattan(TileA, TileB) - AIMap.DistanceMax(TileA, TileB)) * 0.4 + AIMap.DistanceMax(TileA, TileB))
+	return ((GSMap.DistanceManhattan(TileA, TileB) - GSMap.DistanceMax(TileA, TileB)) * 0.4 + GSMap.DistanceMax(TileA, TileB))
 }
 
 function _MinchinWeb_Extras_::SignLocation(text)
 {
 //	Returns the tile of the first instance where the sign matches the given text
-    local sign_list = AISignList();
+    local sign_list = GSSignList();
     for (local i = sign_list.Begin(); !sign_list.IsEnd(); i = sign_list.Next()) {
-        if(AISign.GetName(i) == text)
+        if(GSSign.GetName(i) == text)
         {
-            return AISign.GetLocation(i);
+            return GSSign.GetLocation(i);
         }
     }
     return null;
@@ -68,12 +69,12 @@ function _MinchinWeb_Extras_::SignLocation(text)
 function _MinchinWeb_Extras_::MidPoint(TileA, TileB)
 {
 //	Returns the tile that is halfway between the given tiles
-	local X = (AIMap.GetTileX(TileA) + AIMap.GetTileX(TileB)) / 2 + 0.5;
-	local Y = (AIMap.GetTileY(TileA) + AIMap.GetTileY(TileB)) / 2 + 0.5;
+	local X = (GSMap.GetTileX(TileA) + GSMap.GetTileX(TileB)) / 2 + 0.5;
+	local Y = (GSMap.GetTileY(TileA) + GSMap.GetTileY(TileB)) / 2 + 0.5;
 		//	the 0.5 is to make rounding work
 	X = X.tointeger();
 	Y = Y.tointeger();
-	return AIMap.GetTileIndex(X, Y);
+	return GSMap.GetTileIndex(X, Y);
 }
 
 function _MinchinWeb_Extras_::Perpendicular(SlopeIn)
@@ -90,10 +91,10 @@ function _MinchinWeb_Extras_::Perpendicular(SlopeIn)
 function _MinchinWeb_Extras_::Slope(TileA, TileB)
 {
 //	Returns the slope between two tiles
-	local dx = AIMap.GetTileX(TileB) - AIMap.GetTileX(TileA);
-	local dy = AIMap.GetTileY(TileB) - AIMap.GetTileY(TileA);
+	local dx = GSMap.GetTileX(TileB) - GSMap.GetTileX(TileA);
+	local dy = GSMap.GetTileY(TileB) - GSMap.GetTileY(TileA);
 //	local Inftest = _MinchinWeb_Extras_._infinity;
-//	AILog.Info(_MinchinWeb_Extras_._infinity);
+//	GSLog.Info(_MinchinWeb_Extras_._infinity);
 	
 	//	Zero check
 	if (dx == 0) {
@@ -122,7 +123,7 @@ function _MinchinWeb_Extras_::WithinFloat(Bound1, Bound2, Value)
 	local LowerBound = _MinchinWeb_Extras_.MinFloat(Bound1, Bound2) - _MinchinWeb_C_.FloatOffset();
 //	local Value = Value.tofloat();
 	
-//	AILog.Info("          Extras.WithinFloat: Val=" + Value + " B1=" + Bound1 + " B2=" + Bound2 + " : UB=" + UpperBound + " LB=" + LowerBound + " is " + (Value <= UpperBound) + " " + (Value >= LowerBound) + " : " + ((Value <= UpperBound) && (Value >= LowerBound)) + " : above " + (Value - UpperBound) + " below " + (LowerBound - Value) + " : " + _MinchinWeb_C_.FloatOffset() );
+//	GSLog.Info("          Extras.WithinFloat: Val=" + Value + " B1=" + Bound1 + " B2=" + Bound2 + " : UB=" + UpperBound + " LB=" + LowerBound + " is " + (Value <= UpperBound) + " " + (Value >= LowerBound) + " : " + ((Value <= UpperBound) && (Value >= LowerBound)) + " : above " + (Value - UpperBound) + " below " + (LowerBound - Value) + " : " + _MinchinWeb_C_.FloatOffset() );
 
 	return ((Value <= UpperBound) && (Value >= LowerBound));
 }

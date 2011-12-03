@@ -1,5 +1,6 @@
-/*	Atlas v.1 r.134 [2011-06-02],
- *		part of Minchinweb's MetaLibrary v.2 r.134 [2011-06-02],
+/*	Atlas v.1-GS r.140 [2011-12-03],
+ *		part of Minchinweb's MetaLibrary-GS v.2-GS r.140 [2011-12-03],
+ *		adapted from Minchinweb's MetaLibrary v.2 r.134 [2011-06-02].
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -144,22 +145,22 @@ function ApplyTrafficModel(StartTile, StartPriority, EndTile, EndPriority, Model
 
 	switch (Model) {
 		case ONED :
-			return AITile.Distance1D(StartTile, EndTile) / (StartPriority + EndPriority);
+			return GSTile.Distance1D(StartTile, EndTile) / (StartPriority + EndPriority);
 			break;
 		case DISTANCEMANHATTAN :
-			return AITile.DistanceManhattan(StartTile, EndTile) / (StartPriority + EndPriority);
+			return GSTile.DistanceManhattan(StartTile, EndTile) / (StartPriority + EndPriority);
 			break;
 		case DISTANCESHIP :
-			return AITile.DistanceShip(StartTile, EndTile) / (StartPriority + EndPriority);
+			return GSTile.DistanceShip(StartTile, EndTile) / (StartPriority + EndPriority);
 			break;
 		case DISTANCEAIR :
-			return AITile.DistanceCrow(StartTile, EndTile) / (StartPriority + EndPriority);
+			return GSTile.DistanceCrow(StartTile, EndTile) / (StartPriority + EndPriority);
 			break;
 		case DISTANCENONE :
 			return (1 / (StartPriority + EndPriority));
 			break;
 		case ONEOVERTSQUARED :
-			return ((AITile.DistanceManhattan(StartTile, EndTile) * AITile.DistanceManhattan(StartTile, EndTile)) / (StartPriority + EndPriority));
+			return ((GSTile.DistanceManhattan(StartTile, EndTile) * GSTile.DistanceManhattan(StartTile, EndTile)) / (StartPriority + EndPriority));
 			break;
 		default:
 			return "ERROR: Bad ModelType. Supplied " + Model;

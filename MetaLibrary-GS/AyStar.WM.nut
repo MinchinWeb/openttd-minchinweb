@@ -1,5 +1,6 @@
-/*	AyStar v.7, part of 
- *	WmDOT v.4  r.42 [2011-03-26]
+/*	AyStar v.7-GS, r.140 [2011-12-03],
+ *		part of MinchinWeb's MetaLibrary v.2-GS r.140 [2011-12-03]
+ *		adapted from WmDOT v.4  r.42 [2011-03-26]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -14,9 +15,9 @@
  */
 class AyStarInfo {
 	function GetVersion()       { return 7; }
-	function GetRevision()		{ return 42; }
-	function GetDate()          { return "2011-03-26"; }
-	function GetName()          { return "A* (Wm) Library"; }
+	function GetRevision()		{ return 140; }
+	function GetDate()          { return "2011-12-03"; }
+	function GetName()          { return "A* (MinchinWeb) Library"; }
 }
  
  class AyStar
@@ -116,7 +117,7 @@ function AyStar::InitializePath(sources, goals, ignored_tiles = [])
 	if (typeof(goals) != "array" || goals.len() == 0) throw("goals has be a non-empty array.");
 
 	this._open = this._queue_class();
-	this._closed = AIList();
+	this._closed = GSList();
 
 	foreach (node in sources) {
 		if (typeof(node) == "array") {
@@ -237,7 +238,7 @@ class AyStar.Path
 		if (old_path == null) {
 			this._length = 0;
 		} else {
-			this._length = old_path.GetLength() + AIMap.DistanceManhattan(old_path.GetTile(), new_tile);
+			this._length = old_path.GetLength() + GSMap.DistanceManhattan(old_path.GetTile(), new_tile);
 		}
 	};
 

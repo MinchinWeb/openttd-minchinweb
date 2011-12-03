@@ -1,7 +1,8 @@
-﻿/*	Array SubLibrary, v.3 r.133 [2011-05-02],
- *	part of Minchinweb's MetaLibrary v2, r133, [2011-05-02],
- *	originally part of WmDOT v.5  r.53d	[2011-04-09]
- *		and WmArray library v.1  r.1 [2011-02-13].
+﻿/*	Array SubLibrary, v.3-GS r.140 [2011-12-03],
+ *	part of Minchinweb's MetaLibrary-GS v2-GS, r140, [2011-12-03],
+ *		adapted from Minchinweb's MetaLibrary v2, r133, [2011-05-02],
+ *		originally part of WmDOT v.5  r.53d	[2011-04-09]
+ *			and WmArray library v.1  r.1 [2011-02-13].
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -299,7 +300,7 @@ function _MinchinWeb_Array_::ToStringTiles1D(InArrayOfTiles)
 		local i = 0;
 		local Temp = "";
 		while (i < InArrayOfTiles.len() ) {
-			Temp = Temp + "  " + AIMap.GetTileX(InArrayOfTiles[i]) + "," + AIMap.GetTileY(InArrayOfTiles[i]);
+			Temp = Temp + "  " + GSMap.GetTileX(InArrayOfTiles[i]) + "," + GSMap.GetTileY(InArrayOfTiles[i]);
 			i++;
 		}
 		return ("The array is " + Length + " long.  " + Temp + " ");

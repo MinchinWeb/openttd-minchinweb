@@ -1,4 +1,4 @@
-﻿/*	MinchinWeb's MetaLibrary v.2-GS, r.142 [2011-12-03],
+﻿/*	MinchinWeb's MetaLibrary v.2-GS, r.144 [2011-12-03],
  *		adapted from Minchinweb's MetaLibrary v.2 r.134 [2011-06-02],  
  *		originally part of, WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
@@ -15,6 +15,7 @@ require("Pathfinder.Ship.nut");
 require("Line.Walker.nut");
 require("Spiral.Walker.nut");
 require("Atlas.nut");
+require("Binary.Heap.nut");
 
 class MinchinWeb {
 	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
@@ -28,6 +29,7 @@ class MinchinWeb {
 	static Atlas = _MinchinWeb_Atlas_;
 	static Fibonacci_Heap = _MinchinWeb_Fibonacci_Heap_;
 	static AyStar = _MinchinWeb_AyStar_;
+	static Binary_Heap = _MinchinWeb_Binary_Heap_;
 }
 
 

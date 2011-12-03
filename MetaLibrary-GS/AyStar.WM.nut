@@ -1,4 +1,4 @@
-/*	AyStar v.7-GS, r.143 [2011-12-03],
+/*	AyStar v.7-GS, r.144 [2011-12-03],
  *		part of MinchinWeb's MetaLibrary v.2-GS r.143 [2011-12-03]
  *		adapted from WmDOT v.4  r.42 [2011-03-26]
  *	Copyright © 2011 by W. Minchin. For more info,
@@ -15,14 +15,15 @@
  */
 class _MinchinWeb_AyStar_Info {
 	function GetVersion()       { return 7; }
-	function GetRevision()		{ return 143; }
+	function GetRevision()		{ return 144; }
 	function GetDate()          { return "2011-12-03"; }
 	function GetName()          { return "A* (MinchinWeb) Library"; }
 }
  
  class _MinchinWeb_AyStar_
 {
-	_queue_class = import("queue.binary_heap", "", 1);
+//	_queue_class = import("queue.binary_heap", "", 1);
+	_queue_class = _MinchinWeb_Binary_Heap_();
 	_cost_callback = null;
 	_estimate_callback = null;
 	_neighbours_callback = null;

@@ -21,14 +21,14 @@
  *  node to the root list. Sort is done on every Pop operation.
  */
  
-class Fibonacci_Heap_Info {
+class _MinchinWeb_Fibonacci_Heap_Info {
 	function GetVersion()       { return 3; }
 	function GetRevision()		{ return "53e"; }
 	function GetDate()          { return "2011-12-03"; }
 	function GetName()          { return "Fibonacci Heap (Max) (MinchinWeb) Library"; }
 }
 
-class Fibonacci_Heap {
+class _MinchinWeb_Fibonacci_Heap_ {
 	_max = null;
 	_max_index = 0;
 	_max_priority = 0;
@@ -88,7 +88,7 @@ class Fibonacci_Heap {
 	function Exists(item);
 };
 
-function Fibonacci_Heap::Insert(item, priority) {
+function _MinchinWeb_Fibonacci_Heap_::Insert(item, priority) {
 	/* Create a new node instance to add to the heap. */
 	local node = Node();
 	/* Changing params is faster than using constructor values */
@@ -107,7 +107,7 @@ function Fibonacci_Heap::Insert(item, priority) {
 	_count++;
 }
 
-function Fibonacci_Heap::Pop() {
+function _MinchinWeb_Fibonacci_Heap_::Pop() {
 
 	if (_count == 0) return null;
 
@@ -171,16 +171,16 @@ function Fibonacci_Heap::Pop() {
 	return z.item;
 }
 
-function Fibonacci_Heap::Peek() {
+function _MinchinWeb_Fibonacci_Heap_::Peek() {
 	if (_count == 0) return null;
 	return _max.item;
 }
 
-function Fibonacci_Heap::Count() {
+function _MinchinWeb_Fibonacci_Heap_::Count() {
 	return _count;
 }
 
-function Fibonacci_Heap::Exists(item) {
+function _MinchinWeb_Fibonacci_Heap_::Exists(item) {
 	return ExistsIn(_root_list, item);
 }
 
@@ -190,7 +190,7 @@ function Fibonacci_Heap::Exists(item) {
  * @param item The item to search for.
  * @return True if the item is found, false otherwise.
  */
-function Fibonacci_Heap::ExistsIn(list, item) {
+function _MinchinWeb_Fibonacci_Heap_::ExistsIn(list, item) {
 
 	foreach (val in list) {
 		if (val.item == item) {
@@ -211,7 +211,7 @@ function Fibonacci_Heap::ExistsIn(list, item) {
 /**
  * Basic class the fibonacci heap is composed of.
  */
-class Fibonacci_Heap.Node {
+class _MinchinWeb_Fibonacci_Heap_.Node {
 	degree = null;
 	child = null;
 

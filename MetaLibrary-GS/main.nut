@@ -8,7 +8,7 @@
 require("Pathfinder.Road.nut");
 // require("AyStar.WM.nut");
 require("Arrays.nut");
-// require("Fibonacci.Heap.WM.nut");
+require("Fibonacci.Heap.WM.nut");
 require("Extras.nut");
 require("Waterbody.Check.nut");
 require("Pathfinder.Ship.nut");
@@ -26,6 +26,7 @@ class MinchinWeb {
 	static SpiralWalker = _MinchinWeb_SW_;
 	static Constants = _MinchinWeb_C_;
 	static Atlas = _MinchinWeb_Atlas_;
+	static Fibonacci_Heap = _MinchinWeb_Fibonacci_Heap_;
 }
 
 

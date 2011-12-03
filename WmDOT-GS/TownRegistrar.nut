@@ -1,5 +1,6 @@
-﻿/*	Town Registrar v.1, part of 
- *	WmDOT v.5  r.89 [2011-04-16]
+﻿/*	Town Registrar v.1-GS, r.145 [2011-12-03]
+ *		part of WmDOT-GS v.7, r.145 [2011-12-03],
+ *		adapted from WmDOT v.5  r.89 [2011-04-16]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -14,8 +15,8 @@
  
  class TownRegistrar {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return 89; }
-	function GetDate()          { return "2011-04-16"; }
+	function GetRevision()		{ return 145; }
+	function GetDate()          { return "2011-12-03"; }
 	function GetName()          { return "Town Registrar"; }
 		
 	_MaxAtlasSize = null;
@@ -119,9 +120,9 @@ class TownRegistrar.State {
 
 function TownRegistrar::LinkUp() 
 {
-	this.Log = WmDOT.Log;
-	this._PopLimit = WmDOT.GetSetting("OpDOT_MinTownSize");
-	this._MaxAtlasSize = WmDOT.GetSetting("TownRegistrar_AtlasSize");
+	this.Log = WmDOT_GS.Log;
+	this._PopLimit = WmDOT_GS.GetSetting("OpDOT_MinTownSize");
+	this._MaxAtlasSize = WmDOT_GS.GetSetting("TownRegistrar_AtlasSize");
 	Log.Note(this.GetName() + " linked up!",3);
 }
 
@@ -129,17 +130,17 @@ function TownRegistrar::Run()
 {
 //	Running the Town Registrar will destroy previous neighbourhoods
 //	Call TownRegistrar::LinkUp() before calling this function for the first time
-	local tick = AIController.GetTick();
+	local tick = GSController.GetTick();
 	this._NextRun = tick;
 	Log.Note("Town Registrar's office open at tick " + tick + " . Population Limit is " + this._PopLimit + ".",1);
 	
 	if (this._Mode == 1) {
-		this._PopLimit = WmDOT.GetSetting("OpDOT_MinTownSize");
+		this._PopLimit = WmDOT_GS.GetSetting("OpDOT_MinTownSize");
 	}
 	
-	local ListOfTowns = AITownList();
+	local ListOfTowns = GSTownList();
 	this._WorldSize = ListOfTowns.Count();
-	ListOfTowns.Valuate(AITown.GetPopulation);
+	ListOfTowns.Valuate(GSTown.GetPopulation);
 	ListOfTowns.KeepAboveValue(this._PopLimit);
 	
 	local WmTownArray = [];
@@ -153,7 +154,7 @@ function TownRegistrar::Run()
 	_ListOfNeighbourhoods = [];
 	_ListOfNeighbourhoods.push(Neighbourhood(0,WmTownArray));
 	// If WorldSize < MaxAtlasSize, dump everyone in the same neighbourhood and be done with it
-//	ListOfTowns.Valuate(AITown.GetTownID);
+//	ListOfTowns.Valuate(GSTown.GetTownID);
 	local SplitMore = true;
 	while (SplitMore == true) {
 		SplitMore = false;
@@ -183,7 +184,7 @@ function TownRegistrar::Run()
 //		this._ConnectionsNN[i] = [];
 //	}
 	
-	Log.Note(this._ListOfNeighbourhoods.len() + " neighbourhoods generated. Took " + (AIController.GetTick() - tick) + " ticks.",3);
+	Log.Note(this._ListOfNeighbourhoods.len() + " neighbourhoods generated. Took " + (GSController.GetTick() - tick) + " ticks.",3);
 	
 	if (Log.Settings.DebugLevel >= 3) {
 		for (local i = 0; i < this._ListOfNeighbourhoods.len(); i++) {
@@ -210,7 +211,7 @@ function TownRegistrar::GenerateCapitalToHQArray(HQTown)
 //		neighbourhood to the HQTown
 	this._NeighbourhoodCapitalToHQ.resize(this._ListOfNeighbourhoods.len());
 	for (local i = 0; i < this._ListOfNeighbourhoods.len(); i++) {
-		this._NeighbourhoodCapitalToHQ[i] = AIMap.DistanceManhattan(AITown.GetLocation(HQTown),AITown.GetLocation(this._ListOfNeighbourhoods[i].GetHighestPopulation() ) );
+		this._NeighbourhoodCapitalToHQ[i] = GSMap.DistanceManhattan(GSTown.GetLocation(HQTown),GSTown.GetLocation(this._ListOfNeighbourhoods[i].GetHighestPopulation() ) );
 	}
 }
 
@@ -234,10 +235,10 @@ function TownRegistrar::RegisterConnection(TownA, TownB)
 		}
 		
 		if (this._ConnectedHeap.Exists(TownA) != true) {
-			this._ConnectedHeap.Inset(TownA, AITown.GetPopulation(TownA));
+			this._ConnectedHeap.Inset(TownA, GSTown.GetPopulation(TownA));
 		}
 		if (this._ConnectedHeap.Exists(TownB) != true) {
-			this._ConnectedHeap.Inset(TownB, AITown.GetPopulation(TownB));
+			this._ConnectedHeap.Inset(TownB, GSTown.GetPopulation(TownB));
 		}
 	}
 }
@@ -254,5 +255,5 @@ function TownRegistrar::UpdateMode(NewMode = 1)
 	if (NewMode == 1) {
 		this._PopLimit = WmDOT.GetSetting("OpDOT_MinTownSize");
 	}
-	this._NextRun = AIController.GetTick();
+	this._NextRun = GSController.GetTick();
 }

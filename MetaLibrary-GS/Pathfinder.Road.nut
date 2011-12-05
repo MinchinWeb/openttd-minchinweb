@@ -193,6 +193,7 @@ class _MinchinWeb_RoadPathfinder_.Cost
 function _MinchinWeb_RoadPathfinder_::FindPath(iterations)
 {
 	local test_mode = GSTestMode();
+GSLog.Warning("Running RoadPathfinder.FindPath(" + iterations + ").");
 	local ret = this._pathfinder.FindPath(iterations);
 	this._running = (ret == false) ? true : false;
 	if (this._running == false) { this._mypath = ret; }

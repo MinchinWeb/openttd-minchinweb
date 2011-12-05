@@ -150,10 +150,12 @@ function _MinchinWeb_AyStar_::InitializePath(sources, goals, ignored_tiles = [])
 
 function _MinchinWeb_AyStar_::FindPath(iterations)
 {
+GSLog.Warning("* Running AyStar.FindPath(" + iterations + ").  Open Count: " + this._open.Count() + " Closed Count: " + this._closed.Count());
 	if (this._open == null) throw("can't execute over an uninitialized path");
 
 	while (this._open.Count() > 0 && (iterations == -1 || iterations-- > 0)) {
-		/* Get the path with the best score so far */
+GSLog.Warning("** In while Loop!");
+	/* Get the path with the best score so far */
 		local path = this._open.Pop();
 		local cur_tile = path.GetTile();
 		/* Make sure we didn't already passed it */
@@ -169,7 +171,7 @@ function _MinchinWeb_AyStar_::FindPath(iterations)
 				if (scan_path.GetTile() == cur_tile) {
 //					if (!this._check_direction_callback(cur_tile, scan_path.GetDirection(), path.GetDirection(), this._check_direction_callback_param)) {
 					if (!this._check_direction_callback(this._pf_instance, cur_tile, scan_path.GetDirection(), path.GetDirection())) {
-						mismatch = true;
+						mismatch = true;					
 						break;
 					}
 				}
@@ -182,6 +184,7 @@ function _MinchinWeb_AyStar_::FindPath(iterations)
 		} else {
 			/* New entry, make sure we don't check it again */
 			this._closed.AddItem(cur_tile, path.GetDirection());
+GSLog.Warning("*** Closed.AddItem(" + GSMap.GetTileX(cur_tile) + "," + GSMap.GetTileY(cur_tile) + "; " + path.GetDirection());	
 		}
 		/* Check if we found the end */
 		foreach (goal in this._goals) {
@@ -207,6 +210,7 @@ function _MinchinWeb_AyStar_::FindPath(iterations)
 		/* Scan all neighbours */
 //		local neighbours = this._neighbours_callback(path, cur_tile, this._neighbours_callback_param);
 		local neighbours = this._neighbours_callback(this._pf_instance, path, cur_tile);
+GSLog.Warning("*** Neighbours" + neighbours);
 		foreach (node in neighbours) {
 			if (node[1] <= 0) throw("directional value should never be zero or negative.");
 
@@ -216,9 +220,11 @@ function _MinchinWeb_AyStar_::FindPath(iterations)
 //			this._open.Insert(new_path, new_path.GetCost() + this._estimate_callback(node[0], node[1], this._goals, this._estimate_callback_param));
 			local new_path = this.Path(path, node[0], node[1], this._cost_callback, this._pf_instance);
 			this._open.Insert(new_path, new_path.GetCost() + this._estimate_callback(this._pf_instance, node[0], node[1], this._goals));
+GSLog.Warning("** open.Insert(" + new_path + ", " + (new_path.GetCost() + this._estimate_callback(this._pf_instance, node[0], node[1], this._goals)) + ")*");
 		}
 	}
 
+GSLog.Warning("* Open Count: " + this._open.Count() + " Closed Count: " + this._closed.Count() );	
 	if (this._open.Count() > 0) return false;
 	this._CleanPath();
 	return null;

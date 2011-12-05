@@ -96,10 +96,28 @@ function WmDOT_GS::Start()
 		//	Build normal road (no tram tracks)
 	
 //	NameWmDOT();
-	local HQTown = BuildWmHQ();
+//	local HQTown = BuildWmHQ();
 	local Time;
+//	DOT.Settings.HQTown = HQTown;
+	DOT.Settings.HQTown = BuildWmHQ();
 	
-	DOT.Settings.HQTown = HQTown;  //XXX
+	/* Wait 60 seconds till game starts */
+	local now = GSDate.GetSystemTime();
+
+	local comp = GSCompanyMode(0);
+	local exec = GSExecMode();
+	GSLog.Info("Company " + comp);
+
+	GSViewport.ScrollTo(GSMap.GetTileIndex(48,48));
+	GSRoad.BuildRoadDepot(GSMap.GetTileIndex(48,48), GSMap.GetTileIndex(48,49));
+
+	now = GSDate.GetSystemTime();
+	while (GSDate.GetSystemTime() - now < 10) {
+		this.Sleep(30);
+	}
+
+	
+	
 	while (true) {
 		Time = this.GetTick();	
 		Log.Settings.DebugLevel = GetSetting("Debug_Level");
@@ -109,7 +127,11 @@ function WmDOT_GS::Start()
 		if (Time > CleanupCrew.State.NextRun)	{ CleanupCrew.Run(); }
 		if (Time > DOT.State.NextRun)			{ DOT.Run(); }
 
-		this.Sleep(1);		
+		this.Sleep(1);
+		now = GSDate.GetSystemTime();
+		while (GSDate.GetSystemTime() - now < 10) {
+			this.Sleep(30);
+		}
 	}
 }
 

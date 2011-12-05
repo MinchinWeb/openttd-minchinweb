@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.7-GS, r.142 [2011-12-03],
+﻿/*	WmDOT v.7-GS, r.148 [2011-12-03],
  *		adapted from WmDOT (the AI) v.6, r.118 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/

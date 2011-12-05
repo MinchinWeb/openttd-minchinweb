@@ -1,5 +1,5 @@
-﻿/*	OperationDOT v.4-CS, r.145 [2011-12-03], part of 
- *		WmDOT v.7-GS, r.145 [2011-12-03],
+﻿/*	OperationDOT v.4-CS, r.148 [2011-12-03], part of 
+ *		WmDOT v.7-GS, r.148 [2011-12-03],
  *		adapted from WmDOT v.6  r.118 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -331,7 +331,7 @@ function OpDOT::Run() {
 							CleanupCrew.SetToRun();
 							KeepTrying = false;
 						}						
-						if ((Tries >= (WmDOT.GetSetting("OpDOT_RebuildAttempts") + 1)) && (KeepTrying == true)) {
+						if ((Tries >= (WmDOT_GS.GetSetting("OpDOT_RebuildAttempts") + 1)) && (KeepTrying == true)) {
 							Log.Warning("After " + Tries + " tries, unable to build path from " +GSTown.GetName(this._PairsToConnect[0]) + " to " + GSTown.GetName(this._PairsToConnect[1]) + ".");
 							CleanupCrew.AcceptGoldenPath(PathFinder.PathToTilePairs());
 							CleanupCrew.SetToRun();
@@ -847,12 +847,12 @@ function OpDOT::RunPathfinder(Start, End)
 	while (path == false) {
 		path = pathfinder.FindPath(this._PathFinderCycles);
 		CycleCounter+=this._PathFinderCycles;
-		if ((CycleCounter % 2000 < this._PathFinderCycles) || (this._PathFinderCycles > 2000) ) {
+//		if ((CycleCounter % 2000 < this._PathFinderCycles) || (this._PathFinderCycles > 2000) ) {
 			//	A safety to make sure that the GS doesn't run out
 			//		of money while pathfinding...
 //			Money.GreaseMoney();
 //			GSController.Sleep(1);
-		}
+//		}
 	}
 	
 	if (path == null) {

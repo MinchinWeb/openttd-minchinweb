@@ -1,5 +1,5 @@
-/*	Cleanup Crew v.2-CS, r.145 [2011-12-03], part of 
- *		WmDOT-CS, v.7, r145 [2011-12-03],
+/*	Cleanup Crew v.2-CS, r.148 [2011-12-03], part of 
+ *		WmDOT-CS, v.7, r148 [2011-12-03],
  *		apdated from WmDOT v.6  r.118 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -132,7 +132,7 @@ function OpCleanupCrew::Run()
 	local tick = GSController.GetTick();
 	if (this._golden_path == null) {
 		Log.Note("Cleanup Crew: At tick " + tick + ".",1);
-		Log.Note("          There has been no 'Golden Path' set so, yum, yeah...we're still unemployed...", 1);
+		Log.Note("          There has been no 'Golden Path' set so, uhm, yeah...we're still unemployed...", 1);
 		this._next_run = tick + 10000;
 		return;
 	}

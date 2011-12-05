@@ -193,7 +193,6 @@ class _MinchinWeb_RoadPathfinder_.Cost
 function _MinchinWeb_RoadPathfinder_::FindPath(iterations)
 {
 	local test_mode = GSTestMode();
-GSLog.Warning("Running RoadPathfinder.FindPath(" + iterations + ").");
 	local ret = this._pathfinder.FindPath(iterations);
 	this._running = (ret == false) ? true : false;
 	if (this._running == false) { this._mypath = ret; }
@@ -300,36 +299,48 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 	     GSTile.HasTransportType(cur_node, GSTile.TRANSPORT_ROAD)) {
 		local other_end = GSBridge.IsBridgeTile(cur_node) ? GSBridge.GetOtherBridgeEnd(cur_node) : GSTunnel.GetOtherTunnelEnd(cur_node);
 		local next_tile = cur_node + (cur_node - other_end) / GSMap.DistanceManhattan(cur_node, other_end);
+GSLog.Warning("---- 1");
 		if (GSRoad.AreRoadTilesConnected(cur_node, next_tile) || GSTile.IsBuildable(next_tile) || GSRoad.IsRoadTile(next_tile)) {
 			tiles.push([next_tile, self._GetDirection(cur_node, next_tile, false)]);
 		}
 		/* The other end of the bridge / tunnel is a neighbour. */
 		tiles.push([other_end, self._GetDirection(next_tile, cur_node, true) << 4]);
 	} else if (path.GetParent() != null && GSMap.DistanceManhattan(cur_node, path.GetParent().GetTile()) > 1) {
+GSLog.Warning("---- 2");
 		local other_end = path.GetParent().GetTile();
 		local next_tile = cur_node + (cur_node - other_end) / GSMap.DistanceManhattan(cur_node, other_end);
 		if (GSRoad.AreRoadTilesConnected(cur_node, next_tile) || GSRoad.BuildRoad(cur_node, next_tile)) {
 			tiles.push([next_tile, self._GetDirection(cur_node, next_tile, false)]);
 		}
 	} else {
+GSLog.Warning("---- 3");
+GSViewport.ScrollTo(cur_node);
 		local offsets = [GSMap.GetTileIndex(0, 1), GSMap.GetTileIndex(0, -1),
 		                 GSMap.GetTileIndex(1, 0), GSMap.GetTileIndex(-1, 0)];
 		/* Check all tiles adjacent to the current tile. */
 		foreach (offset in offsets) {
 			local next_tile = cur_node + offset;
+GSLog.Warning("----- " + Array.ToStringTiles1D([next_tile]));
 			/* We add them to the to the neighbours-list if one of the following applies:
 			 * 1) There already is a connections between the current tile and the next tile.
 			 * 2) We can build a road to the next tile.
 			 * 3) The next tile is the entrance of a tunnel / bridge in the correct direction. */
+GSLog.Info("------ " + GSRoad.AreRoadTilesConnected(cur_node, next_tile));
+// GSLog.Info("------ " + ((self._cost_only_existing_roads != true) && (GSTile.IsBuildable(next_tile) || GSRoad.IsRoadTile(next_tile)) && (path.GetParent() == null || GSRoad.CanBuildConnectedRoadPartsHere(cur_node, path.GetParent().GetTile(), next_tile)) && GSRoad.BuildRoad(cur_node, next_tile)) + " : " + (self._cost_only_existing_roads != true) + " && (" + GSTile.IsBuildable(next_tile) + " || " + GSRoad.IsRoadTile(next_tile) + " ) && ( " + (path.GetParent() == null) + " || " + GSRoad.CanBuildConnectedRoadPartsHere(cur_node, path.GetParent().GetTile(), next_tile) + " ) && " + GSRoad.BuildRoad(cur_node, next_tile));
+GSLog.Info("------ " + ((self._cost_only_existing_roads != true) && (GSTile.IsBuildable(next_tile) || GSRoad.IsRoadTile(next_tile)) && (path.GetParent() == null || GSRoad.CanBuildConnectedRoadPartsHere(cur_node, path.GetParent().GetTile(), next_tile)) && GSRoad.BuildRoad(cur_node, next_tile)) + " : " + (self._cost_only_existing_roads != true) + " && (" + GSTile.IsBuildable(next_tile) + " || " + GSRoad.IsRoadTile(next_tile) + " ) && ( " + (path.GetParent() == null) + " || --  ) && " + GSRoad.BuildRoad(cur_node, next_tile));
+GSLog.Info("------ " + ((self._cost_only_existing_roads != true) && self._CheckTunnelBridge(cur_node, next_tile)) + " : " + (self._cost_only_existing_roads != true) + " && " + self._CheckTunnelBridge(cur_node, next_tile));
 			if (GSRoad.AreRoadTilesConnected(cur_node, next_tile)) {
 				tiles.push([next_tile, self._GetDirection(cur_node, next_tile, false)]);
+GSLog.Warning("***** Tiles Connected " + Array.ToStringTiles1D([next_tile, self._GetDirection(cur_node, next_tile)]));				
 			} else if ((self._cost_only_existing_roads != true) && (GSTile.IsBuildable(next_tile) || GSRoad.IsRoadTile(next_tile)) &&
 					(path.GetParent() == null || GSRoad.CanBuildConnectedRoadPartsHere(cur_node, path.GetParent().GetTile(), next_tile)) &&
 					GSRoad.BuildRoad(cur_node, next_tile)) {
 			//	WM - add '&& (only_existing_roads != true)' so that non-connected roads are ignored
 				tiles.push([next_tile, self._GetDirection(cur_node, next_tile, false)]);
+GSLog.Warning("***** Tiles Can Connect " + Array.ToStringTiles1D([next_tile, self._GetDirection(cur_node, next_tile)]));	
 			} else if ((self._cost_only_existing_roads != true) && self._CheckTunnelBridge(cur_node, next_tile)) {
 				tiles.push([next_tile, self._GetDirection(cur_node, next_tile, false)]);
+GSLog.Warning("***** Tiles Tunnel " + Array.ToStringTiles1D([next_tile, self._GetDirection(cur_node, next_tile)]));	
 			}
 		}
 		if (path.GetParent() != null) {
@@ -339,6 +350,7 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 			}
 		}
 	}
+GSLog.Warning("**** Neighbours" + Array.ToString1D(tiles));	
 	return tiles;
 }
 

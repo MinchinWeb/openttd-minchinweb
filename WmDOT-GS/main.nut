@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.7-GS, r.148 [2011-12-03],
+﻿/*	WmDOT v.7-GS, r.153 [2011-12-07],
  *		adapted from WmDOT (the AI) v.6, r.118 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -14,6 +14,7 @@ import("util.MinchinWeb", "MetaLib", 2);
 */
 
 require("library/SuperLib-GS/main.nut");
+	SLMoney <- SuperLib.Money;
 require("library/MetaLibrary-GS/main.nut");
 //	Metalib <- MinchinWeb;
 	RoadPathfinder <- MinchinWeb.RoadPathfinder;
@@ -21,7 +22,7 @@ require("library/MetaLibrary-GS/main.nut");
 	Fibonacci_Heap <- MinchinWeb.Fibonacci_Heap;
 	
 require("OpDOT.nut");				//	OperationDOT
-// require("OpMoney.nut");				//	Operation Money
+require("OpMoney.nut");				//	Operation Money
 require("OpLog.nut");				//	Operation Log
 require("TownRegistrar.nut");		//	Town Registrar
 require("Neighbourhood.nut");		//	Neighbourhood Class	
@@ -35,20 +36,15 @@ require("Cleanup.Crew.nut");		//	Cleanup Crew
 	WmDOTv = 7;
 	/*	Version number of GS
 	 */	
-	WmDOTr = 142;
+	WmDOTr = 153;
 	/*	Reversion number of GS
 	 */
 	 
-//	SingleLetterOdds = 7;
-	/*	Control on single letter companies.  Set this value higher to increase
-	 *	the chances of a single letter DOT name (eg. 'CDOT').		
-	 */
-	
 	//	END SETTINGS
 	
 	Log = OpLog();
 	Towns = TownRegistrar();
-//	Money = OpMoney();
+	Money = OpMoney();
 	DOT = OpDOT();
 	CleanupCrew = OpCleanupCrew();
   
@@ -65,7 +61,6 @@ function WmDOT_GS::Start()
 	local Debug_2 = "/* Settings: " + GetSetting("DOT_name1") + "-" + GetSetting("DOT_name2") + " - dl" + GetSetting("Debug_Level") + " // OpDOT: " + GetSetting("OpDOT") + " - " + GetSetting("OpDOT_MinTownSize") + " - " + GetSetting("TownRegistrar_AtlasSize") + " - " + GetSetting("OpDOT_RebuildAttempts") + " */" ;
 	local Debug_1 = "/* GS v." + WmDOTv + ", r." + WmDOTr + " // " + GSDate.GetYear(GSDate.GetCurrentDate()) + "-" + GSDate.GetMonth(GSDate.GetCurrentDate()) + "-" + GSDate.GetDayOfMonth(GSDate.GetCurrentDate()) + " start // " + GSMap.GetMapSizeX() + "x" + GSMap.GetMapSizeY() + " map - " + GSTown.GetTownCount() + " towns */";
 	
-//	GSLog.Info("Welcome to WmDOT, version " + GetVersion() + ", revision " + WmDOTr + " by " + GetAuthor() + ".");
 	GSLog.Info("Welcome to WmDOT, GameScript Edition, version " + WmDOTv + ", revision " + WmDOTr + " by W. Minchin.");
 	GSLog.Info("Copyright © 2011 by W. Minchin. For more info, please visit http://www.tt-forums.net/viewtopic.php?f=65&t=53698")
 	GSLog.Info(" ");
@@ -74,7 +69,7 @@ function WmDOT_GS::Start()
 	Log.Note("Loading Libraries...",0);		// Actually, by this point it's already happened
 
 	Log.Note("     " + Log.GetName() + ", v." + Log.GetVersion() + " r." + Log.GetRevision() + "  loaded!",0);
-//	Log.Note("     " + Money.GetName() + ", v." + Money.GetVersion() + " r." + Money.GetRevision() + "  loaded!",0);
+	Log.Note("     " + Money.GetName() + ", v." + Money.GetVersion() + " r." + Money.GetRevision() + "  loaded!",0);
 	Log.Note("     " + DOT.GetName() + ", v." + DOT.GetVersion() + " r." + DOT.GetRevision() + "  loaded!",0);
 	Log.Note("     " + Towns.GetName() + ", v." + Towns.GetVersion() + " r." + Towns.GetRevision() + "  loaded!",0);
 	Log.Note("     " + CleanupCrew.GetName() + ", v." + CleanupCrew.GetVersion() + " r." + CleanupCrew.GetRevision() + "  loaded!",0);
@@ -95,34 +90,23 @@ function WmDOT_GS::Start()
 	GSRoad.SetCurrentRoadType(GSRoad.ROADTYPE_ROAD);
 		//	Build normal road (no tram tracks)
 	
-//	NameWmDOT();
-//	local HQTown = BuildWmHQ();
 	local Time;
-//	DOT.Settings.HQTown = HQTown;
+	local now;
 	DOT.Settings.HQTown = BuildWmHQ();
-	
-	/* Wait 60 seconds till game starts */
-	local now = GSDate.GetSystemTime();
+	Sleep(1);
 
 	local comp = GSCompanyMode(0);
 	local exec = GSExecMode();
-	GSLog.Info("Company " + comp);
+//	GSLog.Info("Company " + comp);
 
-	GSViewport.ScrollTo(GSMap.GetTileIndex(48,48));
-	GSRoad.BuildRoadDepot(GSMap.GetTileIndex(48,48), GSMap.GetTileIndex(48,49));
-
-	now = GSDate.GetSystemTime();
-	while (GSDate.GetSystemTime() - now < 10) {
-		this.Sleep(30);
-	}
-
-	
+//	GSViewport.ScrollTo(GSMap.GetTileIndex(48,48));
+//	GSRoad.BuildRoadDepot(GSMap.GetTileIndex(48,48), GSMap.GetTileIndex(48,49));
 	
 	while (true) {
 		Time = this.GetTick();	
 		Log.Settings.DebugLevel = GetSetting("Debug_Level");
 
-//		if (Time > Money.State.NextRun)			{ Money.Run(); }
+		if (Time > Money.State.NextRun)			{ Money.Run(); }
 		if (Time > Towns.State.NextRun)			{ Towns.Run(); }
 		if (Time > CleanupCrew.State.NextRun)	{ CleanupCrew.Run(); }
 		if (Time > DOT.State.NextRun)			{ DOT.Run(); }
@@ -199,7 +183,7 @@ function WmDOT_GS::TileIsWhatTown(TileIn)
 function WmDOT_GS::TheGreatLinkUp()
 {
 	DOT.LinkUp();
-//	Money.LinkUp();
+	Money.LinkUp();
 	Towns.LinkUp();
 	CleanupCrew.LinkUp();
 	Log.Note("The Great Link Up is Complete!",1);

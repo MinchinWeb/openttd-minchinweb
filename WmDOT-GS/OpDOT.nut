@@ -1,5 +1,5 @@
-﻿/*	OperationDOT v.4-CS, r.148 [2011-12-03], part of 
- *		WmDOT v.7-GS, r.148 [2011-12-03],
+﻿/*	OperationDOT v.4-CS, r.153 [2011-12-07], part of 
+ *		WmDOT v.7-GS, r.153 [2011-12-07],
  *		adapted from WmDOT v.6  r.118 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -43,8 +43,8 @@
 
  class OpDOT {
 	function GetVersion()       { return 3; }
-	function GetRevision()		{ return 145; }
-	function GetDate()          { return "2011-12-03"; }
+	function GetRevision()		{ return 153; }
+	function GetDate()          { return "2011-12-07"; }
 	function GetName()          { return "Operation DOT"; }
  
 	_SleepLength = null;
@@ -81,7 +81,7 @@
 	_Cost = null;
 	
 	Log = null;
-//	Money = null;
+	Money = null;
 	Towns = null;
 	CleanupCrew = null;
 	
@@ -108,7 +108,7 @@
 		this.Settings = this.Settings(this);
 		this.State = this.State(this);
 		Log = OpLog();
-//		Money = OpMoney();
+		Money = OpMoney();
 		Towns = TownRegistrar();
 		CleanupCrew = OpCleanupCrew();
 	}
@@ -187,7 +187,7 @@ class OpDOT.State {
 function OpDOT::LinkUp() 
 {
 	this.Log = WmDOT_GS.Log;
-//	this.Money = WmDOT.Money;
+	this.Money = WmDOT_GS.Money;
 	this.Towns = WmDOT_GS.Towns;
 	this.CleanupCrew = WmDOT_GS.CleanupCrew;
 	Log.Note(this.GetName() + " linked up!",3);
@@ -308,12 +308,12 @@ function OpDOT::Run() {
 						Log.Note("Pathfinding took " + (GSController.GetTick() - tick) + " ticks. (MD = " + GSMap.DistanceManhattan(GSTown.GetLocation(this._PairsToConnect[0]),GSTown.GetLocation(this._PairsToConnect[1])) + ", Length = " + PathFinder.GetPathLength() + ").",3);
 						tick = GSController.GetTick();
 						CleanupCrew.AcceptBuiltTiles(PathFinder.TilesPairsToBuild() );
-//						BuildCost = PathFinder.GetBuildCost();
-//						Log.Note("Cost of path is " + BuildCost + "£. Took " + (GSController.GetTick() - tick) + " ticks.", 3);
+						BuildCost = PathFinder.GetBuildCost();
+						Log.Note("Cost of path is " + BuildCost + "£. Took " + (GSController.GetTick() - tick) + " ticks.", 3);
 						Log.Note("Took " + (GSController.GetTick() - tick) + " ticks.", 3);
-//						Money.FundsRequest(BuildCost*1.1);		//	To allow for inflation during construction
+						Money.FundsRequest(BuildCost*1.1);		//	To allow for inflation during construction
 						PathFinder.BuildPath();
-//						GSLog.Info(Array.ToString2D(PathFinder.PathToTilePairs()));
+						GSLog.Info(Array.ToString2D(PathFinder.PathToTilePairs()));
 						
 						//	Test to see if construction worked by running the
 						//		pathfinder and computing build cost of the 
@@ -707,13 +707,13 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 				local CycleCounter = 0;
 				while (path == false) {
 					path = pathfinder.FindPath(this._PathFinderCycles);
-//					GSController.Sleep(1);
+					GSController.Sleep(1);
 					CycleCounter+=this._PathFinderCycles;
 					if ((CycleCounter % 2000 < this._PathFinderCycles) || (this._PathFinderCycles > 2000)) {
 						//	A safety to make sure that the GS doesn't run out
 						//		of money while pathfinding...
-//						Money.GreaseMoney();
-//						GSController.Sleep(1);
+						Money.GreaseMoney();
+						GSController.Sleep(1);
 					}
 				}
 				
@@ -727,7 +727,7 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 				ExaminedCount++;
 				if ((ExaminedCount % 10) == 0) {
 					//	Make sure we don't run out of money...
-//					Money.GreaseMoney();
+					Money.GreaseMoney();
 				}
 			}
 		}
@@ -847,12 +847,12 @@ function OpDOT::RunPathfinder(Start, End)
 	while (path == false) {
 		path = pathfinder.FindPath(this._PathFinderCycles);
 		CycleCounter+=this._PathFinderCycles;
-//		if ((CycleCounter % 2000 < this._PathFinderCycles) || (this._PathFinderCycles > 2000) ) {
+		if ((CycleCounter % 2000 < this._PathFinderCycles) || (this._PathFinderCycles > 2000) ) {
 			//	A safety to make sure that the GS doesn't run out
 			//		of money while pathfinding...
-//			Money.GreaseMoney();
-//			GSController.Sleep(1);
-//		}
+			Money.GreaseMoney();
+			GSController.Sleep(1);
+		}
 	}
 	
 	if (path == null) {
@@ -894,14 +894,14 @@ function OpDOT::LengthOfExistingConnections(TileA, TileB)
 	local CycleCounter = 0;
 	while (path == false) {
 		path = pathfinder.FindPath(this._PathFinderCycles);
-//					GSController.Sleep(1);
+					GSController.Sleep(1);
 		CycleCounter+=this._PathFinderCycles;
 		if ((CycleCounter % 2000 < this._PathFinderCycles) || (this._PathFinderCycles > 2000)) {
 			//	A safety to make sure that the GS doesn't run out
 			//		of money while pathfinding...
-//			Money.GreaseMoney();
-//			CycleCounter = 0;
-//			GSController.Sleep(1);
+			Money.GreaseMoney();
+			CycleCounter = 0;
+			GSController.Sleep(1);
 		}
 	}
 	

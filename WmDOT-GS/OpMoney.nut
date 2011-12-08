@@ -1,5 +1,6 @@
-﻿/*	OperationMoney v.1, part of 
- *	WmDOT v.5  r.53a  [2011-03-28]
+﻿/*	OperationMoney v.1-GS, r.153 [2011-12-07], part of
+ *		WmDOT-CS, v.7, r153 [2011-12-07], adapted from
+ *		WmDOT v.5  r.53a  [2011-03-28]
  *	Copyright © 2011 by William Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -9,12 +10,12 @@
 
  class OpMoney {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return "53a"; }
-	function GetDate()          { return "2011-03-31"; }
+	function GetRevision()		{ return 153; }
+	function GetDate()          { return "2011-12-07"; }
 	function GetName()          { return "Operation Money"; }
  
 	_SleepLength = null;
-	//	Controls how many ticks the AI sleeps between iterations.
+	//	Controls how many ticks the GS sleeps between iterations.
 	_MinBalance = null;
 	//	Minimum Bank balance (in GBP - £) to have on hand 
 	 
@@ -83,19 +84,19 @@ class OpMoney.Settings {
 
 function OpMoney::LinkUp() 
 {
-	this.Log = WmDOT.Log;
+	this.Log = WmDOT_GS.Log;
 	Log.Note(this.GetName() + " linked up!",3);
 }
  
 function OpMoney::Run() {
 //	Repays the loan and keeps a small balance on hand
-	this._NextRun = AIController.GetTick();
+	this._NextRun = GSController.GetTick();
 	Log.Note("OpMoney running at tick " + this._NextRun + ".",1);
 	this._NextRun += this._SleepLength;
 	
 	SLMoney.MakeMaximumPayback();
 	SLMoney.MakeSureToHaveAmount(this._MinBalance);
-	Log.Note("Bank Balance: " + AICompany.GetBankBalance(AICompany.ResolveCompanyID(AICompany.COMPANY_SELF)) + "£, Loan: " + AICompany.GetLoanAmount() + "£, Keep Minimum Balance of " + this._MinBalance + "£.",2)
+	Log.Note("Bank Balance: " + GSCompany.GetBankBalance(GSCompany.ResolveCompanyID(GSCompany.COMPANY_SELF)) + "£, Loan: " + GSCompany.GetLoanAmount() + "£, Keep Minimum Balance of " + this._MinBalance + "£.",2)
  }
  
  function OpMoney::FundsRequest(Amount) {

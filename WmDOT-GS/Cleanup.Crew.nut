@@ -1,5 +1,5 @@
-/*	Cleanup Crew v.2-CS, r.148 [2011-12-03], part of 
- *		WmDOT-CS, v.7, r148 [2011-12-03],
+/*	Cleanup Crew v.2-CS, r.153 [2011-12-07], part of 
+ *		WmDOT-CS, v.7, r153 [2011-12-07],
  *		apdated from WmDOT v.6  r.118 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -19,25 +19,25 @@
 
 class OpCleanupCrew {
 	function GetVersion()       { return 2; }
-	function GetRevision()		{ return 145; }
-	function GetDate()          { return "2011-12-03"; }
+	function GetRevision()		{ return 153; }
+	function GetDate()          { return "2011-12-07"; }
 	function GetName()          { return "Cleanup Crew"; }
 
 //	_heap_class = import("Queue.Fibonacci_Heap", "", 2);
-	_heap_class = Fibonacci_Heap;
+	_heap_class = MinchinWeb.Fibonacci_Heap_Min;
 	_built_tiles = null;
 	_golden_path = null;
 	_heap = null;
 	_next_run = null;
 	_road_type = null;
 	
-//	Money = null;
+	Money = null;
 	Log = null;
 	
 	State = null;
 	
 	constructor() {
-//		this.Money = OpMoney();
+		this.Money = OpMoney();
 		this.Log = OpLog();
 		this.State = this.State(this);
 		this._heap = this._heap_class();
@@ -71,7 +71,7 @@ class OpCleanupCrew.State {
 function OpCleanupCrew::LinkUp() 
 {
 	this.Log = WmDOT_GS.Log;
-//	this.Money = WmDOT.Money;
+	this.Money = WmDOT_GS.Money;
 	Log.Note(this.GetName() + " linked up!",3);
 }
 
@@ -98,9 +98,10 @@ function OpCleanupCrew::AcceptBuiltTiles(TilePairArray)
 
 	Log.Note("Running CleanupCrew.AcceptBuildTiles...", 3);
 	for (local i = 0; i < TilePairArray.len(); i++ ) {
-//		Log.Note("Inserting " + Array.ToStingTiles1D(TilePairArray[i]) + " : " + i + ".", 4);
+		Log.Note("Inserting " + Array.ToStringTiles1D(TilePairArray[i]) + " : " + i + ".", 4);
 		this._heap.Insert(TilePairArray[i], GSBase.RandRange(255) );
 	}
+	Log.Note("Peek " + Array.ToStringTiles1D(this._heap.Peek()),4);
 }
 
 function OpCleanupCrew::AcceptGoldenPath(TilePairArray)
@@ -152,17 +153,18 @@ function OpCleanupCrew::Run()
 				Money.GreaseMoney((GSRoad.GetBuildCost(this._road_type, GSRoad.BT_ROAD) * 2.5).tointeger() );
 				GSRoad.RemoveRoadFull(TestPair[0], TestPair[1]);
 				i++;
-				Log.Note(i +". Testpair at " + Array.ToStingTiles1D(TestPair) + " removed.", 4);
+				Log.Note(i +". Testpair at " + Array.ToStringTiles1D(TestPair) + " removed.", 4);
 			} else {
 			// we're either a tunnel or a bridge, remove both!
 				i++;
-				Log.Note(i +". Testpair at " + Array.ToStingTiles1D(TestPair) + " removed. (Bridge or Tunnel)", 4);
-//				Money.GreaseMoney((GSRoad.GetBuildCost(this._road_type, GSRoad.BT_ROAD) * GSMap.DistanceManhattan(TestPair[0], TestPair[1]) * 2) );
+				Log.Note(i +". Testpair at " + Array.ToStringTiles1D(TestPair) + " removed. (Bridge or Tunnel)", 4);
+				Money.GreaseMoney((GSRoad.GetBuildCost(this._road_type, GSRoad.BT_ROAD) * GSMap.DistanceManhattan(TestPair[0], TestPair[1]) * 2) );
 				GSBridge.RemoveBridge(TestPair[0]);
 				GSTunnel.RemoveTunnel(TestPair[0]);
 			}
 		} else {
-			Log.Note(i +". Testpair at " + Array.ToStingTiles1D(TestPair) + " NOT removed.", 4);
+			i++;
+			Log.Note(i +". Testpair at " + Array.ToStringTiles1D(TestPair) + " NOT removed.", 4);
 		}
 	}
 

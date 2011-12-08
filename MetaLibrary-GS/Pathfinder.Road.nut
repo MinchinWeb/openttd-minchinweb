@@ -1,5 +1,5 @@
-﻿/*	RoadPathfinder v.7-GS r.140 [2011-12-03],
- *		part of MinchinWeb's MetaLibrary v.2-GS, r.140 [2011-12-03],
+﻿/*	RoadPathfinder v.7-GS r.152 [2011-12-07],
+ *		part of MinchinWeb's MetaLibrary v.2-GS, r.152 [2011-12-07],
  *		adapted from Minchinweb's MetaLibrary v.1, r.118, [2011-04-28],
  *		originally part of WmDOT v.4  r.50 [2011-04-06]
  *	Copyright © 2011 by W. Minchin. For more info,
@@ -299,48 +299,36 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 	     GSTile.HasTransportType(cur_node, GSTile.TRANSPORT_ROAD)) {
 		local other_end = GSBridge.IsBridgeTile(cur_node) ? GSBridge.GetOtherBridgeEnd(cur_node) : GSTunnel.GetOtherTunnelEnd(cur_node);
 		local next_tile = cur_node + (cur_node - other_end) / GSMap.DistanceManhattan(cur_node, other_end);
-GSLog.Warning("---- 1");
 		if (GSRoad.AreRoadTilesConnected(cur_node, next_tile) || GSTile.IsBuildable(next_tile) || GSRoad.IsRoadTile(next_tile)) {
 			tiles.push([next_tile, self._GetDirection(cur_node, next_tile, false)]);
 		}
 		/* The other end of the bridge / tunnel is a neighbour. */
 		tiles.push([other_end, self._GetDirection(next_tile, cur_node, true) << 4]);
 	} else if (path.GetParent() != null && GSMap.DistanceManhattan(cur_node, path.GetParent().GetTile()) > 1) {
-GSLog.Warning("---- 2");
 		local other_end = path.GetParent().GetTile();
 		local next_tile = cur_node + (cur_node - other_end) / GSMap.DistanceManhattan(cur_node, other_end);
 		if (GSRoad.AreRoadTilesConnected(cur_node, next_tile) || GSRoad.BuildRoad(cur_node, next_tile)) {
 			tiles.push([next_tile, self._GetDirection(cur_node, next_tile, false)]);
 		}
 	} else {
-GSLog.Warning("---- 3");
-GSViewport.ScrollTo(cur_node);
 		local offsets = [GSMap.GetTileIndex(0, 1), GSMap.GetTileIndex(0, -1),
 		                 GSMap.GetTileIndex(1, 0), GSMap.GetTileIndex(-1, 0)];
 		/* Check all tiles adjacent to the current tile. */
 		foreach (offset in offsets) {
 			local next_tile = cur_node + offset;
-GSLog.Warning("----- " + Array.ToStringTiles1D([next_tile]));
 			/* We add them to the to the neighbours-list if one of the following applies:
 			 * 1) There already is a connections between the current tile and the next tile.
 			 * 2) We can build a road to the next tile.
 			 * 3) The next tile is the entrance of a tunnel / bridge in the correct direction. */
-GSLog.Info("------ " + GSRoad.AreRoadTilesConnected(cur_node, next_tile));
-// GSLog.Info("------ " + ((self._cost_only_existing_roads != true) && (GSTile.IsBuildable(next_tile) || GSRoad.IsRoadTile(next_tile)) && (path.GetParent() == null || GSRoad.CanBuildConnectedRoadPartsHere(cur_node, path.GetParent().GetTile(), next_tile)) && GSRoad.BuildRoad(cur_node, next_tile)) + " : " + (self._cost_only_existing_roads != true) + " && (" + GSTile.IsBuildable(next_tile) + " || " + GSRoad.IsRoadTile(next_tile) + " ) && ( " + (path.GetParent() == null) + " || " + GSRoad.CanBuildConnectedRoadPartsHere(cur_node, path.GetParent().GetTile(), next_tile) + " ) && " + GSRoad.BuildRoad(cur_node, next_tile));
-GSLog.Info("------ " + ((self._cost_only_existing_roads != true) && (GSTile.IsBuildable(next_tile) || GSRoad.IsRoadTile(next_tile)) && (path.GetParent() == null || GSRoad.CanBuildConnectedRoadPartsHere(cur_node, path.GetParent().GetTile(), next_tile)) && GSRoad.BuildRoad(cur_node, next_tile)) + " : " + (self._cost_only_existing_roads != true) + " && (" + GSTile.IsBuildable(next_tile) + " || " + GSRoad.IsRoadTile(next_tile) + " ) && ( " + (path.GetParent() == null) + " || --  ) && " + GSRoad.BuildRoad(cur_node, next_tile));
-GSLog.Info("------ " + ((self._cost_only_existing_roads != true) && self._CheckTunnelBridge(cur_node, next_tile)) + " : " + (self._cost_only_existing_roads != true) + " && " + self._CheckTunnelBridge(cur_node, next_tile));
 			if (GSRoad.AreRoadTilesConnected(cur_node, next_tile)) {
 				tiles.push([next_tile, self._GetDirection(cur_node, next_tile, false)]);
-GSLog.Warning("***** Tiles Connected " + Array.ToStringTiles1D([next_tile, self._GetDirection(cur_node, next_tile)]));				
 			} else if ((self._cost_only_existing_roads != true) && (GSTile.IsBuildable(next_tile) || GSRoad.IsRoadTile(next_tile)) &&
 					(path.GetParent() == null || GSRoad.CanBuildConnectedRoadPartsHere(cur_node, path.GetParent().GetTile(), next_tile)) &&
 					GSRoad.BuildRoad(cur_node, next_tile)) {
 			//	WM - add '&& (only_existing_roads != true)' so that non-connected roads are ignored
 				tiles.push([next_tile, self._GetDirection(cur_node, next_tile, false)]);
-GSLog.Warning("***** Tiles Can Connect " + Array.ToStringTiles1D([next_tile, self._GetDirection(cur_node, next_tile)]));	
 			} else if ((self._cost_only_existing_roads != true) && self._CheckTunnelBridge(cur_node, next_tile)) {
 				tiles.push([next_tile, self._GetDirection(cur_node, next_tile, false)]);
-GSLog.Warning("***** Tiles Tunnel " + Array.ToStringTiles1D([next_tile, self._GetDirection(cur_node, next_tile)]));	
 			}
 		}
 		if (path.GetParent() != null) {
@@ -350,7 +338,6 @@ GSLog.Warning("***** Tiles Tunnel " + Array.ToStringTiles1D([next_tile, self._Ge
 			}
 		}
 	}
-GSLog.Warning("**** Neighbours" + Array.ToString1D(tiles));	
 	return tiles;
 }
 
@@ -644,7 +631,7 @@ function _MinchinWeb_RoadPathfinder_::GetBuildCost()
 					//	if not a tunnel, we assume we're buildng a bridge
 						local BridgeList = GSBridgeList_Length(GSMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
 						BridgeList.Valuate(GSBridge.GetMaxSpeed);
-						BridgeList.Sort(GSAbstractList.SORT_BY_VALUE, false);
+						BridgeList.Sort(GSList.SORT_BY_VALUE, false);
 						if (!GSBridge.BuildBridge(GSVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
 						//	At this point, an error has occured while building the bridge.
 						//	Fail the pathfiner
@@ -724,7 +711,7 @@ function _MinchinWeb_RoadPathfinder_::BuildPath()
 					//	if not a tunnel, we assume we're buildng a bridge
 						local BridgeList = GSBridgeList_Length(GSMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
 						BridgeList.Valuate(GSBridge.GetMaxSpeed);
-						BridgeList.Sort(GSAbstractList.SORT_BY_VALUE, false);
+						BridgeList.Sort(GSList.SORT_BY_VALUE, false);
 						if (!GSBridge.BuildBridge(GSVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
 						//	At this point, an error has occured while building the bridge.
 						//	Fail the pathfiner

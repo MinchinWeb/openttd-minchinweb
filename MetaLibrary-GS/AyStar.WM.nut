@@ -1,5 +1,5 @@
-/*	AyStar v.8-GS, r.145 [2011-12-03],
- *		part of MinchinWeb's MetaLibrary v.2-GS r.143 [2011-12-03]
+/*	AyStar v.8-GS, r.154 [2011-12-07],
+ *		part of MinchinWeb's MetaLibrary v.2-GS r.154 [2011-12-07]
  *		adapted from WmDOT v.4  r.42 [2011-03-26]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -15,8 +15,8 @@
  */
 class _MinchinWeb_AyStar_Info {
 	function GetVersion()       { return 8; }
-	function GetRevision()		{ return 145; }
-	function GetDate()          { return "2011-12-03"; }
+	function GetRevision()		{ return 154; }
+	function GetDate()          { return "2011-12-07"; }
 	function GetName()          { return "A* (MinchinWeb) Library"; }
 }
  
@@ -181,8 +181,7 @@ function _MinchinWeb_AyStar_::FindPath(iterations)
 			this._closed.SetValue(cur_tile, this._closed.GetValue(cur_tile) | path.GetDirection());
 		} else {
 			/* New entry, make sure we don't check it again */
-			this._closed.AddItem(cur_tile, path.GetDirection());
-GSLog.Warning("*** Closed.AddItem(" + GSMap.GetTileX(cur_tile) + "," + GSMap.GetTileY(cur_tile) + "; " + path.GetDirection());	
+			this._closed.AddItem(cur_tile, path.GetDirection());	
 		}
 		/* Check if we found the end */
 		foreach (goal in this._goals) {
@@ -256,7 +255,7 @@ class _MinchinWeb_AyStar_.Path
 		if (old_path == null) {
 			this._length = 0;
 		} else {
-			this._length = old_path.GetLength() + AIMap.DistanceManhattan(old_path.GetTile(), new_tile);
+			this._length = old_path.GetLength() + GSMap.DistanceManhattan(old_path.GetTile(), new_tile);
 		}
 	};
 

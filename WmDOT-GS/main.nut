@@ -1,13 +1,13 @@
-﻿/*	WmDOT v.6-GS  r.163 [2011-12-17],
+﻿/*	WmDOT v.6-GS  r.164 [2011-12-17],
  *		adapted from WmDOT v.6  r.118 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
-import("util.MinchinWeb", "MetaLib", 1);
+import("util.MinchinWeb", "MetaLib", 2);
 	RoadPathfinder <- MetaLib.RoadPathfinder;
 	Array <- MetaLib.Array;
-import("util.superlib", "SuperLib", 16);		//	For loan management
+import("util.superlib", "SuperLib", 17);		//	For loan management
 		
 require("OpDOT.nut");				//	OperationDOT
 require("OpLog.nut");				//	Operation Log
@@ -83,7 +83,6 @@ function WmDOT::Start()
 		Time = this.GetTick();	
 		Log.Settings.DebugLevel = GetSetting("Debug_Level");
 
-		if (Time > Money.State.NextRun)			{ Money.Run(); }
 		if (Time > Towns.State.NextRun)			{ Towns.Run(); }
 		if (Time > CleanupCrew.State.NextRun)	{ CleanupCrew.Run(); }
 		if (Time > DOT.State.NextRun)			{ DOT.Run(); }
@@ -148,7 +147,7 @@ function WmDOT::BuildWmHQ()
 	//	TO-DO: Doesn't address the case where all towns have a DOT HQ in them...
 	
 	tick = this.GetTick() - tick;
-	Log.Note("HQ built at "+ GSMap.GetTileX(Walker.GetTile()) + ", " + GSMap.GetTileY(Walker.GetTile()) + ". Took " + Walker.GetStep() + " tries. Took " + tick + " tick(s).",2);
+//	Log.Note("HQ built at "+ GSMap.GetTileX(Walker.GetTile()) + ", " + GSMap.GetTileY(Walker.GetTile()) + ". Took " + Walker.GetStep() + " tries. Took " + tick + " tick(s).",2);
 	return HQTown;
 }
 

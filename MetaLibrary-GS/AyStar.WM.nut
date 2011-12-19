@@ -23,8 +23,8 @@ class _MinchinWeb_AyStar_Info {
  class _MinchinWeb_AyStar_
 
 {
-//	_queue_class = import("queue.binary_heap", "", 1);
-	_queue_class = _MinchinWeb_Binary_Heap_;
+	_queue_class = import("queue.binary_heap", "", 1);
+//	_queue_class = _MinchinWeb_Binary_Heap_;
 
 	_cost_callback = null;
 	_estimate_callback = null;

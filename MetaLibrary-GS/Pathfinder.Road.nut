@@ -61,8 +61,8 @@
 
 class _MinchinWeb_RoadPathfinder_
 {
-//	_aystar_class = import("graph.aystar", "", 6);
-	_aystar_class = _MinchinWeb_AyStar_;
+	_aystar_class = import("graph.aystar", "", 6);
+//	_aystar_class = _MinchinWeb_AyStar_;
 	_max_cost = null;              ///< The maximum cost for a route.
 	_cost_tile = null;             ///< The cost for a single tile.
 	_cost_no_existing_road = null; ///< The cost that is added to _cost_tile if no road exists yet.
@@ -320,6 +320,13 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 			 * 1) There already is a connections between the current tile and the next tile.
 			 * 2) We can build a road to the next tile.
 			 * 3) The next tile is the entrance of a tunnel / bridge in the correct direction. */
+
+//GSLog.Info("----1-- " + GSRoad.AreRoadTilesConnected(cur_node, next_tile));
+//// GSLog.Info("------ " + ((self._cost_only_existing_roads != true) && (GSTile.IsBuildable(next_tile) || GSRoad.IsRoadTile(next_tile)) && (path.GetParent() == null || GSRoad.CanBuildConnectedRoadPartsHere(cur_node, path.GetParent().GetTile(), next_tile)) && GSRoad.BuildRoad(cur_node, next_tile)) + " : " + (self._cost_only_existing_roads != true) + " && (" + GSTile.IsBuildable(next_tile) + " || " + GSRoad.IsRoadTile(next_tile) + " ) && ( " + (path.GetParent() == null) + " || " + GSRoad.CanBuildConnectedRoadPartsHere(cur_node, path.GetParent().GetTile(), next_tile) + " ) && " + GSRoad.BuildRoad(cur_node, next_tile));
+//GSLog.Info("----2-- " + ((self._cost_only_existing_roads != true) && (GSTile.IsBuildable(next_tile) || GSRoad.IsRoadTile(next_tile)) && (path.GetParent() == null || GSRoad.CanBuildConnectedRoadPartsHere(cur_node, path.GetParent().GetTile(), next_tile)) && GSRoad.BuildRoad(cur_node, next_tile)) + " : " + (self._cost_only_existing_roads != true) + " && (" + GSTile.IsBuildable(next_tile) + " || " + GSRoad.IsRoadTile(next_tile) + " ) && ( " + (path.GetParent() == null) + " || --  ) && " + GSRoad.BuildRoad(cur_node, next_tile));
+//GSLog.Info("----2a- " + ((self._cost_only_existing_roads != true) && (GSTile.IsBuildableRectangle(next_tile,1,1) || GSRoad.IsRoadTile(next_tile)) && (path.GetParent() == null || GSRoad.CanBuildConnectedRoadPartsHere(cur_node, path.GetParent().GetTile(), next_tile)) && GSRoad.BuildRoad(cur_node, next_tile)) + " : " + (self._cost_only_existing_roads != true) + " && (" + GSTile.IsBuildable(next_tile) + " || " + GSRoad.IsRoadTile(next_tile) + " ) && ( " + (path.GetParent() == null) + " || --  ) && " + GSRoad.BuildRoad(cur_node, next_tile));
+//GSLog.Info("----3-- " + ((self._cost_only_existing_roads != true) && self._CheckTunnelBridge(cur_node, next_tile)) + " : " + (self._cost_only_existing_roads != true) + " && " + self._CheckTunnelBridge(cur_node, next_tile));	
+			 		 
 			if (GSRoad.AreRoadTilesConnected(cur_node, next_tile)) {
 				tiles.push([next_tile, self._GetDirection(cur_node, next_tile, false)]);
 			} else if ((self._cost_only_existing_roads != true) && (GSTile.IsBuildable(next_tile) || GSRoad.IsRoadTile(next_tile)) &&
@@ -338,6 +345,7 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 			}
 		}
 	}
+// GSLog.Info("     Neighbours: " + _MinchinWeb_Array_.ToStringTiles1D(tiles));
 	return tiles;
 }
 

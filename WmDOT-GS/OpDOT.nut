@@ -827,6 +827,9 @@ function OpDOT::RunPathfinder(Start, End)
 	local pathfinder = RoadPathfinder();
 	pathfinder.PresetQuickAndDirty();			//	Set Parameters
 	pathfinder.InitializePath([Start], [End]);	// Give the source and goal tiles to the pathfinder.
+
+	local TempCompany = GSCompanyMode(0);		// XX hack required by the GS framework to make the pathfinder work...
+												//		TO-DO: Check first to make sure Company 0 exists...
 	
 	local path = false;
 	local CycleCounter = 0;

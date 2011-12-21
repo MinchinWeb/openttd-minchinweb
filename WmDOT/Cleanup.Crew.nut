@@ -1,5 +1,5 @@
-/*	Cleanup Crew v.2, part of 
- *	WmDOT v.6  r.118 [2011-04-28]
+/*	Cleanup Crew v.2, r.167 [2011-12-20] part of 
+ *	WmDOT v.6  [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -18,8 +18,8 @@
 
 class OpCleanupCrew {
 	function GetVersion()       { return 2; }
-	function GetRevision()		{ return 118; }
-	function GetDate()          { return "2011-04-28"; }
+	function GetRevision()		{ return 167; }
+	function GetDate()          { return "2011-12-20"; }
 	function GetName()          { return "Cleanup Crew"; }
 
 	_heap_class = import("Queue.Fibonacci_Heap", "", 2);
@@ -160,7 +160,7 @@ function OpCleanupCrew::Run()
 				AITunnel.RemoveTunnel(TestPair[0]);
 			}
 		} else {
-			Log.Note(i +". Testpair at " + Array.ToStingTiles1D(TestPair) + " NOT removed.", 4);
+			Log.Note(i +". Testpair at " + Array.ToStringTiles1D(TestPair) + " NOT removed.", 4);
 		}
 	}
 

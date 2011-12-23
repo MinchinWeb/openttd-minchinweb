@@ -1,5 +1,5 @@
-﻿/*	LineWalker class v.1 r.131 [2011-04-30],
- *	part of Minchinweb's MetaLibrary v2, r131, [2011-04-30],
+﻿/*	LineWalker class v.1 r.139 [2011-10-22],
+ *	part of Minchinweb's MetaLibrary v2,
  *	originally part of WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -23,8 +23,8 @@
  *						  .GetEnd()
  */
  
-//	Plane geometry gets funky things when you don't have an infinity, or by
-//		extention, zero (the inverse of infinity) for slopes. To get by the
+//	Plane geometry does funky things when you don't have an infinity, or by
+//		extention, zero (the inverse of infinity) for slopes. To get around the
 //		fact integer conversions drop everything past the decimal point
 //		(effectively rounding down), slopes are set so that there is a slight
 //		inflection point at the 'origin' so that as you move out from the start

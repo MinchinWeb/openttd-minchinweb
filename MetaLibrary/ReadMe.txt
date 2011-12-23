@@ -128,7 +128,7 @@ The pathfinder uses the A* search pattern and includes functions to find the
         .PathToTilePairs()
             - Returns a 2D array that has each pair of tiles that path joins
         .TilesPairsToBuild()
-            - Similiar to PathToTilePairs(), but only returns those pairs where
+            - Similar to PathToTilePairs(), but only returns those pairs where
                 there isn't a current road connection
                 
 [Spiral.Walker.nut] v.2
@@ -145,23 +145,23 @@ The SpiralWalker class allows you to define a starting point, and then 'walk'
         .Restart()
             - Sends the SpiralWalker back to the starting tile
         .Walk()
-            - Move out, one tile at a time. Returns the Tile ths SpiralWalker
+            - Move out, one tile at a time. Returns the Tile the SpiralWalker
                 is on
         .GetStart()
             - Returns the tile the SpiralWalker is starting on
         .GetStage()
-            - Returns the Stage ths SpiralWalker is on (basically, the line
+            - Returns the Stage the SpiralWalker is on (basically, the line
                 segments its completed plus one; it takes four to complete a revolution)
         .GetTile()
-            - Returns the Tile ths SpiralWalker is on
+            - Returns the Tile the SpiralWalker is on
         .GetStep()
-            - Returns the number of steps ths SpiralWalker has done
+            - Returns the number of steps the SpiralWalker has done
         
 [Waterbody.Check.nut] v.1
 Waterbody check is in effect a specialized pathfinder. It serves to check
     whether two points are in the same waterbody (i.e. a ship could travel
     between them). It is optimized to run extremely fast (I hope!). It can be
-    called seperately, but was originally designed as a pre-run check for my
+    called separately, but was originally designed as a pre-run check for my
     Ship Pathfinder (not quite finished, but to also be included in this
     MetaLibrary).
         
@@ -181,9 +181,9 @@ Version 1 [2011-04-28]
         and Waterbody Check v.1
 
 -- Roadmap --------------------------------------------------------------------
-These are features I hope to add to WmDOT shortly. However, this is subject to
-    change without notice. However,I am open to suggestions!
-v.2        Ship Pathfinder
+These are features I hope to add to MetaLibrary shortly. However, this is 
+    subject to change without notice. However,I am open to suggestions!
+v.2     Ship Pathfinder
         Atlas Generator (input possible sources and destinations and get the
             best pair)
             
@@ -197,20 +197,21 @@ SpiralWalker skips the tile [+1,0] relative to ths starting tile.
 If MetaLibrary cause crashes, please help me fix it! Save a screenshot (under
     the ? on the far right of the in-game toolbar) and, if possible, the
     offending AI, and report the bug to either:
-                            http://www.tt-forums.net/viewtopic.php?f=65&t=53698
+                            http://www.tt-forums.net/viewtopic.php?f=65&t=57903
                             http://code.google.com/p/openttd-noai-wmdot/issues/
 
 -- Helpful Links --------------------------------------------------------------
 Get OpenTTD!                                                    www.openttd.org
 TT-Forums - all things Transport Tycoon related               www.tt-forums.net
 MetaLibrary's thread on TT-Forums: release announcements, bug reports,
-    suggesions, and general commentary
-                            http://www.tt-forums.net/viewtopic.php?f=65&t=53698
+    suggetions, and general commentary
+                            http://www.tt-forums.net/viewtopic.php?f=65&t=57903
 WmDOT on Google Code: source code, and WmDOT: Bleeding Edge edition
                                     http://code.google.com/p/openttd-noai-wmdot
 To report issues:            http://code.google.com/p/openttd-noai-wmdot/issues
 
 My other projects (for OpenTTD):
+    WmDOT (an AI)           http://www.tt-forums.net/viewtopic.php?f=65&t=53698
     Alberta Town Names      http://www.tt-forums.net/viewtopic.php?f=67&t=53313
     MinchinWeb's Random Town Name Generator
                             http://www.tt-forums.net/viewtopic.php?f=67&t=53579

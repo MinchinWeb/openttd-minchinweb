@@ -134,13 +134,15 @@ If WmDOT crashes, please help me fix it! Save a screenshot (under the ? on the
 Get OpenTTD!                                                    www.openttd.org
 TT-Forums - all things Transport Tycoon related               www.tt-forums.net
 WmDOT's thread on TT-Forums: release announcements, bug reports,
-    suggesions, and general commentary
+    suggetions, and general commentary
                             http://www.tt-forums.net/viewtopic.php?f=65&t=53698
 WmDOT on Google Code: source code, and WmDOT: Bleeding Edge edition
                                     http://code.google.com/p/openttd-noai-wmdot
 To report issues:            http://code.google.com/p/openttd-noai-wmdot/issues
 
 My other projects (for OpenTTD):
+    MinchinWeb's MetaLibrary (for AIs)
+	                        http://www.tt-forums.net/viewtopic.php?f=65&t=57903
     Alberta Town Names      http://www.tt-forums.net/viewtopic.php?f=67&t=53313
     MinchinWeb's Random Town Name Generator
                             http://www.tt-forums.net/viewtopic.php?f=67&t=53579

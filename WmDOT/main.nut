@@ -1,17 +1,17 @@
-﻿/*	WmDOT v.6  r.118 [2011-04-28]
+﻿/*	WmDOT v.7  r.139 [2011-10-21]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
+ 
+// Replace "AIAbstractList" with "AIList" to ensure forward compatibilities
+// Does the Road.Pathfinder provided by the AI Team need to be updated?
 
-import("util.MinchinWeb", "MetaLib", 1);
+import("util.MinchinWeb", "MetaLib", 2);
 	RoadPathfinder <- MetaLib.RoadPathfinder;
 	Array <- MetaLib.Array;
-import("util.superlib", "SuperLib", 7);		//	For loan management
+import("util.superlib", "SuperLib", 19);		//	For loan management
 	SLMoney <- SuperLib.Money;
-
-// require("Arrays.nut");				//	My Array library
-									//		I need to play with this more to
-									//		get it to work the way I want		
+		
 require("OpDOT.nut");				//	OperationDOT
 require("OpMoney.nut");				//	Operation Money
 require("OpLog.nut");				//	Operation Log
@@ -25,10 +25,10 @@ require("Cleanup.Crew.nut");		//	Cleanup Crew
  class WmDOT extends AIController 
 {
 	//	SETTINGS
-	WmDOTv = 6;
+	WmDOTv = 7;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 118;
+	WmDOTr = 139;
 	/*	Reversion number of AI
 	 */
 	 

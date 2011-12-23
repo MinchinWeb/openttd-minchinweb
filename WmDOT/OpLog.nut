@@ -3,8 +3,6 @@
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
- 
-//	Requires SuperLib v6 or better
 
 
  class OpLog {

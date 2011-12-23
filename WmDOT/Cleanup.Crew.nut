@@ -1,5 +1,5 @@
-/*	Cleanup Crew v.2, r.167 [2011-12-20] part of 
- *	WmDOT v.6  [2011-04-28]
+/*	Cleanup Crew v.2, r.171, [2011-12-22] 
+ *	part of WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -18,8 +18,8 @@
 
 class OpCleanupCrew {
 	function GetVersion()       { return 2; }
-	function GetRevision()		{ return 167; }
-	function GetDate()          { return "2011-12-20"; }
+	function GetRevision()		{ return 171; }
+	function GetDate()          { return "2011-12-22"; }
 	function GetName()          { return "Cleanup Crew"; }
 
 	_heap_class = import("Queue.Fibonacci_Heap", "", 2);
@@ -115,10 +115,10 @@ function OpCleanupCrew::SetToRun()
 {
 //	Involved OpDOT to have Cleanup Crew run on the next pass in the main loop
 
-//	Note:	This is set to run at the current moment. However, the main loop
-//			compares run times to the time when the loop started. Therefore,
-//			put CleanupCrew above OpDOT in the loop lists to be sure that
-//			CleanupCrew runs before OpDOT does again.
+//	Note:	This is set to run at the current moment (tick). However, the main
+//			loop compares run times to the time when the loop started.
+//			Therefore, put CleanupCrew above OpDOT in the loop lists to be sure
+//			that CleanupCrew runs before OpDOT does again.
 
 	this._next_run = AIController.GetTick();
 	return this._next_run;
@@ -150,11 +150,11 @@ function OpCleanupCrew::Run()
 				Money.GreaseMoney((AIRoad.GetBuildCost(this._road_type, AIRoad.BT_ROAD) * 2.5).tointeger() );
 				AIRoad.RemoveRoadFull(TestPair[0], TestPair[1]);
 				i++;
-				Log.Note(i +". Testpair at " + Array.ToStingTiles1D(TestPair) + " removed.", 4);
+				Log.Note(i +". Testpair at " + Array.ToStringTiles1D(TestPair) + " removed.", 4);
 			} else {
 			// we're either a tunnel or a bridge, remove both!
 				i++;
-				Log.Note(i +". Testpair at " + Array.ToStingTiles1D(TestPair) + " removed. (Bridge or Tunnel)", 4);
+				Log.Note(i +". Testpair at " + Array.ToStringTiles1D(TestPair) + " removed. (Bridge or Tunnel)", 4);
 				Money.GreaseMoney((AIRoad.GetBuildCost(this._road_type, AIRoad.BT_ROAD) * AIMap.DistanceManhattan(TestPair[0], TestPair[1]) * 2) );
 				AIBridge.RemoveBridge(TestPair[0]);
 				AITunnel.RemoveTunnel(TestPair[0]);

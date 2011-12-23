@@ -42,9 +42,9 @@
 
 
  class OpDOT {
-	function GetVersion()       { return 3; }
-	function GetRevision()		{ return 114; }
-	function GetDate()          { return "2011-04-26"; }
+	function GetVersion()       { return 4; }
+	function GetRevision()		{ return 118; }
+	function GetDate()          { return "2011-04-28"; }
 	function GetName()          { return "Operation DOT"; }
  
 	_SleepLength = null;
@@ -194,7 +194,7 @@ function OpDOT::LinkUp()
 }
  
 function OpDOT::Run() {
-	//	This is used to keep track of what 'step' the AI is at
+	//	Mode: This is used to keep track of what 'step' the AI is at:
 	//		1 - joins all towns under first distance threshold to capital
 	//		2 - joins all towns under second distance threshold and over
 	//			population threshold to capital
@@ -630,7 +630,7 @@ function OpDOT::ApplyTripGenerationModel(WmAtlas)
 
 function OpDOT::PickTowns(WmAtlas)
 {	
-	//	Picks to towns to connect, returns an array with the two of them
+	//	Picks two towns to connect, returns an array with the two of them
 	//	A zero entry in the matrix is used to ignore the possibily of connecting
 	//		the two (eg. same town, connection already exists)
 	//	Assumes WmAtlas comes in the form of a 2D matrix with the first
@@ -749,7 +749,7 @@ function OpDOT::GetSpeed()
 	//		http://wiki.openttd.org/Buses
 	
 	//	TO-DO
-	//	- get speeds from vehicles acually introduced in the game
+	//	- get speeds from vehicles actually introduced in the game
 	
 	local GameYear = 0;
 	GameYear = AIDate.GetYear(AIDate.GetCurrentDate());
@@ -794,7 +794,7 @@ function OpDOT::GetMaxDistance(Mode)
 {
 	//	Returns the 'max' connection distance
 	//	Uses either the speed or 'quarter map'
-	//	The idea is the towns within the closer one are all joined, then the
+	//	The idea is first the towns within the closer one are all joined, then the
 	//		towns in the further one, and then lastly, all towns
 	
 	local Speed = GetSpeed();

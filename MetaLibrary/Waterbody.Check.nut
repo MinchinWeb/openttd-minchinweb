@@ -1,4 +1,4 @@
-﻿/*	Waterbody Check v.1 r.104 [2011-04-19],
+﻿/*	Waterbody Check v.1 r.170 [2011-12-22],
  *	part of Minchinweb's MetaLibrary v1, r104, [2011-04-19],
  *	originally part of WmDOT v.6
  *	Copyright © 2011 by W. Minchin. For more info,
@@ -15,7 +15,21 @@
  */
  
 //	TO-DO:	Add a cost for turns that then this would function as a 'real' pathfinder
- 
+
+//	Requires Graph.AyStar v6 library
+
+//	This file provides functions:
+//		MinchinWeb.WaterbodyCheck.InitializePath(sources, goals)
+			//	Set up the pathfinder
+//			.WaterbodyCheck.FindPath(iterations)	
+			//	Run the pathfinder; returns false if it isn't finished the path
+			//		 if it has finished, and null if it can't find a path
+//			.WaterbodyCheck.cost.[xx]
+			//	Allows you to set or find out the pathfinder costs directly.
+//			//		 See the function below for valid entries
+
+
+
 class _MinchinWeb_WBC_
 {
 	_aystar_class = import("graph.aystar", "", 6);

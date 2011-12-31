@@ -1,6 +1,6 @@
-﻿/*	Extra functions v.1 r.131 [2011-04-30],
- *	part of Minchinweb's MetaLibrary v2, r131, [2011-04-30],
- *	originally part of WmDOT v.7
+﻿/*	Extra functions v.2 r.175 [2011-12-30],
+ *		part of Minchinweb's MetaLibrary v.2,
+ *		originally part of WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -10,21 +10,26 @@
 /*	These are 'random' functions that didn't seem to fit well elsewhere.
  *
  *	Functions provided:
- *		MetaLib.Extras.DistanceShip(TileA, TileB)
- *					  .SignLocation(text)
- *					  .MidPoint(TileA, TileB)
- *					  .Perpendicular(SlopeIn)
- *					  .Slope(TileA, TileB)
- *					  .Within(Bound1, Bound2, Value)
- *					  .WithinFloat(Bound1, Bound2, Value)
- *					  .MinAbsFloat(Value1, Value2)
- *					  .MaxAbsFloat(Value1, Value2)
- *					  .AbsFloat(Value)
- *					  .Sign(Value)
- *					  .MinFloat(Value1, Value2)
- *					  .MaxFloat(Value1, Value2)
- *					  .MinAbsFloatKeepSign(Value1, Value2)
- *					  .MaxAbsFloatKeepSign(Value1, Value2)
+ *		MinchinWeb.Constants.Infinity() - returns 10,000
+ *							.FloatOffset() - returns 1/2000
+ *							.Pi() - returns 3.1415...
+ *							.e() - returns 2.7182...
+ *						
+ *		MinchinWeb.Extras.DistanceShip(TileA, TileB)
+ *						.SignLocation(text)
+ *						.MidPoint(TileA, TileB)
+ *						.Perpendicular(SlopeIn)
+ *						.Slope(TileA, TileB)
+ *						.Within(Bound1, Bound2, Value)
+ *						.WithinFloat(Bound1, Bound2, Value)
+ *						.MinAbsFloat(Value1, Value2)
+ *						.MaxAbsFloat(Value1, Value2)
+ *						.AbsFloat(Value)
+ *						.Sign(Value)
+ *						.MinFloat(Value1, Value2)
+ *						.MaxFloat(Value1, Value2)
+ *						.MinAbsFloatKeepSign(Value1, Value2)
+ *						.MaxAbsFloatKeepSign(Value1, Value2)
  *	//	Comparision functions will return the first value if the two are equal
  */
 
@@ -33,6 +38,9 @@ class _MinchinWeb_C_ {
 	function Infinity() 	{ return 10000; }	//	close enough to infinity :P
 												//	Slopes are capped at 10,000 and 1/10,000
 	function FloatOffset()	{ return 0.0005; }
+	
+	function Pi() { return 3.1415926535897932384626433832795; }
+	function e() { return 2.7182818284590452353602874713527; }
 }
  
 class _MinchinWeb_Extras_ {

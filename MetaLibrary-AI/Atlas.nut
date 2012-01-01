@@ -19,7 +19,7 @@ enum ModelType
 	DISTANCE_AIR,			// 3
 	DISTANCE_NONE,			// 4
 	ONE_OVER_T_SQUARED,		// 5
-};
+}
  
 class _MinchinWeb_Atlas_ {
 	_heap_class = import("Queue.Binary_Heap", "", 1);
@@ -38,12 +38,10 @@ class _MinchinWeb_Atlas_ {
 	constructor()
 	{
 		this._pairs = this._heap_class();
-//		this._model = DISTANCE_MANHATTAN;
-		this._model = 1;
+		this._model = ModelType.DISTANCE_MANHATTAN;
 		this._ignorepairs = [[-1,-1]];
 		this._maxdistance = -1;
-//		this._maxdistancemodel = DISTANCE_MANHATTAN;
-		this._maxdistancemodel = 1;
+		this._maxdistancemodel = ModelType.DISTANCE_MANHATTAN;
 		this._model = 1;
 	}
 }
@@ -52,14 +50,12 @@ function _MinchinWeb_Atlas_::Reset()
 {
 //	Resets the Atlas
 	this._pairs = this._heap_class();
-//	this._model = DISTANCE_MANHATTAN;
-	this._model = 1;
+	this._model = ModelType.DISTANCE_MANHATTAN;
 	this._ignorepairs = [[-1,-1]];
 	this._maxdistance = -1;
 	this._sources = [];
 	this._attractions = [];
-//	this._maxdistancemodel = DISTANCE_MANHATTAN;
-	this._maxdistancemodel = 1;
+	this._maxdistancemodel = ModelType.DISTANCE_MANHATTAN;
 	return;
 }
 
@@ -129,10 +125,8 @@ function _MinchinWeb_Atlas_::Exists()
 function _MinchinWeb_Atlas_::SetModel(newmodel)
 {
 //	Sets the model type to the provided type
-//	if ((newmodel == ONE_D) || (newmodel == DISTANCE_MANHATTAN) || (newmodel == DISTANCE_SHIP) ||
-//			(newmodel == DISTANCE_AIR) || (newmodel == DISTANCE_NONE) || (newmodel == ONEOVERT_SQUARED)) {
-	if ((newmodel == 0) || (newmodel == 1) || (newmodel == 2) ||
-			(newmodel == 3) || (newmodel == 4) || (newmodel == 5)) {
+	if ((newmodel == ModelType.ONE_D) || (newmodel == ModelType.DISTANCE_MANHATTAN) || (newmodel == ModelType.DISTANCE_SHIP) ||
+			(newmodel == ModelType.DISTANCE_AIR) || (newmodel == ModelType.DISTANCE_NONE) || (newmodel == ModelType.ONE_OVER_T_SQUARED)) {
 		this._model = newmodel;
 	} else {
 		AILog.Warning("MinchinWeb.Atlas.SetModel() was supplied with an invalide ModelType. Was supplied: " + newmodel ".");
@@ -145,28 +139,27 @@ function _MinchinWeb_Atlas_::PrintModel()
 	return this._model;
 }
 
-/*
 function _MinchinWeb_Atlas_::PrintModelType(ToPrint)
 {
 //	given a ModelType, returns the string equivalent
 	
 	switch (ToPrint) {
-		case ONE_D :
+		case ModelType.ONE_D :
 			return "1-D";
 			break;
-		case DISTANCE_MANHATTAN :
+		case ModelType.DISTANCE_MANHATTAN :
 			return "Distance Manhattan";
 			break;
-		case DISTANCE_SHIP :
+		case ModelType.DISTANCE_SHIP :
 			return "Distance Ship";
 			break;
-		case DISTANCE_AIR :
+		case ModelType.DISTANCE_AIR :
 			return "Distance Air";
 			break;
-		case DISTANCE_NONE :
+		case ModelType.DISTANCE_NONE :
 			return "Distance Disregarded";
 			break;
-		case ONE_OVER_T_SQUARED :
+		case ModelType.ONE_OVER_T_SQUARED :
 			return "1/t^2";
 			break;
 		default:
@@ -174,7 +167,7 @@ function _MinchinWeb_Atlas_::PrintModelType(ToPrint)
 			break;
 	}
 }
-*/
+
 
 function _MinchinWeb_Atlas_::ApplyTrafficModel(StartTile, StartPriority, EndTile, EndPriority, Model)
 {
@@ -183,28 +176,22 @@ function _MinchinWeb_Atlas_::ApplyTrafficModel(StartTile, StartPriority, EndTile
 //	Smaller weightings are considered better
 
 	switch (Model) {
-//		case ONE_D :
-		case 0 :
+		case ModelType.ONE_D :
 			return AIMap.DistanceMax(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
 			break;
-//		case DISTANCE_MANHATTAN :
-		case 1 :
+		case ModelType.DISTANCE_MANHATTAN :
 			return AIMap.DistanceManhattan(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
 			break;
-//		case DISTANCE_SHIP :
-		case 2 :
+		case ModelType.DISTANCE_SHIP :
 			return _MinchinWeb_Extras_.DistanceShip(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
 			break;
-//		case DISTANCE_AIR :
-		case 3 :
+		case ModelType.DISTANCE_AIR :
 			return AIMap.DistanceSquare(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
 			break;
-//		case DISTANCE_NONE :
-		case 4 :
+		case ModelType.DISTANCE_NONE :
 			return (1.0 / (StartPriority.tofloat() + EndPriority.tofloat()));
 			break;
-//		case ONE_OVER_T_SQUARED :
-		case 5 :
+		case ModelType.ONE_OVER_T_SQUARED :
 			return ((AIMap.DistanceManhattan(StartTile, EndTile) * AIMap.DistanceManhattan(StartTile, EndTile)) / (StartPriority.tofloat() + EndPriority.tofloat()));
 			break;
 		default:
@@ -229,13 +216,11 @@ function _MinchinWeb_Atlas_::SetMaxDistanceModel(newmodel)
 //	Sets the model type to the provided type
 //		Used to calculate the distance between the source and attraction for applying maxdistance
 
-//	DISTANCENONE is invalid. Use MinchinWeb.Atlas.SetMaxDistance(-1) instead.
-//	ONEOVERTSQUARED is invalid.
+//	DISTANCE_NONE is invalid. Use MinchinWeb.Atlas.SetMaxDistance(-1) instead.
+//	ONE_OVER_T_SQUARED is invalid.
 
-//	if ((newmodel == ONE_D) || (newmodel == DISTANCE_MANHATTAN) || (newmodel == DISTANCE_SHIP) ||
-//			(newmodel == DISTANCE_AIR)) {
-	if ((newmodel == 0) || (newmodel == 1) || (newmodel == 2) ||
-			(newmodel == 3)) {
+	if ((newmodel == ModelType.ONE_D) || (newmodel == ModelType.DISTANCE_MANHATTAN) || (newmodel == ModelType.DISTANCE_SHIP) ||
+			(newmodel == ModelType.DISTANCE_AIR)) {
 		this._maxdistancemodel = newmodel;
 	} else {
 		AILog.Warning("MinchinWeb.Atlas.SetMaxDistanceModel() was supplied with an invalide ModelType. Was supplied: " + newmodel ".");

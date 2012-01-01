@@ -1,4 +1,4 @@
-/*	Atlas v.1 r.176 [2011-12-30],
+/*	Atlas v.1 r.177 [2011-12-31],
  *		part of Minchinweb's MetaLibrary v.2,
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -10,16 +10,19 @@
  *		industry productions or town populations).
  */
 
-enum ModelType {
-	ONED,
-	DISTANCEMANHATTAN,
-	DISTANCESHIP,
-	DISTANCEAIR,
-	DISTANCENONE,
-	ONEOVERTSQUARED };
+ 
+enum ModelType
+{
+	ONE_D,					// 0
+	DISTANCE_MANHATTAN,		// 1
+	DISTANCE_SHIP,			// 2
+	DISTANCE_AIR,			// 3
+	DISTANCE_NONE,			// 4
+	ONE_OVER_T_SQUARED,		// 5
+};
  
 class _MinchinWeb_Atlas_ {
-	_heap_class = null;
+	_heap_class = import("Queue.Binary_Heap", "", 1);
 	
 	_sources = [];			//	'from' here... (array)
 	_attractions = [];		//		'to' here  (array)
@@ -32,12 +35,16 @@ class _MinchinWeb_Atlas_ {
 	
 	_model = null;			//	enumerated list of possible models
 	
-	constructor () {
+	constructor()
+	{
 		this._pairs = this._heap_class();
-		this._model = DISTANCEMANHATTAN;
+//		this._model = DISTANCE_MANHATTAN;
+		this._model = 1;
 		this._ignorepairs = [[-1,-1]];
 		this._maxdistance = -1;
-		this._maxdistancemodel = DISTANCEMANHATTAN;
+//		this._maxdistancemodel = DISTANCE_MANHATTAN;
+		this._maxdistancemodel = 1;
+		this._model = 1;
 	}
 }
 
@@ -45,12 +52,14 @@ function _MinchinWeb_Atlas_::Reset()
 {
 //	Resets the Atlas
 	this._pairs = this._heap_class();
-	this._model = DISTANCEMANHATTAN;
+//	this._model = DISTANCE_MANHATTAN;
+	this._model = 1;
 	this._ignorepairs = [[-1,-1]];
 	this._maxdistance = -1;
 	this._sources = [];
 	this._attractions = [];
-	this._maxdistancemodel = DISTANCEMANHATTAN;
+//	this._maxdistancemodel = DISTANCE_MANHATTAN;
+	this._maxdistancemodel = 1;
 	return;
 }
 
@@ -77,12 +86,17 @@ function _MinchinWeb_Atlas_::AddBoth(AddedTile, Priority)
 function _MinchinWeb_Atlas_::RunModel()
 {
 //	Takes the provided sources and destinations and runs the selected traffic model, populating the 'pairs' heap
+	this._pairs = this._heap_class();
+	
 	for (local i = 0; i < this._sources.len(); i++) {
+//	AILog.Info("          i = " + i);
 		for (local j = 0; j < this._attractions.len(); j++) {
-			if ((_MinchinWeb_Array_.ContainedIn(this._sources[i][0], this._attractions[j][0], this._ignorelist) == false) 
-					&& (MinchinWeb.ApplyTrafficModel(this._sources[i][0], 1, this._attractions[j][0], 0, this._maxdistancemodel) < this._maxdistance) {
-				this._heap.insert([this._sources[i][0], this._attractions[j][0]],
-						MinchinWeb.ApplyTrafficModel(this._sources[i][0], this._sources[i][1], this._attractions[j][0], this._attractions[j][1], this._model));
+//		AILog.Info("               j = " + j + "     " + (_MinchinWeb_Array_.ContainedIn1D([this._sources[i][0], this._attractions[j][0]], this._ignorepairs) == false) + "; " + _MinchinWeb_Atlas_.ApplyTrafficModel(this._sources[i][0], 1, this._attractions[j][0], 0, this._maxdistancemodel) + " < " +	this._maxdistance + " = " + ((_MinchinWeb_Atlas_.ApplyTrafficModel(this._sources[i][0], 1, this._attractions[j][0], 0, this._maxdistancemodel) < this._maxdistance)	|| (this._maxdistance < 0)) + " ;; " + _MinchinWeb_Array_.ToStringTiles1D([this._sources[i][0]]) + " - " + this._sources[i][1] + "  " + _MinchinWeb_Array_.ToStringTiles1D([this._attractions[j][0]]) + " - " + this._attractions[j][1] + " -- " + this._model + " :: " + AIMap.DistanceManhattan(this._sources[i][0], this._attractions[j][0]) + " / (" + this._sources[i][1] + " + " + this._attractions[j][1] + ") = " + (AIMap.DistanceManhattan(this._sources[i][0], this._attractions[j][0]) / (this._sources[i][1].tofloat() + this._sources[j][1].tofloat())) + " : " + _MinchinWeb_Atlas_.ApplyTrafficModel(this._sources[i][0], this._sources[i][1], this._attractions[j][0], this._attractions[j][1], this._model));
+			if ((_MinchinWeb_Array_.ContainedIn1D([this._sources[i][0], this._attractions[j][0]], this._ignorepairs) == false)
+					&& ((_MinchinWeb_Atlas_.ApplyTrafficModel(this._sources[i][0], 1, this._attractions[j][0], 0, this._maxdistancemodel) < this._maxdistance)
+					|| (this._maxdistance < 0))) {
+				this._pairs.Insert([this._sources[i][0], this._attractions[j][0]],
+						_MinchinWeb_Atlas_.ApplyTrafficModel(this._sources[i][0], this._sources[i][1], this._attractions[j][0], this._attractions[j][1], this._model));
 			}
 		}
 	}
@@ -91,20 +105,34 @@ function _MinchinWeb_Atlas_::RunModel()
 function _MinchinWeb_Atlas_::Pop()
 {
 //	Returns the top rated pair as an array and removes the pair from the model
-	return this._pairs.pop();
+	return this._pairs.Pop();
 }
 
 function _MinchinWeb_Atlas_::Peek()
 {
 //	Returns the top rated pair (as an array) but DOES NOT remove the pair from the model
-	return this._pairs.peek();
+	return this._pairs.Peek();
+}
+
+function _MinchinWeb_Atlas_::Count()
+{
+//	Returns the amount of items currently in the list.
+	return this._pairs.Count();
+}
+
+function _MinchinWeb_Atlas_::Exists()
+{
+//	Check if an item exists in the list. Returns true/false.
+	return this._pairs.Exists();
 }
 
 function _MinchinWeb_Atlas_::SetModel(newmodel)
 {
 //	Sets the model type to the provided type
-	if ((newmodel == ONED) || (newmodel == DISTANCEMANHATTAN) || (newmodel == DISTANCESHIP) ||
-			(newmodel == DISTANCEAIR) || (newmodel == DISTANCENONE) || (newmodel == ONEOVERTSQUARED)) {
+//	if ((newmodel == ONE_D) || (newmodel == DISTANCE_MANHATTAN) || (newmodel == DISTANCE_SHIP) ||
+//			(newmodel == DISTANCE_AIR) || (newmodel == DISTANCE_NONE) || (newmodel == ONEOVERT_SQUARED)) {
+	if ((newmodel == 0) || (newmodel == 1) || (newmodel == 2) ||
+			(newmodel == 3) || (newmodel == 4) || (newmodel == 5)) {
 		this._model = newmodel;
 	} else {
 		AILog.Warning("MinchinWeb.Atlas.SetModel() was supplied with an invalide ModelType. Was supplied: " + newmodel ".");
@@ -117,27 +145,28 @@ function _MinchinWeb_Atlas_::PrintModel()
 	return this._model;
 }
 
-function MinchinWeb::PrintModelType(ToPrint)
+/*
+function _MinchinWeb_Atlas_::PrintModelType(ToPrint)
 {
 //	given a ModelType, returns the string equivalent
 	
 	switch (ToPrint) {
-		case ONED :
+		case ONE_D :
 			return "1-D";
 			break;
-		case DISTANCEMANHATTAN :
+		case DISTANCE_MANHATTAN :
 			return "Distance Manhattan";
 			break;
-		case DISTANCESHIP :
+		case DISTANCE_SHIP :
 			return "Distance Ship";
 			break;
-		case DISTANCEAIR :
+		case DISTANCE_AIR :
 			return "Distance Air";
 			break;
-		case DISTANCENONE :
+		case DISTANCE_NONE :
 			return "Distance Disregarded";
 			break;
-		case ONEOVERTSQUARED :
+		case ONE_OVER_T_SQUARED :
 			return "1/t^2";
 			break;
 		default:
@@ -145,34 +174,41 @@ function MinchinWeb::PrintModelType(ToPrint)
 			break;
 	}
 }
+*/
 
-function MinchinWeb::ApplyTrafficModel(StartTile, StartPriority, EndTile, EndPriority, Model)
+function _MinchinWeb_Atlas_::ApplyTrafficModel(StartTile, StartPriority, EndTile, EndPriority, Model)
 {
 //	Given the start and end points, applies the traffic model and returns the
 //		weighting
 //	Smaller weightings are considered better
 
 	switch (Model) {
-		case ONED :
-			return AITile.Distance1D(StartTile, EndTile) / (StartPriority + EndPriority);
+//		case ONE_D :
+		case 0 :
+			return AIMap.DistanceMax(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
 			break;
-		case DISTANCEMANHATTAN :
-			return AITile.DistanceManhattan(StartTile, EndTile) / (StartPriority + EndPriority);
+//		case DISTANCE_MANHATTAN :
+		case 1 :
+			return AIMap.DistanceManhattan(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
 			break;
-		case DISTANCESHIP :
-			return AITile.DistanceShip(StartTile, EndTile) / (StartPriority + EndPriority);
+//		case DISTANCE_SHIP :
+		case 2 :
+			return _MinchinWeb_Extras_.DistanceShip(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
 			break;
-		case DISTANCEAIR :
-			return AITile.DistanceCrow(StartTile, EndTile) / (StartPriority + EndPriority);
+//		case DISTANCE_AIR :
+		case 3 :
+			return AIMap.DistanceSquare(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
 			break;
-		case DISTANCENONE :
-			return (1 / (StartPriority + EndPriority));
+//		case DISTANCE_NONE :
+		case 4 :
+			return (1.0 / (StartPriority.tofloat() + EndPriority.tofloat()));
 			break;
-		case ONEOVERTSQUARED :
-			return ((AITile.DistanceManhattan(StartTile, EndTile) * AITile.DistanceManhattan(StartTile, EndTile)) / (StartPriority + EndPriority));
+//		case ONE_OVER_T_SQUARED :
+		case 5 :
+			return ((AIMap.DistanceManhattan(StartTile, EndTile) * AIMap.DistanceManhattan(StartTile, EndTile)) / (StartPriority.tofloat() + EndPriority.tofloat()));
 			break;
 		default:
-			return "ERROR: Bad ModelType. Supplied " + Model;
+			return "ERROR: Bad ModelType. Was supplied: " + Model;
 			break;
 	}
 }
@@ -188,7 +224,7 @@ function _MinchinWeb_Atlas_::SetMaxDistance(distance = -1)
 	}
 }
 
-function _MinchinWeb_Atlas_::SetMaxDistanceModel((newmodel)
+function _MinchinWeb_Atlas_::SetMaxDistanceModel(newmodel)
 {
 //	Sets the model type to the provided type
 //		Used to calculate the distance between the source and attraction for applying maxdistance
@@ -196,8 +232,10 @@ function _MinchinWeb_Atlas_::SetMaxDistanceModel((newmodel)
 //	DISTANCENONE is invalid. Use MinchinWeb.Atlas.SetMaxDistance(-1) instead.
 //	ONEOVERTSQUARED is invalid.
 
-	if ((newmodel == ONED) || (newmodel == DISTANCEMANHATTAN) || (newmodel == DISTANCESHIP) ||
-			(newmodel == DISTANCEAIR)) {
+//	if ((newmodel == ONE_D) || (newmodel == DISTANCE_MANHATTAN) || (newmodel == DISTANCE_SHIP) ||
+//			(newmodel == DISTANCE_AIR)) {
+	if ((newmodel == 0) || (newmodel == 1) || (newmodel == 2) ||
+			(newmodel == 3)) {
 		this._maxdistancemodel = newmodel;
 	} else {
 		AILog.Warning("MinchinWeb.Atlas.SetMaxDistanceModel() was supplied with an invalide ModelType. Was supplied: " + newmodel ".");

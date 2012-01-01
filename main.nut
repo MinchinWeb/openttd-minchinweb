@@ -1,4 +1,4 @@
-/*	WmBasic v.1  r.1
+/*	WmBasic v.1  r.181
  *	Created by William Minchin		w_minchin@hotmail.com		http://blog.minchin.ca
  */
  
@@ -30,7 +30,7 @@ class WmBasic extends AIController
 	WmBasicv = 1;
 	/*	Version number of AI
 	 */	
-	WmBasicr = 4;
+	WmBasicr = 181;
 	/*	Reversion number of AI
 	 */
 	 
@@ -60,10 +60,8 @@ function WmBasic::Start()
 	
 	AILog.Info(town1 + " : " + town2 + " : " + town3 + " : " + town4);
 	AILog.Info(AITown.GetName(town1) + " : " + AITown.GetName(town2) + " : " + AITown.GetName(town3) + " : " + AITown.GetName(town4));
-	
-	AILog.Info(AITown.TOWN_ACTION_ADVERTISE_SMALL);
-//	AILog.Info(ONED);
-//	AILog.Info(Atlas.PrintModelType(MetaLib.ONED));
+	AILog.Info(AITown.GetPopulation(town1) + " : " + AITown.GetPopulation(town2) + " : " + AITown.GetPopulation(town3) + " : " + AITown.GetPopulation(town4));
+	AILog.Info(Array.ToStringTiles1D([AITown.GetLocation(town1), AITown.GetLocation(town2), AITown.GetLocation(town3), AITown.GetLocation(town4)]));
 	
 	local MyAtlas = Atlas();
 	MyAtlas.AddSource(AITown.GetLocation(town1),AITown.GetPopulation(town1));
@@ -71,21 +69,48 @@ function WmBasic::Start()
 	MyAtlas.AddAttraction(AITown.GetLocation(town3),AITown.GetPopulation(town3));
 	MyAtlas.AddAttraction(AITown.GetLocation(town4),AITown.GetPopulation(town4));
 	
-	local temp;
+	AILog.Info("");
+	AILog.Info("> Distances");
+	AILog.Info(">> 1-D");
+	AILog.Info("          " + town1 + " -> " + town3 + " : " + AIMap.DistanceMax(AITown.GetLocation(town1),AITown.GetLocation(town3)));
+	AILog.Info("          " + town1 + " -> " + town4 + " : " + AIMap.DistanceMax(AITown.GetLocation(town1),AITown.GetLocation(town4)));
+	AILog.Info("          " + town2 + " -> " + town3 + " : " + AIMap.DistanceMax(AITown.GetLocation(town2),AITown.GetLocation(town3)));
+	AILog.Info("          " + town2 + " -> " + town4 + " : " + AIMap.DistanceMax(AITown.GetLocation(town2),AITown.GetLocation(town4)));
+
+	AILog.Info(">> Distance Manhattan");	
+	AILog.Info("          " + town1 + " -> " + town3 + " : " + AIMap.DistanceManhattan(AITown.GetLocation(town1),AITown.GetLocation(town3)));
+	AILog.Info("          " + town1 + " -> " + town4 + " : " + AIMap.DistanceManhattan(AITown.GetLocation(town1),AITown.GetLocation(town4)));
+	AILog.Info("          " + town2 + " -> " + town3 + " : " + AIMap.DistanceManhattan(AITown.GetLocation(town2),AITown.GetLocation(town3)));
+	AILog.Info("          " + town2 + " -> " + town4 + " : " + AIMap.DistanceManhattan(AITown.GetLocation(town2),AITown.GetLocation(town4)));	
+
+	AILog.Info("");
+	AILog.Info("> Priority (Calculated)");
+	AILog.Info(">> 1-D");
+	AILog.Info("          " + town1 + " -> " + town3 + " : " + AIMap.DistanceMax(AITown.GetLocation(town1),AITown.GetLocation(town3))/(AITown.GetPopulation(town1).tofloat() + AITown.GetPopulation(town3).tofloat()));
+	AILog.Info("          " + town1 + " -> " + town4 + " : " + AIMap.DistanceMax(AITown.GetLocation(town1),AITown.GetLocation(town4))/(AITown.GetPopulation(town1).tofloat() + AITown.GetPopulation(town4).tofloat()));
+	AILog.Info("          " + town2 + " -> " + town3 + " : " + AIMap.DistanceMax(AITown.GetLocation(town2),AITown.GetLocation(town3))/(AITown.GetPopulation(town2).tofloat() + AITown.GetPopulation(town3).tofloat()));
+	AILog.Info("          " + town2 + " -> " + town4 + " : " + AIMap.DistanceMax(AITown.GetLocation(town2),AITown.GetLocation(town4))/(AITown.GetPopulation(town2).tofloat() + AITown.GetPopulation(town4).tofloat()));
+
+	AILog.Info(">> Distance Manhattan");	
+	AILog.Info("          " + town1 + " -> " + town3 + " : " + AIMap.DistanceManhattan(AITown.GetLocation(town1),AITown.GetLocation(town3))/(AITown.GetPopulation(town1).tofloat() + AITown.GetPopulation(town3).tofloat()));
+	AILog.Info("          " + town1 + " -> " + town4 + " : " + AIMap.DistanceManhattan(AITown.GetLocation(town1),AITown.GetLocation(town4))/(AITown.GetPopulation(town1).tofloat() + AITown.GetPopulation(town4).tofloat()));
+	AILog.Info("          " + town2 + " -> " + town3 + " : " + AIMap.DistanceManhattan(AITown.GetLocation(town2),AITown.GetLocation(town3))/(AITown.GetPopulation(town2).tofloat() + AITown.GetPopulation(town3).tofloat()));
+	AILog.Info("          " + town2 + " -> " + town4 + " : " + AIMap.DistanceManhattan(AITown.GetLocation(town2),AITown.GetLocation(town4))/(AITown.GetPopulation(town2).tofloat() + AITown.GetPopulation(town4).tofloat()));
 	
+	local temp;
+	AILog.Info("");
+	AILog.Info("> Priority Outputs");
 	for (local MyModel=0; MyModel<6; MyModel++) {
 		MyAtlas.SetModel(MyModel);
-		
-		AILog.Info(" ");
-	//	AILog.Info("     " + Atlas.PrintModel(MyModel));
-		AILog.Info("     Model: " + MyModel); 
+		AILog.Info(">> " + Atlas.PrintModelType(MyModel));
 		MyAtlas.RunModel();
 		
 		while (MyAtlas.Count() > 0) {
 			temp = MyAtlas.Pop();
-			AILog.Info("     " + Array.ToStringTiles1D([temp[0]]) + " -> " + Array.ToStringTiles1D([temp[1]]) + " : " + Atlas.ApplyTrafficModel(AITown.GetLocation(temp[0]), AITown.GetPopulation(temp[0]), AITown.GetLocation(temp[1]), AITown.GetPopulation(temp[1]), MyModel));
-			// The above fails, becuase GetPopulation is fed a TileIndex, rather than a TownID, and so returns -1
+//			AILog.Info("          " + AITile.GetTownAuthority(temp[0]) + " -> " + AITile.GetTownAuthority(temp[1]) + " : " + Atlas.ApplyTrafficModel(AITown.GetLocation(temp[0]), AITown.GetPopulation(AITile.GetTownAuthority(temp[0])), AITown.GetLocation(temp[1]), AITown.GetPopulation(AITile.GetTownAuthority(temp[1])), MyModel));
+			AILog.Info("          " + AITile.GetTownAuthority(temp[0]) + " -> " + AITile.GetTownAuthority(temp[1]));
 		}
+		AILog.Info(" ");
 	}
 	
 	

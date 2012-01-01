@@ -1,5 +1,5 @@
 ﻿/*	OperationDOT v.4, part of 
- *	WmDOT v.6  r.118 [2011-04-28]
+ *		WmDOT v.6  r.118 [2011-04-28]
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */

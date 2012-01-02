@@ -1,5 +1,5 @@
-﻿/*	WmDOT v.7  r.139 [2011-10-21]
- *	Copyright © 2011 by W. Minchin. For more info,
+﻿/*	WmDOT v.7  r.183 [2011-10-21]
+ *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
@@ -9,6 +9,7 @@
 import("util.MinchinWeb", "MetaLib", 2);
 	RoadPathfinder <- MetaLib.RoadPathfinder;
 	Array <- MetaLib.Array;
+	Atlas <- MetaLib.Atlas;
 import("util.superlib", "SuperLib", 19);		//	For loan management
 	SLMoney <- SuperLib.Money;
 		
@@ -19,6 +20,7 @@ require("TownRegistrar.nut");		//	Town Registrar
 require("Neighbourhood.nut");		//	Neighbourhood Class	
 // require("Fibonacci.Heap.WM.nut");	//	Fibonacci Heap (Max)
 require("Cleanup.Crew.nut");		//	Cleanup Crew
+require("OpHibernia.nut");			//	Operation Hibernia
 		
 
  
@@ -28,7 +30,7 @@ require("Cleanup.Crew.nut");		//	Cleanup Crew
 	WmDOTv = 7;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 139;
+	WmDOTr = 183;
 	/*	Reversion number of AI
 	 */
 	 
@@ -44,6 +46,7 @@ require("Cleanup.Crew.nut");		//	Cleanup Crew
 	Money = OpMoney();
 	DOT = OpDOT();
 	CleanupCrew = OpCleanupCrew();
+	Hibernia = OpHibernia();
   
 	function Start();
 }
@@ -60,7 +63,7 @@ function WmDOT::Start()
 	
 //	AILog.Info("Welcome to WmDOT, version " + GetVersion() + ", revision " + WmDOTr + " by " + GetAuthor() + ".");
 	AILog.Info("Welcome to WmDOT, version " + WmDOTv + ", revision " + WmDOTr + " by W. Minchin.");
-	AILog.Info("Copyright © 2011 by W. Minchin. For more info, please visit http://www.tt-forums.net/viewtopic.php?f=65&t=53698")
+	AILog.Info("Copyright © 2011-12 by W. Minchin. For more info, please visit http://www.tt-forums.net/viewtopic.php?f=65&t=53698")
 	AILog.Info(" ");
 	
 	Log.Settings.DebugLevel = GetSetting("Debug_Level");
@@ -71,6 +74,7 @@ function WmDOT::Start()
 	Log.Note("     " + DOT.GetName() + ", v." + DOT.GetVersion() + " r." + DOT.GetRevision() + "  loaded!",0);
 	Log.Note("     " + Towns.GetName() + ", v." + Towns.GetVersion() + " r." + Towns.GetRevision() + "  loaded!",0);
 	Log.Note("     " + CleanupCrew.GetName() + ", v." + CleanupCrew.GetVersion() + " r." + CleanupCrew.GetRevision() + "  loaded!",0);
+	Log.Note("     " + Hibernia.GetName() + ", v." + Hibernia.GetVersion() + " r." + Hibernia.GetRevision() + "  loaded!",0);
 	StartInfo();		//	AyStarInfo()
 						//	RoadPathfinder()
 						//	NeighbourhoodInfo()
@@ -101,6 +105,7 @@ function WmDOT::Start()
 		if (Time > Towns.State.NextRun)			{ Towns.Run(); }
 		if (Time > CleanupCrew.State.NextRun)	{ CleanupCrew.Run(); }
 		if (Time > DOT.State.NextRun)			{ DOT.Run(); }
+		if (Time > Hibernia.State.NextRun)		{ Hibernia.Run(); }
 
 		this.Sleep(1);		
 	}
@@ -488,6 +493,7 @@ function WmDOT::TheGreatLinkUp()
 	Money.LinkUp();
 	Towns.LinkUp();
 	CleanupCrew.LinkUp();
+	Hibernia.LinkUp();
 	Log.Note("The Great Link Up is Complete!",1);
 	Log.Note("",1);
 }

@@ -1,6 +1,6 @@
-﻿/*	OperationDOT v.4, part of 
- *		WmDOT v.6  r.118 [2011-04-28]
- *	Copyright © 2011 by W. Minchin. For more info,
+﻿/*	OperationDOT v.4, r.182, [2012-01-01],  
+ *		part of WmDOT v.7
+ *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
@@ -13,7 +13,7 @@
  */ 
  
 //	Requires SuperLib v7
-//	Requires MinchinWeb's MetaLib v1
+//	Requires MinchinWeb's MetaLib v2
 //	Requires "OpLog.nut"
 //	Requires "OpMoney.nut"
 //	Requires "TownRegistrar.nut"
@@ -211,7 +211,7 @@ function OpDOT::Run() {
 	this._NextRun = AIController.GetTick();
 	Log.Note("OpDOT running in Mode " + this._Mode + " at tick " + this._NextRun + ".",1);
 	
-	if (WmDOT.GetSetting("OpDOT") != 1) {
+	if ((WmDOT.GetSetting("OpDOT") != 1) || (AIGameSettings.IsDisabledVehicleType(AIVehicle.VT_ROAD) == true)) {
 		this._NextRun = AIController.GetTick() + 13001;			//	6500 ticks is about a year
 		Log.Note("** OpDOT has been disabled. **",0);
 		return;

@@ -1,4 +1,4 @@
-/*	Operation Hibernia v.1, r.178, [2011-12-31]
+/*	Operation Hibernia v.1, r.183, [2012-01-01]
  *		part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -15,16 +15,20 @@
  
 //	Requires MinchinWeb's MetaLibrary v.2
 
+//	TO-DO
+
  class OpHibernia {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return 178; }
-	function GetDate()          { return "2011-12-31"; }
+	function GetRevision()		{ return 183; }
+	function GetDate()          { return "2012-01-01"; }
 	function GetName()          { return "Operation Hibernia"; }
 	
 	
 	_NextRun = null;
 	_ROI = null;
 	_Cost = null;
+	
+	_Atlas = null;
 	
 	Log = null;
 	Money = null;
@@ -39,8 +43,8 @@
 		this.State = this.State(this);
 		Log = OpLog();
 		Money = OpMoney();
-		Towns = TownRegistrar();
-		CleanupCrew = OpCleanupCrew();
+
+		_Atlas = Atlas();
 	}
 }
 
@@ -123,13 +127,21 @@ function OpHibernia::LinkUp()
 }
  
 function OpHibernia::Run() {
-//	Check that there is oil on the map; put to sleep if not
 
-//	Sleep for three months after last OpHibernia run, or a month after the last
-//		ship was added, or ignore if we have no debt
+	Log.Note("OpHibernia running at tick " + WmDOT.GetTick() + ".",1);
+	
+	if ((WmDOT.GetSetting("OpHibernia") != 1) || (AIGameSettings.IsDisabledVehicleType(AIVehicle.VT_WATER) == true)) {
+		this._NextRun = AIController.GetTick() + 13001;			//	6500 ticks is about a year
+		Log.Note("** OpHibernia has been disabled. **",0);
+		return;
+	}
+	
+//	Check that there is oil on the map; put to sleep if not
+	
 
 //	Get a list of Oil Rigs, and add those without our ships to the sources list;
 //		Priority is the production level
+	this._Atlas.Reset();
 
 //	Get a list of Oil Refinaries and add to the attraction list; Priority is
 //		the goods production level
@@ -144,7 +156,9 @@ function OpHibernia::Run() {
 
 //	Build one ship on path, and turn over to Ship Route Manager
 
+//	Sleep for three months after last OpHibernia run, or a month after the last
+//		ship was added, or ignore if we have no debt
+	this._NextRun = WmDOT.GetTick() + 6500*3/12;	//	Approx. three months
 
-
-
+	return;
 }

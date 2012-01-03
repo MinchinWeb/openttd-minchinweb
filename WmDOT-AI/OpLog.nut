@@ -1,5 +1,5 @@
-﻿/*	Logging Interface v.2, r.118 part of 
- *	WmDOT v.5  r.53f  [2011-03-30]
+﻿/*	Logging Interface v.2, r.118, [2011-04-28]
+ *		part of WmDOT v.5
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */

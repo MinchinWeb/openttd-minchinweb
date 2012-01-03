@@ -1,6 +1,6 @@
-﻿/*	Waterbody Check v.1 r.170 [2011-12-22],
- *	part of Minchinweb's MetaLibrary v1, r104, [2011-04-19],
- *	originally part of WmDOT v.6
+﻿/*	Waterbody Check v.1, r.170, [2011-12-22],
+ *		part of Minchinweb's MetaLibrary v.2,
+ *		originally part of WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */

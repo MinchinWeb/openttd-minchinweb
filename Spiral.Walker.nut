@@ -1,7 +1,7 @@
-/*	SpiralWalker class v.2 r.112 [2011-04-26],
+﻿/*	SpiralWalker class v.2 r.112 [2011-04-26],
  *		part of Minchinweb's MetaLibrary v.1, r.112, [2011-04-26],
  *		originally part of WmDOT v.5
- *	Copyright � 2011 by W. Minchin. For more info,
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  

@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.7  r.183 [2011-10-21]
+﻿/*	WmDOT v.7, r.184, [2011-01-02]
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -12,6 +12,7 @@ import("util.MinchinWeb", "MetaLib", 2);
 	Atlas <- MetaLib.Atlas;
 import("util.superlib", "SuperLib", 19);		//	For loan management
 	SLMoney <- SuperLib.Money;
+	Helper <- SuperLib.Helper;
 		
 require("OpDOT.nut");				//	OperationDOT
 require("OpMoney.nut");				//	Operation Money
@@ -30,7 +31,7 @@ require("OpHibernia.nut");			//	Operation Hibernia
 	WmDOTv = 7;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 183;
+	WmDOTr = 184;
 	/*	Reversion number of AI
 	 */
 	 
@@ -58,7 +59,7 @@ require("OpHibernia.nut");			//	Operation Hibernia
 function WmDOT::Start()
 {
 //	For debugging crashes...
-	local Debug_2 = "/* Settings: " + GetSetting("DOT_name1") + "-" + GetSetting("DOT_name2") + " - dl" + GetSetting("Debug_Level") + " // OpDOT: " + GetSetting("OpDOT") + " - " + GetSetting("OpDOT_MinTownSize") + " - " + GetSetting("TownRegistrar_AtlasSize") + " - " + GetSetting("OpDOT_RebuildAttempts") + " */" ;
+	local Debug_2 = "/* Settings: " + GetSetting("DOT_name1") + "-" + GetSetting("DOT_name2") + " - dl" + GetSetting("Debug_Level") + " // OpDOT: " + GetSetting("OpDOT") + " - " + GetSetting("OpDOT_MinTownSize") + " - " + GetSetting("TownRegistrar_AtlasSize") + " - " + GetSetting("OpDOT_RebuildAttempts") + " // OpHibernia: " + GetSetting("OpHibernia") + " */" ;
 	local Debug_1 = "/* v." + WmDOTv + ", r." + WmDOTr + " // " + AIDate.GetYear(AIDate.GetCurrentDate()) + "-" + AIDate.GetMonth(AIDate.GetCurrentDate()) + "-" + AIDate.GetDayOfMonth(AIDate.GetCurrentDate()) + " start // " + AIMap.GetMapSizeX() + "x" + AIMap.GetMapSizeY() + " map - " + AITown.GetTownCount() + " towns */";
 	
 //	AILog.Info("Welcome to WmDOT, version " + GetVersion() + ", revision " + WmDOTr + " by " + GetAuthor() + ".");

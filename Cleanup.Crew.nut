@@ -1,6 +1,6 @@
-/*	Cleanup Crew v.2, r.171, [2011-12-22] 
- *	part of WmDOT v.6
- *	Copyright � 2011 by W. Minchin. For more info,
+﻿/*	Cleanup Crew v.2, r.171, [2011-12-22] 
+ *		part of WmDOT v.6
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  

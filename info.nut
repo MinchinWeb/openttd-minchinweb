@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.7  r.183 [2012-01-01]
+﻿/*	WmDOT v.7, r.183, [2012-01-01]
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  *		OR  http://www.tt-forums.net/viewtopic.php?f=65&t=53698

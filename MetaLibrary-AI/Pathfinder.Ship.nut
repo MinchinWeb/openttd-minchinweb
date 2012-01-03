@@ -1,4 +1,4 @@
-﻿/*	ShipPathfinder v.1 r.132 [2011-04-30],
+﻿/*	ShipPathfinder v.1, r.186, [2011-04-30],
  *		part of Minchinweb's MetaLibrary v.2,
  *		originally part of WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
@@ -88,8 +88,8 @@ class _MinchinWeb_ShipPathfinder_.Info
 	
 	function GetVersion()       { return 1; }
 	function GetMinorVersion()	{ return 0; }
-	function GetRevision()		{ return 132; }
-	function GetDate()          { return "2011-04-30"; }
+	function GetRevision()		{ return 186; }
+	function GetDate()          { return "2012-01-02"; }
 	function GetName()          { return "Ship Pathfinder (Wm)"; }
 	
 	constructor(main)
@@ -313,7 +313,7 @@ function _MinchinWeb_ShipPathfinder_::_PathLength(PathIndex)
 {
 	local Length = 0.0;
 	for (local i = 0; i < (this._paths[PathIndex].len() - 1); i++) {
-		Length += _MinchinWeb_Extras_.DistanceShip(this._points[this._paths[PathIndex][i]], this._points[this._paths[PathIndex][i + 1]]);
+		Length += _MinchinWeb_Ship_.DistanceShip(this._points[this._paths[PathIndex][i]], this._points[this._paths[PathIndex][i + 1]]);
 	}
 	return Length;
 }
@@ -409,7 +409,7 @@ function _MinchinWeb_ShipPathfinder_::GetPathLength()
 	
 	local Length = 0;
 	for (local i = 0; i < (this._mypath.len() - 1); i++) {
-		Length += _MinchinWeb_Extras_.DistanceShip(this._mypath[i], this._mypath[i + 1]);
+		Length += _MinchinWeb_Ship_.DistanceShip(this._mypath[i], this._mypath[i + 1]);
 	}
 	
 	return Length;
@@ -428,3 +428,4 @@ function _MinchinWeb_ShipPathfinder_::_InsertPoint(TileIndex)
 		return Index;
 	}
 }
+

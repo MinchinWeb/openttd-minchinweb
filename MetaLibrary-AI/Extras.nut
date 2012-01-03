@@ -15,8 +15,7 @@
  *							.Pi() - returns 3.1415...
  *							.e() - returns 2.7182...
  *						
- *		MinchinWeb.Extras.DistanceShip(TileA, TileB)
- *						.SignLocation(text)
+ *		MinchinWeb.Extras.SignLocation(text)
  *						.MidPoint(TileA, TileB)
  *						.Perpendicular(SlopeIn)
  *						.Slope(TileA, TileB)
@@ -51,13 +50,6 @@ class _MinchinWeb_Extras_ {
 		this._infinity = _MinchinWeb_C_.Infinity();	
 	}
 	
-}
-
-function _MinchinWeb_Extras_::DistanceShip(TileA, TileB)
-{
-//	Assuming open ocean, ship in OpenTTD will travel 45° angle where possible,
-//		and then finish up the trip by going along a cardinal direction
-	return ((AIMap.DistanceManhattan(TileA, TileB) - AIMap.DistanceMax(TileA, TileB)) * 0.4 + AIMap.DistanceMax(TileA, TileB))
 }
 
 function _MinchinWeb_Extras_::SignLocation(text)

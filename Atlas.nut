@@ -1,6 +1,6 @@
-﻿/*	Atlas v.1 r.177 [2011-12-31],
+﻿/*	Atlas v.1 r.186 [2012-01-02],
  *		part of Minchinweb's MetaLibrary v.2,
- *	Copyright © 2011 by W. Minchin. For more info,
+ *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
@@ -22,6 +22,11 @@ enum ModelType
 }
  
 class _MinchinWeb_Atlas_ {
+	function GetVersion()       { return 1; }
+	function GetRevision()		{ return 186; }
+	function GetDate()          { return "2012-01-02"; }
+	function GetName()          { return "Atlas Library"; }
+
 	_heap_class = import("Queue.Binary_Heap", "", 1);
 	
 	_sources = [];			//	'from' here... (array)
@@ -101,7 +106,16 @@ function _MinchinWeb_Atlas_::RunModel()
 function _MinchinWeb_Atlas_::Pop()
 {
 //	Returns the top rated pair as an array and removes the pair from the model
-	return this._pairs.Pop();
+//	If the two tiles returned are equal, pop another one
+	local KeepTrying = true;
+	local Test;
+	while (KeepTrying == true) {
+		Test = this._pairs.Pop();
+		if (Test[0] != Test[1]) {
+			KeepTrying = false;
+		}
+	}
+	return Test;
 }
 
 function _MinchinWeb_Atlas_::Peek()
@@ -183,7 +197,7 @@ function _MinchinWeb_Atlas_::ApplyTrafficModel(StartTile, StartPriority, EndTile
 			return AIMap.DistanceManhattan(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
 			break;
 		case ModelType.DISTANCE_SHIP :
-			return _MinchinWeb_Extras_.DistanceShip(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
+			return _MinchinWeb_Ship_.DistanceShip(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
 			break;
 		case ModelType.DISTANCE_AIR :
 			return AIMap.DistanceSquare(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());

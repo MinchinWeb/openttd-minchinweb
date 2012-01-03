@@ -1,7 +1,7 @@
-﻿/*	RoadPathfinder v.7 r.139 [2011-10-20],
- *	part of Minchinweb's MetaLibrary v.1, r.139, [2011-10-20],
- *	originally part of WmDOT v.4  r.50 [2011-04-06]
- *	Copyright © 2011 by W. Minchin. For more info,
+﻿/*	RoadPathfinder v.7 r.183 [2012-01-01],
+ *		part of Minchinweb's MetaLibrary v.2,
+ *		originally part of WmDOT v.4  r.50 [2011-04-06]
+ *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
@@ -57,6 +57,16 @@
 //		MinchinWeb.RoadPathfinder.TilesPairsToBuild()
 //			//	Similiar to PathToTilePairs(), but only returns those pairs 
 //			//	where there isn't a current road connection
+
+//	TO-DO
+//		- upgrade slow bridges along path
+//		- convert level crossings (road/rail) to road bridge
+//		- deal with diagonal rails (bridge over..)
+//		- bridge over rivers (they start and end on flat tiles)
+//			- the two above are done via a test in neighbours
+//		- add pathfinder penalty for level crossings [ if(AITile.HasTransportType(new_tile, AITile.TRANSPORT_RAIL)) cost += 800; ]
+//		- add penalty for on-road stations [ if(AIRoad.IsDriveThroughRoadStationTile(new_tile)) cost += 1000; ]
+//		- do something about one-way roads - build a pair? route around? [ if(AIRoad.AreRoadTilesConnected(new_tile, prev_tile) && !AIRoad.AreRoadTilesConnected(prev_tile, new_tile)) ]
 
 class _MinchinWeb_RoadPathfinder_
 {

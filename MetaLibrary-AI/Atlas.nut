@@ -1,6 +1,6 @@
-/*	Atlas v.1 r.177 [2011-12-31],
+﻿/*	Atlas v.1 r.177 [2011-12-31],
  *		part of Minchinweb's MetaLibrary v.2,
- *	Copyright � 2011 by W. Minchin. For more info,
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
@@ -133,7 +133,7 @@ function _MinchinWeb_Atlas_::SetModel(newmodel)
 	}
 }
 
-function _MinchinWeb_Atlas_::PrintModel()
+function _MinchinWeb_Atlas_::GetModel()
 {
 //	Returns the current model type (as the enum)
 	return this._model;

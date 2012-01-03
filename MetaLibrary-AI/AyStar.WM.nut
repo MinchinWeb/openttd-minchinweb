@@ -1,6 +1,6 @@
-/*	AyStar v.7, part of 
+﻿/*	AyStar v.7, part of 
  *	WmDOT v.4  r.42 [2011-03-26]
- *	Copyright � 2011 by W. Minchin. For more info,
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  

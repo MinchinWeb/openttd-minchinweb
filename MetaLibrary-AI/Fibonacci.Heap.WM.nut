@@ -1,6 +1,6 @@
-/* Fibonacci Heap, v.3
+﻿/* Fibonacci Heap, v.3
  * Part of WmDOT, v.5, r53e [2011-04-09]
- *	Copyright � 2011 by W. Minchin. For more info,
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  

@@ -1,6 +1,6 @@
 ﻿/*	ShipPathfinder v.1 r.132 [2011-04-30],
- *	part of Minchinweb's MetaLibrary v1, r132, [2011-04-30],
- *	originally part of WmDOT v.6
+ *		part of Minchinweb's MetaLibrary v.2,
+ *		originally part of WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */

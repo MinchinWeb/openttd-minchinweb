@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.7, r.184, [2011-01-02]
+﻿/*	WmDOT v.7, r.190, [2011-01-05]
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -10,6 +10,7 @@ import("util.MinchinWeb", "MetaLib", 2);
 	RoadPathfinder <- MetaLib.RoadPathfinder;
 	Array <- MetaLib.Array;
 	Atlas <- MetaLib.Atlas;
+	Marine <- MetaLib.Marine;
 import("util.superlib", "SuperLib", 19);		//	For loan management
 	SLMoney <- SuperLib.Money;
 	Helper <- SuperLib.Helper;
@@ -31,7 +32,7 @@ require("OpHibernia.nut");			//	Operation Hibernia
 	WmDOTv = 7;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 184;
+	WmDOTr = 190;
 	/*	Reversion number of AI
 	 */
 	 

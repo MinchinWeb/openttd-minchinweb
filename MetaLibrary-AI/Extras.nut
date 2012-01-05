@@ -14,6 +14,9 @@
  *							.FloatOffset() - returns 1/2000
  *							.Pi() - returns 3.1415...
  *							.e() - returns 2.7182...
+ *							.IndustrySize() - returns 4
+ *							.InvalidIndustry() - return 0xFFFF (65535)
+ *							.InvalidTile() - returns 0xFFFFFF
  *						
  *		MinchinWeb.Extras.SignLocation(text)
  *						.MidPoint(TileA, TileB)
@@ -30,6 +33,8 @@
  *						.MinAbsFloatKeepSign(Value1, Value2)
  *						.MaxAbsFloatKeepSign(Value1, Value2)
  *	//	Comparision functions will return the first value if the two are equal
+ *
+ *		MinchinWeb.Industry.GetIndustryID(Tile)
  */
 
 class _MinchinWeb_C_ {
@@ -40,6 +45,11 @@ class _MinchinWeb_C_ {
 	
 	function Pi() { return 3.1415926535897932384626433832795; }
 	function e() { return 2.7182818284590452353602874713527; }
+	
+	function IndustrySize() { return 4; }	//	Industries are assumed to fit 
+											//		within a 4x4 box
+	function InvalidIndustry() { return 0xFFFF; }	//	number returned by OpenTTD for an invalid industry (65535)
+	function InvalidTile() { return 0xFFFFFF; } 	//	a number beyond the a valid TileIndex
 }
  
 class _MinchinWeb_Extras_ {
@@ -220,3 +230,34 @@ function _MinchinWeb_Extras_::MaxAbsFloatKeepSign(Value1, Value2)
 		return (Value2 * Sign2).tofloat();
 	}
 }
+
+
+//	INDUSTRY class
+class _MinchinWeb_Industry_ {
+	main = null;
+}
+
+function _MinchinWeb_Industry_::GetIndustryID(Tile) {
+//	AIIndustty.GetIndustryID( AIIndustry.GetLocation( IndustryID ) )  sometiles
+//		fails because GetLocation() returns the northmost tile of the industry
+//		which may be a dock, heliport, or not part of the industry at all.
+//	This function starts at the tile, and then searchs a square out (up to
+//		Constants.StationSize) until it finds a tile with a valid TileID.
+
+	local StartX = AIMap.GetTileX(Tile);
+	local StartY = AIMap.GetTileY(Tile);
+	local EndX = AIMap.GetTileX(Tile) + _MinchinWeb_C_.IndustrySize();
+	local EndY = AIMap.GetTileY(Tile) + _MinchinWeb_C_.IndustrySize();
+	
+	for (local i = StartX; i < EndX; i++) {
+		for (local j = StartY; j < EndY; j++) {
+			if (AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j)) != _MinchinWeb_C_.InvalidIndustry()) {
+				return AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j));
+			}
+		}
+	}
+	
+	//	if no valid industry is found...
+	return _MinchinWeb_C_.InvalidIndustry();
+}
+

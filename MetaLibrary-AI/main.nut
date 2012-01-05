@@ -1,4 +1,4 @@
-﻿/*	Minchinweb's MetaLibrary v.2 r.186 [2012-01-02],  
+﻿/*	Minchinweb's MetaLibrary v.2 r.186 [2012-01-04],  
  *		originally part of, WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -14,12 +14,12 @@ require("Pathfinder.Ship.nut");
 require("Line.Walker.nut");
 require("Spiral.Walker.nut");
 require("Atlas.nut");
-require("Ship.nut");
+require("Marine.nut");
 
 class MinchinWeb {
 	function GetVersion()       { return 2; }
 	function GetRevision()		{ return 186; }
-	function GetDate()          { return "2012-01-02"; }
+	function GetDate()          { return "2012-01-04"; }
 	function GetName()          { return "MinchinWeb's MetaLibrary"; }
 
 	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
@@ -31,7 +31,8 @@ class MinchinWeb {
 	static SpiralWalker = _MinchinWeb_SW_;
 	static Constants = _MinchinWeb_C_;
 	static Atlas = _MinchinWeb_Atlas_;
-	static Ship = _MinchinWeb_Ship_;
+	static Marine = _MinchinWeb_Marine_;
+	static Industry = _MinchinWeb_Industry_;
 }
 
 

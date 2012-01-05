@@ -1,7 +1,7 @@
-﻿/*	Extra functions v.2 r.175 [2011-12-30],
+﻿/*	Extra functions v.2 r.190 [2011-01-05],
  *		part of Minchinweb's MetaLibrary v.2,
  *		originally part of WmDOT v.7
- *	Copyright © 2011 by W. Minchin. For more info,
+ *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
@@ -17,6 +17,7 @@
  *							.IndustrySize() - returns 4
  *							.InvalidIndustry() - return 0xFFFF (65535)
  *							.InvalidTile() - returns 0xFFFFFF
+ *							.MaxStationSpread() - returns the maximum station spread
  *						
  *		MinchinWeb.Extras.SignLocation(text)
  *						.MidPoint(TileA, TileB)
@@ -50,6 +51,20 @@ class _MinchinWeb_C_ {
 											//		within a 4x4 box
 	function InvalidIndustry() { return 0xFFFF; }	//	number returned by OpenTTD for an invalid industry (65535)
 	function InvalidTile() { return 0xFFFFFF; } 	//	a number beyond the a valid TileIndex
+	
+	function MaxStationSpread() {
+	//	returns the OpenTTD setting for maximum station spread
+		if(AIGameSettings.IsValid("station_spread")) {
+			return AIGameSettings.GetValue("station_spread");
+		} else {
+			try {
+			AILog.Error("'station_spread' is no longer valid! (MinchinWeb.Constants.MaxStationSpread(), v." + this.GetVersion() + " r." + this.GetRevision() + ")");
+			AILog.Error("Please report this problem to http://www.tt-forums.net/viewtopic.php?f=65&t=57903");
+			} catch (idx) {
+			}
+			return 16;
+		}
+	}
 }
  
 class _MinchinWeb_Extras_ {

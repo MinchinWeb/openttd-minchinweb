@@ -1,4 +1,4 @@
-﻿/*	Atlas v.1 r.186 [2012-01-02],
+﻿/*	Atlas v.1 r.187 [2012-01-04],
  *		part of Minchinweb's MetaLibrary v.2,
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -111,7 +111,7 @@ function _MinchinWeb_Atlas_::Pop()
 	local Test;
 	while (KeepTrying == true) {
 		Test = this._pairs.Pop();
-		if (Test[0] != Test[1]) {
+		if ((Test == null) || (Test[0] != Test[1])) {
 			KeepTrying = false;
 		}
 	}
@@ -197,7 +197,7 @@ function _MinchinWeb_Atlas_::ApplyTrafficModel(StartTile, StartPriority, EndTile
 			return AIMap.DistanceManhattan(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
 			break;
 		case ModelType.DISTANCE_SHIP :
-			return _MinchinWeb_Ship_.DistanceShip(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
+			return _MinchinWeb_Marine_.DistanceShip(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());
 			break;
 		case ModelType.DISTANCE_AIR :
 			return AIMap.DistanceSquare(StartTile, EndTile) / (StartPriority.tofloat() + EndPriority.tofloat());

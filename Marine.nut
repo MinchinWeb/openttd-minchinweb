@@ -1,4 +1,4 @@
-﻿/*	Ship and Marine functions v.1 r.193 [2012-01-05],
+﻿/*	Ship and Marine functions v.1 r.195 [2012-01-06],
  *		part of Minchinweb's MetaLibrary v.2,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -32,6 +32,8 @@
  *								but water between the two. If no existing buoy
  *								is found, one is built.
  *							- Returns the location of the existing or built bouy.
+ *							- This will fail if the DockTile given is a dock (or
+ *								any tile that is not a water tile)
  *
  *		See also MinchinWeb.ShipPathfinder
  */
@@ -161,7 +163,10 @@ function _MinchinWeb_Marine_::GetDockFrontTiles(Tile)
 
 function _MinchinWeb_Marine_::BuildBuoy(Tile)
 {
-//	Attempts to build a buoy, but first checks the box within MinchinWeb.Constants.BuoyOffset() for an existing buoy, and makes sure there's nothing but water between the two. If no existing buoy is found, one is built.
+//	Attempts to build a buoy, but first checks the box within
+//		MinchinWeb.Constants.BuoyOffset() for an existing buoy, and makes sure
+//		there's nothing but water between the two. If no existing buoy is found,
+//		one is built.
 
 //	Returns the location of the existing or built bouy.
 
@@ -176,7 +181,7 @@ function _MinchinWeb_Marine_::BuildBuoy(Tile)
 	for (local i = StartX; i < EndX; i++) {
 		for (local j = StartY; j < EndY; j++) {
 			if (AIMarine.IsBuoyTile(AIMap.GetTileIndex(i,j))) {
-				Existing.AddItem(Tile, AIMap.DistanceManhattan(Tile, AIMap.GetTileIndex(i,j)));
+				Existing.AddItem(AIMap.GetTileIndex(i,j), AIMap.DistanceManhattan(Tile, AIMap.GetTileIndex(i,j)));
 //				AILog.Info("BuildBuoy() : Insert Existing at" + _MinchinWeb_Array_.ToStringTiles1D([AIMap.GetTileIndex(i,j)]));
 			}
 		}
@@ -213,4 +218,108 @@ function _MinchinWeb_Marine_::BuildBuoy(Tile)
 	}
 }
 
+function _MinchinWeb_Marine_::BuildDepot(DockTile, Front)
+{
+//	Attempts to build a (water) depot, but first checks the box within
+//		MinchinWeb.Constants.WaterDepotOffset() for an existing depot, and makes
+//		sure there's nothing but water between the depot and dock. If no
+//		existing depot is found, one is built.
 
+//	Returns the location of the existing or built depot.
+//	This will fail if the DockTile given is a dock (or any tile that is not a water tile)
+
+	local StartX = AIMap.GetTileX(DockTile) - _MinchinWeb_C_.WaterDepotOffset();
+	local StartY = AIMap.GetTileY(DockTile) - _MinchinWeb_C_.WaterDepotOffset();
+	local EndX = AIMap.GetTileX(DockTile) + _MinchinWeb_C_.WaterDepotOffset();
+	local EndY = AIMap.GetTileY(DockTile) + _MinchinWeb_C_.WaterDepotOffset();
+	
+	local Existing = AITileList();
+	local UseExistingAt = null;
+	
+	for (local i = StartX; i < EndX; i++) {
+		for (local j = StartY; j < EndY; j++) {
+			if (AIMarine.IsWaterDepotTile(AIMap.GetTileIndex(i,j))) {
+				Existing.AddItem(AIMap.GetTileIndex(i,j), AIMap.DistanceManhattan(DockTile, AIMap.GetTileIndex(i,j)));
+//				AILog.Info("BuildDepot() : Insert Existing at" + _MinchinWeb_Array_.ToStringTiles1D([AIMap.GetTileIndex(i,j)]));
+			}
+		}
+	}
+	
+	if (Existing.Count() > 0) {
+		Existing.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
+		local TestDepot = Existing.Begin();
+		local KeepTrying = true;
+		local WBC = _MinchinWeb_WBC_();
+		while (KeepTrying == true) {
+			WBC.InitializePath([TestDepot], [DockTile]);
+			WBC.PresetSafety(TestDepot, DockTile);
+			local WBCResults = WBC.FindPath(-1);
+			if (WBCResults != null) {
+				UseExistingAt = TestDepot;
+				KeepTrying = false;
+			} else {
+				if (Existing.IsEnd()) {
+					KeepTrying = false;
+					UseExistingAt = null;
+				} else {
+					TestDepot = Existing.Next();
+				}
+			}
+		}
+	}
+		
+	if (UseExistingAt == null) {	
+		if(AIMarine.BuildWaterDepot(DockTile, Front)) {
+		// try and build right at the given spot
+			UseExistingAt = DockTile;	
+		} else {
+		//	if that doesn't work, build it close by
+			//	Generate a list of water tiles, and pick one at random
+			Existing.Clear();
+			for (local i = StartX; i < EndX; i++) {
+				for (local j = StartY; j < EndY; j++) {
+					if (AITile.IsWaterTile(AIMap.GetTileIndex(i,j))) {
+						Existing.AddItem(AIMap.GetTileIndex(i,j), AIBase.Rand());
+//						AILog.Info("BuildDepot() : Insert WaterTile at" + _MinchinWeb_Array_.ToStringTiles1D([AIMap.GetTileIndex(i,j)]));
+					}
+				}
+			}
+			
+			Existing.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
+			local TestDepot = Existing.Begin();
+			local KeepTrying = true;
+			local WBC = _MinchinWeb_WBC_();
+			while (KeepTrying == true) {
+				WBC.InitializePath([TestDepot], [DockTile]);
+				WBC.PresetSafety(TestDepot, DockTile);
+				local WBCResults = WBC.FindPath(-1);
+//				AILog.Info("BuildDepot() : WBC on" + _MinchinWeb_Array_.ToStringTiles1D([TestDepot, DockTile]) + " returned " + WBCResults);
+				if (WBCResults != null) {
+					local Front2 = _MinchinWeb_Extras_.NextCardinalTile(TestDepot, DockTile);
+					if (AIMarine.BuildWaterDepot(TestDepot, Front2))
+					{
+						UseExistingAt = TestDepot;
+						KeepTrying = false;
+					} else {
+						if (Existing.IsEnd()) {
+							KeepTrying = false;
+							UseExistingAt = null;
+						} else {
+							TestDepot = Existing.Next();
+						}
+					}
+				} else {
+					if (Existing.IsEnd()) {
+						KeepTrying = false;
+						UseExistingAt = null;
+					} else {
+						TestDepot = Existing.Next();
+					}
+				}
+			}
+		
+		}
+	}
+	
+	return UseExistingAt;
+}

@@ -1,4 +1,4 @@
-﻿/*	Extra functions v.2 r.190 [2011-01-05],
+﻿/*	Extra functions v.2 r.192 [2011-01-05],
  *		part of Minchinweb's MetaLibrary v.2,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -15,9 +15,10 @@
  *							.Pi() - returns 3.1415...
  *							.e() - returns 2.7182...
  *							.IndustrySize() - returns 4
- *							.InvalidIndustry() - return 0xFFFF (65535)
+ *							.InvalidIndustry() - returns 0xFFFF (65535)
  *							.InvalidTile() - returns 0xFFFFFF
  *							.MaxStationSpread() - returns the maximum station spread
+ *							.BuoyOffset() - returns 3
  *						
  *		MinchinWeb.Extras.SignLocation(text)
  *						.MidPoint(TileA, TileB)
@@ -51,6 +52,7 @@ class _MinchinWeb_C_ {
 											//		within a 4x4 box
 	function InvalidIndustry() { return 0xFFFF; }	//	number returned by OpenTTD for an invalid industry (65535)
 	function InvalidTile() { return 0xFFFFFF; } 	//	a number beyond the a valid TileIndex
+	function BuoyOffset() { return 3; }				//	this is the assumed minimum desire spacing between bouys
 	
 	function MaxStationSpread() {
 	//	returns the OpenTTD setting for maximum station spread
@@ -247,7 +249,7 @@ function _MinchinWeb_Extras_::MaxAbsFloatKeepSign(Value1, Value2)
 }
 
 
-//	INDUSTRY class
+// =============  INDUSTRY class  =============
 class _MinchinWeb_Industry_ {
 	main = null;
 }
@@ -274,5 +276,31 @@ function _MinchinWeb_Industry_::GetIndustryID(Tile) {
 	
 	//	if no valid industry is found...
 	return _MinchinWeb_C_.InvalidIndustry();
+}
+
+
+// =============  STATION class  =============
+class _MinchinWeb_Station_ {
+	main = null;
+}
+
+function _MinchinWeb_Station_::IsCargoAccepted(StationID, CargoID)
+{
+//	Checks whether a certain Station accepts a given cargo
+//	Returns null if the StationID or CargoID are invalid
+//	Returns true or false, depending on if the cargo is accepted
+
+	if (!AIStation.IsValidStation(StationID) || !AICargo.IsValidCargo(CargoID)) {
+		AILog.Warning("MinchinWeb.Station.IsCargoAccepted() was provided with invalid input. Was provided " + StationID + " and " + CargoID + ".");
+		return null;
+	} else {
+		local AllCargos = AICargoList_StationAccepting(StationID);
+//		AILog.Info("MinchinWeb.Station.IsCargoAccepted() was provided with " + StationID + " and " + CargoID + ". AllCargos: " + AllCargos.Count());
+		if (AllCargos.HasItem(CargoID)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 

@@ -1,4 +1,4 @@
-﻿/*	Extra functions v.2 r.192 [2011-01-05],
+﻿/*	Extra functions v.2 r.195 [2011-01-06],
  *		part of Minchinweb's MetaLibrary v.2,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -19,6 +19,7 @@
  *							.InvalidTile() - returns 0xFFFFFF
  *							.MaxStationSpread() - returns the maximum station spread
  *							.BuoyOffset() - returns 3
+ *							.WaterDepotOffset() - return 4
  *						
  *		MinchinWeb.Extras.SignLocation(text)
  *						.MidPoint(TileA, TileB)
@@ -34,9 +35,26 @@
  *						.MaxFloat(Value1, Value2)
  *						.MinAbsFloatKeepSign(Value1, Value2)
  *						.MaxAbsFloatKeepSign(Value1, Value2)
+ *						.NextCardinalTile(StartTile, TowardsTile)
+ *							- Given a StartTile and a TowardsTile, will given
+ *								the tile immediately next(Manhattan Distance == 1)
+ *								to StartTile that is closests to TowardsTile
+ *
  *	//	Comparision functions will return the first value if the two are equal
  *
  *		MinchinWeb.Industry.GetIndustryID(Tile)
+ *								- AIIndustty.GetIndustryID( AIIndustry.GetLocation( IndustryID ) )
+ *									sometimes fails because GetLocation() returns the northmost
+ *									tile of the industry which may be a dock, heliport, or not
+ *									part of the industry at all.
+ *								- This function starts at the tile, and then searchs a square out
+ *									(up to Constants.StationSize) until it finds a tile with a
+ *									valid TileID.
+ *
+ *		MinchinWeb.Station.IsCargoAccepted(StationID, CargoID)
+ *								- Checks whether a certain Station accepts a given cargo
+ *								- Returns null if the StationID or CargoID are invalid
+ *								- Returns true or false, depending on if the cargo is accepted
  */
 
 class _MinchinWeb_C_ {
@@ -52,7 +70,8 @@ class _MinchinWeb_C_ {
 											//		within a 4x4 box
 	function InvalidIndustry() { return 0xFFFF; }	//	number returned by OpenTTD for an invalid industry (65535)
 	function InvalidTile() { return 0xFFFFFF; } 	//	a number beyond the a valid TileIndex
-	function BuoyOffset() { return 3; }				//	this is the assumed minimum desire spacing between bouys
+	function BuoyOffset() { return 3; }				//	this is the assumed minimum desired spacing between bouys
+	function WaterDepotOffset() { return 4; }		//	this is the maximum desired spacing between docks and depots
 	
 	function MaxStationSpread() {
 	//	returns the OpenTTD setting for maximum station spread
@@ -246,6 +265,23 @@ function _MinchinWeb_Extras_::MaxAbsFloatKeepSign(Value1, Value2)
 	} else {
 		return (Value2 * Sign2).tofloat();
 	}
+}
+
+function _MinchinWeb_Extras_::NextCardinalTile(StartTile, TowardsTile)
+{
+//	Given a StartTile and a TowardsTile, will given the tile immediately next
+//		(Manhattan Distance == 1) to StartTile that is closests to TowardsTile
+	local Tiles = AITileList();
+	local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
+						AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
+				 
+	foreach (offset in offsets) {
+		Tiles.AddItem(StartTile + offset, AIMap.DistanceSquare(StartTile + offset, TowardsTile));
+	}
+	
+	Tiles.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
+	
+	return Tiles.Begin();
 }
 
 

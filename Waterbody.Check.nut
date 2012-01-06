@@ -1,7 +1,7 @@
-﻿/*	Waterbody Check v.1, r.170, [2011-12-22],
+﻿/*	Waterbody Check v.1, r.193, [2012-01-05],
  *		part of Minchinweb's MetaLibrary v.2,
  *		originally part of WmDOT v.7
- *	Copyright © 2011 by W. Minchin. For more info,
+ *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
@@ -18,15 +18,24 @@
 
 //	Requires Graph.AyStar v6 library
 
-//	This file provides functions:
-//		MinchinWeb.WaterbodyCheck.InitializePath(sources, goals)
-			//	Set up the pathfinder
-//			.WaterbodyCheck.FindPath(iterations)	
-			//	Run the pathfinder; returns false if it isn't finished the path
-			//		 if it has finished, and null if it can't find a path
-//			.WaterbodyCheck.cost.[xx]
-			//	Allows you to set or find out the pathfinder costs directly.
-//			//		 See the function below for valid entries
+/*	This file provides functions:
+ *		MinchinWeb.WaterbodyCheck.InitializePath(sources, goals)
+ *									- Set up the pathfinder
+ *								 .FindPath(iterations)	
+ *									- Run the pathfinder; returns false if it
+ *										isn't finished the path if it has
+ *										finished, and null if it can't find a path
+ *								 .WaterbodyCheck.cost.[xx]
+ *									- Allows you to set or find out the
+ *										pathfinder costs directly.
+ *								 .GetPathLength()
+ *									- Runs over the path to determine its length
+ *								 .PresetSafety(Start, End)
+ *									- Caps the pathfinder as twice the Manhattan
+ *										distance between the two tiles
+ *
+ *	See the function below for valid entries.
+ */
 
 
 

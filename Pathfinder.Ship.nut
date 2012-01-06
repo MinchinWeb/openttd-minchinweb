@@ -1,4 +1,4 @@
-﻿/*	ShipPathfinder v.1, r.188, [2012-01-05],
+﻿/*	ShipPathfinder v.2, r.193, [2012-01-05],
  *		part of Minchinweb's MetaLibrary v.2,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -23,6 +23,8 @@
  *								 .LandHo(TileA, TileB)
  *								 .WaterHo(TileA, TileB)
  *								 .GetPathLength()
+ *								 .CountPathBuoys()
+ *								 .BuildPathBuoys()
  */
  
 //	TO-DO
@@ -40,6 +42,8 @@ class _MinchinWeb_ShipPathfinder_
 	_cost_tile = null;             ///< The cost for a single tile.
 	_cost_turn = null;             ///< The cost that is added to _cost_tile if the direction changes.
 	cost = null;                   ///< Used to change the costs.
+	
+	_max_buoy_spacing = null;	   ///< The maximum spacing between buoys
 	
 //	_infinity = null;
 	_first_run = null;
@@ -60,6 +64,7 @@ class _MinchinWeb_ShipPathfinder_
 		this._max_cost = 10000;
 		this._cost_tile = 1;
 		this._cost_turn = 1;
+		this._max_buoy_spacing = 50;
 		
 //		this._infinity = _MinchinWeb_C_Infinity();
 //		this._infinity = 10;	//	For Testing
@@ -102,9 +107,9 @@ class _MinchinWeb_ShipPathfinder_.Info
 {
 	_main = null;
 	
-	function GetVersion()       { return 1; }
+	function GetVersion()       { return 2; }
 //	function GetMinorVersion()	{ return 0; }
-	function GetRevision()		{ return 188; }
+	function GetRevision()		{ return 193; }
 	function GetDate()          { return "2012-01-05"; }
 	function GetName()          { return "Ship Pathfinder (Wm)"; }
 	
@@ -126,6 +131,7 @@ class _MinchinWeb_ShipPathfinder_.Cost
 			case "max_cost":          this._main._max_cost = val; break;
 			case "tile":              this._main._cost_tile = val; break;
 			case "turn":              this._main._cost_turn = val; break;
+			case "max_buoy_spacing":  this._main._max_buoy_spacing = val; break;
 			default: throw("the index '" + idx + "' does not exist");
 		}
 		return val;
@@ -137,6 +143,7 @@ class _MinchinWeb_ShipPathfinder_.Cost
 			case "max_cost":          return this._main._max_cost;
 			case "tile":              return this._main._cost_tile;
 			case "turn":              return this._main._cost_turn;
+			case "max_buoy_spacing":  return this._main._max_buoy_spacing;
 			default: throw("the index '" + idx + "' does not exist");
 		}
 	}
@@ -442,6 +449,63 @@ function _MinchinWeb_ShipPathfinder_::_InsertPoint(TileIndex)
 		return (this._points.len() - 1);
 	} else {
 		return Index;
+	}
+}
+
+function _MinchinWeb_ShipPathfinder_::CountPathBuoys()
+{
+//	returns the number of potential buoys that may need to be built
+
+//	AILog.Info("My Path is " + _MinchinWeb_Array_.ToString1D(this._mypath));
+
+	if (this._mypath == null) {
+		AILog.Warning("MinchinWeb.ShipPathfinder.CountBuoys() must be supplied with a valid path.");
+	} else {
+		//	basic direction changes (minus the two ends)
+		local Buoys = this._mypath.len() - 2;
+		
+		//	test for long segments
+		for (local i = 1; i < this._mypath.len(); i++) {
+			local TestLength = _MinchinWeb_Marine_.DistanceShip(this._mypath[i-1], this._mypath[i]);
+			while (TestLength > this._max_buoy_spacing) {
+				TestLength -= this._max_buoy_spacing;
+				Buoys ++;
+			}
+		}
+		
+		return Buoys;
+	}
+}
+
+function _MinchinWeb_ShipPathfinder_::BuildPathBuoys()
+{
+//	Build the buoys that may need to be built
+//	changes  this._mypath  to be the list of these buoys
+
+	if (this._mypath == null) {
+		AILog.Warning("MinchinWeb.ShipPathfinder.BuildBuoys() must be supplied with a valid path.");
+	} else {
+		for (local i = 0; i < this._mypath.len(); i++) {
+			//	skip first and last points
+			if ((i != 0) && (i != (this._mypath.len() - 1))) {
+				//	Build a bouy at each junction
+				AILog.Info("Build Buoy " + i + " :" + _MinchinWeb_Array_.ToStringTiles1D([this._mypath[i]]));
+				_MinchinWeb_Marine_.BuildBuoy(this._mypath[i]);
+			}
+		}
+		
+		// Build extra bouys for long stretches
+		for (local i = 1; i < this._mypath.len(); i++) {
+			if (_MinchinWeb_Marine_.DistanceShip(this._mypath[i-1], this._mypath[i]) > this._max_buoy_spacing ) {
+				local midpoint = _MinchinWeb_Extras_.MidPoint(this._mypath[i-1], this._mypath[i]);
+				_MinchinWeb_Marine_.BuildBuoy(midpoint);
+				this._mypath = _MinchinWeb_Array_.InsertValueAt(this._mypath, i, midpoint);
+//				AILog.Info("Build Buoy " + i + " : new dist=" + _MinchinWeb_Marine_.DistanceShip(this._mypath[i-1], this._mypath[i]) + " : at" + _MinchinWeb_Array_.ToStringTiles1D([this._mypath[i]]));
+				i--;	//	rescan the section...
+			}
+		}
+
+		return this._mypath;
 	}
 }
 

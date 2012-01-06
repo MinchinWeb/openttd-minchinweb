@@ -32,7 +32,8 @@
 //	_Cost = null;
 	
 	_SleepLength = null;	//	as measured in days
-	_TransportedCutOff = null	//	maximum percentage of transported cargo for an industry still to be considered.
+	_TransportedCutOff = null;	//	maximum percentage of transported cargo for an industry still to be considered.
+	_CapacityDays = null;		//	this is the (max) numbers of days production a ship will be built to transport
 	_Atlas = null;
 	_AtlasModel = null;
 	_Serviced = null;		//	Industries that have already been serviced
@@ -45,6 +46,7 @@
 		this._NextRun = 0;
 		this._SleepLength = 90;
 		this._TransportedCutOff = 25;
+		this._CapacityDays = 60;
 		
 		this._Atlas = Atlas();
 		this._AtlasModel = ModelType.DISTANCE_SHIP;
@@ -68,8 +70,8 @@ class OpHibernia.Settings {
 			case "SleepLength":			this._main._SleepLength = val; break;
 			case "TransportedCutOff":	this._main._TransportedCutOff = val; break;
 			case "AtlasModel":			this._main._AtlasModel = val; break;
-/*			case "Mode":				this._main._Mode = val; break;
-			case "HQTown":				this._main._HQTown = val; break;
+			case "CapacityDays":		this._main._CapacityDays = val; break;
+/*			case "HQTown":				this._main._HQTown = val; break;
 */			case "Atlas":				this._main._Atlas = val; break;
 /*			case "TownArray":			this._main._TownArray = val; break;
 			case "PairsToConnect":		this._main._PairsToConnect = val; break;
@@ -88,8 +90,8 @@ class OpHibernia.Settings {
 			case "SleepLength":			return this._main._SleepLength; break;
 			case "TransportedCutOff":	return this._main._TransportedCutOff; break;
 			case "AtlasModel":			return this._main._AtlasModel; break;
-/*			case "Mode":				return this._main._Mode; break;
-			case "HQTown":				return this._main._HQTown; break;
+			case "CapacityDays":		return this._main._CapacityDays; break;
+/*			case "HQTown":				return this._main._HQTown; break;
 */			case "Atlas":				return this._main._Atlas; break;
 /*			case "TownArray":			return this._main._TownArray; break;
 			case "PairsToConnect":		return this._main._PairsToConnect; break;
@@ -174,6 +176,9 @@ function OpHibernia::Run() {
 		
 		local OldMyIndustries = MyIndustries;
 		foreach (CargoNo in MyCargos) {
+			//	TO-DO: Add a check here to see if we can actually transport the cargo in question!
+			//				SuperLib.Engine.DoesEngineExistForCargo(cargo_id, vehicle_type = -1, no_trams = true, no_articulated = true, only_small_aircrafts = false)
+			
 			///	Get a list of Oil Rigs, and add those without our ships to the sources list;
 			//	Keep only those that are underserviced (less than 25%, typically)
 			MyIndustries = OldMyIndustries;
@@ -351,10 +356,12 @@ function OpHibernia::Run() {
 							
 							if (SPFResults != null) {
 								Log.Note("Ship Pathfinder returns positive. Took " + (WmDOT.GetTick() - tick2) + " ticks.",3);
+								
+								//	Build Buoys
 								local NumberOfBuoys = Pathfinder.CountPathBuoys();
 								Log.Note(NumberOfBuoys + " buoys may be needed.", 5);
 								
-								//	request funds
+								//	request funds for Buoys
 								local CostOneBuoy;
 								{
 									local ex = AITestMode();
@@ -364,6 +371,45 @@ function OpHibernia::Run() {
 								}
 								Money.FundsRequest(CostOneBuoy * NumberOfBuoys * 1.1);
 								Pathfinder.BuildPathBuoys();
+								
+								//	Build Depots
+								local Depot1 = Marine.BuildDepot(start, MetaLib.Extras.NextCardinalTile(BuildPair[0], BuildPair[1]));
+								local Depot2 = Marine.BuildDepot(end, MetaLib.Extras.NextCardinalTile(BuildPair[1], BuildPair[0]));
+								Log.Note("Depots at" + Array.ToStringTiles1D([Depot1, Depot2]), 4);
+								
+								//	TO-DO:	Do something if neither depot could be built
+								if ((Depot1 == null) && (Depot2 != null)) {
+									Depot1 = Depot2;
+								}
+								
+								//	Pick an engine (ship)
+								local Engines = AIEngineList(AIVehicle.VT_WATER);
+								
+								//	Keep only buildable engines
+								Engines.Valuate(AIEngine.IsBuildable);
+								Engines.KeepValue(true.tointeger());
+								
+								//	TO-DO:	Keep only engines we can afford  AIEngine.GetPrice(EngineID)
+								
+								//	Keep only ships for this cargo
+								Engines.Valuate(AIEngine.CanRefitCargo, CargoNo);
+								Engines.KeepValue(true.tointeger());
+								
+								//	Keep only ships under max capacity
+								//		"In case it can transport multiple cargoes, it returns the first/main."
+								Engines.Valuate(AIEngine.GetCapacity);
+								Engines.RemoveAboveValue((AIIndustry.GetLastMonthProduction(MetaLib.Industry.GetIndustryID(BuildPair[0]), CargoNo) * this._CapacityDays)/365);
+								
+								//	Pick the fastest one
+								Engines.Valuate(AIEngine.GetMaxSpeed);
+								Engines.Sort(AIList.SORT_BY_VALUE, AIList.SORT_DESCENDING);
+								
+								local PickedEngine = Engines.Begin();
+								Log.Note("Picked engine: " + AIEngine.GetName(PickedEngine), 2);
+								
+								
+								
+								
 							} else {
 								Log.Note("Ship Pathfinder returns negative. Took " + (WmDOT.GetTick() - tick2) + " ticks.",3);
 							}

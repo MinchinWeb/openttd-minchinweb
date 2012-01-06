@@ -1,4 +1,4 @@
-﻿/*	Operation Hibernia v.1, r.190, [2012-01-05]
+﻿/*	Operation Hibernia v.1, r.191, [2012-01-05]
  *		part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -22,8 +22,8 @@
 
  class OpHibernia {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return 184; }
-	function GetDate()          { return "2012-01-02"; }
+	function GetRevision()		{ return 190; }
+	function GetDate()          { return "2012-01-05"; }
 	function GetName()          { return "Operation Hibernia"; }
 	
 	
@@ -222,27 +222,72 @@ function OpHibernia::Run() {
 					//	At this point, we know that the first industry has a dock; now we have to figure out what to do about the second industry
 					local DockLocation = _MinchinWeb_C_.InvalidTile();
 					
-					
 					if (AIIndustry.HasDock(MetaLib.Industry.GetIndustryID(BuildPair[1])) == true) {
 					//	1. Test if the Industry has a built in dock
-						DockLocation = AIIndustry.GetDockLocation(MetaLib.Industry.GetIndustryID(BuildPair[1]));
+						DockLocation = AIIndustry.GetDockLocation(MetaLib.Industry.GetIndustryID(BuildPair[1]));	
 					} else {
 					//	2. Test if we have a dock built that would work
-// add more here...					
-					//	3. Build a dock
-// add more here...					
-						local PossibilitesList = Marine.GetPossibleDockTiles(MetaLib.Industry.GetIndustryID(BuildPair[1]));
-						if (PossibilitesList.len() == 0) {
-							Log.Note("     No dock possible near" + Array.ToStringTiles1D([BuildPair[1]]) + ".", 3);
-							//	Let the routine come up with another pair from the Atlas
+						Log.Note("Max Station Spread is : " + MetaLib.Constants.MaxStationSpread(), 5);
+						local MyStations = AIStationList(AIStation.STATION_DOCK);
+						Log.Note("Start with " + MyStations.Count() + " stations.", 5);
+						//	Test stations based on distance to industry
+						MyStations.Valuate(AIStation.GetDistanceManhattanToTile, BuildPair[1]);
+						MyStations.KeepBelowValue((MetaLib.Constants.MaxStationSpread() + MetaLib.Constants.IndustrySize() + AIStation.GetCoverageRadius(AIStation.STATION_DOCK)) * 2);
+						Log.Note("Kept " + MyStations.Count() + " stations (close enough).", 5);
+						//	Test stations to see if they accept cargo in question
+						MyStations.Valuate(MetaLib.Station.IsCargoAccepted, CargoNo);
+						MyStations.KeepValue(true.tointeger());
+						Log.Note("Kept " + MyStations.Count() + " stations.", 3);
+						
+						if (MyStations.Count() > 0) {
+							//	If more than one station, use the closest to other industry
+							MyStations.Valuate(AIStation.GetDistanceManhattanToTile, BuildPair[0]);
+							MyStations.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
+							local templist = AITileList_StationType(MyStations.Begin(), AIStation.STATION_DOCK);
+							DockLocation = templist.Begin();
 						} else {
-							for (local i = 0; i < PossibilitesList.len(); i++) {
-								Log.Note("" + i + " : " + Array.ToStringTiles1D(PossibilitesList[i]), 4);
+						//	3. Build a dock
+							//	TO-DO: consider using station spread to get a spot (i.e. build a
+							//				truck stop to reach the refinery)
+							//	TO-DO: wait to build the dock until we are ready to start the route
+							//	TO-DO: only build the dock (or pass on it's location) if it is in
+							//				the same waterbody as BuildPair[0]
+							
+							local PossibilitesList = Marine.GetPossibleDockTiles(MetaLib.Industry.GetIndustryID(BuildPair[1]));
+							Log.Note("Build Possibilites: " + Array.ToStringTiles1D(PossibilitesList, true), 5);
+							if (PossibilitesList.len() == 0) {
+								Log.Note("     No dock possible near" + Array.ToStringTiles1D([BuildPair[1]]) + ".", 3);
+								//	Let the routine come up with another pair from the Atlas
+							} else {
+								local PossibilitiesAIList = AITileList();
+								for (local i = 0; i < PossibilitesList.len(); i++) {
+									PossibilitiesAIList.AddItem(PossibilitesList[i], AIMap.DistanceManhattan(PossibilitesList[i], BuildPair[0]));
+								}
+								PossibilitiesAIList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
+								
+								local KeepTrying3 = true;
+								DockLocation = PossibilitiesAIList.Begin();
+								while (KeepTrying3) {
+									Log.Note("In KeepTrying3... DockLocation =" + Array.ToStringTiles1D([DockLocation]), 5);
+//									DockLocation = PossibilitiesAIList.Next();
+									if ((AITile.GetCargoAcceptance(DockLocation, CargoNo, 1, 1, AIStation.GetCoverageRadius(AIStation.STATION_DOCK)) >= 8) && (AIMarine.BuildDock(DockLocation, AIStation.STATION_NEW))) {
+										// it worked! We have a dock! Nothing more...
+										Log.Note("Built Dock at" + Array.ToStringTiles1D([DockLocation]), 3);
+										KeepTrying3 = false;
+									} else {
+										if (PossibilitiesAIList.IsEnd()) {
+											DockLocation = MetaLib.Constants.InvalidTile()
+											KeepTrying3 = false;
+										} else {
+											DockLocation = PossibilitiesAIList.Next();
+										}
+									}
+								}	
 							}
 						}
 					}
 					
-					if (DockLocation == _MinchinWeb_C_.InvalidTile()) {
+					if (DockLocation == MetaLib.Constants.InvalidTile()) {
 						Log.Note("No valid dock location.", 3);
 						//	probably keep KeepTrying = ture
 					} else {
@@ -273,6 +318,7 @@ function OpHibernia::Run() {
 						while (KeepTrying2 == true) {
 							Log.Note("WBC:: start: " + Array.ToStringTiles1D([start]) + "  -> end: " + Array.ToStringTiles1D([end]), 5);
 							WBC.InitializePath([start], [end]);
+							WBC.PresetSafety(start, end);
 							WBCResults = WBC.FindPath(-1);
 							WBCTries ++;
 							if (WBCResults != null) {
@@ -294,7 +340,7 @@ function OpHibernia::Run() {
 						}
 
 						if (WBCResults != null) {
-							///	Run Ship Pathfinder, and build bouys
+							///	Run Ship Pathfinder, and build buoys
 							tick2 = WmDOT.GetTick();
 							local Pathfinder = MetaLib.ShipPathfinder();
 							Pathfinder.InitializePath([start], [end]);
@@ -305,6 +351,19 @@ function OpHibernia::Run() {
 							
 							if (SPFResults != null) {
 								Log.Note("Ship Pathfinder returns positive. Took " + (WmDOT.GetTick() - tick2) + " ticks.",3);
+								local NumberOfBuoys = Pathfinder.CountPathBuoys();
+								Log.Note(NumberOfBuoys + " buoys may be needed.", 5);
+								
+								//	request funds
+								local CostOneBuoy;
+								{
+									local ex = AITestMode();
+									local ac = AIAccounting();
+									AIMarine.BuildBuoy(start);
+									CostOneBuoy = ac.GetCosts();
+								}
+								Money.FundsRequest(CostOneBuoy * NumberOfBuoys * 1.1);
+								Pathfinder.BuildPathBuoys();
 							} else {
 								Log.Note("Ship Pathfinder returns negative. Took " + (WmDOT.GetTick() - tick2) + " ticks.",3);
 							}

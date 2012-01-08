@@ -1,4 +1,4 @@
-﻿/*	Operation Hibernia v.1, r.191, [2012-01-05]
+﻿/*	Operation Hibernia v.1, r.197, [2012-01-07]
  *		part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -214,6 +214,7 @@ function OpHibernia::Run() {
 			this._Atlas.SetModel(this._AtlasModel);
 			this._Atlas.RunModel();
 			Log.Note("Atlas.RunModel() took " + (WmDOT.GetTick() - tick2) + " ticks.",2);
+			//	TO-DO:	Apply maximum distance, based on ship travel speeds
 			
 			local KeepTrying = true;
 			while (KeepTrying == true) {
@@ -264,6 +265,8 @@ function OpHibernia::Run() {
 								Log.Note("     No dock possible near" + Array.ToStringTiles1D([BuildPair[1]]) + ".", 3);
 								//	Let the routine come up with another pair from the Atlas
 							} else {
+								Money.FundsRequest((AIMarine.GetBuildCost(AIMarine.BT_DOCK) + AITile.GetBuildCost(AITile.BT_CLEAR_GRASS)) * 1.1);
+								
 								local PossibilitiesAIList = AITileList();
 								for (local i = 0; i < PossibilitesList.len(); i++) {
 									PossibilitiesAIList.AddItem(PossibilitesList[i], AIMap.DistanceManhattan(PossibilitesList[i], BuildPair[0]));
@@ -359,56 +362,129 @@ function OpHibernia::Run() {
 								
 								//	Build Buoys
 								local NumberOfBuoys = Pathfinder.CountPathBuoys();
+								SPFResults = Pathfinder.GetPath();
 								Log.Note(NumberOfBuoys + " buoys may be needed.", 5);
 								
 								//	request funds for Buoys
-								local CostOneBuoy;
+								//	request funds for Depots - assume they cost twice what buoys cost
+/*								local CostOneBuoy;
 								{
 									local ex = AITestMode();
 									local ac = AIAccounting();
 									AIMarine.BuildBuoy(start);
 									CostOneBuoy = ac.GetCosts();
 								}
-								Money.FundsRequest(CostOneBuoy * NumberOfBuoys * 1.1);
+								Money.FundsRequest(CostOneBuoy * (NumberOfBuoys + 2*2) * 1.1);
+*/
+								Money.FundsRequest((AIMarine.GetBuildCost(AIMarine.BT_BUOY) * NumberOfBuoys) + (AIMarine.GetBuildCost(AIMarine.BT_DEPOT) * 2));
 								Pathfinder.BuildPathBuoys();
 								
-								//	Build Depots
+								//	Build Depots						
 								local Depot1 = Marine.BuildDepot(start, MetaLib.Extras.NextCardinalTile(BuildPair[0], BuildPair[1]));
 								local Depot2 = Marine.BuildDepot(end, MetaLib.Extras.NextCardinalTile(BuildPair[1], BuildPair[0]));
 								Log.Note("Depots at" + Array.ToStringTiles1D([Depot1, Depot2]), 4);
 								
 								//	TO-DO:	Do something if neither depot could be built
+								//	TO-DO:	Build Depots in the middle if the path is extra long
 								if ((Depot1 == null) && (Depot2 != null)) {
 									Depot1 = Depot2;
 								}
 								
 								//	Pick an engine (ship)
+								//	TO-DO: More sophisicated engine selection; weight all the factors at once
 								local Engines = AIEngineList(AIVehicle.VT_WATER);
+								Log.Note("Start with " + Engines.Count() + " engines.", 5);
 								
 								//	Keep only buildable engines
 								Engines.Valuate(AIEngine.IsBuildable);
 								Engines.KeepValue(true.tointeger());
+								Log.Note("Only " + Engines.Count() + " are buildable.", 5);
 								
-								//	TO-DO:	Keep only engines we can afford  AIEngine.GetPrice(EngineID)
+								//	TO-DO:	Keep only engines we can afford  -  AIEngine.GetPrice(EngineID)
 								
 								//	Keep only ships for this cargo
 								Engines.Valuate(AIEngine.CanRefitCargo, CargoNo);
 								Engines.KeepValue(true.tointeger());
+								Log.Note("Only " + Engines.Count() + " can carry " + AICargo.GetCargoLabel(CargoNo) + ".", 5);
 								
 								//	Keep only ships under max capacity
 								//		"In case it can transport multiple cargoes, it returns the first/main."
+								local MaxCargo = (AIIndustry.GetLastMonthProduction(MetaLib.Industry.GetIndustryID(BuildPair[0]), CargoNo) * this._CapacityDays)/30;
 								Engines.Valuate(AIEngine.GetCapacity);
-								Engines.RemoveAboveValue((AIIndustry.GetLastMonthProduction(MetaLib.Industry.GetIndustryID(BuildPair[0]), CargoNo) * this._CapacityDays)/365);
+								Engines.RemoveAboveValue(MaxCargo);
+								Log.Note("Only " + Engines.Count() + " have capacity below " + MaxCargo + ". (" + AIIndustry.GetLastMonthProduction(MetaLib.Industry.GetIndustryID(BuildPair[0]), CargoNo) + " * " + this._CapacityDays + " / 30)", 5);
 								
 								//	Pick the fastest one
 								Engines.Valuate(AIEngine.GetMaxSpeed);
 								Engines.Sort(AIList.SORT_BY_VALUE, AIList.SORT_DESCENDING);
 								
-								local PickedEngine = Engines.Begin();
-								Log.Note("Picked engine: " + AIEngine.GetName(PickedEngine), 2);
+								if (Engines.Count() > 0) {
+									local PickedEngine = Engines.Begin();
+									Log.Note("Picked engine: " + PickedEngine + " : " + AIEngine.GetName(PickedEngine), 3);
+									
+									//	Build Ship and give it orders
+									//	request funds for Ship
+									//	TO-DO: get ship cost directly
+									local CostShip;
+									{
+										local ex = AITestMode();
+										local ac = AIAccounting();
+										AIVehicle.BuildVehicle(Depot1, PickedEngine);
+										CostShip = ac.GetCosts();
+									}
+									
+									//	TO-DO: Provide for retrofit costs
+									local KeepTrying4 = true;
+									local UnfilledCapacity = MaxCargo;
+									local MyVehicle;
+									local FirstVehicle = null;
+									while (KeepTrying4) {
+										Money.FundsRequest(CostShip * 1.1);
+										MyVehicle = AIVehicle.BuildVehicle(Depot1, PickedEngine);
+										if (AIVehicle.IsValidVehicle(MyVehicle)) {
+											AIVehicle.RefitVehicle(MyVehicle, CargoNo);
+											UnfilledCapacity -= AIVehicle.GetCapacity(MyVehicle, CargoNo);
+											Log.Note("Added Vehicle № " + MyVehicle + "; remaining capacity = " + UnfilledCapacity + ".", 4);
+											
+											///	Give Orders!
+											if (FirstVehicle == null) {
+												FirstVehicle = MyVehicle;
+												//	start station; full load here
+												AIOrder.AppendOrder(MyVehicle, BuildPair[0], AIOrder.AIOF_FULL_LOAD);
+												//	buoys
+												for (local i = 1; i < (SPFResults.len() - 1); i++) {
+													AIOrder.AppendOrder(MyVehicle, SPFResults[i], AIOrder.AIOF_NONE);
+												}
+												//	end station
+												AIOrder.AppendOrder(MyVehicle, DockLocation, AIOrder.AIOF_NONE);
+												//	buoys, but backwards
+												for (local i = (SPFResults.len() - 1); i > 1; i--) {
+													AIOrder.AppendOrder(MyVehicle, SPFResults[i], AIOrder.AIOF_NONE);
+												}
+												
+												// send it on it's merry way!!!
+												AIVehicle.StartStopVehicle(MyVehicle);
+											} else {
+												AIOrder.ShareOrders(MyVehicle, FirstVehicle);
+											}
+											
+											
+											//	PROBLEMS HERE!!
+											if (UnfilledCapacity < AIVehicle.GetCapacity(MyVehicle, CargoNo)) {
+												KeepTrying4 = false;
+											}
+										} else {
+											Log.Note("Vehicle Building failed!!", 4);
+											KeepTrying4 = false;
+										}
+									}
+									
+									
 								
 								
-								
+								} else {
+									Log.Note("No engine matches criteria.", 3);
+								}
 								
 							} else {
 								Log.Note("Ship Pathfinder returns negative. Took " + (WmDOT.GetTick() - tick2) + " ticks.",3);

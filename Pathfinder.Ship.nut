@@ -1,4 +1,4 @@
-﻿/*	ShipPathfinder v.2, r.193, [2012-01-05],
+﻿/*	ShipPathfinder v.2, r.198, [2012-01-07],
  *		part of Minchinweb's MetaLibrary v.2,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -20,11 +20,12 @@
  *									  .GetName()
  *								 .Cost.[xx]
  *								 .FindPath(iterations)
- *								 .LandHo(TileA, TileB)
- *								 .WaterHo(TileA, TileB)
+ *								 .LandHo(TileA, TileB) - move to Marine
+ *								 .WaterHo(TileA, TileB) - move to Marine
  *								 .GetPathLength()
  *								 .CountPathBuoys()
  *								 .BuildPathBuoys()
+ *								 .GetPath()
  */
  
 //	TO-DO
@@ -509,3 +510,15 @@ function _MinchinWeb_ShipPathfinder_::BuildPathBuoys()
 	}
 }
 
+function _MinchinWeb_ShipPathfinder_::GetPath()
+{
+//	Returns the path, as currently held by the pathfinder
+
+	if (this._mypath == null) {
+		AILog.Warning("MinchinWeb.ShipPathfinder.BuildBuoys() must be supplied with a valid path.");
+	} else {
+		return this._mypath;
+	}
+}
+	
+	

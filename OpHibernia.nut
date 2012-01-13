@@ -1,4 +1,4 @@
-﻿/*	Operation Hibernia v.1, r.197, [2012-01-07]
+﻿/*	Operation Hibernia v.1, r.200, [2012-01-12]
  *		part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -22,8 +22,8 @@
 
  class OpHibernia {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return 190; }
-	function GetDate()          { return "2012-01-05"; }
+	function GetRevision()		{ return 200; }
+	function GetDate()          { return "2012-01-12"; }
 	function GetName()          { return "Operation Hibernia"; }
 	
 	
@@ -424,15 +424,14 @@ function OpHibernia::Run() {
 									
 									//	Build Ship and give it orders
 									//	request funds for Ship
-									//	TO-DO: get ship cost directly
-									local CostShip;
-									{
+									local CostShip = AIEngine.GetPrice(PickedEngine);
+/*									{
 										local ex = AITestMode();
 										local ac = AIAccounting();
 										AIVehicle.BuildVehicle(Depot1, PickedEngine);
 										CostShip = ac.GetCosts();
 									}
-									
+*/									
 									//	TO-DO: Provide for retrofit costs
 									local KeepTrying4 = true;
 									local UnfilledCapacity = MaxCargo;
@@ -451,25 +450,30 @@ function OpHibernia::Run() {
 												FirstVehicle = MyVehicle;
 												//	start station; full load here
 												AIOrder.AppendOrder(MyVehicle, BuildPair[0], AIOrder.AIOF_FULL_LOAD);
+												Log.Note("Order: " + MyVehicle + " : " + Array.ToStringTiles1D([BuildPair[0]]) + ".", 5);
 												//	buoys
 												for (local i = 1; i < (SPFResults.len() - 1); i++) {
 													AIOrder.AppendOrder(MyVehicle, SPFResults[i], AIOrder.AIOF_NONE);
+													Log.Note("Order: " + MyVehicle + " : " + Array.ToStringTiles1D([SPFResults[i]]) + ".", 5);
 												}
 												//	end station
 												AIOrder.AppendOrder(MyVehicle, DockLocation, AIOrder.AIOF_NONE);
+												Log.Note("Order: " + MyVehicle + " : " + Array.ToStringTiles1D([DockLocation]) + ".", 5);
 												//	buoys, but backwards
 												for (local i = (SPFResults.len() - 1); i > 1; i--) {
 													AIOrder.AppendOrder(MyVehicle, SPFResults[i], AIOrder.AIOF_NONE);
+													Log.Note("Order: " + MyVehicle + " : " + Array.ToStringTiles1D([SPFResults[i]]) + ".", 5);
 												}
 												
 												// send it on it's merry way!!!
 												AIVehicle.StartStopVehicle(MyVehicle);
+												
 											} else {
 												AIOrder.ShareOrders(MyVehicle, FirstVehicle);
+												Log.Note("Order: Shared from " + FirstVehicle + " to " + MyVehicle + ".", 5);
+												AIVehicle.StartStopVehicle(MyVehicle);
 											}
 											
-											
-											//	PROBLEMS HERE!!
 											if (UnfilledCapacity < AIVehicle.GetCapacity(MyVehicle, CargoNo)) {
 												KeepTrying4 = false;
 											}
@@ -478,10 +482,7 @@ function OpHibernia::Run() {
 											KeepTrying4 = false;
 										}
 									}
-									
-									
-								
-								
+
 								} else {
 									Log.Note("No engine matches criteria.", 3);
 								}
@@ -489,10 +490,6 @@ function OpHibernia::Run() {
 							} else {
 								Log.Note("Ship Pathfinder returns negative. Took " + (WmDOT.GetTick() - tick2) + " ticks.",3);
 							}
-							
-							
-							
-							
 							///	Build one ship on path, and turn over to Ship Route Manager
 							
 							KeepTrying = false;

@@ -61,7 +61,7 @@ class _MinchinWeb_C_ {
 	//	These are constants called by the various sublibraries
 	function Infinity() 	{ return 10000; }	//	close enough to infinity :P
 												//	Slopes are capped at 10,000 and 1/10,000
-	function FloatOffset()	{ return 0.0005; }
+	function FloatOffset()	{ return 0.0005; }	//	= 1/2000
 	
 	function Pi() { return 3.1415926535897932384626433832795; }
 	function e() { return 2.7182818284590452353602874713527; }
@@ -70,6 +70,7 @@ class _MinchinWeb_C_ {
 											//		within a 4x4 box
 	function InvalidIndustry() { return 0xFFFF; }	//	number returned by OpenTTD for an invalid industry (65535)
 	function InvalidTile() { return 0xFFFFFF; } 	//	a number beyond the a valid TileIndex
+													//	valid (or invalid, if you prefer) for at least up to 2048x2048 maps
 	function BuoyOffset() { return 3; }				//	this is the assumed minimum desired spacing between bouys
 	function WaterDepotOffset() { return 4; }		//	this is the maximum desired spacing between docks and depots
 	

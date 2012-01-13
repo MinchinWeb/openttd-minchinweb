@@ -32,7 +32,16 @@
  *								but water between the two. If no existing buoy
  *								is found, one is built.
  *							- Returns the location of the existing or built bouy.
- *							- This will fail if the DockTile given is a dock (or
+ *							- This will fail if the Tile given is a dock (or
+ *								any tile that is not a water tile)
+ *						.BuildDepot(DockTile, Front)
+ *							- Attempts to build a (water) depot, but first checks 
+ *								the box within Constants.WaterDepotOffset() for
+ *								an existing depot, and makes sure there's nothing 
+ *								but water between the depot and dock. If no 
+ *								existing depot is found, one is built.
+ *							- Returns the location of the existing or built depot.
+ *							- This will fail if the DockTile given is a dock (or 
  *								any tile that is not a water tile)
  *
  *		See also MinchinWeb.ShipPathfinder
@@ -53,7 +62,7 @@ function _MinchinWeb_Marine_::DistanceShip(TileA, TileB)
 function _MinchinWeb_Marine_::GetPossibleDockTiles(IndustryID)
 {
 //	Given an industry (by IndustryID), searches for possible tiles to build a
-//		dock and retruns the list as an array of TileIndexs
+//		dock and returns the list as an array of TileIndexs
 
 //	Tiles given should be checked to ensure that the desired cargo is still
 //		accepted

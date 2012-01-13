@@ -50,6 +50,7 @@
 //		MinchinWeb.RoadPathfinder.BuildPath()						//	Build the path
 //		MinchinWeb.RoadPathfinder.GetPathLength()					//	How long is the path?
 //		MinchinWeb.RoadPathfinder.LoadPath(Path)					//	Provide your own path
+//		MinchinWeb.RoadPathfinder.GetPath()							//	Returns the path as stored by the pathfinder
 //		MinchinWeb.RoadPathfinder.InitializePathOnTowns(StartTown, EndTown)
 //			//	Initializes the pathfinder using the seed tiles to the given towns	
 //		MinchinWeb.RoadPathfinder.PathToTilePairs()
@@ -67,6 +68,7 @@
 //		- add pathfinder penalty for level crossings [ if(AITile.HasTransportType(new_tile, AITile.TRANSPORT_RAIL)) cost += 800; ]
 //		- add penalty for on-road stations [ if(AIRoad.IsDriveThroughRoadStationTile(new_tile)) cost += 1000; ]
 //		- do something about one-way roads - build a pair? route around? [ if(AIRoad.AreRoadTilesConnected(new_tile, prev_tile) && !AIRoad.AreRoadTilesConnected(prev_tile, new_tile)) ]
+//		- allow pre-building of tunnels and bridges
 
 class _MinchinWeb_RoadPathfinder_
 {
@@ -469,10 +471,10 @@ class _MinchinWeb_RoadPathfinder_.Info
 {
 	_main = null;
 	
-	function GetVersion()       { return 6; }
-	function GetMinorVersion()	{ return 0; }
-	function GetRevision()		{ return 79; }
-	function GetDate()          { return "2011-04-15"; }
+	function GetVersion()       { return 7; }
+//	function GetMinorVersion()	{ return 0; }
+	function GetRevision()		{ return 183; }
+	function GetDate()          { return "2012-01-01"; }
 	function GetName()          { return "Road Pathfinder (Wm)"; }
 	
 	constructor(main)
@@ -750,7 +752,7 @@ function _MinchinWeb_RoadPathfinder_::LoadPath (Path)
 
 function _MinchinWeb_RoadPathfinder_::GetPath()
 {
-//	Returns the path
+//	Returns the path stored by the pathfinder
 	if (this._running) {
 		AILog.Warning("You can't get the path while there's a running pathfinder.");
 		return false;
@@ -847,3 +849,4 @@ function _MinchinWeb_RoadPathfinder_::TilesPairsToBuild()
 	//	End build sequence
 	return TilePairs;
 }
+

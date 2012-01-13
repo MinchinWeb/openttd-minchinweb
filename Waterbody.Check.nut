@@ -25,7 +25,7 @@
  *									- Run the pathfinder; returns false if it
  *										isn't finished the path if it has
  *										finished, and null if it can't find a path
- *								 .WaterbodyCheck.cost.[xx]
+ *								 .WaterbodyCheck.Cost.[xx]
  *									- Allows you to set or find out the
  *										pathfinder costs directly.
  *								 .GetPathLength()

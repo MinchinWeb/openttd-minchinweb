@@ -1,12 +1,13 @@
 ﻿/*	LineWalker class v.1 r.139 [2011-10-22],
- *	part of Minchinweb's MetaLibrary v2,
- *	originally part of WmDOT v.7
+ *		part of Minchinweb's MetaLibrary v.2,
+ *		originally part of WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
 /*	The LineWalker class allows you to define a starting and endpoint, and then
- *		'walk' all the tiles between the two. It was originally part of my Ship
+ *		'walk' all the tiles between the two. Alternately, you can give a
+ *		starting point and a slope. It was originally part of my Ship
  *		Pathfinder, also part of Minchinweb's MetaLibrary.
  */
  
@@ -133,7 +134,7 @@ function _MinchinWeb_LW_::End(Tile)
 function _MinchinWeb_LW_::Slope(Slope, ThirdQuadrant = false)
 {
 //	Sets the slope for LineWalker
-//	Assumes that the slope is in the first or second quadrant until ThirdQuadrant == true
+//	Assumes that the slope is in the first or second quadrant unless ThirdQuadrant == true
 
 	if (_MinchinWeb_Extras_.AbsFloat(Slope) > _MinchinWeb_C_.Infinity()) {
 		AILog.Warning("Slope is capped at " + _MinchinWeb_C_.Infinity() + ", you provided " + Slope + ".");
@@ -176,7 +177,7 @@ function _MinchinWeb_LW_::Slope(Slope, ThirdQuadrant = false)
 
 function _MinchinWeb_LW_::Reset()
 {
-//	resets the variables for the Linewalker
+//	Resets the variables for the LineWalker
 	this._start = null;
 	this._end = null;
 	this._slope = null;
@@ -266,6 +267,6 @@ function _MinchinWeb_LW_::GetStart()
 
 function _MinchinWeb_LW_::GetEnd()
 {
-//	Returns the tile the LineWalker is starting on
+//	Returns the tile the LineWalker is ending on
 	return this._end;
 }

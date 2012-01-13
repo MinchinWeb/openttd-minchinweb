@@ -1,44 +1,11 @@
-﻿/*	Minchinweb's MetaLibrary v.2 r.193 [2012-01-05],  
+﻿/*	Minchinweb's MetaLibrary v.2 r.200 [2012-01-08],  
  *		originally part of, WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
-// import("util.SuperLib","SuperLib",19);
- 
-require("Pathfinder.Road.nut");
-// require("AyStar.WM.nut");
-require("Arrays.nut");
-// require("Fibonacci.Heap.WM.nut");
-require("Extras.nut");
-require("Waterbody.Check.nut");
-require("Pathfinder.Ship.nut");
-require("Line.Walker.nut");
-require("Spiral.Walker.nut");
-require("Atlas.nut");
-require("Marine.nut");
-
-class MinchinWeb {
-	function GetVersion()       { return 2; }
-	function GetRevision()		{ return 193; }
-	function GetDate()          { return "2012-01-05"; }
-	function GetName()          { return "MinchinWeb's MetaLibrary"; }
-
-	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
-	static ShipPathfinder = _MinchinWeb_ShipPathfinder_;	
-	static Array = _MinchinWeb_Array_;
-	static Extras = _MinchinWeb_Extras_;
-	static WaterbodyCheck = _MinchinWeb_WBC_;
-	static LineWalker = _MinchinWeb_LW_;
-	static SpiralWalker = _MinchinWeb_SW_;
-	static Constants = _MinchinWeb_C_;
-	static Atlas = _MinchinWeb_Atlas_;
-	static Marine = _MinchinWeb_Marine_;
-	static Industry = _MinchinWeb_Industry_;	// in Extras.nut
-	static Station = _MinchinWeb_Station_;		// in Extras.nut
-}
-
-
+/*	See the README for a list of the functions included in this library.
+ */
  
 /*	Q:	What is MinchinWeb's MetaLibrary?
  *	A:	MetaLib is the collection of code I've written for WmDOT, my AI for
@@ -84,3 +51,39 @@ class MinchinWeb {
  *		model, to all the NoAI team to their work on making the AI system work,
  *		and to everyone that has brought us the amazing game of OpenTTD.
  */
+ 
+require("Pathfinder.Road.nut");
+	//	Requires Graph.AyStar v6 library
+// require("AyStar.WM.nut");
+require("Arrays.nut");
+// require("Fibonacci.Heap.WM.nut");
+require("Extras.nut");
+require("Waterbody.Check.nut");
+require("Pathfinder.Ship.nut");
+require("Line.Walker.nut");
+require("Spiral.Walker.nut");
+require("Atlas.nut");
+require("Marine.nut");
+
+class MinchinWeb {
+	function GetVersion()       { return 2; }
+	function GetRevision()		{ return 200; }
+	function GetDate()          { return "2012-01-08"; }
+	function GetName()          { return "MinchinWeb's MetaLibrary"; }
+
+	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
+	static ShipPathfinder = _MinchinWeb_ShipPathfinder_;	
+	static Array = _MinchinWeb_Array_;
+	static Extras = _MinchinWeb_Extras_;
+	static WaterbodyCheck = _MinchinWeb_WBC_;
+	static LineWalker = _MinchinWeb_LW_;
+	static SpiralWalker = _MinchinWeb_SW_;
+	static Constants = _MinchinWeb_C_;			// in Extras.nut
+	static Atlas = _MinchinWeb_Atlas_;
+	static Marine = _MinchinWeb_Marine_;
+	static Industry = _MinchinWeb_Industry_;	// in Extras.nut
+	static Station = _MinchinWeb_Station_;		// in Extras.nut
+}
+
+//	TO-DO: Add license statement...
+ 

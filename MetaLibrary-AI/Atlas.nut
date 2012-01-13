@@ -6,8 +6,65 @@
  
 /*	The Atlas takes sources (departs) and attractions (destinations) and then
  *		generates a heap of pairs sorted by rating. Ratings can be generated
- *		based on distance alone or can alters by user defined ratings (e.g.
+ *		based on distance alone or can be altered by user defined ratings (e.g.
  *		industry productions or town populations).
+ */
+ 
+/*
+ *	Included functions:
+ 
+	Atlas()
+	Atlas.Reset()
+			- Resets the Atlas (dumps all entered data)
+		.AddSource(Source, Priority)
+			- Adds a source to the sources list with the given priority
+			- Assumes Source to be a TileIndex
+		.AddAttraction(Attraction, Priority)
+			- Adds an attraction to the attraction list with the given priority
+			- Assumes Source to be a TileIndex
+		.AddBoth(AddedTile, Priority)
+			- Adds a tile to the BOTH the sources list and the attractions
+				list with the (same) given priority
+		.RunModel()
+			- Takes the provided sources and destinations and runs the
+				selected traffic model, populating the 'pairs' heap
+		.Pop()
+			- Returns the top rated pair as an array and removes the pair from
+				the model
+		.Peek()
+			- Returns the top rated pair (as an array) but DOES NOT remove the
+				pair from the model
+		.Count()
+			- Returns the amount of items currently in the list.
+		.Exists
+			- Check if an item exists in the list. Returns true/false.
+		.SetModel(newmodel)
+			- Sets the model type to the provided type
+		.GetModel()
+			- Returns the current model type (as the enum)
+		.PrintModelType(ToPrint)
+			- given a ModelType, returns the string equivalent
+		.ApplyTrafficModel(StartTile, StartPriority, EndTile, EndPriority,
+				Model)
+			- Given the start and end points, applies the traffic model and
+				returns the weighting (Smaller weightings are considered better)
+			- This function is indepedant of the model/class, so is useful if
+				you want to apply the traffic model to a given set of points. It
+				is what is called internally to apply the model
+		.SetMaxDistance(distance = -1)
+			- Sets the maximum distance between sources and attractions to be
+				included in the model
+			- Negative values remove the limit
+		.SetMaxDistanceModel(newmodel)
+			- Sets the model type to the provided type
+			- Used to calculate the distance between the source and attraction
+				for applying maxdistance
+			- DISTANCE_NONE is invalid. Use MinchinWeb.Atlas.SetMaxDistance(-1)
+				instead.
+			- ONE_OVER_T_SQUARED is invalid.
+
+
+
  */
 
  
@@ -23,8 +80,8 @@ enum ModelType
  
 class _MinchinWeb_Atlas_ {
 	function GetVersion()       { return 1; }
-	function GetRevision()		{ return 186; }
-	function GetDate()          { return "2012-01-02"; }
+	function GetRevision()		{ return 187; }
+	function GetDate()          { return "2012-01-04"; }
 	function GetName()          { return "Atlas Library"; }
 
 	_heap_class = import("Queue.Binary_Heap", "", 1);
@@ -106,6 +163,7 @@ function _MinchinWeb_Atlas_::RunModel()
 function _MinchinWeb_Atlas_::Pop()
 {
 //	Returns the top rated pair as an array and removes the pair from the model
+
 //	If the two tiles returned are equal, pop another one
 	local KeepTrying = true;
 	local Test;

@@ -21,7 +21,7 @@
  *								 .Cost.[xx]
  *								 .FindPath(iterations)
  *								 .LandHo(TileA, TileB) - move to Marine
- *								 .WaterHo(TileA, TileB) - move to Marine
+ *								 .WaterHo(StartTile, Slope, ThirdQuadrant = false) - move to Marine
  *								 .GetPathLength()
  *								 .CountPathBuoys()
  *								 .BuildPathBuoys()
@@ -110,8 +110,8 @@ class _MinchinWeb_ShipPathfinder_.Info
 	
 	function GetVersion()       { return 2; }
 //	function GetMinorVersion()	{ return 0; }
-	function GetRevision()		{ return 193; }
-	function GetDate()          { return "2012-01-05"; }
+	function GetRevision()		{ return 198; }
+	function GetDate()          { return "2012-01-07"; }
 	function GetName()          { return "Ship Pathfinder (Wm)"; }
 	
 	constructor(main)

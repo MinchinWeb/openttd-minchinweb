@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.7, r.190, [2011-01-05]
+﻿/*	WmDOT v.8, r.207, [2011-01-14]
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -6,7 +6,7 @@
 // Replace "AIAbstractList" with "AIList" to ensure forward compatibilities
 // Does the Road.Pathfinder provided by the AI Team need to be updated?
 
-import("util.MinchinWeb", "MetaLib", 2);
+import("util.MinchinWeb", "MetaLib", 3);
 	RoadPathfinder <- MetaLib.RoadPathfinder;
 	Array <- MetaLib.Array;
 	Atlas <- MetaLib.Atlas;
@@ -29,10 +29,10 @@ require("OpHibernia.nut");			//	Operation Hibernia
  class WmDOT extends AIController 
 {
 	//	SETTINGS
-	WmDOTv = 7;
+	WmDOTv = 8;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 190;
+	WmDOTr = 207;
 	/*	Reversion number of AI
 	 */
 	 

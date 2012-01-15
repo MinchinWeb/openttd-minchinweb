@@ -62,9 +62,6 @@
 	TO-DO
 		- upgrade slow bridges along path
 		- convert level crossings (road/rail) to road bridge
-		- deal with diagonal rails (bridge over..)
-		- bridge over rivers (they start and end on flat tiles)
-			- the two above are done via a test in neighbours
 		- do something about one-way roads - build a pair? route around? [ if(AIRoad.AreRoadTilesConnected(new_tile, prev_tile) && !AIRoad.AreRoadTilesConnected(prev_tile, new_tile)) ]
 		- allow pre-building of tunnels and bridges
 */
@@ -169,7 +166,7 @@ class _MinchinWeb_RoadPathfinder_.Cost
 			case "bridge_per_tile":   this._main._cost_bridge_per_tile = val; break;
 			case "tunnel_per_tile":   this._main._cost_tunnel_per_tile = val; break;
 			case "coast":             this._main._cost_coast = val; break;
-			case "level_crossing"	  this._main._cost_level_crossing = val; break;
+			case "level_crossing":	  this._main._cost_level_crossing = val; break;
 			case "max_bridge_length": this._main._max_bridge_length = val; break;
 			case "max_tunnel_length": this._main._max_tunnel_length = val; break;
 			case "only_existing_roads":	this._main._cost_only_existing_roads = val; break;
@@ -364,6 +361,27 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 			} else if ((self._cost_only_existing_roads != true) && self._CheckTunnelBridge(cur_node, next_tile)) {
 				tiles.push([next_tile, self._GetDirection(cur_node, next_tile, false)]);
 			}
+			
+			//	Test for water (i.e. rivers or canals or rails to bridge over them
+			local iTile = cur_node + offset;
+			local BridgeLength = 2;
+			while (AITile.HasTransportType(iTile, AITile.TRANSPORT_RAIL) || AITile.IsWaterTile(iTile)) {
+				iTile += offset;
+				BridgeLength++;
+			}
+			
+			//	test to see if we could actaully build said bridge
+			//	TO-DO: Check to see if this test is done elsewhere...
+			
+			if (BridgeLength > 2) {
+			//	TO-DO: test for map wraparound... _SuperLib_Tile::IsStraight(tile1, tile2)
+				local BridgeList = AIBridgeList_Length(BridgeLength);
+				if ((BridgeList.Count()) > 0 && (AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), cur_node, iTile))) {
+//					AILog.Info("Adding Bridge-over tile: " + _MinchinWeb_Array_.ToStringTiles1D([cur_node]) + _MinchinWeb_Array_.ToStringTiles1D([iTile]) + " . " + (self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4));
+					tiles.push([iTile, self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4]);
+				}
+			}
+			
 		}
 		if (path.GetParent() != null) {
 			local bridges = self._GetTunnelsBridges(path.GetParent().GetTile(), cur_node, self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4);
@@ -397,6 +415,7 @@ function _MinchinWeb_RoadPathfinder_::_GetDirection(from, to, is_bridge)
  */
 function _MinchinWeb_RoadPathfinder_::_GetTunnelsBridges(last_node, cur_node, bridge_dir)
 {
+//	By rights, adding bridge over railroads and water should be added here
 	local slope = AITile.GetSlope(cur_node);
 	if (slope == AITile.SLOPE_FLAT) return [];
 	local tiles = [];
@@ -674,7 +693,7 @@ function _MinchinWeb_RoadPathfinder_::GetBuildCost()
 					//	if not a tunnel, we assume we're buildng a bridge
 						local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
 						BridgeList.Valuate(AIBridge.GetMaxSpeed);
-						BridgeList.Sort(AIAbstractList.SORT_BY_VALUE, false);
+						BridgeList.Sort(AIList.SORT_BY_VALUE, false);
 						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
 						//	At this point, an error has occured while building the bridge.
 						//	Fail the pathfiner
@@ -754,7 +773,7 @@ function _MinchinWeb_RoadPathfinder_::BuildPath()
 					//	if not a tunnel, we assume we're buildng a bridge
 						local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
 						BridgeList.Valuate(AIBridge.GetMaxSpeed);
-						BridgeList.Sort(AIAbstractList.SORT_BY_VALUE, false);
+						BridgeList.Sort(AIList.SORT_BY_VALUE, false);
 						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
 						//	At this point, an error has occured while building the bridge.
 						//	Fail the pathfiner

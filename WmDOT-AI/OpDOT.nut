@@ -1,4 +1,4 @@
-﻿/*	OperationDOT v.5, r.211, [2012-01-21],  
+﻿/*	OperationDOT v.5, r.212, [2012-01-21],  
  *		part of WmDOT v.8
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -21,15 +21,6 @@
 
 //	TO-DO
 //	- break into more steps (Modes) to allow breaking during pathfinding
-//	- add CleaupCrew() after each link connections to remove extra built roads
-//		- for each road connections pair:
-//				- check if it's connected, if so don't do anything (don't build)
-//					if not, build and add to 'built' heap with random priority
-//		- dump the path to 'Safe Route'
-//				- 'Safe Route' is replaced everythime a new path is built
-//		- after final route, Pop the 'built' heap: if the pair exists in 'Safe
-//			Route', keep it; otherwise destroy the connection
- 
  
 /*	AILog.Info("OpDOT settings: " + MyDOT.Settings.PrintTownAtlas + " " + MyDOT.Settings.MaxAtlasSize + " " + MyDOT.Settings.FloatOffset);
 	
@@ -43,7 +34,7 @@
 
  class OpDOT {
 	function GetVersion()       { return 5; }
-	function GetRevision()		{ return 211; }
+	function GetRevision()		{ return 212; }
 	function GetDate()          { return "2012-01-21"; }
 	function GetName()          { return "Operation DOT"; }
  
@@ -176,6 +167,15 @@ class OpDOT.State {
 			case "Cost":			return this._main._Cost; break;
 			default: throw("The index '" + idx + "' does not exist");
 		}
+	}
+	
+	function _set(idx, val)
+	{
+		switch (idx) {
+			case "NextRun":				this._main._NextRun = val; break;
+			default: throw("The index '" + idx + "' does not exist");
+		}
+		return val;
 	}
 	
 	constructor(main)
@@ -692,8 +692,8 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 	//	pathfinder settings
 	pathfinder.PresetCheckExisting()
 	
-	local iTown = AITile();
-	local jTown = AITile();
+//	local iTown = AITile();
+//	local jTown = AITile();
 	local RemovedCount = 0;
 	local ExaminedCount = 0;
 	
@@ -716,7 +716,7 @@ function OpDOT::RemoveExistingConnections(WmAtlas)
 					}
 				}
 				
-				Log.Note("Was trying to find path from " + iTown + " to " + jTown + ": " + path, 4)
+				Log.Note("Was trying to find path from" + Array.ToStringTiles1D([AITown.GetLocation(WmAtlas[i][0])]) + " to" + Array.ToStringTiles1D([AITown.GetLocation(WmAtlas[j-1][0])]) + ": " + path, 4)
 				
 				if (path != null) {
 					WmAtlas[i][j] = 0;

@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.8, r.207, [2011-01-14]
+﻿/*	WmDOT v.8, r.213, [2011-01-21]
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -32,7 +32,7 @@ require("OpHibernia.nut");			//	Operation Hibernia
 	WmDOTv = 8;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 207;
+	WmDOTr = 213;
 	/*	Reversion number of AI
 	 */
 	 
@@ -70,7 +70,7 @@ function WmDOT::Start()
 	
 	Log.Settings.DebugLevel = GetSetting("Debug_Level");
 	Log.Note("Loading Libraries...",0);		// Actually, by this point it's already happened
-
+	Log.Note("     " + MetaLib.GetName() + ", v." + MetaLib.GetVersion() + " r." + MetaLib.GetRevision() + "  loaded!", 0);
 	Log.Note("     " + Log.GetName() + ", v." + Log.GetVersion() + " r." + Log.GetRevision() + "  loaded!",0);
 	Log.Note("     " + Money.GetName() + ", v." + Money.GetVersion() + " r." + Money.GetRevision() + "  loaded!",0);
 	Log.Note("     " + DOT.GetName() + ", v." + DOT.GetVersion() + " r." + DOT.GetRevision() + "  loaded!",0);

@@ -39,6 +39,8 @@
  *							- Given a StartTile and a TowardsTile, will given
  *								the tile immediately next(Manhattan Distance == 1)
  *								to StartTile that is closests to TowardsTile
+ *						.GetOpenTTDRevision()
+ *							-Returns the revision number of the current build of OpenTTD
  *
  *	//	Comparision functions will return the first value if the two are equal
  *
@@ -283,6 +285,18 @@ function _MinchinWeb_Extras_::NextCardinalTile(StartTile, TowardsTile)
 	Tiles.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
 	
 	return Tiles.Begin();
+}
+
+function _MinchinWeb_Extras_::GetOpenTTDRevision()
+{
+//	Returns the revision number of the current build of OpenTTD
+
+//	See AILib.Common for more details on what is contained in the full returned
+//		version number
+
+	local Version = AIController.GetVersion();
+	local Revision = Version & 0x0007FFFF;
+	return Revision;
 }
 
 

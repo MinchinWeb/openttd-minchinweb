@@ -1,6 +1,6 @@
-﻿/*	Extra functions v.2 r.195 [2011-01-06],
- *		part of Minchinweb's MetaLibrary v.2,
- *		originally part of WmDOT v.7
+﻿/*	Extra functions v.3 r.218 [2011-01-21],
+ *		part of Minchinweb's MetaLibrary v.4,
+ *		originally part of WmDOT v.9
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */

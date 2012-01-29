@@ -1,14 +1,21 @@
-﻿/*	Logging Interface v.2, r.118, [2011-04-28]
- *		part of WmDOT v.5
- *	Copyright © 2011 by W. Minchin. For more info,
+﻿/*	Logging Interface v.3, r.221, [2012-01-28]
+*		part of MinchinWeb's MetaLibrary v.4,
+ *		originally part of WmDOT v.5
+ *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
+/* Add this you the  Info.nut  file of your AI:
+	
+AddSetting({name = "Debug_Level", description = "Debug Level ", min_value = 0, max_value = 7, easy_value = 3, medium_value = 3, hard_value = 3, custom_value = 3, flags = CONFIG_INGAME});
 
- class OpLog {
+ */
+
+
+ class _MinchinWeb_Log_ {
 	function GetVersion()       { return 3; }
-	function GetRevision()		{ return 118; }
-	function GetDate()          { return "2011-04-28"; }
+	function GetRevision()		{ return 221; }
+	function GetDate()          { return "2012-01-28"; }
 	function GetName()          { return "Logging Interface"; }
  
 	_DebugLevel = null;
@@ -19,18 +26,23 @@
 	//	3 - substep
 	//	4 - most verbose (including arrays)
 	//	5 - including signs (generally nothing more to the debug screen)
+	//	  - library (basic)
+	//	6 - library (verbose)
+	//  7 - library (signs)
 	//
 	//	Every level beyond 1 is indented 5 spaces per higher level
 	 
 	constructor()
 	{
-		this._DebugLevel = 1;
+//		this._DebugLevel = 1;
+//		_MinchinWeb_Log_.UpdateDebugLevel();
 	
-		this.Settings = this.Settings(this);
+//		this.Settings = this.Settings(this);
 	}
 };
 
-class OpLog.Settings {
+/*
+class _MinchinWeb_Log_.Settings {
 
 	_main = null;
 	
@@ -56,11 +68,13 @@ class OpLog.Settings {
 		this._main = main;
 	}
  };
+ */
  
+
   
-function OpLog::Note(Message, Level=3) {
+function _MinchinWeb_Log_::Note(Message, Level=3) {
 //	Displays the message if the Debug level is set high enough
-	if (Level <= this._DebugLevel) {
+	if (Level <=  _MinchinWeb_Log_.UpdateDebugLevel() ) {
 		local i = 1;
 		while (i < Level) {
 			Message = "     " + Message;
@@ -70,14 +84,30 @@ function OpLog::Note(Message, Level=3) {
 	}
  }
  
- function OpLog::Warning(Message) {
+ function _MinchinWeb_Log_::Warning(Message) {
 	AILog.Warning(Message);
  }
  
- function OpLog::Error(Message) {
+ function _MinchinWeb_Log_::Error(Message) {
 	AILog.Error(Message);
  }
  
-function OpLog::PrintDebugLevel() {
+function _MinchinWeb_Log_::Sign(Tile, Message, Level = 5)
+{
+	if (Level <= _MinchinWeb_Log_.UpdateDebugLevel() ) {
+		AISign.BuildSign(Tile, Message);
+	}
+}
+ 
+function _MinchinWeb_Log_::PrintDebugLevel() {
 	AILog.Info("OpLog is running at level " + this._DebugLevel + ".");
  }
+ 
+function _MinchinWeb_Log_::UpdateDebugLevel() {
+//	Looks for an AI setting for Debug Level, and set the debug level to that
+	local DebugLevel = 3;
+	if (AIController.GetSetting("Debug_Level") != -1) {
+		DebugLevel = AIController.GetSetting("Debug_Level");
+	}
+	return DebugLevel;
+}

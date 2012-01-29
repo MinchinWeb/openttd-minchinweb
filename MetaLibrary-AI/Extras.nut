@@ -1,4 +1,4 @@
-﻿/*	Extra functions v.3 r.218 [2011-01-21],
+﻿/*	Extra functions v.3 r.221 [2011-01-28],
  *		part of Minchinweb's MetaLibrary v.4,
  *		originally part of WmDOT v.9
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -169,9 +169,9 @@ function _MinchinWeb_Extras_::WithinFloat(Bound1, Bound2, Value)
 {
 	local UpperBound = _MinchinWeb_Extras_.MaxFloat(Bound1, Bound2) + _MinchinWeb_C_.FloatOffset();
 	local LowerBound = _MinchinWeb_Extras_.MinFloat(Bound1, Bound2) - _MinchinWeb_C_.FloatOffset();
-//	local Value = Value.tofloat();
+	local Value = Value.tofloat();
 	
-//	AILog.Info("          Extras.WithinFloat: Val=" + Value + " B1=" + Bound1 + " B2=" + Bound2 + " : UB=" + UpperBound + " LB=" + LowerBound + " is " + (Value <= UpperBound) + " " + (Value >= LowerBound) + " : " + ((Value <= UpperBound) && (Value >= LowerBound)) + " : above " + (Value - UpperBound) + " below " + (LowerBound - Value) + " : " + _MinchinWeb_C_.FloatOffset() );
+	_MinchinWeb_Log_.Note("          Extras.WithinFloat: Val=" + Value + " B1=" + Bound1 + " B2=" + Bound2 + " : UB=" + UpperBound + " LB=" + LowerBound + " is " + (Value <= UpperBound) + " " + (Value >= LowerBound) + " : " + ((Value <= UpperBound) && (Value >= LowerBound)) + " : above " + (Value - UpperBound) + " below " + (LowerBound - Value) + " : " + _MinchinWeb_C_.FloatOffset() , 7);
 
 	return ((Value <= UpperBound) && (Value >= LowerBound));
 }
@@ -346,7 +346,7 @@ function _MinchinWeb_Station_::IsCargoAccepted(StationID, CargoID)
 		return null;
 	} else {
 		local AllCargos = AICargoList_StationAccepting(StationID);
-//		AILog.Info("MinchinWeb.Station.IsCargoAccepted() was provided with " + StationID + " and " + CargoID + ". AllCargos: " + AllCargos.Count());
+		_MinchinWeb_Log_.Note("MinchinWeb.Station.IsCargoAccepted() was provided with " + StationID + " and " + CargoID + ". AllCargos: " + AllCargos.Count(), 6);
 		if (AllCargos.HasItem(CargoID)) {
 			return true;
 		} else {

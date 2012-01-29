@@ -1,5 +1,5 @@
-﻿/*	Ship and Marine functions v.1 r.195 [2012-01-06],
- *		part of Minchinweb's MetaLibrary v.2,
+﻿/*	Ship and Marine functions v.1 r.221 [2012-01-28],
+ *		part of Minchinweb's MetaLibrary v.4,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -83,13 +83,13 @@ function _MinchinWeb_Marine_::GetPossibleDockTiles(IndustryID)
 			local EndX = AIMap.GetTileX(BaseLocation) + _MinchinWeb_C_.IndustrySize() + AIStation.GetCoverageRadius(AIStation.STATION_DOCK);
 			local EndY = AIMap.GetTileY(BaseLocation) + _MinchinWeb_C_.IndustrySize() + AIStation.GetCoverageRadius(AIStation.STATION_DOCK);
 			
-//			AISign.BuildSign(BaseLocation, "Base");
-//			AISign.BuildSign(AIMap.GetTileIndex(StartX,StartY),"Corner Start");
-//			AISign.BuildSign(AIMap.GetTileIndex(EndX,EndY),"Corner End");
+			_MinchinWeb_Log_.Sign(BaseLocation, "Base", 7);
+			_MinchinWeb_Log_.Sign(AIMap.GetTileIndex(StartX,StartY),"Corner Start", 7);
+			_MinchinWeb_Log_.Sign(AIMap.GetTileIndex(EndX,EndY),"Corner End", 7);
 			
 			for (local i = StartX; i < EndX; i++) {
 				for (local j = StartY; j < EndY; j++) {
-//					AILog.Info("i, j = " + i + ", " + j + " : " + Tiles.len());
+					_MinchinWeb_Log_.Note("i, j = " + i + ", " + j + " : " + Tiles.len(), 7);
 					local ex = AITestMode();
 					if (AIMarine.BuildDock(AIMap.GetTileIndex(i,j), AIStation.STATION_NEW) == true) {
 						Tiles.push(AIMap.GetTileIndex(i,j));
@@ -97,7 +97,7 @@ function _MinchinWeb_Marine_::GetPossibleDockTiles(IndustryID)
 				}
 			}		
 		}
-//		AILog.Info("MinchinWeb.Marine.GetPossibleDockTiles()  " + _MinchinWeb_Array_.ToStringTiles1D(Tiles, true));
+		_MinchinWeb_Log_.Note("MinchinWeb.Marine.GetPossibleDockTiles()  " + _MinchinWeb_Array_.ToStringTiles1D(Tiles, true), 6);
 		return Tiles;
 	} else {
 		AILog.Warning("MinchinWeb.Marine.GetPossibleDockTiles() was supplied with an invalid IndustryID. Was supplied " + IndustryID + ".");
@@ -191,7 +191,7 @@ function _MinchinWeb_Marine_::BuildBuoy(Tile)
 		for (local j = StartY; j < EndY; j++) {
 			if (AIMarine.IsBuoyTile(AIMap.GetTileIndex(i,j))) {
 				Existing.AddItem(AIMap.GetTileIndex(i,j), AIMap.DistanceManhattan(Tile, AIMap.GetTileIndex(i,j)));
-//				AILog.Info("BuildBuoy() : Insert Existing at" + _MinchinWeb_Array_.ToStringTiles1D([AIMap.GetTileIndex(i,j)]));
+				_MinchinWeb_Log_.Note("BuildBuoy() : Insert Existing at" + _MinchinWeb_Array_.ToStringTiles1D([AIMap.GetTileIndex(i,j)]), 7);
 			}
 		}
 	}
@@ -249,7 +249,7 @@ function _MinchinWeb_Marine_::BuildDepot(DockTile, Front)
 		for (local j = StartY; j < EndY; j++) {
 			if (AIMarine.IsWaterDepotTile(AIMap.GetTileIndex(i,j))) {
 				Existing.AddItem(AIMap.GetTileIndex(i,j), AIMap.DistanceManhattan(DockTile, AIMap.GetTileIndex(i,j)));
-//				AILog.Info("BuildDepot() : Insert Existing at" + _MinchinWeb_Array_.ToStringTiles1D([AIMap.GetTileIndex(i,j)]));
+				_MinchinWeb_Log_.Note("BuildDepot() : Insert Existing at" + _MinchinWeb_Array_.ToStringTiles1D([AIMap.GetTileIndex(i,j)]), 6);
 			}
 		}
 	}
@@ -289,7 +289,7 @@ function _MinchinWeb_Marine_::BuildDepot(DockTile, Front)
 				for (local j = StartY; j < EndY; j++) {
 					if (AITile.IsWaterTile(AIMap.GetTileIndex(i,j))) {
 						Existing.AddItem(AIMap.GetTileIndex(i,j), AIBase.Rand());
-//						AILog.Info("BuildDepot() : Insert WaterTile at" + _MinchinWeb_Array_.ToStringTiles1D([AIMap.GetTileIndex(i,j)]));
+						_MinchinWeb_Log_.Note("BuildDepot() : Insert WaterTile at" + _MinchinWeb_Array_.ToStringTiles1D([AIMap.GetTileIndex(i,j)]), 7);
 					}
 				}
 			}
@@ -302,7 +302,7 @@ function _MinchinWeb_Marine_::BuildDepot(DockTile, Front)
 				WBC.InitializePath([TestDepot], [DockTile]);
 				WBC.PresetSafety(TestDepot, DockTile);
 				local WBCResults = WBC.FindPath(-1);
-//				AILog.Info("BuildDepot() : WBC on" + _MinchinWeb_Array_.ToStringTiles1D([TestDepot, DockTile]) + " returned " + WBCResults);
+				_MinchinWeb_Log_.Note("BuildDepot() : WBC on" + _MinchinWeb_Array_.ToStringTiles1D([TestDepot, DockTile]) + " returned " + WBCResults, 7);
 				if (WBCResults != null) {
 					local Front2 = _MinchinWeb_Extras_.NextCardinalTile(TestDepot, DockTile);
 					if (AIMarine.BuildWaterDepot(TestDepot, Front2))

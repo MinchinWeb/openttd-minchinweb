@@ -377,7 +377,7 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 			//	TO-DO: test for map wraparound... _SuperLib_Tile::IsStraight(tile1, tile2)
 				local BridgeList = AIBridgeList_Length(BridgeLength);
 				if ((BridgeList.Count()) > 0 && (AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), cur_node, iTile))) {
-					_MinchinWeb_Log_.Note("Adding Bridge-over tile: " + _MinchinWeb_Array_.ToStringTiles1D([cur_node]) + _MinchinWeb_Array_.ToStringTiles1D([iTile]) + " . " + (self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4), 7);
+//					_MinchinWeb_Log_.Note("Adding Bridge-over tile: " + _MinchinWeb_Array_.ToStringTiles1D([cur_node]) + _MinchinWeb_Array_.ToStringTiles1D([iTile]) + " . " + (self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4), 7);
 					tiles.push([iTile, self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4]);
 				}
 			}

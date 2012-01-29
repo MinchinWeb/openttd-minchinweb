@@ -1,4 +1,4 @@
-﻿/*	Ship and Marine functions v.1 r.221 [2012-01-28],
+﻿/*	Ship and Marine functions v.2 r.224 [2012-01-28],
  *		part of Minchinweb's MetaLibrary v.4,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -75,27 +75,15 @@ function _MinchinWeb_Marine_::GetPossibleDockTiles(IndustryID)
 		if (AIIndustry.HasDock(IndustryID) == true) {
 			return [AIIndustry.GetDockLocation(IndustryID)];
 		} else {
-		//	If not, build a box and then test all the tiles to see if a dock can
-		//		be built there
-			local BaseLocation = AIIndustry.GetLocation(IndustryID);
-			local StartX = AIMap.GetTileX(BaseLocation) - AIStation.GetCoverageRadius(AIStation.STATION_DOCK);
-			local StartY = AIMap.GetTileY(BaseLocation) - AIStation.GetCoverageRadius(AIStation.STATION_DOCK);
-			local EndX = AIMap.GetTileX(BaseLocation) + _MinchinWeb_C_.IndustrySize() + AIStation.GetCoverageRadius(AIStation.STATION_DOCK);
-			local EndY = AIMap.GetTileY(BaseLocation) + _MinchinWeb_C_.IndustrySize() + AIStation.GetCoverageRadius(AIStation.STATION_DOCK);
+			local ex = AITestMode();
+			local Walker = _MinchinWeb_SW_();	//	Spiral Walker
+			Walker.Start(AIIndustry.GetLocation(IndustryID));
 			
-			_MinchinWeb_Log_.Sign(BaseLocation, "Base", 7);
-			_MinchinWeb_Log_.Sign(AIMap.GetTileIndex(StartX,StartY),"Corner Start", 7);
-			_MinchinWeb_Log_.Sign(AIMap.GetTileIndex(EndX,EndY),"Corner End", 7);
-			
-			for (local i = StartX; i < EndX; i++) {
-				for (local j = StartY; j < EndY; j++) {
-					_MinchinWeb_Log_.Note("i, j = " + i + ", " + j + " : " + Tiles.len(), 7);
-					local ex = AITestMode();
-					if (AIMarine.BuildDock(AIMap.GetTileIndex(i,j), AIStation.STATION_NEW) == true) {
-						Tiles.push(AIMap.GetTileIndex(i,j));
-					}
+			while (Walker.GetStage() <= ((_MinchinWeb_C_.IndustrySize() + AIStation.GetCoverageRadius(AIStation.STATION_DOCK)) * 4)) {
+				if (AIMarine.BuildDock(Walker.Walk(), AIStation.STATION_NEW) == true) {
+					Tiles.push(Walker.GetTile());
 				}
-			}		
+			}
 		}
 		_MinchinWeb_Log_.Note("MinchinWeb.Marine.GetPossibleDockTiles()  " + _MinchinWeb_Array_.ToStringTiles1D(Tiles, true), 6);
 		return Tiles;
@@ -179,15 +167,25 @@ function _MinchinWeb_Marine_::BuildBuoy(Tile)
 
 //	Returns the location of the existing or built bouy.
 
-	local StartX = AIMap.GetTileX(Tile) - _MinchinWeb_C_.BuoyOffset();
+/*	local StartX = AIMap.GetTileX(Tile) - _MinchinWeb_C_.BuoyOffset();
 	local StartY = AIMap.GetTileY(Tile) - _MinchinWeb_C_.BuoyOffset();
 	local EndX = AIMap.GetTileX(Tile) + _MinchinWeb_C_.BuoyOffset();
 	local EndY = AIMap.GetTileY(Tile) + _MinchinWeb_C_.BuoyOffset();
-	
+*/	
 	local Existing = AITileList();
 	local UseExistingAt = null;
 	
-	for (local i = StartX; i < EndX; i++) {
+	local Walker = _MinchinWeb_SW_();	//	Spiral Walker
+	Walker.Start(Tile);
+	
+	while (Walker.GetStage() <= (_MinchinWeb_C_.BuoyOffset() * 4)) {
+		if (AIMarine.IsBuoyTile(Walker.Walk())) {
+			Existing.AddItem(Walker.GetTile(), AIMap.DistanceManhattan(Tile, Walker.GetTile()));
+			_MinchinWeb_Log_.Note("BuildBuoy() : Insert Existing at" + _MinchinWeb_Array_.ToStringTiles1D([Walker.GetTile()]), 7);
+		}
+	}
+	
+/*	for (local i = StartX; i < EndX; i++) {
 		for (local j = StartY; j < EndY; j++) {
 			if (AIMarine.IsBuoyTile(AIMap.GetTileIndex(i,j))) {
 				Existing.AddItem(AIMap.GetTileIndex(i,j), AIMap.DistanceManhattan(Tile, AIMap.GetTileIndex(i,j)));
@@ -195,7 +193,7 @@ function _MinchinWeb_Marine_::BuildBuoy(Tile)
 			}
 		}
 	}
-	
+*/	
 	if (Existing.Count() > 0) {
 		Existing.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
 		local TestBuoy = Existing.Begin();

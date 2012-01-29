@@ -1,4 +1,4 @@
-﻿/*	SpiralWalker class v.2 r.221 [2012-01-28],
+﻿/*	SpiralWalker class v.3 r.223 [2012-01-28],
  *		part of Minchinweb's MetaLibrary v.4,
  *		originally part of WmDOT v.5
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -20,10 +20,6 @@
  *							.GetStart()
  *							.GetStage()
  *							.GetStep() 
- */
- 
-/*	Known Issues:
- *	- SpiralWalker skips the tile [+1,0] relative to ths starting tile
  */
  
 class _MinchinWeb_SW_ {
@@ -140,7 +136,7 @@ function _MinchinWeb_SW_::Walk()
 	}
 	_MinchinWeb_Log_.Note("     SpiralWalker.Walk: " + this._dx + " " + this._dy + " : " + this._Steps + " " + this._Stage + " " + this._StageSteps + " " + this._StageMax + " :: " + this._x + ", " + this._y, 7);
 	this._current_tile = AIMap.GetTileIndex(this._x, this._y);
-	AISign.BuildSign(this._current_tile, "" + this._Steps);
+//	AISign.BuildSign(this._current_tile, "" + this._Steps);
 	return this._current_tile;
 }
 

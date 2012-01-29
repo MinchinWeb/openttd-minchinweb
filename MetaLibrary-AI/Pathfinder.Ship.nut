@@ -159,6 +159,7 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 {
 //	Waterbody Check
 	if (this._first_run == true) {
+		_MinchinWeb_Log_.Note("Ship Pathfinder running WaterBody Check... (at tick " + AIController.GetTick() + ")", 6);
 		local WBC;
 		if (this._first_run2 == true) {
 			WBC = this._WBC_class();
@@ -173,14 +174,15 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 		}
 		if (iterations != -1) { return false; }
 	}
+	_MinchinWeb_Log_.Note("Starting Ship Pathfinder (at tick " + AIController.GetTick() + ")", 7);
 	
 	if (iterations == -1) {iterations = _MinchinWeb_C_.Infinity() }	//  = 10000; close enough to infinity but able to avoid infinite loops?
 	for (local j = 0; j < iterations; j++) {
-		_MinchinWeb_Log_.Note("UnfinishedPaths count " + this._UnfinishedPaths.Count() + " : " + j + " of " + iterations + " iterations.", 7);
+		_MinchinWeb_Log_.Note("UnfinishedPaths count " + this._UnfinishedPaths.Count() + " : " + j + " of " + iterations + " iterations.", 6);
 		//	Pop the shortest path from the UnfinishedPath Heap
 		local WorkingPath = this._UnfinishedPaths.Pop();	//	WorkingPath is the Index to the path in question
 		_MinchinWeb_Log_.Note("     UnfinishedPath count after Pop... " + this._UnfinishedPaths.Count(), 7);
-		_MinchinWeb_Log_.Note("     Path " + WorkingPath + " popped: " + _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath), 7);
+		_MinchinWeb_Log_.Note("     Path " + WorkingPath + " popped: " + _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath), 6);
 		local ReturnWP = false;
 		//	Walk the path segment by segment until we hit land
 		for (local i = 0; i < (this._paths[WorkingPath].len() - 1); i++) {
@@ -214,7 +216,7 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 						this._paths[WorkingPath] = WPPointsZ;
 						this._UnfinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
 						_MinchinWeb_Log_.Note("          Midpoint on Water...", 7);
-						_MinchinWeb_Log_.Note("     Inserting Path #" + WorkingPath + " : " +  _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath), 7);
+						_MinchinWeb_Log_.Note("     Inserting Path #" + WorkingPath + " : " +  _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath), 6);
 					} else {
 						local NewPoint1 = WaterHo(MidPoint, m, false);
 						local NewPoint2 = WaterHo(MidPoint, m, true);
@@ -235,9 +237,9 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 							//		twice in a row...
 							if ( ((i+2) < WPPoints1.len()) && (WPPoints1[i+1] == WPPoints1[i+2]) ) {
 								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+1);
-								_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints1[i+1] + " i=" + i, 7);
+								_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints1[i+1] + " i=" + i, 6);
 							} else {
-								_MinchinWeb_Log_.Note("          Point Kept " + WPPoints1[i+1] + " " + WPPoints1[i+2] +  " i=" + i, 7);
+								_MinchinWeb_Log_.Note("          Point Kept " + WPPoints1[i+1] + " " + WPPoints1[i+2] +  " i=" + i, 6);
 							}
 							if ( ((i-1) > 0) && (LandHo(this._points[WPPoints1[i-1]], this._points[WPPoints1[i+1]])[0] == -1)) {
 								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i);
@@ -245,15 +247,15 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 							}
 							if ( (i > 0) && (WPPoints1[i+1] == WPPoints1[i]) ) {
 								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+1);
-								_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints1[i+1] + " i=" + i, 7);
+								_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints1[i+1] + " i=" + i, 6);
 							} else {
-								_MinchinWeb_Log_.Note("          Point Kept " + WPPoints1[i] + " " + WPPoints1[i+1] +  " i=" + i, 7);
+								_MinchinWeb_Log_.Note("          Point Kept " + WPPoints1[i] + " " + WPPoints1[i+1] +  " i=" + i, 6);
 							}
 							//	Put both paths back into the UnfinishedPath heap
 							//		(assuming we haven't been down this path before...)
 							if (_MinchinWeb_Array_.ContainedIn1DIn2D(this._testedpaths, WPPoints1) != true) {
 								this._paths[WorkingPath] = WPPoints1;
-								_MinchinWeb_Log_.Note("     Inserting Path #" + WorkingPath + " : " +  _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath), 7);
+								_MinchinWeb_Log_.Note("     Inserting Path #" + WorkingPath + " : " +  _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath), 6);
 								this._UnfinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
 							}
 						}
@@ -267,9 +269,9 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 							}
 							if ( ((i+2) < WPPoints2.len()) && (WPPoints2[i+1] == WPPoints2[i+2]) ) {
 								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+1);
-								_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints2[i+1] + " i=" + i, 7);
+								_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints2[i+1] + " i=" + i, 6);
 							} else {
-								_MinchinWeb_Log_.Note("          Point Kept " + WPPoints2[i+1] + " " + WPPoints2[i+2] +  " i=" + i, 7);
+								_MinchinWeb_Log_.Note("          Point Kept " + WPPoints2[i+1] + " " + WPPoints2[i+2] +  " i=" + i, 6);
 							}
 							if ( ((i-1) > 0) && (LandHo(this._points[WPPoints2[i-1]], this._points[WPPoints2[i+1]])[0] == -1)) {
 								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i);	
@@ -277,15 +279,15 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 							}
 							if ( (i > 0) && (WPPoints2[i+1] == WPPoints2[i]) ) {
 								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+1);
-								_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints2[i+1] + " i=" + i, 7);
+								_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints2[i+1] + " i=" + i, 6);
 							} else {
-								_MinchinWeb_Log_.Note("          Point Kept " + WPPoints2[i] + " " + WPPoints2[i+1] +  " i=" + i, 7);
+								_MinchinWeb_Log_.Note("          Point Kept " + WPPoints2[i] + " " + WPPoints2[i+1] +  " i=" + i, 6);
 							}
 							//	Put the paths into the UnfinishedPath heap
 							//		(assuming we haven't been down this path before...)
 							if (_MinchinWeb_Array_.ContainedIn1DIn2D(this._testedpaths, WPPoints2) != true) {
 								this._paths.push(WPPoints2);
-								_MinchinWeb_Log_.Note("     Inserting Path #" + (this._paths.len() - 1) + " : " +  _MinchinWeb_Array_.ToString1D(WPPoints2) + " l=" + _PathLength(this._paths.len() - 1), 7);
+								_MinchinWeb_Log_.Note("     Inserting Path #" + (this._paths.len() - 1) + " : " +  _MinchinWeb_Array_.ToString1D(WPPoints2) + " l=" + _PathLength(this._paths.len() - 1), 5);
 								this._UnfinishedPaths.Insert(this._paths.len() - 1, _PathLength(this._paths.len() - 1));
 							}
 						}
@@ -294,23 +296,23 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 				i = this._paths[WorkingPath].len();	//	Exits us from the for... loop
 			} else if (i == (this._paths[WorkingPath].len() - 2)){
 			//	If we don't hit land, add the path to the FinishedPaths heap
-				_MinchinWeb_Log_.Note("Inserting Finished Path " + WorkingPath + " l=" + _PathLength(WorkingPath), 7);
+				_MinchinWeb_Log_.Note("Inserting Finished Path " + WorkingPath + " l=" + _PathLength(WorkingPath), 5);
 				this._FinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
 			}	
 		}		// END  for (local i = 0; i < (this._paths[WorkingPath].len() - 1); i++)
 		
 		if (ReturnWP == true) {
 		//	If everything was water...
-			_MinchinWeb_Log_.Note("     Inserting Path #" + WorkingPath + " (all water) on ReturnWP; l=" + _PathLength(WorkingPath), 7);
+			_MinchinWeb_Log_.Note("     Inserting Path #" + WorkingPath + " (all water) on ReturnWP; l=" + _PathLength(WorkingPath), 5);
 			this._UnfinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
 		}
 		
 		if (this._UnfinishedPaths.Count() == 0) {
-			_MinchinWeb_Log_.Note("Unfinsihed count: " + this._UnfinishedPaths.Count() + " finished: " + this._FinishedPaths.Count(), 7);
+			_MinchinWeb_Log_.Note("Unfinsihed count: " + this._UnfinishedPaths.Count() + " finished: " + this._FinishedPaths.Count(), 6);
 			if (this._FinishedPaths.Count() !=0) {
 				this._running = false;
 				this._mypath = _PathToTilesArray(this._FinishedPaths.Peek());
-				_MinchinWeb_Log_.Note("My Path is " + _MinchinWeb_Array_.ToString1D(this._mypath), 7);
+				_MinchinWeb_Log_.Note("My Path is " + _MinchinWeb_Array_.ToString1D(this._mypath), 5);
 				return this._mypath;
 			} else {
 				//	If the UnfinishedPath heap is empty, fail the pathfinder
@@ -324,7 +326,7 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 				if (this._PathLength(this._FinishedPaths.Peek()) < this._PathLength(this._UnfinishedPaths.Peek()))  {
 					this._running = false;
 					this._mypath = _PathToTilesArray(this._FinishedPaths.Peek());
-					_MinchinWeb_Log_.Note("My Path is " + _MinchinWeb_Array_.ToString1D(this._mypath), 7);
+					_MinchinWeb_Log_.Note("My Path is " + _MinchinWeb_Array_.ToString1D(this._mypath), 5);
 					return this._mypath;
 				}
 			}

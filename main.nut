@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.9, r.221, [2011-01-28]
+﻿/*	WmDOT v.9, r.225, [2011-01-28]
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -31,7 +31,7 @@ require("OpHibernia.nut");			//	Operation Hibernia
 	WmDOTv = 9;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 221;
+	WmDOTr = 225;
 	/*	Reversion number of AI
 	 */
 	 
@@ -64,7 +64,8 @@ function WmDOT::Start()
 	
 //	AILog.Info("Welcome to WmDOT, version " + GetVersion() + ", revision " + WmDOTr + " by " + GetAuthor() + ".");
 	Log.Note("Welcome to WmDOT, version " + WmDOTv + ", revision " + WmDOTr + " by W. Minchin.", 0);
-	Log.Note("Copyright © 2011-12 by W. Minchin. For more info, please visit http://www.tt-forums.net/viewtopic.php?f=65&t=53698", 0)
+	Log.Note("               Copyright © 2011-12 by W. Minchin.", 0);
+	Log.Note("     For more info, please visit http://www.tt-forums.net/viewtopic.php?f=65&t=53698", 0)
 	Log.Note(" ", 0);
 	
 	Log.Note("Loading Libraries...",0);		// Actually, by this point it's already happened

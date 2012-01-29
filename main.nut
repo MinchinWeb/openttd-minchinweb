@@ -1,9 +1,9 @@
-/*	WmBasic v.1  r.104
+/*	WmBasic v.1  r.224
  *	Created by W. Minchin
  */
  
-import("util.MinchinWeb", "MetaLib", 2);
-import("util.SuperLib", "SuperLib", 7);
+import("util.MinchinWeb", "MetaLib", 4);
+import("util.SuperLib", "SuperLib", 19);
  
 class WmShipPFTest extends AIController 
 {
@@ -11,7 +11,7 @@ class WmShipPFTest extends AIController
 	WmBasicv = 1;
 	/*	Version number of AI
 	 */	
-	WmBasicr = 104;
+	WmBasicr = 224;
 	/*	Reversion number of AI
 	 */
 	 
@@ -27,7 +27,7 @@ class WmShipPFTest extends AIController
 function WmShipPFTest::Start()
 {
 	AILog.Info("Welcome to WmBasic, version " + WmBasicv + ", revision " + WmBasicr + " by W. Minchin.");
-	AILog.Info("Copyright © 2011 by W. Minchin. For more info, please visit http://blog.minchin.ca")
+	AILog.Info("Copyright © 2011-12 by W. Minchin. For more info, please visit http://blog.minchin.ca")
 	AILog.Info(" ");
 	AILog.Info("This AI is to test the Ship Pathfinder in MinchinWeb's MetaLibrary. To perform the test,");
 	AILog.Info("switch to the AI Company (use the cheat command) and place a 'Start' and 'End' sign. Place");

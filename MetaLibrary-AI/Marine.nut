@@ -167,11 +167,6 @@ function _MinchinWeb_Marine_::BuildBuoy(Tile)
 
 //	Returns the location of the existing or built bouy.
 
-/*	local StartX = AIMap.GetTileX(Tile) - _MinchinWeb_C_.BuoyOffset();
-	local StartY = AIMap.GetTileY(Tile) - _MinchinWeb_C_.BuoyOffset();
-	local EndX = AIMap.GetTileX(Tile) + _MinchinWeb_C_.BuoyOffset();
-	local EndY = AIMap.GetTileY(Tile) + _MinchinWeb_C_.BuoyOffset();
-*/	
 	local Existing = AITileList();
 	local UseExistingAt = null;
 	
@@ -185,15 +180,6 @@ function _MinchinWeb_Marine_::BuildBuoy(Tile)
 		}
 	}
 	
-/*	for (local i = StartX; i < EndX; i++) {
-		for (local j = StartY; j < EndY; j++) {
-			if (AIMarine.IsBuoyTile(AIMap.GetTileIndex(i,j))) {
-				Existing.AddItem(AIMap.GetTileIndex(i,j), AIMap.DistanceManhattan(Tile, AIMap.GetTileIndex(i,j)));
-				_MinchinWeb_Log_.Note("BuildBuoy() : Insert Existing at" + _MinchinWeb_Array_.ToStringTiles1D([AIMap.GetTileIndex(i,j)]), 7);
-			}
-		}
-	}
-*/	
 	if (Existing.Count() > 0) {
 		Existing.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
 		local TestBuoy = Existing.Begin();

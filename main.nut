@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.9, r.225, [2011-01-28]
+﻿/*	WmDOT v.9, r.231, [2011-03-17]
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -11,9 +11,10 @@ import("util.MinchinWeb", "MetaLib", 4);
 	Atlas <- MetaLib.Atlas;
 	Marine <- MetaLib.Marine;
 	OpLog <- MetaLib.Log;
-import("util.superlib", "SuperLib", 19);		//	For loan management
+import("util.superlib", "SuperLib", 21);		//	For loan management
 	SLMoney <- SuperLib.Money;
 	Helper <- SuperLib.Helper;
+	AIAbstractList <- AIList	// to support SuperLib v.21
 		
 require("OpDOT.nut");				//	OperationDOT
 require("OpMoney.nut");				//	Operation Money
@@ -31,7 +32,7 @@ require("OpHibernia.nut");			//	Operation Hibernia
 	WmDOTv = 9;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 225;
+	WmDOTr = 31;
 	/*	Reversion number of AI
 	 */
 	 

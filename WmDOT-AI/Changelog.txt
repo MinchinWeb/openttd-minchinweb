@@ -18,9 +18,10 @@ For full details on WmDOT, see the attached README.txt
 -- Full Version History -------------------------------------------------------
 Version 9 [2012-03-14]
     Added support for FIRS water-based industries. Requries FIRS v0.7.1 or newer.
-    Bug fix (to work with SuperLib)
-	Change default Debug Level to 3
-	Updated to SuperLib v21 and MetaLibrary v4
+    Bug fixes (to work with SuperLib and updated API)
+    Change default Debug Level to 3
+    Should support all of FIRS' water-based industries (requires FIRS v0.7.1)
+    Updated to SuperLib v21 and MetaLibrary v4
 Version 8 [2012-01-21]
     Can now bridge over canals, rivers, and railroad tracks
 	Fixes bug where WmDOT would crash is the generated Atlas contained no towns

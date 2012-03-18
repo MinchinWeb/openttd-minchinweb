@@ -32,7 +32,7 @@ require("OpHibernia.nut");			//	Operation Hibernia
 	WmDOTv = 9;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 31;
+	WmDOTr = 231;
 	/*	Reversion number of AI
 	 */
 	 

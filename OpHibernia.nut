@@ -1,5 +1,5 @@
-﻿/*	Operation Hibernia v.3, r.225, [2012-01-28]
- *		part of WmDOT v.8
+﻿/*	Operation Hibernia v.3, r.230, [2012-03-17]
+ *		part of WmDOT v.9
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -13,8 +13,8 @@
  *		Oil Refinaries.
  */
  
-//	Requires MinchinWeb's MetaLibrary v.2
-//	Requires Zuu's SuperLib v.19
+//	Requires MinchinWeb's MetaLibrary v.4
+//	Requires Zuu's SuperLib v.21
 
 //	TO-DO
 //		- if the cargo is passengers (or, I assume, mail), the recieving
@@ -22,8 +22,8 @@
 
  class OpHibernia {
 	function GetVersion()       { return 3; }
-	function GetRevision()		{ return 225; }
-	function GetDate()          { return "2012-01-28"; }
+	function GetRevision()		{ return 230; }
+	function GetDate()          { return "2012-03-17"; }
 	function GetName()          { return "Operation Hibernia"; }
 	
 	
@@ -437,19 +437,19 @@ function OpHibernia::Run() {
 											if (FirstVehicle == null) {
 												FirstVehicle = MyVehicle;
 												//	start station; full load here
-												AIOrder.AppendOrder(MyVehicle, AIIndustry.GetDockLocation(MetaLib.Industry.GetIndustryID(BuildPair[0])), AIOrder.AIOF_FULL_LOAD);
+												AIOrder.AppendOrder(MyVehicle, AIIndustry.GetDockLocation(MetaLib.Industry.GetIndustryID(BuildPair[0])), AIOrder.OF_FULL_LOAD);
 												Log.Note("Order (Start): " + MyVehicle + " : " + Array.ToStringTiles1D([AIIndustry.GetDockLocation(MetaLib.Industry.GetIndustryID(BuildPair[0]))]) + ".", 5);
 												//	buoys
 												for (local i = 0; i < SPFResults.len(); i++) {
-													AIOrder.AppendOrder(MyVehicle, SPFResults[i], AIOrder.AIOF_NONE);
+													AIOrder.AppendOrder(MyVehicle, SPFResults[i], AIOrder.OF_NONE);
 													Log.Note("Order: " + MyVehicle + " : " + Array.ToStringTiles1D([SPFResults[i]]) + ".", 5);
 												}
 												//	end station
-												AIOrder.AppendOrder(MyVehicle, DockLocation, AIOrder.AIOF_NONE);
+												AIOrder.AppendOrder(MyVehicle, DockLocation, AIOrder.OF_NONE);
 												Log.Note("Order (End): " + MyVehicle + " : " + Array.ToStringTiles1D([DockLocation]) + ".", 5);
 												//	buoys, but backwards
 												for (local i = SPFResults.len() - 1; i >= 0; i--) {
-													AIOrder.AppendOrder(MyVehicle, SPFResults[i], AIOrder.AIOF_NONE);
+													AIOrder.AppendOrder(MyVehicle, SPFResults[i], AIOrder.OF_NONE);
 													Log.Note("Order: " + MyVehicle + " : " + Array.ToStringTiles1D([SPFResults[i]]) + ".", 5);
 												}
 												

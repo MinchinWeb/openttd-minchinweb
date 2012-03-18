@@ -88,11 +88,12 @@ See the attached CHANGELOG.txt for full version history.
 These are features I hope to add to WmDOT shortly. However, this is subject to
     change without notice. However, I am open to suggestions!
 v10 Ship Pathfinder improvements
-v11 Grid-based road pathfinder
-v12 Provide inter-city valuables transportation
-v13 Bring water and food to towns in the desert and above the snowline to help
+v11 Dynamic route management
+v12 Grid-based road pathfinder
+v13 Provide inter-city valuables transportation
+v14 Bring water and food to towns in the desert and above the snowline to help
         them grow
-v14 Provide streetcar service in towns
+v15 Provide streetcar service in towns
 
 -- Known Issues ---------------------------------------------------------------
 NewGRF support has not been tested.

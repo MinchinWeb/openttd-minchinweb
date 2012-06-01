@@ -5,7 +5,7 @@
  
 // Does the Road.Pathfinder provided by the AI Team need to be updated?
 
-import("util.MinchinWeb", "MetaLib", 4);
+import("util.MinchinWeb", "MetaLib", 5);
 	RoadPathfinder <- MetaLib.RoadPathfinder;
 	Array <- MetaLib.Array;
 	Atlas <- MetaLib.Atlas;

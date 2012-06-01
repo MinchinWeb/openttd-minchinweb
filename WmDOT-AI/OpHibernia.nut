@@ -1,4 +1,4 @@
-﻿/*	Operation Hibernia v.3, r.230, [2012-03-17]
+﻿/*	Operation Hibernia v.4, r.234, [2012-05-31]
  *		part of WmDOT v.9
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -21,9 +21,9 @@
 //			industries do not include towns but they probably should...
 
  class OpHibernia {
-	function GetVersion()       { return 3; }
-	function GetRevision()		{ return 230; }
-	function GetDate()          { return "2012-03-17"; }
+	function GetVersion()       { return 4; }
+	function GetRevision()		{ return 234; }
+	function GetDate()          { return "2012-05-31"; }
 	function GetName()          { return "Operation Hibernia"; }
 	
 	
@@ -358,7 +358,7 @@ function OpHibernia::Run() {
 							//	Ship Pathfinder must be given a single start tile and a
 							//		single end tile
 							//	Tell the pathfinder to skip Waterbody Check
-							Pathfinder.OverrideWBC()
+							Pathfinder.OverrideWBC();
 							local SPFResults = Pathfinder.FindPath(-1);
 							
 							if (SPFResults != null) {
@@ -409,8 +409,9 @@ function OpHibernia::Run() {
 								Engines.RemoveAboveValue(MaxCargo);
 								Log.Note("Only " + Engines.Count() + " have capacity below " + MaxCargo + ". (" + AIIndustry.GetLastMonthProduction(MetaLib.Industry.GetIndustryID(BuildPair[0]), CargoNo) + " * " + this._CapacityDays + " / 30)", 5);
 								
-								//	Pick the fastest one
-								Engines.Valuate(AIEngine.GetMaxSpeed);
+								//	Pick the best rated one
+								Marine.RateShips(1, 40, 0);
+								Engines.Valuate(Marine.RateShips, 40, CargoNo);
 								Engines.Sort(AIList.SORT_BY_VALUE, AIList.SORT_DESCENDING);
 								
 								if (Engines.Count() > 0) {
@@ -497,7 +498,8 @@ function OpHibernia::Run() {
 //	Sleep for three months after last OpHibernia run, or a month after the last
 //		ship was added, or ignore if we have no debt
 	this._NextRun = WmDOT.GetTick() + 6500*this._SleepLength/365;	//	Approx. three months
-	Log.Note("OpHibernia finished. Took " + (WmDOT.GetTick() - tick) + " ticks.",2);
+
+	Log.Note("OpHibernia finished. Took " + (WmDOT.GetTick() - tick) + " ticks.", 2);
 	
 	return;
 }

@@ -1,12 +1,12 @@
-﻿/*	Ship and Marine functions v.2 r.224 [2012-01-28],
- *		part of Minchinweb's MetaLibrary v.4,
+﻿/*	Ship and Marine functions v.3 r.234 [2012-05-31],
+ *		part of Minchinweb's MetaLibrary v.5,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
 /* 
- *		MinchinWeb.Ship.DistanceShip(TileA, TileB)
+ *		MinchinWeb.Marine.DistanceShip(TileA, TileB)
  *							- Assuming open ocean, ship in OpenTTD will travel
  *								45° angle where possible, and then finish up the
  *								trip by going along a cardinal direction
@@ -43,6 +43,12 @@
  *							- Returns the location of the existing or built depot.
  *							- This will fail if the DockTile given is a dock (or 
  *								any tile that is not a water tile)
+ *						.RateShips(EngineID, Life, Cargo)
+ *							- Designed to Run as a validator
+ *							- Given the EngineID, it will score them; higher is better
+ *							- Life is assumed to be in years
+ *							- Note: Cargo doesn't work yet. Capacity is measured in
+ *								the default cargo.
  *
  *		See also MinchinWeb.ShipPathfinder
  */
@@ -313,6 +319,32 @@ function _MinchinWeb_Marine_::BuildDepot(DockTile, Front)
 		
 		}
 	}
-	
+
 	return UseExistingAt;
+}
+
+function _MinchinWeb_Marine_::RateShips(EngineID, Life, Cargo)
+{
+//	Designed to Run as a validator
+//	Given the EngineID, it will score them; higher is better
+//	   Score = [(Capacity in Cargo)*Reliability*Speed] / 
+//                      [ (Purchase Price over Life) + (Running Costs)*Life ]
+//
+//	Life is assumed to be in years
+//  Note: Cargo doesn't work yet. Capacity is measured in the default cargo.
+
+	local Score = 0;
+	local Age = AIEngine.GetMaxAge(EngineID);
+	local BuyTimes = (Life / Age/366).tointeger() + 1;;
+		// GetMaxAge is given in days
+	local Cost = (BuyTimes * AIEngine.GetPrice(EngineID)) + (Life * AIEngine.GetRunningCost(EngineID)) + 0.001;
+	local Return = (AIEngine.GetCapacity(EngineID) * AIEngine.GetReliability(EngineID) * AIEngine.GetMaxSpeed(EngineID)) + 0.001;
+	if (Return == 0) {
+		Score = 0;
+	} else {
+		Score = (Return * 1000 / Cost).tointeger();
+	}
+	
+	_MinchinWeb_Log_.Note("Rate Ship : " + Score + " : " +AIEngine.GetName(EngineID) + " : " + AIEngine.GetCapacity(EngineID) + " * " + AIEngine.GetReliability(EngineID) + " * " + AIEngine.GetMaxSpeed(EngineID) + " / " + BuyTimes + " * " + AIEngine.GetPrice(EngineID) + " + " + Life + " * " + AIEngine.GetRunningCost(EngineID), 7);
+	return Score;
 }

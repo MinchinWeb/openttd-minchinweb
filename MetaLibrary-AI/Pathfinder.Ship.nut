@@ -26,6 +26,7 @@
  *								 .CountPathBuoys()
  *								 .BuildPathBuoys()
  *								 .GetPath()
+ *								 .OverrideWBC()
  */
  
 //	TO-DO
@@ -533,5 +534,6 @@ function _MinchinWeb_ShipPathfinder_::OverrideWBC()
 //		waterbody...
 
 	this._first_run == false;
+	_MinchinWeb_Log_.Note("WaterBody Check has been overriden", 6);
 }
 	

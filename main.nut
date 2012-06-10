@@ -1,4 +1,4 @@
-﻿/*	Minchinweb's MetaLibrary v.4 r.221 [2012-01-28],  
+﻿/*	Minchinweb's MetaLibrary v.5 r.236 [2012-06-01],  
  *		originally part of, WmDOT v.8
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -67,9 +67,9 @@ require("Marine.nut");
 require("Log.nut");
 
 class MinchinWeb {
-	function GetVersion()       { return 4; }
-	function GetRevision()		{ return 221; }
-	function GetDate()          { return "2012-01-28"; }
+	function GetVersion()       { return 5; }
+	function GetRevision()		{ return 236; }
+	function GetDate()          { return "2012-06-01"; }
 	function GetName()          { return "MinchinWeb's MetaLibrary"; }
 
 	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;

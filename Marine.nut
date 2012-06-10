@@ -217,7 +217,7 @@ function _MinchinWeb_Marine_::BuildBuoy(Tile)
 	}
 }
 
-function _MinchinWeb_Marine_::BuildDepot(DockTile, Front)
+function _MinchinWeb_Marine_::BuildDepot(DockTile, Front, NotNextToDock=true)
 {
 //	Attempts to build a (water) depot, but first checks the box within
 //		MinchinWeb.Constants.WaterDepotOffset() for an existing depot, and makes
@@ -226,6 +226,9 @@ function _MinchinWeb_Marine_::BuildDepot(DockTile, Front)
 
 //	Returns the location of the existing or built depot.
 //	This will fail if the DockTile given is a dock (or any tile that is not a water tile)
+
+//	'NotNextToDock,' when set, will keep the dock from being built next to an
+//		exisiting dock
 
 	local StartX = AIMap.GetTileX(DockTile) - _MinchinWeb_C_.WaterDepotOffset();
 	local StartY = AIMap.GetTileY(DockTile) - _MinchinWeb_C_.WaterDepotOffset();
@@ -277,7 +280,7 @@ function _MinchinWeb_Marine_::BuildDepot(DockTile, Front)
 			Existing.Clear();
 			for (local i = StartX; i < EndX; i++) {
 				for (local j = StartY; j < EndY; j++) {
-					if (AITile.IsWaterTile(AIMap.GetTileIndex(i,j))) {
+					if (AITile.IsWaterTile(AIMap.GetTileIndex(i,j)) && (_MinchinWeb_Station_.IsNextToDock(AIMap.GetTileIndex(i,j)) == false) ) {
 						Existing.AddItem(AIMap.GetTileIndex(i,j), AIBase.Rand());
 						_MinchinWeb_Log_.Note("BuildDepot() : Insert WaterTile at" + _MinchinWeb_Array_.ToStringTiles1D([AIMap.GetTileIndex(i,j)]), 7);
 					}

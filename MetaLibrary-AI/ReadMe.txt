@@ -1,5 +1,5 @@
 ﻿MinchinWeb's MetaLibrary Read-me
-v.4, r.227, 2012-01-30
+v.5, r.236, 2012-06-09
 Copyright © 2011-12 by W. Minchin. For more info, please visit
     http://openttd-noai-wmdot.googlecode.com/
 
@@ -24,19 +24,17 @@ The easiest (and recommended) way to install MetaLibrary is use OpenTTD's
     to download them at the same time. This also makes it very easy for me to
     provide updates.
 Manual installation can be accomplished by putting the
-    'MinchinWebs_MetaLibrary-4.tar' file you downloaded in the
+    'MinchinWebs_MetaLibrary-5.tar' file you downloaded in the
     '..\OpenTTD\ai\library'  folder. If you are manually installing,
     the libraries mentioned above need to be in the same folder. 
 
 To make use of the library in your AIs, add the line:
-        import("util.MinchinWeb", "MetaLib", 4);
+        import("util.MinchinWeb", "MetaLib", 5);
     which will make the library available as the "MetaLib" class (or whatever
     you change that to).
     
--- Noteable Changes in Version 3 ----------------------------------------------
- * Log added, some logging support for the rest of the library
- * bug fixes to Spiral Walker
- * added  Extra.GetOpenTTDRevision()  function
+-- Noteable Changes in Version 5 ----------------------------------------------
+ * added [MetaLib] add MinchinWeb.Station.IsNextToDock(TileID)
  
 -- Version History ------------------------------------------------------------
 Version 4 [2012-01-30]

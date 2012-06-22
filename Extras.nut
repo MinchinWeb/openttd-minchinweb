@@ -1,4 +1,4 @@
-﻿/*	Extra functions v.4 r.236 [2011-06-09],
+﻿/*	Extra functions v.4 r.238 [2011-06-21],
  *		part of Minchinweb's MetaLibrary v.5,
  *		originally part of WmDOT v.10
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -366,8 +366,9 @@ function _MinchinWeb_Station_::IsNextToDock(TileID)
 						AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
 				 
 	foreach (offset in offsets) {
-		if AIMarine.IsDockTile(TileID + offset)
+		if (AIMarine.IsDockTile(TileID + offset)) {
 			return true;
+		}
 	}
 	
 	return false;

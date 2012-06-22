@@ -1,5 +1,5 @@
-﻿/*	Operation Hibernia v.4, r.234, [2012-05-31]
- *		part of WmDOT v.9
+﻿/*	Operation Hibernia v.4, r.238, [2012-06-21]
+ *		part of WmDOT v.10
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -40,6 +40,7 @@
 	
 	Log = null;
 	Money = null;
+	Manager_Ships = null;
 	
 	constructor()
 	{
@@ -57,6 +58,7 @@
 		this.State = this.State(this);
 		Log = OpLog();
 		Money = OpMoney();
+		Manager_Ships = ManShips();
 	}
 }
 
@@ -134,6 +136,7 @@ function OpHibernia::LinkUp()
 {
 	this.Log = WmDOT.Log;
 	this.Money = WmDOT.Money;
+	this.Manager_Ships = WmDOT.Manager_Ships;
 //	ship manager...
 	Log.Note(this.GetName() + " linked up!",3);
 }
@@ -463,9 +466,14 @@ function OpHibernia::Run() {
 												AIVehicle.StartStopVehicle(MyVehicle);
 											}
 											
-											if (UnfilledCapacity < AIVehicle.GetCapacity(MyVehicle, CargoNo)) {
-												KeepTrying4 = false;
-											}
+									//		if (UnfilledCapacity < AIVehicle.GetCapacity(MyVehicle, CargoNo)) {
+									//			KeepTrying4 = false;
+									//		}
+											
+											//	Move over to ship Manager
+											Manager_Ships.AddRoute(MyVehicle, CargoNo);
+											KeepTrying4 = false;
+											
 										} else {
 											Log.Note("Vehicle Building failed!!", 4);
 											KeepTrying4 = false;

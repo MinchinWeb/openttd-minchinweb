@@ -1,4 +1,4 @@
-﻿/*	Ship and Marine functions v.3 r.234 [2012-05-31],
+﻿/*	Ship and Marine functions v.3 r.238 [2012-06-21],
  *		part of Minchinweb's MetaLibrary v.5,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -49,6 +49,9 @@
  *							- Life is assumed to be in years
  *							- Note: Cargo doesn't work yet. Capacity is measured in
  *								the default cargo.
+ *						.NearestDepot(TileID)
+ *							- Returns the tile of the Ship Depot nearest to the
+ *								given TileID
  *
  *		See also MinchinWeb.ShipPathfinder
  */
@@ -350,4 +353,16 @@ function _MinchinWeb_Marine_::RateShips(EngineID, Life, Cargo)
 	
 	_MinchinWeb_Log_.Note("Rate Ship : " + Score + " : " +AIEngine.GetName(EngineID) + " : " + AIEngine.GetCapacity(EngineID) + " * " + AIEngine.GetReliability(EngineID) + " * " + AIEngine.GetMaxSpeed(EngineID) + " / " + BuyTimes + " * " + AIEngine.GetPrice(EngineID) + " + " + Life + " * " + AIEngine.GetRunningCost(EngineID), 7);
 	return Score;
+}
+
+function _MinchinWeb_Marine_::NearestDepot(TileID)
+{
+//	Returns the tile of the Ship Depot nearest to the given TileID
+
+//	To-Do:	Add check that depot is connected to tile
+//	To-Do:	Check that there is a depot to return
+	local AllDepots = AIDepotList(AITile.TRANSPORT_WATER);
+	AllDepots.Valuate(AITile.GetDistanceManhattanToTile, TileID);
+	AllDepots.Sort(AIList.SORT_BY_VALUE, AIList.SORT_DESCENDING);
+	return AllDepots.Begin();
 }

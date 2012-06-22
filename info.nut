@@ -50,6 +50,6 @@ class WmDOT extends AIInfo
 RegisterAI(WmDOT());
 
 //	Requires:
-//		SuperLib, v.21
-//		MinchinWeb's MetaLib, v.4
+//		SuperLib, v.24
+//		MinchinWeb's MetaLib, v.5
 //		Queue.Fibonacci_Heap v.2

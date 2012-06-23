@@ -110,13 +110,14 @@ function ManShips::Run() {
 	
 	for (local i=0; i < this._AllRoutes.len(); i++) {
 		//	Add Ships
-		if ((this._AllRoutes[i]._LastUpdate < this._NextRun) && (AIStation.GetCargoWaiting(this._AllRoutes[i]._SourceStation, this._AllRoutes[i]._Cargo) > this._AllRoutes[i]._Capacity)) {
-			Money.FundsRequest(AIEngine.GetPrice(this._AllRoutes[i]._EngineID) * 1.1);
+		Log.Note("Considering Route #" + i + "... " + AIStation.GetCargoWaiting(this._AllRoutes[i]._SourceStation, this._AllRoutes[i]._Cargo) + " > " + this._AllRoutes[i]._Capacity + " ? " +(AIStation.GetCargoWaiting(this._AllRoutes[i]._SourceStation, this._AllRoutes[i]._Cargo) > this._AllRoutes[i]._Capacity),3);
+		if (AIStation.GetCargoWaiting(this._AllRoutes[i]._SourceStation, this._AllRoutes[i]._Cargo) > this._AllRoutes[i]._Capacity) {
+			Money.FundsRequest(AIEngine.GetPrice(AIVehicle.GetEngineType(this._AllRoutes[i]._EngineID)) * 1.1);
 			local MyVehicle;
 			MyVehicle = AIVehicle.CloneVehicle(this._AllRoutes[i]._Depot, this._AllRoutes[i]._EngineID, true);
 			AIVehicle.StartStopVehicle(MyVehicle);
-			Log.Note("New Vehicle Added: " + MyVehicle, 3);
-			this._AllRoutes[i]._LastUpdated = WmDOT.GetTick();
+			Log.Note("New Vehicle Added: " + MyVehicle, 4);
+			this._AllRoutes[i]._LastUpdate = WmDOT.GetTick();
 		}	
 		//  Delete extra ships
 	}
@@ -130,11 +131,12 @@ function ManShips::AddRoute (ShipID, CargoNo)
 	TempRoute._Cargo = CargoNo;
 	for (local i=0; i < AIOrder.GetOrderCount(ShipID); i++) {
 		if (AIOrder.IsGotoStationOrder(ShipID, i) == true) {
-			TempRoute._SourceStation = AIOrder.GetOrderDestination(ShipID, i);
+			TempRoute._SourceStation = AIStation.GetStationID(AIOrder.GetOrderDestination(ShipID, i));
+			TempRoute._Depot = Marine.NearestDepot(AIOrder.GetOrderDestination(ShipID, i));
 			i = 1000;	//break
 		}
 	}
-	TempRoute._Depot = Marine.NearestDepot(TempRoute._SourceStation);
+//	TempRoute._Depot = Marine.NearestDepot(TempRoute._SourceStation);
 	TempRoute._LastUpdate = WmDOT.GetTick();
 	
 	this._AllRoutes.push(TempRoute);

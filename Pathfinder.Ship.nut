@@ -1,4 +1,4 @@
-﻿/*	ShipPathfinder v.3, r.221, [2012-01-28],
+﻿/*	ShipPathfinder v.4, r.240, [2012-06-22],
  *		part of Minchinweb's MetaLibrary v.4,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -324,11 +324,18 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 			if (this._FinishedPaths.Count() !=0) {
 				//	If the Finished heap contains a path that is shorter than any of
 				//		the unfinished paths, return the finished path
-				if (this._PathLength(this._FinishedPaths.Peek()) < this._PathLength(this._UnfinishedPaths.Peek()))  {
+				
+				//	Actaully, if the shortest finished path is within 10% of shortest
+				//		unfinished path, call it good enough!!
+				local finished = this._PathLength(this._FinishedPaths.Peek());
+				local unfinished = this._PathLength(this._UnfinishedPaths.Peek());
+				if ((finished * 100) < (unfinished * 110)) {
 					this._running = false;
 					this._mypath = _PathToTilesArray(this._FinishedPaths.Peek());
 					_MinchinWeb_Log_.Note("My Path is " + _MinchinWeb_Array_.ToString1D(this._mypath), 5);
 					return this._mypath;
+				} else {
+					_MinchinWeb_Log_.Note("          Finished =" + finished + " ; Unfinsihed = " + unfinished, 5);
 				}
 			}
 		}

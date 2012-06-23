@@ -1,4 +1,4 @@
-﻿/*	Ship and Marine functions v.3 r.238 [2012-06-21],
+﻿/*	Ship and Marine functions v.3 r.242 [2012-06-23],
  *		part of Minchinweb's MetaLibrary v.5,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -363,6 +363,6 @@ function _MinchinWeb_Marine_::NearestDepot(TileID)
 //	To-Do:	Check that there is a depot to return
 	local AllDepots = AIDepotList(AITile.TRANSPORT_WATER);
 	AllDepots.Valuate(AITile.GetDistanceManhattanToTile, TileID);
-	AllDepots.Sort(AIList.SORT_BY_VALUE, AIList.SORT_DESCENDING);
+	AllDepots.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
 	return AllDepots.Begin();
 }

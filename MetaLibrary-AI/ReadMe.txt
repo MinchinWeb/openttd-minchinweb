@@ -1,5 +1,5 @@
 ﻿MinchinWeb's MetaLibrary Read-me
-v.5, r.243, 2012-06-27
+v.5, r.245, 2012-06-27
 Copyright © 2011-12 by W. Minchin. For more info, please visit
     http://openttd-noai-wmdot.googlecode.com/
 

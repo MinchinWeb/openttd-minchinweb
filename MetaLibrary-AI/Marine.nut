@@ -1,6 +1,6 @@
 ﻿/*	Ship and Marine functions v.3 r.242 [2012-06-23],
  *		part of Minchinweb's MetaLibrary v.5,
- *		originally part of WmDOT v.7
+ *		originally part of WmDOT v.10
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */

@@ -1,4 +1,4 @@
-﻿/*	WmDOT v.10, r.236, [2011-06-01]
+﻿/*	WmDOT v.10, r.249, [2011-06-27]
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -33,7 +33,7 @@ require("Ship.Manager.nut");		//	Ship Manager
 	WmDOTv = 10;
 	/*	Version number of AI
 	 */	
-	WmDOTr = 238;
+	WmDOTr = 249;
 	/*	Reversion number of AI
 	 */
 	 
@@ -103,7 +103,7 @@ function WmDOT::Start()
 	DOT.Settings.HQTown = HQTown;
 	while (true) {
 		Time = this.GetTick();	
-		Log.UpdateDebugLevel();
+//		Log.UpdateDebugLevel();
 
 		if (Time > Money.State.NextRun)			{ Money.Run(); }
 		if (Time > Towns.State.NextRun)			{ Towns.Run(); }
@@ -119,7 +119,7 @@ function WmDOT::Start()
 function WmDOT::StartInfo()
 {
 //	By placing classes here that need to be created to get their info, we
-//		destroy them right away (which double to clean up the bug report
+//		destroy them right away (which doubles to clean up the bug report
 //		screens and to free up a little bit of memory)
 //	local MyAyStar = AyStarInfo();
 //	Log.Note("     " + MyAyStar.GetName() + ", v." + MyAyStar.GetVersion() + " r." + MyAyStar.GetRevision() + "  loaded!",0);

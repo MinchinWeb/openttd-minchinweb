@@ -1,4 +1,4 @@
-﻿/*	Operation Hibernia v.4, r.238, [2012-06-21]
+﻿/*	Operation Hibernia v.4, r.242, [2012-06-23]
  *		part of WmDOT v.10
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -13,8 +13,8 @@
  *		Oil Refinaries.
  */
  
-//	Requires MinchinWeb's MetaLibrary v.4
-//	Requires Zuu's SuperLib v.21
+//	Requires MinchinWeb's MetaLibrary v.5
+//	Requires Zuu's SuperLib v.24
 
 //	TO-DO
 //		- if the cargo is passengers (or, I assume, mail), the recieving
@@ -22,8 +22,8 @@
 
  class OpHibernia {
 	function GetVersion()       { return 4; }
-	function GetRevision()		{ return 234; }
-	function GetDate()          { return "2012-05-31"; }
+	function GetRevision()		{ return 242; }
+	function GetDate()          { return "2012-06-23"; }
 	function GetName()          { return "Operation Hibernia"; }
 	
 	
@@ -420,64 +420,39 @@ function OpHibernia::Run() {
 								if (Engines.Count() > 0) {
 									local PickedEngine = Engines.Begin();
 									Log.Note("Picked engine: " + PickedEngine + " : " + AIEngine.GetName(PickedEngine), 3);
-									
-									//	Build Ship and give it orders
+
 									//	request funds for Ship
-									local CostShip = AIEngine.GetPrice(PickedEngine);								
 									//	TO-DO: Provide for retrofit costs
-									local KeepTrying4 = true;
-									local UnfilledCapacity = MaxCargo;
-									local MyVehicle;
-									local FirstVehicle = null;
-									while (KeepTrying4) {
-										Money.FundsRequest(CostShip * 1.1);
-										MyVehicle = AIVehicle.BuildVehicle(Depot1, PickedEngine);
-										if (AIVehicle.IsValidVehicle(MyVehicle)) {
-											AIVehicle.RefitVehicle(MyVehicle, CargoNo);
-											UnfilledCapacity -= AIVehicle.GetCapacity(MyVehicle, CargoNo);
-											Log.Note("Added Vehicle № " + MyVehicle + "; remaining capacity = " + UnfilledCapacity + ".", 4);
-											
-											///	Give Orders!
-											if (FirstVehicle == null) {
-												FirstVehicle = MyVehicle;
-												//	start station; full load here
-												AIOrder.AppendOrder(MyVehicle, AIIndustry.GetDockLocation(MetaLib.Industry.GetIndustryID(BuildPair[0])), AIOrder.OF_FULL_LOAD);
-												Log.Note("Order (Start): " + MyVehicle + " : " + Array.ToStringTiles1D([AIIndustry.GetDockLocation(MetaLib.Industry.GetIndustryID(BuildPair[0]))]) + ".", 5);
-												//	buoys
-												for (local i = 0; i < SPFResults.len(); i++) {
-													AIOrder.AppendOrder(MyVehicle, SPFResults[i], AIOrder.OF_NONE);
-													Log.Note("Order: " + MyVehicle + " : " + Array.ToStringTiles1D([SPFResults[i]]) + ".", 5);
-												}
-												//	end station
-												AIOrder.AppendOrder(MyVehicle, DockLocation, AIOrder.OF_NONE);
-												Log.Note("Order (End): " + MyVehicle + " : " + Array.ToStringTiles1D([DockLocation]) + ".", 5);
-												//	buoys, but backwards
-												for (local i = SPFResults.len() - 1; i >= 0; i--) {
-													AIOrder.AppendOrder(MyVehicle, SPFResults[i], AIOrder.OF_NONE);
-													Log.Note("Order: " + MyVehicle + " : " + Array.ToStringTiles1D([SPFResults[i]]) + ".", 5);
-												}
-												
-												// send it on it's merry way!!!
-												AIVehicle.StartStopVehicle(MyVehicle);
-												
-											} else {
-												AIOrder.ShareOrders(MyVehicle, FirstVehicle);
-												Log.Note("Order: Shared from " + FirstVehicle + " to " + MyVehicle + ".", 5);
-												AIVehicle.StartStopVehicle(MyVehicle);
-											}
-											
-									//		if (UnfilledCapacity < AIVehicle.GetCapacity(MyVehicle, CargoNo)) {
-									//			KeepTrying4 = false;
-									//		}
-											
-											//	Move over to ship Manager
-											Manager_Ships.AddRoute(MyVehicle, CargoNo);
-											KeepTrying4 = false;
-											
-										} else {
-											Log.Note("Vehicle Building failed!!", 4);
-											KeepTrying4 = false;
+									Money.FundsRequest(AIEngine.GetPrice(PickedEngine) * 1.1);
+									//	Build Ship and give it orders
+									local MyVehicle = AIVehicle.BuildVehicle(Depot1, PickedEngine);
+									if (AIVehicle.IsValidVehicle(MyVehicle)) {
+										AIVehicle.RefitVehicle(MyVehicle, CargoNo);
+										Log.Note("Added Vehicle № " + MyVehicle + ".", 4);
+										
+										///	Give Orders!
+										//	start station; full load here
+										AIOrder.AppendOrder(MyVehicle, AIIndustry.GetDockLocation(MetaLib.Industry.GetIndustryID(BuildPair[0])), AIOrder.OF_FULL_LOAD);
+										Log.Note("Order (Start): " + MyVehicle + " : " + Array.ToStringTiles1D([AIIndustry.GetDockLocation(MetaLib.Industry.GetIndustryID(BuildPair[0]))]) + ".", 5);
+										//	buoys
+										for (local i = 0; i < SPFResults.len(); i++) {
+											AIOrder.AppendOrder(MyVehicle, SPFResults[i], AIOrder.OF_NONE);
+											Log.Note("Order: " + MyVehicle + " : " + Array.ToStringTiles1D([SPFResults[i]]) + ".", 5);
 										}
+										//	end station
+										AIOrder.AppendOrder(MyVehicle, DockLocation, AIOrder.OF_NONE);
+										Log.Note("Order (End): " + MyVehicle + " : " + Array.ToStringTiles1D([DockLocation]) + ".", 5);
+										//	buoys, but backwards
+										for (local i = SPFResults.len() - 1; i >= 0; i--) {
+											AIOrder.AppendOrder(MyVehicle, SPFResults[i], AIOrder.OF_NONE);
+											Log.Note("Order: " + MyVehicle + " : " + Array.ToStringTiles1D([SPFResults[i]]) + ".", 5);
+										}
+										
+										// send it on it's merry way!!!
+										AIVehicle.StartStopVehicle(MyVehicle);
+										
+										///	Build one ship on path, and turn over to Ship Route Manager
+										Manager_Ships.AddRoute(MyVehicle, CargoNo);		
 									}
 
 								} else {
@@ -487,7 +462,6 @@ function OpHibernia::Run() {
 							} else {
 								Log.Note("Ship Pathfinder returns negative. Took " + (WmDOT.GetTick() - tick2) + " ticks.",3);
 							}
-							///	Build one ship on path, and turn over to Ship Route Manager
 							
 							KeepTrying = false;
 						} else {

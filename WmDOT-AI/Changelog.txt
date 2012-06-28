@@ -1,5 +1,5 @@
 ﻿WmDOT Changelog
-v.10, r.23x, 2012-06-01
+v.10, r.249, 2012-06-27
 Copyright © 2011-12 by W. Minchin. For more info, please visit
     http://openttd-noai-wmdot.googlecode.com/  or
     http://www.tt-forums.net/viewtopic.php?f=65&t=53698
@@ -16,7 +16,7 @@ WmDOT (short for "William's Department of Transportation") is an AI for
 For full details on WmDOT, see the attached README.txt
 
 -- Full Version History -------------------------------------------------------
-Version 10 [2012-06-01]
+Version 10 [2012-06-27]
     Improved ship selection
     Dynamically add ships to routes
     Updated to SuperLib v24 and MetaLibary v5

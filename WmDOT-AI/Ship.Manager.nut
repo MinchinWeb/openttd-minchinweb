@@ -118,8 +118,11 @@ function ManShips::Run() {
 			AIVehicle.StartStopVehicle(MyVehicle);
 			Log.Note("New Vehicle Added: " + MyVehicle, 4);
 			this._AllRoutes[i]._LastUpdate = WmDOT.GetTick();
-		}	
-		//  Delete extra ships
+//		} else {
+			//  Delete extra ships
+			//	if there are three ships waiting at to fill up, delete them
+			
+		}
 	}
 }
 

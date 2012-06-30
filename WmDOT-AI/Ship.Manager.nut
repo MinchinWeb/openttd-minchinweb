@@ -1,5 +1,5 @@
-﻿/*	Ship Manager v.1, r.238, [2012-06-21]
- *		part of WmDOT v.10
+﻿/*	Ship Manager v.2, r.252, [2012-06-30]
+ *		part of WmDOT v.11
  *	Copyright © 2012 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -17,6 +17,7 @@ class ManShips {
 	_NextRun = null;
 	_SleepLength = null;	//	as measured in days
 	_AllRoutes = null;
+	_ShipsToSell = null;
 	
 	Log = null;
 	Money = null;
@@ -26,6 +27,7 @@ class ManShips {
 		this._NextRun = 0;
 		this._SleepLength = 30;
 		this._AllRoutes = [];
+		this._ShipsToSell = [];
 		
 		this.Settings = this.Settings(this);
 		this.State = this.State(this);
@@ -103,10 +105,10 @@ function ManShips::LinkUp()
 
  
 function ManShips::Run() {
-	Log.Note("Ship Manager running at tick " + WmDOT.GetTick() + ".",1);
+	Log.Note("Ship Manager running at tick " + AIController.GetTick() + ".",1);
 	
 	//	reset counter
-	this._NextRun = WmDOT.GetTick() + this._SleepLength * 17;
+	this._NextRun = AIController.GetTick() + this._SleepLength * 17;
 	
 	for (local i=0; i < this._AllRoutes.len(); i++) {
 		//	Add Ships

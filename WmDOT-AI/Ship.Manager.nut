@@ -131,20 +131,23 @@ function ManShips::Run() {
 			Waiting.Valuate(AIVehicle.GetCapacity, this._AllRoutes[i]._Cargo);
 			Waiting.KeepAboveValue(0);
 			Log.Note(Waiting.Count() + " ships that carry " + AICargo.GetCargoLabel(this._AllRoutes[i]._Cargo) + "...", 6);
-			Waiting.Valuate(Station.DistanceFromStation, this._AllRoutes[i]._SourceStation);
+			Waiting.Valuate(MetaLib.Station.DistanceFromStation, this._AllRoutes[i]._SourceStation);
 			Waiting.KeepBelowValue(6);
 			Log.Note(Waiting.Count() + " ships close enough...", 6);
 			local FirstCount = Waiting.Count();
 			if (FirstCount > 3) {
 				Waiting.Valuate(AIVehicle.GetCargoLoad, this._AllRoutes[i]._Cargo);
 				Waiting.KeepBelowValue(1);
+				Log.Note(Waiting.Count() + " ships empty enough...", 6);
 				Waiting.Sort(AIList.SORT_BY_ITEM, AIList.SORT_DESCENDING);
 				local SellVehicle;
+				SellVehicle = Waiting.Begin();
+				//	Skip the first vehicle at least...
 				do {
 					SellVehicle = Waiting.Next();
 					AIVehicle.SendVehicleToDepot(SellVehicle);
 					this._ShipsToSell.push(SellVehicle);					
-					Log.Note("Vehicle #" + SellVehicle + "sent to depot to be sold.", 4);
+					Log.Note("Vehicle #" + SellVehicle + " sent to depot to be sold.", 4);
 				} while (!Waiting.IsEnd())
 			}
 		}

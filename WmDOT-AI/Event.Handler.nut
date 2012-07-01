@@ -212,7 +212,7 @@ function Events::Run() {
 				//  TO-DO: Check to see if it is on the 'to sell' list
 				local Event2 = AIEventVehicleWaitingInDepot.Convert(Event);
 				local Vehicle = Event2.GetVehicleID();
-				local Result = AIVehcile.SellVehicle(Vehicle);
+				local Result = AIVehicle.SellVehicle(Vehicle);
 				Log.Note("Vehcile " + Vehicle + " sold! : " + Result, 4);
 				break;
 				

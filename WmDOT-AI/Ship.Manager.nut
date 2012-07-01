@@ -120,10 +120,33 @@ function ManShips::Run() {
 			AIVehicle.StartStopVehicle(MyVehicle);
 			Log.Note("New Vehicle Added: " + MyVehicle, 4);
 			this._AllRoutes[i]._LastUpdate = WmDOT.GetTick();
-//		} else {
+		} else {
 			//  Delete extra ships
 			//	if there are three ships waiting at to fill up, delete them
-			
+			local Waiting = AIVehicleList();
+			Log.Note(Waiting.Count() + " vehicles...", 6);
+			Waiting.Valuate(AIVehicle.GetVehicleType);
+			Waiting.KeepValue(AIVehicle.VT_WATER);
+			Log.Note(Waiting.Count() + " ships...", 6);
+			Waiting.Valuate(AIVehicle.GetCapacity, this._AllRoutes[i]._Cargo);
+			Waiting.KeepAboveValue(0);
+			Log.Note(Waiting.Count() + " ships that carry " + AICargo.GetCargoLabel(this._AllRoutes[i]._Cargo) + "...", 6);
+			Waiting.Valuate(Station.DistanceFromStation, this._AllRoutes[i]._SourceStation);
+			Waiting.KeepBelowValue(6);
+			Log.Note(Waiting.Count() + " ships close enough...", 6);
+			local FirstCount = Waiting.Count();
+			if (FirstCount > 3) {
+				Waiting.Valuate(AIVehicle.GetCargoLoad, this._AllRoutes[i]._Cargo);
+				Waiting.KeepBelowValue(1);
+				Waiting.Sort(AIList.SORT_BY_ITEM, AIList.SORT_DESCENDING);
+				local SellVehicle;
+				do {
+					SellVehicle = Waiting.Next();
+					AIVehicle.SendVehicleToDepot(SellVehicle);
+					this._ShipsToSell.push(SellVehicle);					
+					Log.Note("Vehicle #" + SellVehicle + "sent to depot to be sold.", 4);
+				} while (!Waiting.IsEnd())
+			}
 		}
 	}
 }

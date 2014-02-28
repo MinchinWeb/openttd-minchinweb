@@ -24,10 +24,9 @@ class WmShipPFTest extends AIController
   function Start();
 }
 
-function WmShipPFTest::Start()
-{
+function WmShipPFTest::Start() {
 	AILog.Info("Welcome to WmBasic, version " + WmBasicv + ", revision " + WmBasicr + " by W. Minchin.");
-	AILog.Info("Copyright © 2011-12 by W. Minchin. For more info, please visit http://blog.minchin.ca")
+	AILog.Info("Copyright © 2011-14 by W. Minchin. For more info, please visit http://minchin.ca/openttd-metalibrary")
 	AILog.Info(" ");
 	AILog.Info("This AI is to test the Ship Pathfinder in MinchinWeb's MetaLibrary. To perform the test,");
 	AILog.Info("switch to the AI Company (use the cheat command) and place a 'Start' and 'End' sign. Place");
@@ -40,9 +39,17 @@ function WmShipPFTest::Start()
 	local End;
 	local Mode = 1;
 	local tick;
+	local PF = MetaLib.ShipPathfinder();
+	local WBC = MetaLib.WaterbodyCheck();
+	local Lakes = PF._WBC;
+	local Result;
+	local Length;
 	
-//	AISign.BuildSign(40303, "Start");
-//	AISign.BuildSign(39815, "End");
+	//	Tie ShipPathfinder's Lakes to our Lakes
+	
+	AISign.BuildSign(0x09A0, "Start");
+	AISign.BuildSign(0x079F, "End");
+	AISign.BuildSign(0x07D6, "Mode Lakes");
 	
 	while (true) {
 		Start = MetaLib.Extras.SignLocation("Start");
@@ -58,25 +65,28 @@ function WmShipPFTest::Start()
 			tick = AIController.GetTick();
 			SuperLib.Helper.SetSign(Start, "Start!", true);	//	Remove signs so it doesn't run infinitely
 			SuperLib.Helper.SetSign(End, "End!", true);
-			local PF;
 			
 			if (Mode == 1) {
 				AILog.Info("Starting Ship Pathfinder...");
-				PF = MetaLib.ShipPathfinder();	
+				PF.InitializePath([Start], [End]);
+				AILog.Info("     Max distance is " + PF.cost.max_cost );
+				Result = PF.FindPath(-1);
+				Length = PF.GetPathLength();
 			} else if (Mode == 2) {
 				AILog.Info("Starting Waterbody Check...");
-				PF = MetaLib.WaterbodyCheck();
-				PF.PresetSafety(Start, End);
+				WBC.PresetSafety(Start, End);
+				WBC.InitializePath([Start], [End]);
+				AILog.Info("     Max distance is " + PF.cost.max_cost );
+				Result = WBC.FindPath(-1);
+				Length = PF.GetPathLength()
 			} else if (Mode == 3) {
 				AILog.Info("Starting Lakes...");
-				PF = MetaLib.Lakes();
+				Lakes.InitializePath([Start], [End]);
+				Result = Lakes.FindPath(-1);
+				Length = Lakes.GetPathLength();
 			}
-			PF.InitializePath([Start], [End]);
-			if ((Mode == 1) || (Mode == 2)) {
-				AILog.Info("     Max distance is " + PF.cost.max_cost );
-			}
-			local Result = PF.FindPath(-1);
-			AILog.Info("** Path from " + AIMap.GetTileX(Start) + "," + AIMap.GetTileY(Start) + " to " + AIMap.GetTileX(End) + "," + AIMap.GetTileY(End) + ". Length " + (PF.GetPathLength()) + ". Took " + (AIController.GetTick() - tick) + " ticks. **" );
+
+			AILog.Info("** Path from " + AIMap.GetTileX(Start) + "," + AIMap.GetTileY(Start) + " to " + AIMap.GetTileX(End) + "," + AIMap.GetTileY(End) + ". Length " + Length + ". Took " + (AIController.GetTick() - tick) + " ticks. **" );
 			AILog.Info(" ");
 			Start = null;
 			End = null;

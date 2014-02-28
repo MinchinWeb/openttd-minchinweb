@@ -11,7 +11,7 @@ class WmShipPFTest extends AIInfo
 	function GetAPIVersion()    { return "1.3"; }
 	
 	function GetSettings() {
-		AddSetting({name = "Debug_Level", description = "Debug Level ", min_value = 0, max_value = 7, easy_value = 7, medium_value = 7, hard_value = 7, custom_value = 7, flags = CONFIG_INGAME});
+		AddSetting({name = "Debug_Level", description = "Debug Level ", min_value = 0, max_value = 8, easy_value = 7, medium_value = 7, hard_value = 7, custom_value = 7, flags = CONFIG_INGAME});
 	}
 }
 

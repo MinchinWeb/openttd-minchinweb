@@ -47,9 +47,10 @@ function WmShipPFTest::Start() {
 	
 	//	Tie ShipPathfinder's Lakes to our Lakes
 	
-	AISign.BuildSign(0x09A0, "Start");
-	AISign.BuildSign(0x079F, "End");
-	AISign.BuildSign(0x07D6, "Mode Lakes");
+	//AISign.BuildSign(0x09A0, "Start");
+	//AISign.BuildSign(0x079F, "End");
+	//AISign.BuildSign(0x07D6, "Mode Lakes");
+	//AISign.BuildSign(0x0ABC, "End");
 	
 	while (true) {
 		Start = MetaLib.Extras.SignLocation("Start");
@@ -76,7 +77,7 @@ function WmShipPFTest::Start() {
 				AILog.Info("Starting Waterbody Check...");
 				WBC.PresetSafety(Start, End);
 				WBC.InitializePath([Start], [End]);
-				AILog.Info("     Max distance is " + PF.cost.max_cost );
+				AILog.Info("     Max distance is " + WBC.cost.max_cost );
 				Result = WBC.FindPath(-1);
 				Length = PF.GetPathLength()
 			} else if (Mode == 3) {

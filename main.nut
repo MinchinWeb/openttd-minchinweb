@@ -2,7 +2,7 @@
  *	Created by W. Minchin
  */
  
-import("util.MinchinWeb", "MetaLib", 7);
+import("util.MinchinWeb", "MetaLib", 8);
 import("util.SuperLib", "SuperLib", 26);
  
 class WmShipPFTest extends AIController 
@@ -47,9 +47,12 @@ function WmShipPFTest::Start() {
 	
 	//	Tie ShipPathfinder's Lakes to our Lakes
 	
+	AISign.BuildSign(0x09A0, "Start");
+	AISign.BuildSign(0x079F, "End");
+	AISign.BuildSign(0x07D6, "Mode Lakes");
 	//AISign.BuildSign(0x09A0, "Start");
-	//AISign.BuildSign(0x079F, "End");
-	//AISign.BuildSign(0x07D6, "Mode Lakes");
+	//AISign.BuildSign(0x0ABC, "End");
+	//AISign.BuildSign(0x0744, "Start");
 	//AISign.BuildSign(0x0ABC, "End");
 	
 	while (true) {
@@ -88,6 +91,7 @@ function WmShipPFTest::Start() {
 			}
 
 			AILog.Info("** Path from " + AIMap.GetTileX(Start) + "," + AIMap.GetTileY(Start) + " to " + AIMap.GetTileX(End) + "," + AIMap.GetTileY(End) + ". Length " + Length + ". Took " + (AIController.GetTick() - tick) + " ticks. **" );
+			AILog.Info("     Result: " + Result);
 			AILog.Info(" ");
 			Start = null;
 			End = null;
